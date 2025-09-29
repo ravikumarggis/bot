@@ -30,7 +30,7 @@ const Herosection = () => {
 
       {/* Buttons */}
       <div className="mt-8 flex flex-row sm:flex-row gap-4 justify-center">
-        <button className="px-6 py-3 bg-[#c1a8ff] text-[#1e0042] font-semibold rounded-full shadow hover:opacity-90 transition">
+        <button className="px-6 py-3 bg-[#c1a8ff] text-[white] font-semibold rounded-full shadow hover:opacity-90 transition">
           Start Free Trial
         </button>
         <button className="px-6 py-3 bg-white/10 border border-white text-white rounded-full font-medium shadow hover:bg-white hover:text-[#1e0042] transition">

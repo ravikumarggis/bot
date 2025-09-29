@@ -67,7 +67,7 @@ export default function HomeTab() {
         </div>
 
       <div className=" w-full flex justify-center items-center">
-        <button className=" justify-center items-center mt-2 px-6 py-3 bg-[#c1a8ff] text-[#1e0042] font-semibold rounded-full shadow hover:opacity-90 transition">
+        <button className=" justify-center items-center mt-2 px-6 py-3 bg-[#c1a8ff] text-[white] font-semibold rounded-full shadow hover:opacity-90 transition">
         Login To Buy
           </button></div>
       </div>

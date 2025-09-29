@@ -33,8 +33,14 @@ export default function Navbar() {
     >
       <Link href={"/"}>
         <div className="flex items-center gap-2 cursor-pointer">
-          <img src="/assets/logo.png" alt="Crypto Bot Logo" className="w-10 h-10" />
-          <p className="text-md sm:text-lg lg:text-2xl font-semibold text-white">Crypto Bot</p>
+          <img
+            src="/assets/logo.png"
+            alt="Crypto Bot Logo"
+            className="w-10 h-10"
+          />
+          <p className="text-md sm:text-lg lg:text-2xl font-semibold text-white">
+            Crypto Bot
+          </p>
         </div>
       </Link>
 
@@ -57,9 +63,9 @@ export default function Navbar() {
         </Link>
 
         <Link
-          href="/login"
+          href="/auth/login"
           className={`border px-4 py-1 rounded-full transition ${
-            pathname === "/login"
+            pathname === "/auth/login"
               ? "bg-white text-[#1e0042]"
               : "text-white border-white hover:bg-white hover:text-[#1e0042]"
           }`}
@@ -79,7 +85,10 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu Button */}
-      <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-white">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden text-white"
+      >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
