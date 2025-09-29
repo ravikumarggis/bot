@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.className}>
    <body className="antialiased bg-gradient-to-br from-[#3c2d7b] via-[#5a45a5] to-[#847abd] text-white ">
     
-       <Navbar />
+   
   {children}
-       <Footer />
+     
 </body>
 
     </html>

@@ -1,11 +1,64 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { Eye, EyeOff, Mail } from "lucide-react";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    remember: false,
+  });
+  const [errors, setErrors] = useState({});
+
+  // handle input change
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    // Clear error for that field as user types
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  // basic validation
+  const validate = () => {
+    let newErrors = {};
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      console.log("Form Submitted:", formData);
+      // TODO: Replace with your login API logic
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#0F0F17] text-white">
-      {/* Left Section (Hidden on small screens) */}
+    <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#0F0F17] text-white">
+      {/* Left Side - Banner */}
       <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">
@@ -21,36 +74,72 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Right Section */}
+      {/* Right Side - Login Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-8">
         <div className="w-full max-w-md">
-          <h2 className="text-2xl font-semibold mb-2">Login</h2>
+          <h2 className="text-4xl font-semibold mb-2">Login</h2>
           <p className="text-sm text-gray-400 mb-6">
             Don’t have an account?{" "}
-            <a href="#" className="text-purple-400 hover:underline">
+            <a href="/signup" className="text-purple-400 hover:underline">
               Sign Up
             </a>
           </p>
 
-          <form>
-            {/* Email */}
+          <form onSubmit={handleSubmit} noValidate>
+            {/* Email Field */}
+            <div className="mb-4 relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="email"
+              name="email"
               placeholder="Email"
-              className="w-full p-3 mb-4 bg-[#1A1A24] rounded focus:outline-none"
+              value={formData.email}
+              onChange={handleChange}
+              className={`w-full pl-10 p-3 bg-[#1A1A24] rounded focus:outline-none ${
+                errors.email ? "border border-red-500" : ""
+              }`}
             />
-
-            {/* Password */}
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-3 mb-2 bg-[#1A1A24] rounded focus:outline-none"
-            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
+            {/* Password Field with Eye Toggle */}
+            <div className="mb-4 relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none pr-10 ${
+                  errors.password ? "border border-red-500" : ""
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className={`absolute right-3 flex items-center text-gray-400 hover:text-white ${
+                  errors.password ? "bottom-10" : "bottom-3"
+                }`}
+                  tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              )}
+            </div>
 
             {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between text-sm mb-6">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="remember"
+                  checked={formData.remember}
+                  onChange={handleChange}
+                  className="mr-2"
+                />
                 Remember me
               </label>
               <a href="#" className="text-purple-400 hover:underline">
@@ -58,10 +147,10 @@ const Login = () => {
               </a>
             </div>
 
-            {/* Login Button */}
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-500 to-purple-400 text-white py-3 rounded hover:opacity-90 transition-opacity"
+              className="w-full bg-[#c1a8ff]  font-semibold  text-white py-3 rounded hover:opacity-90 transition-opacity"
             >
               LOGIN
             </button>
@@ -73,7 +162,7 @@ const Login = () => {
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
 
-            {/* Google Sign-In */}
+            {/* Google Sign-in */}
             <button
               type="button"
               className="w-full flex items-center justify-center border border-gray-700 py-2 rounded hover:bg-gray-800 transition-colors"
