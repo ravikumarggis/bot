@@ -70,10 +70,38 @@ const Tutorials = () => {
             </div>
 
             <div className="overflow-y-auto p-4 md:p-5 space-y-4 flex-1">
+            <div className="max-w-3xl mx-auto p-6 space-y-6">
+  {/* Step 1 */}
+  <div className="bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700">
+    <div className="flex items-center space-x-4">
+      <span className="text-2xl">🪄</span>
+      <h2 className="text-xl font-semibold text-white">Step 1: Log In to Your Binance Account</h2>
+    </div>
+    <ul className="mt-4 list-disc list-inside text-gray-300 space-y-2">
+      <li>
+        Go to <a href="https://www.binance.com" className="text-blue-400 underline">Binance</a> and log in using your credentials.
+      </li>
+      <li>Complete any required <strong>2FA (Two-Factor Authentication)</strong> for added security.</li>
+    </ul>
+  </div>
+
+  {/* Step 2 */}
+  <div className="bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700">
+    <div className="flex items-center space-x-4">
+      <span className="text-2xl">🔑</span>
+      <h2 className="text-xl font-semibold text-white">Step 2: Access the API Management Page</h2>
+    </div>
+    <ul className="mt-4 list-disc list-inside text-gray-300 space-y-2">
+      <li>Hover over your <strong>profile icon</strong> (top-right corner) and select <strong>“API Management”</strong> from the dropdown menu.</li>
+      <li>Click on <strong>“Create API”</strong>.</li>
+    </ul>
+  </div>
+</div>
+
             
             </div>
 
-            <div className="sticky bottom-0 z-10 flex items-center p-4 md:p-5 border-t border-gray-600 bg-gray-700 rounded-b">
+            <div className="sticky bottom-0 z-10 flex items-center justify-center p-4 md:p-5 border-t border-gray-600 bg-gray-700 rounded-b">
             
               <button    onClick={closeModal} className=" mt-2 px-6 py-3 bg-[#c1a8ff] text-[white] font-semibold rounded-full shadow hover:opacity-90 transition">
             Cancel

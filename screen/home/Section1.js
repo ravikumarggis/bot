@@ -70,7 +70,7 @@ const Section1 = () => {
               onMouseEnter={() => setActiveImage("/assets/homepage/img2.avif")}
               className="bg-[#141424] p-6 rounded-2xl   shadow-lg hover:shadow-purple-500/30 transition-all duration-300 cursor-pointer"
             >
-              <h3 className="text-xl font-semibold flex items-center gap-2 text-purple-400">
+              <h3 className="text-xl font-semibold flex items-center gap-2 ">
                 🔗 Connect Your Exchange APIs
               </h3>
               <p className="mt-2 text-gray-400 text-sm sm:text-base">

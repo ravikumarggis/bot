@@ -67,23 +67,27 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#0F0F17] text-white">
-      {/* Left side illustration */}
-      <div className="hidden md:flex w-1/2 bg-[#0B0B12] items-center justify-center p-10">
+      <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">
-            Quick, <span className="text-purple-400">Secure</span> &{" "}
-            <span className="text-purple-400">Reliable</span>
+            QUICK, <span className="text-purple-400">SECURE</span> &{" "}
+            <span className="text-purple-400">RELIABLE</span>
           </h1>
           <p className="text-gray-400 mb-10">
             Your all-in-one solution for crypto trading and exchange
           </p>
-          <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center">
-            <div className="w-24 h-24 bg-purple-500 rounded-full opacity-70" />
+
+          {/* Image container */}
+          <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
+            <img
+              src="/assets/auth/wallet.jpeg" // replace with your image path
+              alt="Crypto Dashboard"
+              className="w-full h-full object-cover rounded-lg"
+            />
           </div>
         </div>
       </div>
 
-      {/* Sign Up Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-8">
         <div className="w-full max-w-md">
           <h2 className="text-4xl font-semibold mb-2">Sign Up</h2>
@@ -178,11 +182,7 @@ const Signup = () => {
                 }`}
                 tabIndex={-1}
               >
-                {showConfirmPassword ? (
-                  <EyeOff size={20} />
-                ) : (
-                  <Eye size={20} />
-                )}
+                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm mt-1">

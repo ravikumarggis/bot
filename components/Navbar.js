@@ -39,7 +39,7 @@ export default function Navbar() {
             className="w-10 h-10"
           />
           <p className="text-md sm:text-lg lg:text-2xl font-semibold text-white">
-            Ravi
+            Crypto Bot
           </p>
         </div>
       </Link>
@@ -55,12 +55,12 @@ export default function Navbar() {
         <Link href="/tutorials" className={linkClass("/tutorials")}>
           Tutorials
         </Link>
-        <Link href="/docs" className={linkClass("/docs")}>
+        <Link href="https://arbique.gitbook.io/helper/" className={linkClass("/docs")}>
           Docs
         </Link>
-        <Link href="/blogs" className={linkClass("/blogs")}>
+        {/* <Link href="/blogs" className={linkClass("/blogs")}>
           Blogs
-        </Link>
+        </Link> */}
 
         <Link
           href="/login"
@@ -94,45 +94,48 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="absolute top-[110%] right-0 w-[75%] sm:w-[60%] bg-[#847abd]/80 backdrop-blur-md shadow-lg rounded-xl p-6 flex flex-col gap-4 text-white lg:hidden transition-all">
-          <Link href="/exchange" className={linkClass("/exchange")}>
-            Exchanges
-          </Link>
-          <Link href="/pricing" className={linkClass("/pricing")}>
-            Pricing
-          </Link>
-          <Link href="/tutorials" className={linkClass("/tutorials")}>
-            Tutorials
-          </Link>
-          <Link href="/docs" className={linkClass("/docs")}>
-            Docs
-          </Link>
-          <Link href="/blogs" className={linkClass("/blogs")}>
-            Blogs
-          </Link>
+  <div className="absolute top-[110%] right-0 w-[75%] sm:w-[60%] bg-[#847abd]/80 backdrop-blur-md shadow-lg rounded-xl p-6 flex flex-col gap-4 text-white lg:hidden transition-all">
+    <Link href="/exchange" onClick={() => setIsOpen(false)} className={linkClass("/exchange")}>
+      Exchanges
+    </Link>
+    <Link href="/pricing" onClick={() => setIsOpen(false)} className={linkClass("/pricing")}>
+      Pricing
+    </Link>
+    <Link href="/tutorials" onClick={() => setIsOpen(false)} className={linkClass("/tutorials")}>
+      Tutorials
+    </Link>
+    <Link href="https://arbique.gitbook.io/helper/" onClick={() => setIsOpen(false)} className={linkClass("/docs")}>
+      Docs
+    </Link>
+    {/* <Link href="/blogs" onClick={() => setIsOpen(false)} className={linkClass("/blogs")}>
+      Blogs
+    </Link> */}
 
-          <Link
-            href="/login"
-            className={`border px-4 py-2 rounded-full transition text-center ${
-              pathname === "/login"
-                ? "bg-white text-[#1e0042]"
-                : "text-white border-white hover:bg-white hover:text-[#1e0042]"
-            }`}
-          >
-            LOGIN
-          </Link>
-          <Link
-            href="/signup"
-            className={`px-4 py-2 rounded-full font-semibold transition text-center ${
-              pathname === "/signup"
-                ? "bg-white text-[#1e0042]"
-                : "bg-white text-[#1e0042] hover:opacity-90"
-            }`}
-          >
-            SIGN UP
-          </Link>
-        </div>
-      )}
+    <Link
+      href="/login"
+      onClick={() => setIsOpen(false)}
+      className={`border px-4 py-2 rounded-full transition text-center ${
+        pathname === "/login"
+          ? "bg-white text-[#1e0042]"
+          : "text-white border-white hover:bg-white hover:text-[#1e0042]"
+      }`}
+    >
+      LOGIN
+    </Link>
+    <Link
+      href="/signup"
+      onClick={() => setIsOpen(false)}
+      className={`px-4 py-2 rounded-full font-semibold transition text-center ${
+        pathname === "/signup"
+          ? "bg-white text-[#1e0042]"
+          : "bg-white text-[#1e0042] hover:opacity-90"
+      }`}
+    >
+      SIGN UP
+    </Link>
+  </div>
+)}
+
     </header>
   );
 }

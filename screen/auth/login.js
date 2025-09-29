@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Eye, EyeOff, Mail } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -58,7 +58,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#0F0F17] text-white">
-      {/* Left Side - Banner */}
       <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">
@@ -68,13 +67,18 @@ const Login = () => {
           <p className="text-gray-400 mb-10">
             Your all-in-one solution for crypto trading and exchange
           </p>
-          <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center">
-            <div className="w-24 h-24 bg-purple-500 rounded-full opacity-70" />
+
+          {/* Image container */}
+          <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
+            <img
+              src="/assets/auth/wallet.jpeg" // replace with your image path
+              alt="Crypto Dashboard"
+              className="w-full h-full object-cover rounded-lg"
+            />
           </div>
         </div>
       </div>
 
-      {/* Right Side - Login Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-8">
         <div className="w-full max-w-md">
           <h2 className="text-4xl font-semibold mb-2">Login</h2>
@@ -87,22 +91,22 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} noValidate>
             {/* Email Field */}
-            <div className="mb-4 relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full pl-10 p-3 bg-[#1A1A24] rounded focus:outline-none ${
-                errors.email ? "border border-red-500" : ""
-              }`}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-            )}
-          </div>
+            <div className="mb-4">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none ${
+                  errors.email ? "border border-red-500" : ""
+                }`}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              )}
+            </div>
+
             {/* Password Field with Eye Toggle */}
             <div className="mb-4 relative">
               <input
