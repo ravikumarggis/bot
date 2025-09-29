@@ -39,7 +39,7 @@ export default function Navbar() {
             className="w-10 h-10"
           />
           <p className="text-md sm:text-lg lg:text-2xl font-semibold text-white">
-            Crypto Bot
+            Ravi
           </p>
         </div>
       </Link>
@@ -63,9 +63,9 @@ export default function Navbar() {
         </Link>
 
         <Link
-          href="/auth/login"
+          href="/login"
           className={`border px-4 py-1 rounded-full transition ${
-            pathname === "/auth/login"
+            pathname === "/login"
               ? "bg-white text-[#1e0042]"
               : "text-white border-white hover:bg-white hover:text-[#1e0042]"
           }`}
