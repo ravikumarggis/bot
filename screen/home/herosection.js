@@ -1,8 +1,21 @@
 import React from "react";
+import { SparklesCore } from "../../components/ui/sparkles";
 
 const Herosection = () => {
   return (
+
     <div className="pt-30 w-full items-center justify-center flex-col text-center gap-5 ">
+      <div className="w-full absolute inset-0 h-screen">
+        <SparklesCore
+          id="tsparticlesfullpage"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1.4}
+          particleDensity={100}
+          className="w-full h-full"
+          particleColor="#FFFFFF"
+        />
+      </div>
       <div className="w-full text-center justify-center">
         <div className="text-center justify-center inline-block px-6 py-2 text-xs sm:text-sm font-medium bg-[#EE3379]/10 backdrop-blur-md rounded-full shadow-md">
           YOUR GATEWAY TO SMARTER TRADING
@@ -41,7 +54,7 @@ const Herosection = () => {
         <img
           src="/assets/homepage/dashboardimage.avif"
           alt="Crypto Bot Logo"
-          className="w-[90%] sm:w-[60%] h-auto items-center justify-center"
+          className="w-[90%] sm:w-[60%] h-auto items-center justify-center z-10"
         />
       </div>
      
