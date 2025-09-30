@@ -66,7 +66,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#0F0F17] text-white">
+    <div className="min-h-screen flex flex-col md:flex-row bg-[#0F0F17] ">
       <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">

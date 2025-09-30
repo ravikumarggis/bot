@@ -49,15 +49,13 @@ const testimonials = [
     name: "Mudrex",
     icon: "/assets/exchange/kraken.png",
   },
- 
 ];
-
 
 const Exchange = () => {
   return (
-    <div className="relative w-full flex flex-col bg-[#05060f] text-white py-30 px-5 md:px-20 gap-10">
+    <div className="relative w-full flex flex-col bg-[#05060f]  py-30 px-5 md:px-20 gap-10">
       <div className="w-full md:w-[90%] flex flex-col  gap-2">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold ">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold ">
           Securely Integrate Your
         </h1>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -69,27 +67,24 @@ const Exchange = () => {
           ARBIQUE Supports Multiple Exchanges
         </h1>
         <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
-        Our platform allows users to connect and trade across leading cryptocurrency exchanges, ensuring a unified, efficient, and secure trading experience.
-</p>
+          Our platform allows users to connect and trade across leading
+          cryptocurrency exchanges, ensuring a unified, efficient, and secure
+          trading experience.
+        </p>
 
-      <InfiniteMovingCards
-        items={testimonials}
-        direction="right"
-        speed=""
-      />
-     
-
+        <InfiniteMovingCards items={testimonials} direction="right" speed="" />
       </div>
       <div className="max-w-7xl mx-auto flex flex-col gap-2">
         <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold text-center ">
-        How Does It Work?
-
+          How Does It Work?
         </h2>
 
         <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
-        ARBIQUE is a powerful automated trading platform that helps you monitor, identify, and execute trading opportunities across multiple cryptocurrency exchanges. Our system ensures fast execution and efficiency, making trading seamless and optimized for profitability.
-
-</p>
+          ARBIQUE is a powerful automated trading platform that helps you
+          monitor, identify, and execute trading opportunities across multiple
+          cryptocurrency exchanges. Our system ensures fast execution and
+          efficiency, making trading seamless and optimized for profitability.
+        </p>
 
         <div className="relative flex flex-col md:flex-row justify-between items-center gap-16 mt-2">
           {steps?.map((step, index) => (

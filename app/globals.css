@@ -6,6 +6,15 @@
 
  @import "tailwindcss";
  @plugin "daisyui";
+ @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ @layer base {
+  body {
+    @apply text-[#EE3379];
+  }
+}
 
 @theme inline {
   /* Configure your theme variables here */

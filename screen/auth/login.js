@@ -57,7 +57,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#0F0F17] text-white">
+    <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#0F0F17] ">
       <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">
@@ -125,7 +125,7 @@ const Login = () => {
                 className={`absolute right-3 flex items-center text-gray-400 hover:text-white ${
                   errors.password ? "bottom-10" : "bottom-3"
                 }`}
-                  tabIndex={-1}
+                tabIndex={-1}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
