@@ -26,12 +26,12 @@ const Pricing = () => {
           </p>
         </div>
 
-        <div className="flex items-center justify-center bg-[#12121d] rounded-full p-1 h-12 mb-10 md:mb-0">
+        <div className="flex items-center justify-center bg-[#12121d] rounded-[10px] p-1 h-12 mb-10 md:mb-0">
           <button
             onClick={() => setPlan("monthly")}
-            className={`px-6 py-2 rounded-full font-medium transition ${
+            className={`px-6 py-2 rounded-[10px] font-medium transition ${
               plan === "monthly"
-                ? "bg-purple-500 text-white"
+                ? "bg-[#EE3379] text-white"
                 : "text-gray-400 hover:text-white"
             }`}
           >
@@ -39,9 +39,9 @@ const Pricing = () => {
           </button>
           <button
             onClick={() => setPlan("yearly")}
-            className={`px-6 py-2 rounded-full font-medium transition ${
+            className={`px-6 py-2 rounded-[10px] font-medium transition ${
               plan === "yearly"
-                ? "bg-purple-500 text-white"
+                ? "bg-[#EE3379] text-white"
                 : "text-gray-400 hover:text-white"
             }`}
           >
@@ -55,7 +55,7 @@ const Pricing = () => {
         </div>
 
         <div className="text-center mb-4">
-          <span className="bg-purple-600/20 text-purple-400 text-sm px-4 py-1 rounded-full">
+          <span className="bg-purple-600/20 text-[#EE3379] text-sm px-4 py-1 rounded-full">
             {plan === "monthly" ? "Monthly" : "Yearly"}
           </span>
         </div>
@@ -71,15 +71,15 @@ const Pricing = () => {
 
         <ul className="space-y-4 mb-6">
           <li className="flex items-center gap-3 text-gray-300">
-            <CheckCircle className="text-purple-400" size={20} />
+            <CheckCircle className="text-[#EE3379]" size={20} />
             Duration: {plan === "monthly" ? "1 MONTH" : "12 MONTHS"}
           </li>
           <li className="flex items-center gap-3 text-gray-300">
-            <CheckCircle className="text-purple-400" size={20} />
+            <CheckCircle className="text-[#EE3379]" size={20} />
             Exchanges: Binance
           </li>
           <li className="flex items-center gap-3 text-gray-300">
-            <CheckCircle className="text-purple-400" size={20} />
+            <CheckCircle className="text-[#EE3379]" size={20} />
             Profit Cap: $200
           </li>
         </ul>
@@ -90,7 +90,7 @@ const Pricing = () => {
         </div>
 
         <div className=" w-full flex justify-center items-center">
-          <button className=" justify-center items-center mt-2 px-6 py-3 bg-[#c1a8ff] text-[white] font-semibold rounded-full shadow hover:opacity-90 transition">
+          <button className=" justify-center items-center mt-2 px-6 py-3 bg-[#EE3379] text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
             Login To Buy
           </button>
         </div>

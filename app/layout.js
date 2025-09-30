@@ -17,7 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={roboto.className}>
-      <body className="antialiased bg-gradient-to-br from-[#3c2d7b] via-[#5a45a5] to-[#847abd] text-[#EE3379] ">
+      <body className="antialiased  ">
         {children}
       </body>
     </html>

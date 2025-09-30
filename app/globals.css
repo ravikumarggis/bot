@@ -12,7 +12,7 @@
 
  @layer base {
   body {
-    @apply text-[#EE3379];
+    @apply text-[#fff];
   }
 }
 

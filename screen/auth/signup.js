@@ -70,8 +70,8 @@ const Signup = () => {
       <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">
-            QUICK, <span className="text-purple-400">SECURE</span> &{" "}
-            <span className="text-purple-400">RELIABLE</span>
+            QUICK, <span className="text-[#EE3379]">SECURE</span> &{" "}
+            <span className="text-[#EE3379]">RELIABLE</span>
           </h1>
           <p className="text-gray-400 mb-10">
             Your all-in-one solution for crypto trading and exchange
@@ -93,7 +93,7 @@ const Signup = () => {
           <h2 className="text-4xl font-semibold mb-2">Sign Up</h2>
           <p className="text-sm text-gray-400 mb-6">
             Already have an account?{" "}
-            <a href="/login" className="text-purple-400 hover:underline">
+            <a href="/login" className="text-[#EE3379] hover:underline">
               Log in
             </a>
           </p>
@@ -202,11 +202,11 @@ const Signup = () => {
                   className="mr-2 mt-1"
                 />
                 I accept the{" "}
-                <a href="#" className="text-purple-400 ml-1 hover:underline">
+                <a href="#" className="text-[#EE3379] ml-1 hover:underline">
                   Terms & Conditions
                 </a>{" "}
                 &{" "}
-                <a href="#" className="text-purple-400 ml-1 hover:underline">
+                <a href="#" className="text-[#EE3379] ml-1 hover:underline">
                   Privacy Policy
                 </a>
               </label>
@@ -218,7 +218,8 @@ const Signup = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-500 to-purple-400 text-white py-3 rounded-lg hover:opacity-90 transition"
+              className="w-full bg-[#EE3379]  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
+
             >
               SIGN UP
             </button>
@@ -233,7 +234,7 @@ const Signup = () => {
             {/* Google Sign-in */}
             <button
               type="button"
-              className="w-full flex items-center justify-center border border-gray-700 py-2 rounded hover:bg-gray-800 transition-colors"
+              className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"
             >
               <img
                 src="https://developers.google.com/identity/images/g-logo.png"
