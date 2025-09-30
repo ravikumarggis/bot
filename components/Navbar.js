@@ -101,7 +101,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute top-[110%] right-0 w-[75%] sm:w-[60%] bg-[#847abd]/90 backdrop-blur-md shadow-xl rounded-xl p-6 flex flex-col gap-4 text-white lg:hidden"
+            className="absolute top-[110%] right-0 w-[75%] sm:w-[60%] bg-[#05060f]/95 backdrop-blur-md shadow-xl rounded-xl p-6 flex flex-col gap-4 text-white lg:hidden"
           >
             <Link href="/exchange" onClick={() => setIsOpen(false)} className={linkClass("/exchange")}>
               Exchanges
