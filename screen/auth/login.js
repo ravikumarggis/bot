@@ -2,8 +2,11 @@
 
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -52,7 +55,7 @@ const Login = () => {
     e.preventDefault();
     if (validate()) {
       console.log("Form Submitted:", formData);
-      // TODO: Replace with your login API logic
+      router.push("/dashboard/home")
     }
   };
 
