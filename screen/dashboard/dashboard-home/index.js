@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import DashboardHeader from "./DashboardHeader"
+import DashboardHeader from "./dashboardHeader"
 import StatCard from "./statCard"
 import ProfitChart from "./profitChart"
-import CurrentPlan from "./CurrentPlan"
+import CurrentPlan from "./currentPlan"
 import { ArrowLeftRight, Receipt, TrendingUp, Wallet } from "lucide-react";
 
 export default function Dashboard() {
