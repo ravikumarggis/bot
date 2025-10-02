@@ -1,6 +1,6 @@
 "use client"
 import React, { Fragment } from "react";
-import Dashboard from "../../../../screen/dashboard/dashboard-home";
+import Dashboard from "../../../../screen/dashboard/dashboard-home/index";
 // import Section1 from "../../../../screen/home/Section1";
 
 const DashboardHome = () => {
