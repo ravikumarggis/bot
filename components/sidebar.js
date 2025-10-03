@@ -27,7 +27,7 @@ export default function Sidebar() {
       {/* Mobile Sidebar */}
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden fixed top-4 left-4 bg-purple-600 p-2 rounded-lg z-50"
+        className="md:hidden fixed top-4 left-4 bg-purple-600 p-2 rounded-lg z-1000"
       >
         <LayoutDashboard size={24} />
       </button>
