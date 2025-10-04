@@ -11,15 +11,12 @@ export default function DashboardLayout({ children }) {
         <Sidebar />
       </div>
 
-    
       <div className="flex-1 flex flex-col overflow-hidden ">
         {/* Fixed Top Header */}
         <DashboardHeader />
 
         {/* Content area with padding to avoid header overlap */}
-        <main className="flex-1 overflow-y-auto   pt-12">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto   pt-12">{children}</main>
       </div>
     </div>
   );

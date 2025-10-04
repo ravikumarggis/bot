@@ -10,12 +10,18 @@ export default function Sidebar() {
     <>
       {/* Desktop Sidebar */}
       <div className="hidden md:flex flex-col bg-gray-800 border-r border-gray-700 w-64 min-h-screen p-5">
-        <h2 className="text-2xl font-semibold mb-10 text-purple-400">My App</h2>
+        <h2 className="text-2xl font-semibold mb-10 text-[#EE3379]">My App</h2>
         <nav className="flex flex-col gap-4">
-          <Link href="/dashboard/home" className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md">
+          <Link
+            href="/dashboard/home"
+            className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+          >
             <Home /> Dashboard
           </Link>
-          <Link href="/dashboard/settings" className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md">
+          <Link
+            href="/dashboard/settings"
+            className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+          >
             <Settings /> Settings
           </Link>
           <button className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto">
@@ -36,14 +42,27 @@ export default function Sidebar() {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex">
           <div className="bg-gray-800 w-64 p-5 flex flex-col">
             <div className="flex justify-between items-center mb-10">
-              <h2 className="text-2xl font-semibold text-purple-400">My App</h2>
-              <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white">✕</button>
+              <h2 className="text-2xl font-semibold text-[#EE3379]">My App</h2>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
             </div>
             <nav className="flex flex-col gap-4">
-              <Link href="/dashboard/home" className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md" onClick={() => setIsOpen(false)}>
+              <Link
+                href="/dashboard/home"
+                className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+                onClick={() => setIsOpen(false)}
+              >
                 <Home /> Dashboard
               </Link>
-              <Link href="/dashboard/settings" className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md" onClick={() => setIsOpen(false)}>
+              <Link
+                href="/dashboard/settings"
+                className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+                onClick={() => setIsOpen(false)}
+              >
                 <Settings /> Settings
               </Link>
               <button className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto">
