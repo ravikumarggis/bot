@@ -5,7 +5,6 @@ import * as RechartsPrimitive from "recharts";
 
 import { cn } from "../../lib/utils";
 
-// Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" };
 
 const ChartContext = React.createContext(null);
@@ -247,7 +246,6 @@ function ChartLegendContent({
   );
 }
 
-// Helper
 function getPayloadConfigFromPayload(config, payload, key) {
   if (typeof payload !== "object" || payload === null) return undefined;
 

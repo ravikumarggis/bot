@@ -8,7 +8,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Desktop Sidebar */}
       <div className="hidden md:flex flex-col bg-gray-800 border-r border-gray-700 w-64 min-h-screen p-5">
         <h2 className="text-2xl font-semibold mb-10 text-primary">My App</h2>
         <nav className="flex flex-col gap-4">
@@ -30,7 +29,6 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Mobile Sidebar */}
       <button
         onClick={() => setIsOpen(true)}
         className="md:hidden fixed top-4 left-4 bg-purple-600 p-2 rounded-lg z-1000"

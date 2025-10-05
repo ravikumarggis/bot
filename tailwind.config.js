@@ -10,7 +10,7 @@ module.exports = {
         sans: ['"Alan Sans"', 'sans-serif'],
       },
       colors: {
-        primary: '#EE3379', // 👈 main theme color
+        primary: '#EE3379', 
       },
     },
     

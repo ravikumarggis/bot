@@ -15,7 +15,6 @@ const Signup = () => {
   });
   const [errors, setErrors] = useState({});
 
-  // handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -26,7 +25,6 @@ const Signup = () => {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  // validation
   const validate = () => {
     let newErrors = {};
 
@@ -56,12 +54,10 @@ const Signup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
       console.log("✅ Form Submitted:", formData);
-      // TODO: call your signup API here
     }
   };
 
@@ -77,10 +73,9 @@ const Signup = () => {
             Your all-in-one solution for crypto trading and exchange
           </p>
 
-          {/* Image container */}
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg" // replace with your image path
+              src="/assets/auth/wallet.jpeg" 
               alt="Crypto Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -99,7 +94,6 @@ const Signup = () => {
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
-            {/* Email */}
             <div className="mb-4 relative">
               <Mail className="absolute left-3 top-3 text-gray-500" size={20} />
               <input
@@ -117,7 +111,6 @@ const Signup = () => {
               )}
             </div>
 
-            {/* Referral (optional) */}
             <div className="mb-4 relative">
               <UserPlus
                 className="absolute left-3 top-3 text-gray-500"
@@ -133,7 +126,6 @@ const Signup = () => {
               />
             </div>
 
-            {/* Password */}
             <div className="mb-4 relative">
               <Key className="absolute left-3 top-3 text-gray-500" size={20} />
               <input
@@ -161,7 +153,6 @@ const Signup = () => {
               )}
             </div>
 
-            {/* Confirm Password */}
             <div className="mb-4 relative">
               <Key className="absolute left-3 top-3 text-gray-500" size={20} />
               <input
@@ -191,7 +182,6 @@ const Signup = () => {
               )}
             </div>
 
-            {/* Terms & Conditions */}
             <div className="mb-6">
               <label className="flex items-start text-sm cursor-pointer">
                 <input
@@ -215,7 +205,6 @@ const Signup = () => {
               )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
@@ -224,14 +213,12 @@ const Signup = () => {
               SIGN UP
             </button>
 
-            {/* Divider */}
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">
               <span className="border-b w-1/5 lg:w-1/4"></span>
               <span className="mx-2">Or</span>
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
 
-            {/* Google Sign-in */}
             <button
               type="button"
               className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"

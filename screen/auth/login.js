@@ -15,7 +15,6 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
 
-  // handle input change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -23,14 +22,12 @@ const Login = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Clear error for that field as user types
     setErrors((prev) => ({
       ...prev,
       [name]: "",
     }));
   };
 
-  // basic validation
   const validate = () => {
     let newErrors = {};
 
@@ -50,7 +47,6 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -71,10 +67,9 @@ const Login = () => {
             Your all-in-one solution for crypto trading and exchange
           </p>
 
-          {/* Image container */}
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg" // replace with your image path
+              src="/assets/auth/wallet.jpeg" 
               alt="Crypto Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -93,7 +88,6 @@ const Login = () => {
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
-            {/* Email Field */}
             <div className="mb-4">
               <input
                 type="email"
@@ -110,7 +104,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Password Field with Eye Toggle */}
             <div className="mb-4 relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -137,7 +130,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between text-sm mb-6">
               <label className="flex items-center cursor-pointer">
                 <input
@@ -154,7 +146,6 @@ const Login = () => {
               </a>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
@@ -162,14 +153,12 @@ const Login = () => {
               LOGIN
             </button>
 
-            {/* Divider */}
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">
               <span className="border-b w-1/5 lg:w-1/4"></span>
               <span className="mx-2">Or</span>
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
 
-            {/* Google Sign-in */}
             <button
               type="button"
               className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"

@@ -74,7 +74,6 @@ const Tutorials = () => {
 
             <div className="overflow-y-auto p-4 md:p-5 space-y-4 flex-1">
               <div className="max-w-3xl mx-auto p-6 space-y-6">
-                {/* Step 1 */}
                 <div className="bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700">
                   <div className="flex items-center space-x-4">
                     <span className="text-2xl">🪄</span>
@@ -101,7 +100,6 @@ const Tutorials = () => {
                   </ul>
                 </div>
 
-                {/* Step 2 */}
                 <div className="bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700">
                   <div className="flex items-center space-x-4">
                     <span className="text-2xl">🔑</span>

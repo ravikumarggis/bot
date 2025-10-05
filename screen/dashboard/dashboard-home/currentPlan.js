@@ -52,7 +52,7 @@ export default function CurrentPlan() {
             Profit Cap 0 USDT
           </button>
           <button
-            className="w-full bg-primary text-[white] rounded-[10px] py-6 text-base font-semibold"
+            className="w-full bg-primary text-[white] rounded-[10px] py-3 text-base font-semibold"
           >
             Buy Plan
           </button>

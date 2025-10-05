@@ -11,7 +11,6 @@ export default function DashboardHeader() {
   };
 
   const handleLogout = () => {
-    // 👉 Add your logout logic here
     console.log("Logged out");
   };
 
@@ -19,22 +18,19 @@ export default function DashboardHeader() {
     <header className="fixed top-0 left-0 w-full z-10 bg-[#0B0B12]/80 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* --- Left: Logo / Project Name --- */}
           <div className="flex items-center gap-2">
             <div className="text-xl font-bold text-white">🚀 CryptoBot</div>
           </div>
 
-          {/* --- Right: Profile & Actions --- */}
           <div className="flex items-center gap-4">
             <a
-              href="https://t.me/yourcommunity" // <- update link
+              href="https://t.me/yourcommunity" //
               target="_blank"
               className="hidden sm:inline-block bg-primary text-[white] font-semibold rounded-[10px]  px-4 py-1.5 text-sm transition-colors"
             >
               Need Help? Join Telegram
             </a>
 
-            {/* --- Desktop Profile Menu --- */}
             <div className="relative hidden md:block">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -58,7 +54,6 @@ export default function DashboardHeader() {
               )}
             </div>
 
-            {/* --- Mobile Menu Toggle --- */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden text-white"
@@ -72,7 +67,6 @@ export default function DashboardHeader() {
           </div>
         </div>
 
-        {/* --- Mobile Dropdown --- */}
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 mt-2 py-3 space-y-3 text-sm text-gray-300">
             <div className="space-y-1">

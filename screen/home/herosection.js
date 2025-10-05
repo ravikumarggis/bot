@@ -32,7 +32,6 @@ const Herosection = () => {
           </span>
         </h1>
 
-        {/* Paragraph */}
         <p className="mt-6 w-full md:w-[70%]  text-sm sm:text-base md:text-lg  text-center">
           Grow your portfolio effortlessly with Arbique’s intelligent arbitrage
           assistant. Designed for traders of all levels, our AI-powered system
@@ -41,7 +40,6 @@ const Herosection = () => {
         </p>
       </div>
 
-      {/* Buttons */}
       <div className="mt-8 flex flex-row sm:flex-row gap-4 justify-center">
         <button className="px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
           Start Free Trial

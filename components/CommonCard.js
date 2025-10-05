@@ -39,7 +39,6 @@ const CommonCard = ({ items, className }) => {
           </AnimatePresence>
 
           <Card>
-            {/* 🖼️ Image section */}
             {item.image && (
               <div className="w-full h-48 overflow-hidden rounded-xl">
                 <img
@@ -50,7 +49,6 @@ const CommonCard = ({ items, className }) => {
               </div>
             )}
 
-            {/* 📄 Text section */}
             <div className="text-center mt-4">
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>

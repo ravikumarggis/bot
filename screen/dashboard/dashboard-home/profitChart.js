@@ -23,13 +23,11 @@ export default function ProfitChart() {
 
   return (
     <div className="w-full bg-[#0B0B12] text-white p-6 rounded-2xl shadow-lg">
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">
           Profit Chart <span className="text-sm text-gray-400">(USDT)</span>
         </h2>
 
-        {/* Dropdown Filter */}
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -41,7 +39,6 @@ export default function ProfitChart() {
         </select>
       </div>
 
-      {/* Chart */}
       <div className="w-full h-96">
         <ResponsiveContainer>
           <LineChart data={data}>
