@@ -13,14 +13,9 @@ export default function DashboardLayout({ children }) {
       <div className="flex-1 flex flex-col overflow-hidden ">
         <DashboardHeader />
 
-<<<<<<< HEAD
         <main className="flex-1 overflow-y-auto   pt-20 px-5">
           {children}
         </main>
-=======
-        {/* Content area with padding to avoid header overlap */}
-        <main className="flex-1 overflow-y-auto   pt-12">{children}</main>
->>>>>>> a1836b880216b3dfdb6f7ac9b7c8bc17162b4dcb
       </div>
     </div>
   );
