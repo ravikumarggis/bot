@@ -1,90 +1,112 @@
 "use client";
-import { Bar, BarChart } from "recharts";
-import { ChartConfig, ChartContainer } from "../../../components/ui/chart";
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function ProfitChart() {
-  const chartData = [
-    { month: "January", desktop: 1860},
-    { month: "February", desktop: 305},
-    { month: "March", desktop: 237},
-    { month: "April", desktop: 73},
-    { month: "May", desktop: 209},
-    { month: "June", desktop: 214},
+  const [filter, setFilter] = useState("month");
+
+  const data = [
+    { date: "Sep 5, 2025", totalProfit: 20, totalCapital: 0 },
+    { date: "Sep 6, 2025", totalProfit: 0, totalCapital: 20 },
+    { date: "Sep 24, 2025", totalProfit: 0, totalCapital: 0 },
+    { date: "Oct 5, 2025", totalProfit: 0, totalCapital: 0 },
   ];
-  const chartConfig = {
-    desktop: {
-      label: "Desktop",
-      color: "#2563eb",
-    }
-  };
 
   return (
-    <div className="bg-[#12121a] border border-gray-800/50 rounded-2xl p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-white text-lg font-normal">
-          Profit Chart <span className="text-gray-400 text-sm">(USDT)</span>
-        </h3>
-        {/* <Select defaultValue="month">
-          <SelectTrigger className="w-32 bg-gray-800/30 border-gray-700/50">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="week">Week</SelectItem>
-            <SelectItem value="month">Month</SelectItem>
-            <SelectItem value="year">Year</SelectItem>
-          </SelectContent>
-        </Select> */}
+    <div className="w-full bg-[#0B0B12] text-white p-6 rounded-2xl shadow-lg">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">
+          Profit Chart <span className="text-sm text-gray-400">(USDT)</span>
+        </h2>
+
+        {/* Dropdown Filter */}
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="bg-gray-800 text-white text-sm rounded-lg px-4 py-2 border border-gray-700 focus:outline-none"
+        >
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="year">Year</option>
+        </select>
       </div>
 
-      <div className="flex items-center justify-center gap-6 mb-6">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="text-sm text-gray-400">Total Profit</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <span className="text-sm text-gray-400">Total Capital</span>
-        </div>
-      </div>
-
-      <div className="relative h-64">
-        <div className="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-xs text-gray-500">
-          <span>2</span>
-          <span>1.5</span>
-          <span>1</span>
-          <span>0.5</span>
-          <span>0</span>
-        </div>
-        {/* <div className="absolute left-0 top-0 bottom-8 ml-8 text-xs text-gray-500 -rotate-90 origin-left">
-          Profit (USDT)
-        </div> */}
-
-        <div className="absolute right-0 top-0 bottom-8 flex flex-col justify-between text-xs text-gray-500">
-          <span>2</span>
-          <span>1.5</span>
-          <span>1</span>
-          <span>0.5</span>
-          <span>0</span>
-        </div>
-        {/* <div className="absolute right-0 top-0 bottom-8 mr-8 text-xs text-gray-500 rotate-90 origin-right">
-          Capital (USDT)
-        </div> */}
-
-        <div className="ml-16 mr-16 h-full border-b border-l border-gray-800/50">
-          <div className="h-full flex items-end justify-center">
-            <div className="w-full h-px bg-red-500/30"></div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-16 right-16 flex justify-between text-xs text-gray-500">
-          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-            <BarChart accessibilityLayer data={chartData}>
-              <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-              <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-            </BarChart>
-          </ChartContainer>
-        </div>
+      {/* Chart */}
+      <div className="w-full h-96">
+        <ResponsiveContainer>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: "#9CA3AF", fontSize: 12 }}
+              angle={-45}
+              textAnchor="end"
+              height={70}
+            />
+            <YAxis
+              yAxisId="left"
+              label={{
+                value: "Profit (USDT)",
+                angle: -90,
+                position: "insideLeft",
+                fill: "#9CA3AF",
+                fontSize: 12,
+              }}
+              tick={{ fill: "#9CA3AF" }}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              label={{
+                value: "Capital (USDT)",
+                angle: 90,
+                position: "insideRight",
+                fill: "#9CA3AF",
+                fontSize: 12,
+              }}
+              tick={{ fill: "#9CA3AF" }}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#1F2937",
+                border: "1px solid #374151",
+                borderRadius: "8px",
+              }}
+              labelStyle={{ color: "#F3F4F6" }}
+            />
+            <Legend verticalAlign="top" height={36} />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="totalProfit"
+              stroke="#fff"
+              strokeWidth={3}
+              dot={{ r: 6 }}
+              activeDot={{ r: 8 }}
+              name="Total Profit"
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="totalCapital"
+              stroke="#F87171"
+              strokeWidth={3}
+              dot={{ r: 6 }}
+              activeDot={{ r: 8 }}
+              name="Total Capital"
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

@@ -99,7 +99,7 @@ const Exchange = () => {
                 {step.icon}
               </div>
 
-              <span className="text-[#EE3379] text-lg font-semibold mb-2">
+              <span className="text-primary text-lg font-semibold mb-2">
                 Step {step.id}
               </span>
 

@@ -8,7 +8,7 @@ export default function StatCard({ title, value, subtitle, icon: Icon, currency 
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-gray-400 text-sm font-normal">{title}</h3>
         <div className="bg-gray-800/30 p-2 rounded-lg">
-          <Icon className="w-5 h-5 text-violet-400" />
+          <Icon className="w-5 h-5 text-primary" />
         </div>
       </div>
       <div className="space-y-2">

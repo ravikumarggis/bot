@@ -29,7 +29,7 @@ export default function DashboardHeader() {
             <a
               href="https://t.me/yourcommunity" // <- update link
               target="_blank"
-              className="hidden sm:inline-block bg-[#EE3379] text-[white] font-semibold rounded-[10px]  px-4 py-1.5 text-sm transition-colors"
+              className="hidden sm:inline-block bg-primary text-[white] font-semibold rounded-[10px]  px-4 py-1.5 text-sm transition-colors"
             >
               Need Help? Join Telegram
             </a>
@@ -38,7 +38,7 @@ export default function DashboardHeader() {
             <div className="relative hidden md:block">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="w-10 h-10 bg-[#EE3379] text-[white] font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition"
+                className="w-10 h-10 bg-primary text-[white] font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition"
               >
                 <User className="w-5 h-5 text-white" />
               </button>
@@ -50,7 +50,7 @@ export default function DashboardHeader() {
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center w-full px-4 py-2 text-red-400 hover:bg-white/10"
+                    className="flex items-center w-full px-4 py-2 text-primary hover:bg-white/10"
                   >
                     <LogOut className="w-4 h-4 mr-2" /> Logout
                   </button>

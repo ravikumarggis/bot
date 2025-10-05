@@ -1,6 +1,7 @@
 "use client";
 import { CheckCircle } from "lucide-react";
 import React, { useState } from "react";
+import ToggleTabs from "../../components/toggle-Tabs";
 
 const Pricing = () => {
   const [plan, setPlan] = useState("monthly");
@@ -26,28 +27,14 @@ const Pricing = () => {
           </p>
         </div>
 
-        <div className="flex items-center justify-center bg-[#12121d] rounded-[10px] p-1 h-12 mb-10 md:mb-0">
-          <button
-            onClick={() => setPlan("monthly")}
-            className={`px-6 py-2 rounded-[10px] font-medium transition ${
-              plan === "monthly"
-                ? "bg-[#EE3379] text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setPlan("yearly")}
-            className={`px-6 py-2 rounded-[10px] font-medium transition ${
-              plan === "yearly"
-                ? "bg-[#EE3379] text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Yearly
-          </button>
-        </div>
+        <ToggleTabs
+          options={[
+            { label: "Monthly", value: "monthly" },
+            { label: "Yearly", value: "yearly" },
+          ]}
+          active={plan}
+          onChange={setPlan}
+        />
       </div>
       <div className="relative bg-gradient-to-b from-[#1b1b2f] to-[#141424] rounded-3xl p-8 w-full max-w-sm shadow-lg border border-purple-800/30 mt-5">
         <div className="absolute top-10 left-[-20px] bg-gradient-to-r from-purple-600 to-pink-500 text-xs font-semibold px-4 py-1 rounded-r-full transform -rotate-45 origin-left">
@@ -55,7 +42,7 @@ const Pricing = () => {
         </div>
 
         <div className="text-center mb-4">
-          <span className="bg-purple-600/20 text-[#EE3379] text-sm px-4 py-1 rounded-full">
+          <span className="bg-purple-600/20 text-primary text-sm px-4 py-1 rounded-full">
             {plan === "monthly" ? "Monthly" : "Yearly"}
           </span>
         </div>
@@ -71,15 +58,15 @@ const Pricing = () => {
 
         <ul className="space-y-4 mb-6">
           <li className="flex items-center gap-3 text-gray-300">
-            <CheckCircle className="text-[#EE3379]" size={20} />
+            <CheckCircle className="text-primary" size={20} />
             Duration: {plan === "monthly" ? "1 MONTH" : "12 MONTHS"}
           </li>
           <li className="flex items-center gap-3 text-gray-300">
-            <CheckCircle className="text-[#EE3379]" size={20} />
+            <CheckCircle className="text-primary" size={20} />
             Exchanges: Binance
           </li>
           <li className="flex items-center gap-3 text-gray-300">
-            <CheckCircle className="text-[#EE3379]" size={20} />
+            <CheckCircle className="text-primary" size={20} />
             Profit Cap: $200
           </li>
         </ul>
@@ -90,7 +77,7 @@ const Pricing = () => {
         </div>
 
         <div className=" w-full flex justify-center items-center">
-          <button className=" justify-center items-center mt-2 px-6 py-3 bg-[#EE3379] text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
+          <button className=" justify-center items-center mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
             Login To Buy
           </button>
         </div>

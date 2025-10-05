@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         sans: ['"Alan Sans"', 'sans-serif'],
       },
+      colors: {
+        primary: '#EE3379', // 👈 main theme color
+      },
     },
     
   },

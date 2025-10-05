@@ -33,12 +33,7 @@ export default function DashboardHeader() {
           </div>
         </div>
       </div>
-      <button
-        variant="outline"
-        className="bg-violet-400 hover:bg-violet-500 text-violet-950 border-0 rounded-full px-6"
-      >
-        Need Help? Join Our Telegram Community!
-      </button>
+    
     </div>
   );
 }

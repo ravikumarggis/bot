@@ -125,7 +125,7 @@ const Section1 = () => {
             arbitrage system. Whether you're a beginner or an experienced
             trader.
           </p>
-          <button className=" mt-2 px-6 py-3 bg-[#EE3379] text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
+          <button className=" mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
             Get Started
           </button>
         </div>
@@ -164,7 +164,7 @@ const Section1 = () => {
           <p className="mt-4 sm:mt-0   sm:text-md">
           Turn your network into earnings! Invite your friends to Arbique and get rewarded when they subscribe to a plan.
           </p>
-          <button className=" mt-2 px-6 py-3 bg-[#EE3379] text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
+          <button className=" mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
             Get Started
           </button>
         </div>

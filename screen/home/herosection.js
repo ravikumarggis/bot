@@ -17,7 +17,7 @@ const Herosection = () => {
         />
       </div>
       <div className="w-full text-center justify-center">
-        <div className="text-center justify-center inline-block px-6 py-2 text-xs sm:text-sm font-medium bg-[#EE3379]/10 backdrop-blur-md rounded-full shadow-md">
+        <div className="text-center justify-center inline-block px-6 py-2 text-xs sm:text-sm font-medium bg-primary/10 backdrop-blur-md rounded-full shadow-md">
           YOUR GATEWAY TO SMARTER TRADING
         </div>
       </div>
@@ -26,9 +26,9 @@ const Herosection = () => {
           Crypto Bot Trade Smarter With AI–
           <br className="hidden sm:block" />
           Powered{" "}
-          <span className="text-[#EE3379] relative">
+          <span className="text-primary relative">
             Crypto
-            <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#EE3379]/60 rounded-full"></span>
+            <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary/60 rounded-full"></span>
           </span>
         </h1>
 
@@ -43,7 +43,7 @@ const Herosection = () => {
 
       {/* Buttons */}
       <div className="mt-8 flex flex-row sm:flex-row gap-4 justify-center">
-        <button className="px-6 py-3 bg-[#EE3379] text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
+        <button className="px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
           Start Free Trial
         </button>
         <button className="px-6 py-3 bg-white/10 border border-white text-white rounded-[10px] font-medium shadow hover:bg-white hover:text-[#1e0042] transition">

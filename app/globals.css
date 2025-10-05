@@ -15,11 +15,14 @@
     @apply text-[#fff];
   }
 }
+:root {
+  --color-primary: #EE3379;
+}
 
 @theme inline {
   /* Configure your theme variables here */
   --font-display: "Inter", "sans-serif";
-  --color-primary-500: oklch(0.84 0.18 117.33);
+  --color-primary-500: oklch(0.68 0.23 341.45);
   --spacing: 0.25rem;
   --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
  

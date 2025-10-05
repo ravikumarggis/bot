@@ -126,7 +126,7 @@ const Tutorials = () => {
             <div className="sticky bottom-0 z-10 flex items-center justify-center p-4 md:p-5 border-t border-gray-600 bg-gray-700 rounded-b">
               <button
                 onClick={closeModal}
-                className=" mt-2 px-6 py-3 bg-[#EE3379] text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition"
+                className=" mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition"
               >
                 Cancel
               </button>

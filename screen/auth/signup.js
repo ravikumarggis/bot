@@ -70,8 +70,8 @@ const Signup = () => {
       <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
         <div>
           <h1 className="text-3xl font-bold mb-4">
-            QUICK, <span className="text-[#EE3379]">SECURE</span> &{" "}
-            <span className="text-[#EE3379]">RELIABLE</span>
+            QUICK, <span className="text-primary">SECURE</span> &{" "}
+            <span className="text-primary">RELIABLE</span>
           </h1>
           <p className="text-gray-400 mb-10">
             Your all-in-one solution for crypto trading and exchange
@@ -93,7 +93,7 @@ const Signup = () => {
           <h2 className="text-4xl font-semibold mb-2">Sign Up</h2>
           <p className="text-sm text-gray-400 mb-6">
             Already have an account?{" "}
-            <a href="/login" className="text-[#EE3379] hover:underline">
+            <a href="/login" className="text-primary hover:underline">
               Log in
             </a>
           </p>
@@ -202,11 +202,11 @@ const Signup = () => {
                   className="mr-2 mt-1"
                 />
                 I accept the{" "}
-                <a href="#" className="text-[#EE3379] ml-1 hover:underline">
+                <a href="#" className="text-primary ml-1 hover:underline">
                   Terms & Conditions
                 </a>{" "}
                 &{" "}
-                <a href="#" className="text-[#EE3379] ml-1 hover:underline">
+                <a href="#" className="text-primary ml-1 hover:underline">
                   Privacy Policy
                 </a>
               </label>
@@ -218,7 +218,7 @@ const Signup = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#EE3379]  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
+              className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
 
             >
               SIGN UP
