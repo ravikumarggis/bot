@@ -45,9 +45,7 @@ export default function DashboardHeader() {
 
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-[#111118] border border-white/10 rounded-xl shadow-lg py-2">
-                  <button
-                    className="flex items-center w-full px-4 py-2 text-gray-300 hover:bg-white/10"
-                  >
+                  <button className="flex items-center w-full px-4 py-2 text-gray-300 hover:bg-white/10">
                     <User className="w-4 h-4 mr-2" /> Profile
                   </button>
                   <button
@@ -65,7 +63,11 @@ export default function DashboardHeader() {
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden text-white"
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
