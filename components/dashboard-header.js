@@ -16,7 +16,7 @@ export default function DashboardHeader() {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full  bg-[#0B0B12]/80 backdrop-blur-md border-b border-white/10">
+    <header className="fixed top-0 left-0 w-full z-10 bg-[#0B0B12]/80 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* --- Left: Logo / Project Name --- */}
@@ -24,39 +24,12 @@ export default function DashboardHeader() {
             <div className="text-xl font-bold text-white">🚀 CryptoBot</div>
           </div>
 
-          {/* --- Center: Status (Hidden on Mobile) --- */}
-          <div className="hidden md:flex gap-12 text-sm">
-            <div className="space-y-1">
-              <div className="text-gray-400">
-                Plan Status: <span className="text-red-500">Inactive</span>
-              </div>
-              <div className="text-gray-400">
-                Referral Earning: <span className="text-red-500">Off</span>
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="text-gray-400">
-                DCA: <span className="text-red-500">Off</span>
-              </div>
-              <div className="text-gray-400 flex items-center gap-2">
-                Referral Code: <span className="text-white">ldaxdoyq</span>
-                <button
-                  onClick={handleCopyReferralCode}
-                  className="hover:text-white transition-colors"
-                >
-                  <Copy className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* --- Right: Profile & Actions --- */}
           <div className="flex items-center gap-4">
             <a
               href="https://t.me/yourcommunity" // <- update link
               target="_blank"
-              className="hidden sm:inline-block bg-violet-400 hover:bg-violet-500 text-violet-950 font-medium rounded-full px-4 py-1.5 text-sm transition-colors"
+              className="hidden sm:inline-block bg-[#EE3379] text-[white] font-semibold rounded-[10px]  px-4 py-1.5 text-sm transition-colors"
             >
               Need Help? Join Telegram
             </a>
@@ -65,7 +38,7 @@ export default function DashboardHeader() {
             <div className="relative hidden md:block">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition"
+                className="w-10 h-10 bg-[#EE3379] text-[white] font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition"
               >
                 <User className="w-5 h-5 text-white" />
               </button>

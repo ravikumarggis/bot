@@ -5,7 +5,7 @@ import { ChartConfig, ChartContainer } from "../../../components/ui/chart";
 
 export default function ProfitChart() {
   const chartData = [
-    { month: "January", desktop: 186},
+    { month: "January", desktop: 1860},
     { month: "February", desktop: 305},
     { month: "March", desktop: 237},
     { month: "April", desktop: 73},

@@ -11,7 +11,7 @@ export default function Dashboard() {
 
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white p-8">
+    <div className="min-h-screen  text-white ">
     <div className="max-w-[1600px] mx-auto">
       <DashboardHeader />
 
