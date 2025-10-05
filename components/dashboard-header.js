@@ -26,7 +26,7 @@ export default function DashboardHeader() {
             <a
               href="https://t.me/yourcommunity" //
               target="_blank"
-              className="hidden sm:inline-block bg-primary text-[white] font-semibold rounded-[10px]  px-4 py-1.5 text-sm transition-colors"
+              className="hidden md:inline-block bg-primary text-[white] font-semibold rounded-[10px]  px-4 py-1.5 text-sm transition-colors"
             >
               Need Help? Join Telegram
             </a>
@@ -69,7 +69,7 @@ export default function DashboardHeader() {
 
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 mt-2 py-3 space-y-3 text-sm text-gray-300">
-            <div className="space-y-1">
+            {/* <div className="space-y-1">
               <div>
                 Plan Status: <span className="text-red-500">Inactive</span>
               </div>
@@ -85,16 +85,22 @@ export default function DashboardHeader() {
                   <Copy className="w-4 h-4" />
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <a
               href="https://t.me/yourcommunity"
               target="_blank"
-              className="block bg-violet-400 hover:bg-violet-500 text-violet-950 font-medium rounded-full px-4 py-2 text-center transition"
+              className="block bg-primary text-[white] font-semibold rounded-[10px] px-4 py-2 text-center transition"
             >
               Join Telegram
             </a>
 
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-white hover:text-red-300 px-4 py-2"
+            >
+              <User className="w-4 h-4"  /> Profile
+            </button>
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 text-red-400 hover:text-red-300 px-4 py-2"

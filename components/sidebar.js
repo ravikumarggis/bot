@@ -2,9 +2,15 @@
 import { useState } from "react";
 import { LayoutDashboard, Settings, LogOut, Home } from "lucide-react";
 import Link from "next/link";
+import { IconCurrency, IconExchange } from "@tabler/icons-react";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (path) =>
+    pathname === path ? "bg-primary text-white" : "text-gray-300";
 
   return (
     <>
@@ -13,15 +19,27 @@ export default function Sidebar() {
         <nav className="flex flex-col gap-4">
           <Link
             href="/dashboard/home"
-            className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
+              "/dashboard/home"
+            )}`}
           >
             <Home /> Dashboard
           </Link>
           <Link
-            href="/dashboard/settings"
-            className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+            href="/dashboard/exchange"
+            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
+              "/dashboard/exchange"
+            )}`}
           >
-            <Settings /> Settings
+            <IconExchange /> Exchange
+          </Link>
+          <Link
+            href="/dashboard/pricing"
+            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
+              "/dashboard/pricing"
+            )}`}
+          >
+            <IconCurrency /> Pricing
           </Link>
           <button className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto">
             <LogOut /> Logout
