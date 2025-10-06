@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { LayoutDashboard, Settings, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut, Home, Calendar } from "lucide-react";
 import Link from "next/link";
 import { IconCurrency, IconExchange } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
@@ -40,6 +40,14 @@ export default function Sidebar() {
             )}`}
           >
             <IconCurrency /> Pricing
+          </Link>
+          <Link
+            href="/dashboard/plan-management"
+            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
+              "/dashboard/plan-management"
+            )}`}
+          >
+            <Calendar /> Plan Management
           </Link>
           <button className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto">
             <LogOut /> Logout

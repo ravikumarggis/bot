@@ -23,7 +23,7 @@ export default function Exchange() {
           button below to add an account for trading.
         </p>
 
-        <button className="px-8 py-3 bg-primary  font-semibold  text-white  rounded-[10px]  hover:scale-105 transition-transform shadow-lg " onClick={()=>{
+        <button className="px-8 py-3 bg-primary  font-semibold  text-white  rounded-[10px]  shadow-lg " onClick={()=>{
            
             router.push("/dashboard/exchange/add-exchange")
         }}>
