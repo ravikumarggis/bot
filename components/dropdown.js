@@ -1,56 +1,71 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
 
 export default function Dropdown({
-  label,
-  placeholder = "Select option",
+  label = "Select Option",
   options = [],
-  value,
-  onChange,
+  value = null, // controlled value from parent
+  onSelect,
   className = "",
 }) {
-  const [selected, setSelected] = useState(value || "");
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  const handleSelect = (e) => {
-    const val = e.target.value;
-    setSelected(val);
-    onChange?.(val);
+  // ✅ Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (option) => {
+    setOpen(false);
+    onSelect?.(option.value); // pass value back to parent
   };
 
+  // Find the currently selected option from value
+  const selectedOption = options.find((opt) => opt.value === value);
+
   return (
-    <div className={`flex flex-col ${className}`}>
-      {label && (
-        <label className="text-sm text-gray-400 mb-1 font-medium">
-          {label}
-        </label>
-      )}
-
-      <select
-        value={selected}
-        onChange={handleSelect}
-        className={`bg-[#1a1a25] border border-gray-700 rounded-md px-3 py-2 text-white 
-          focus:outline-none focus:border-[#EE3379] cursor-pointer transition-colors 
-          ${
-            selected
-              ? "text-[#EE3379] font-semibold" // 👈 Primary color when selected
-              : "text-gray-400"
-          }`}
+    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
+      {/* Dropdown Button */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between bg-[#1a1a25] px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition"
       >
-        <option value="" disabled>
-          {placeholder}
-        </option>
+        {selectedOption?.label || label}
+        <ChevronDown
+          className={`w-4 h-4 ml-2 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
 
-        {options.map((opt) => (
-          <option
-            key={opt.value}
-            value={opt.value}
-            className="text-white bg-[#1a1a25] hover:bg-[#EE3379] hover:text-white"
-          >
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      {/* Dropdown Menu */}
+      {open && (
+        <div className="absolute z-20 mt-2 w-full bg-[#1a1a25] border border-gray-700 rounded-lg shadow-lg">
+          <ul className="py-2 text-md text-gray-300">
+            {options.map((option) => (
+              <li key={option.value}>
+                <button
+                  onClick={() => handleSelect(option)}
+                  className={`w-full text-left px-4 py-2 rounded-md transition ${
+                    value === option.value
+                      ? "text-white"
+                      : "hover:bg-primary/80 hover:text-white"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
