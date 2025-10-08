@@ -58,7 +58,6 @@ export default function PlanManagement() {
     },
   ];
 
-  // Function to filter data based on current filters
   const applyFilters = (currentFilters) => {
     let data = dummyData;
 
@@ -94,12 +93,10 @@ export default function PlanManagement() {
     setFilteredData(data);
   };
 
-  // Initially show all data
   useEffect(() => {
     setFilteredData(dummyData);
   }, []);
 
-  // Inline TableFilter
   const TableFilter = ({ filters, setFilters, onApply }) => {
     const statusOptions = [
       { label: "Active", value: "active" },
@@ -130,7 +127,6 @@ export default function PlanManagement() {
 
     return (
       <div className="bg-[#12121d] p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
-        {/* 🔍 Search */}
         <div className="flex flex-col w-full md:w-1/4">
           <label className="text-sm text-gray-400 mb-1">Search</label>
           <input
@@ -142,7 +138,6 @@ export default function PlanManagement() {
           />
         </div>
 
-        {/* 📅 From */}
         <div className="flex flex-col">
           <label className="text-sm text-gray-400 mb-1">From</label>
           <CustomDatePicker
@@ -151,7 +146,6 @@ export default function PlanManagement() {
           />
         </div>
 
-        {/* 📅 To */}
         <div className="flex flex-col">
           <label className="text-sm text-gray-400 mb-1">To</label>
           <CustomDatePicker
@@ -177,7 +171,6 @@ export default function PlanManagement() {
 />
 
 
-        {/* 📍 Actions */}
         <div className="flex gap-2">
           <button
             onClick={() => onApply(filters)}
