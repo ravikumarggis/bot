@@ -1,13 +1,31 @@
 "use client";
 import { useState } from "react";
-import { LayoutDashboard, Settings, LogOut, Home, Calendar } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut, Home, Calendar, Settings2 } from "lucide-react";
 import Link from "next/link";
-import { IconCurrency, IconExchange, IconHistory, IconTransactionRupee } from "@tabler/icons-react";
+import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  // Nav items for desktop view
+  const navItems = [
+    { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
+    { label: "Exchange", path: "/dashboard/exchange", Icon: IconExchange, type: "link" },
+    { label: "Pricing", path: "/dashboard/pricing", Icon: IconCurrency, type: "link" },
+    { label: "Plan Management", path: "/dashboard/plan-management", Icon: Calendar, type: "link" },
+    { label: "Transaction", path: "/dashboard/transaction", Icon: IconHistory, type: "link" },
+    { label: "Settings", path: "/dashboard/settings", Icon: Settings2, type: "link" },
+    { label: "Logout", Icon: LogOut, type: "button" }, // no path since it's a button
+  ];
+
+  // Nav items for mobile view (subset, based on your original code)
+  const mobileNavItems = [
+    { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
+    { label: "Settings", path: "/dashboard/settings", Icon: Settings, type: "link" },
+    { label: "Logout", Icon: LogOut, type: "button" },
+  ];
 
   const isActive = (path) =>
     pathname === path ? "bg-primary text-white" : "text-gray-300";
@@ -17,49 +35,28 @@ export default function Sidebar() {
       <div className="hidden md:flex flex-col bg-gray-800 border-r border-gray-700 w-64 min-h-screen p-5">
         <h2 className="text-2xl font-semibold mb-10 text-primary">My App</h2>
         <nav className="flex flex-col gap-4">
-          <Link
-            href="/dashboard/home"
-            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
-              "/dashboard/home"
-            )}`}
-          >
-            <Home /> Dashboard
-          </Link>
-          <Link
-            href="/dashboard/exchange"
-            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
-              "/dashboard/exchange"
-            )}`}
-          >
-            <IconExchange /> Exchange
-          </Link>
-          <Link
-            href="/dashboard/pricing"
-            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
-              "/dashboard/pricing"
-            )}`}
-          >
-            <IconCurrency /> Pricing
-          </Link>
-          <Link
-            href="/dashboard/plan-management"
-            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
-              "/dashboard/plan-management"
-            )}`}
-          >
-            <Calendar /> Plan Management
-          </Link>
-          <Link
-            href="/dashboard/transaction"
-            className={`flex items-center gap-3 p-2 rounded-md  transition ${isActive(
-              "/dashboard/transaction"
-            )}`}
-          >
-            <IconHistory /> Transaction
-          </Link>
-          <button className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto">
-            <LogOut /> Logout
-          </button>
+          {navItems.map(({ label, path, Icon, type }) => {
+            if (type === "link") {
+              return (
+                <Link
+                  key={label}
+                  href={path}
+                  className={`flex items-center gap-3 p-2 rounded-md transition ${isActive(path)}`}
+                >
+                  <Icon /> {label}
+                </Link>
+              );
+            } else if (type === "button") {
+              return (
+                <button
+                  key={label}
+                  className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto"
+                >
+                  <Icon /> {label}
+                </button>
+              );
+            }
+          })}
         </nav>
       </div>
 
@@ -83,23 +80,29 @@ export default function Sidebar() {
               </button>
             </div>
             <nav className="flex flex-col gap-4">
-              <Link
-                href="/dashboard/home"
-                className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
-                onClick={() => setIsOpen(false)}
-              >
-                <Home /> Dashboard
-              </Link>
-              <Link
-                href="/dashboard/settings"
-                className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
-                onClick={() => setIsOpen(false)}
-              >
-                <Settings /> Settings
-              </Link>
-              <button className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto">
-                <LogOut /> Logout
-              </button>
+              {mobileNavItems.map(({ label, path, Icon, type }) => {
+                if (type === "link") {
+                  return (
+                    <Link
+                      key={label}
+                      href={path}
+                      className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <Icon /> {label}
+                    </Link>
+                  );
+                } else if (type === "button") {
+                  return (
+                    <button
+                      key={label}
+                      className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto"
+                    >
+                      <Icon /> {label}
+                    </button>
+                  );
+                }
+              })}
             </nav>
           </div>
           <div className="flex-1" onClick={() => setIsOpen(false)}></div>

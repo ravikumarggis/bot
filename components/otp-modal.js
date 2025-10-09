@@ -90,7 +90,6 @@ const OTPModal = ({
           </button>
         </div>
 
-        {/* Body */}
         <div className="p-6 text-center">
           <p className="text-gray-400 mb-1">{subtitle}</p>
           <p className="text-gray-500 text-sm mb-6">{instructions}</p>

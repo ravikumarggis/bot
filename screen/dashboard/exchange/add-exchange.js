@@ -5,7 +5,14 @@ import { Eye, EyeOff, Info, Copy } from "lucide-react";
 import { IconExchange } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import OTPModal from "../../../components/otp-modal";
+import Dropdown from "../../../components/dropdown";
 
+
+const exchangeOptions = [
+  { label: "Binance", value: "binance" },
+  { label: "KuCoin", value: "kuCoin" },
+ 
+];
 
 export default function AddExchange() {
   const router = useRouter();
@@ -58,7 +65,6 @@ export default function AddExchange() {
   return (
     <div className="min-h-screen  ">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* ===== Left: Connect Exchange Form ===== */}
         <div className="w-full  flex justify-center items-center p-8">
         <div className="w-full max-w-lg">
           <h2 className="text-3xl font-semibold mb-2">Add Exchange</h2>
@@ -67,27 +73,21 @@ export default function AddExchange() {
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
-            {/* Select Exchange */}
             <div className="mb-5">
-              <select
-                name="exchange"
-                value={formData.exchange}
-                onChange={handleChange}
-                className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none ${
-                  errors.exchange ? "border border-red-500" : ""
-                }`}
-              >
-                <option value="">Select Exchange</option>
-                <option value="binance">Binance</option>
-                <option value="kucoin">KuCoin</option>
-                <option value="bybit">Bybit</option>
-              </select>
+            
+              <Dropdown
+          label="Select Exchange"
+          options={exchangeOptions}
+          value={formData.exchange || ""}
+          onSelect={(val) => setFormData({ ...formData, exchange: val })}
+
+          className="w-56"
+        />
               {errors.exchange && (
                 <p className="text-red-500 text-sm mt-1">{errors.exchange}</p>
               )}
             </div>
 
-            {/* API Key */}
             <div className="mb-5">
               <input
                 type="text"
@@ -104,7 +104,6 @@ export default function AddExchange() {
               )}
             </div>
 
-            {/* Secret Key */}
             <div className="mb-6 relative">
               <input
                 type={showSecret ? "text" : "password"}
@@ -131,7 +130,6 @@ export default function AddExchange() {
               )}
             </div>
 
-            {/* OTP Info */}
             <div className="flex items-start gap-4 p-4 bg-[#1A1A24] rounded-xl mb-8">
               <div className="w-12 h-12 flex items-center justify-center bg-[#2a2a38] rounded-full text-[#a68bff] text-2xl">
                 ••••
@@ -147,7 +145,6 @@ export default function AddExchange() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-primary font-semibold text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
@@ -156,7 +153,6 @@ export default function AddExchange() {
             </button>
           </form>
 
-          {/* Server IP Section */}
           <div className="mt-10 bg-[#13131E] p-5 rounded-xl">
             <h3 className="text-lg font-semibold mb-3">
               Whitelist These Server IPs
@@ -178,19 +174,16 @@ export default function AddExchange() {
         </div>
       </div>
 
-        {/* ===== Right: Recently Connected Exchanges ===== */}
         <div className="bg-[#13131e] p-6 rounded-2xl border border-gray-800 shadow-lg">
           <h2 className="text-xl font-semibold mb-6">
             Recently Connected Exchanges
           </h2>
 
-          {/* Empty State */}
           <div className="flex flex-col items-center text-center py-16 border border-dashed border-gray-700 rounded-xl mb-6">
             <IconExchange size={60} className="text-[#a68bff] mb-4" />
             <p className="text-gray-400">No exchanges have been added yet!</p>
           </div>
 
-          {/* Information Section */}
           <div className="bg-[#1a1a25] p-5 rounded-xl">
             <div className="flex items-center gap-2 mb-3">
               <Info className="w-5 h-5 text-[#a68bff]" />

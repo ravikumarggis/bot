@@ -127,7 +127,6 @@ export default function PlanManagement() {
 
     return (
       <div className="bg-[#12121d] p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
-        {/* 🔍 Search */}
         <div className="flex flex-col w-full md:w-1/4">
           <label className="text-sm text-gray-400 mb-1">Search</label>
           <input
@@ -139,7 +138,6 @@ export default function PlanManagement() {
           />
         </div>
 
-        {/* 📅 From */}
         <div className="flex flex-col">
           <label className="text-sm text-gray-400 mb-1">From</label>
           <CustomDatePicker
@@ -148,7 +146,6 @@ export default function PlanManagement() {
           />
         </div>
 
-        {/* 📅 To */}
         <div className="flex flex-col">
           <label className="text-sm text-gray-400 mb-1">To</label>
           <CustomDatePicker
@@ -157,7 +154,6 @@ export default function PlanManagement() {
           />
         </div>
 
-        {/* 📊 Plan Status */}
         <Dropdown
           label="Plan Status"
           options={statusOptions}
@@ -166,7 +162,6 @@ export default function PlanManagement() {
           className="w-56"
         />
 
-        {/* 💳 Payment Status */}
         <Dropdown
           label="Payment Status"
           options={paymentOptions}
@@ -175,7 +170,6 @@ export default function PlanManagement() {
           className="w-56"
         />
 
-        {/* 📍 Actions */}
         <div className="flex gap-2">
           <button
             onClick={() => onApply(filters)}

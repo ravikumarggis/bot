@@ -25,15 +25,13 @@ export default function Dropdown({
 
   const handleSelect = (option) => {
     setOpen(false);
-    onSelect?.(option.value); // pass value back to parent
+    onSelect?.(option.value); 
   };
 
-  // Find the currently selected option from value
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
     <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
-      {/* Dropdown Button */}
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -45,7 +43,6 @@ export default function Dropdown({
         />
       </button>
 
-      {/* Dropdown Menu */}
       {open && (
         <div className="absolute z-20 mt-2 w-full bg-[#1a1a25] border border-gray-700 rounded-lg shadow-lg">
           <ul className="py-2 text-md text-gray-300">

@@ -20,7 +20,10 @@ export default function CustomDatePicker({ value, onChange, placeholder = "Selec
         dateFormat="dd-MM-yyyy"
         className="w-full bg-[#1a1a25]  rounded-md px-3 py-2 text-white focus:outline-none focus:border-[#EE3379]"
         calendarClassName="!bg-[#1a1a25] !text-white !border !border-gray-700 !rounded-md"
-        popperClassName="z-50"
+        dayClassName={() =>
+          "!text-white hover:!bg-[#EE3379]/30 hover:!text-white !rounded-md"
+        }
+        // popperClassName="z-50"
       />
     </div>
   );
