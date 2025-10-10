@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Key, UserPlus } from "lucide-react";
+import Link from "next/link";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -88,9 +89,9 @@ const Signup = () => {
           <h2 className="text-4xl font-semibold mb-2">Sign Up</h2>
           <p className="text-sm text-gray-400 mb-6">
             Already have an account?{" "}
-            <a href="/login" className="text-primary hover:underline">
+            <Link href="/login" className="text-primary hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -192,13 +193,13 @@ const Signup = () => {
                   className="mr-2 mt-1"
                 />
                 I accept the{" "}
-                <a href="#" className="text-primary ml-1 hover:underline">
+                <Link href="/terms-conditions" className="text-primary ml-1 hover:underline">
                   Terms & Conditions
-                </a>{" "}
+                </Link>
                 &{" "}
-                <a href="#" className="text-primary ml-1 hover:underline">
+                <Link href="/privacy-policy" className="text-primary ml-1 hover:underline">
                   Privacy Policy
-                </a>
+                </Link>
               </label>
               {errors.terms && (
                 <p className="text-red-500 text-sm mt-1">{errors.terms}</p>

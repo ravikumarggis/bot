@@ -5,13 +5,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const Login = () => {
+const ForgotPassword = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
-    remember: false,
+   
   });
   const [errors, setErrors] = useState({});
 
@@ -37,11 +36,7 @@ const Login = () => {
       newErrors.email = "Please enter a valid email";
     }
 
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
+ 
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -51,7 +46,7 @@ const Login = () => {
     e.preventDefault();
     if (validate()) {
       console.log("Form Submitted:", formData);
-      router.push("/dashboard/home")
+      router.push("/otp-screen")
     }
   };
 
@@ -79,12 +74,9 @@ const Login = () => {
 
       <div className="w-full md:w-1/2 flex justify-center items-center p-8">
         <div className="w-full max-w-md">
-          <h2 className="text-4xl font-semibold mb-2">Login</h2>
+          <h2 className="text-4xl font-semibold mb-2">Forgot Password ?</h2>
           <p className="text-sm text-gray-400 mb-6">
-            Don’t have an account?{" "}
-            <Link href="/signup" className="text-primary hover:underline">
-              Sign Up
-            </Link>
+          Enter your registered email below, and we'll send a verification code on your email.
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -104,53 +96,13 @@ const Login = () => {
               )}
             </div>
 
-            <div className="mb-4 relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none pr-10 ${
-                  errors.password ? "border border-red-500" : ""
-                }`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className={`absolute right-3 flex items-center  text-gray-400 hover:text-white ${
-                  errors.password ? "bottom-10" : "bottom-3"
-                }`}
-                tabIndex={-1}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between text-sm mb-6">
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="remember"
-                  checked={formData.remember}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                Remember me
-              </label>
-              <Link href="/forgot-screen" className="text-primary hover:underline">
-                Forgot Password?
-              </Link>
-            </div>
+            
 
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
             >
-              LOGIN
+              Next
             </button>
 
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">
@@ -159,17 +111,13 @@ const Login = () => {
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
 
-            <button
-              type="button"
-              className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"
+            <Link
+             href="/login"
+              className="w-full flex items-center justify-center  hover:text-primary transition-colors"
             >
-              <img
-                src="https://developers.google.com/identity/images/g-logo.png"
-                alt="Google logo"
-                className="w-5 h-5 mr-2"
-              />
-              Sign in with Google
-            </button>
+              
+             Go Back to Login
+            </Link>
           </form>
         </div>
       </div>
@@ -177,4 +125,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
