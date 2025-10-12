@@ -33,7 +33,7 @@ const Herosection = () => {
         </h1>
 
         <p className="mt-6 w-full md:w-[70%]  text-sm sm:text-base md:text-lg  text-center">
-          Grow your portfolio effortlessly with Arbique’s intelligent arbitrage
+          Grow your portfolio effortlessly with Qbot’s intelligent arbitrage
           assistant. Designed for traders of all levels, our AI-powered system
           identifies and executes profitable trades across multiple exchanges in
           real-time.

@@ -20,7 +20,7 @@ const Pricing = () => {
         <div className="w-full md:w-[70%]">
           <h1 className="text-2xl sm:text-3xl md:text-4xl ">Plans & Pricing</h1>
           <p className="w-full text-sm sm:text-base md:text-lg text-gray-200">
-            ARBIQUE offers affordable subscription plans with minimal upfront
+            Qbot offers affordable subscription plans with minimal upfront
             costs, providing access to multiple exchanges while ensuring maximum
             trading efficiency. Choose between monthly or yearly plans and take
             control of your trading journey.

@@ -61,7 +61,7 @@ export default function Navbar() {
 
         <motion.div whileHover={{ scale: 1.1 }}>
           <Link
-            href="https://arbique.gitbook.io/helper/"
+            href="https://Qbot.gitbook.io/helper/"
             className={linkClass("/docs")}
           >
             Docs
@@ -112,7 +112,7 @@ export default function Navbar() {
             <Link href="/tutorials" onClick={() => setIsOpen(false)} className={linkClass("/tutorials")}>
               Tutorials
             </Link>
-            <Link href="https://arbique.gitbook.io/helper/" onClick={() => setIsOpen(false)} className={linkClass("/docs")}>
+            <Link href="https://Qbot.gitbook.io/helper/" onClick={() => setIsOpen(false)} className={linkClass("/docs")}>
               Docs
             </Link>
 
