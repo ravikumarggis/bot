@@ -27,7 +27,7 @@ const Section1 = () => {
     },
   ];
   return (
-    <div className=" mx-[-1%] bg-[#05060f] gap-5 p-[2%]">
+    <div className="  bg-[#05060f] gap-5 p-[2%]">
       <div className=" items-center w-full justify-center  ">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
           Strategies Offered by Qbot: Simple and Secure

@@ -6,7 +6,7 @@ export default function HomeTab() {
   const [plan, setPlan] = useState("monthly");
 
   return (
-    <div className=" mx-[-1%] bg-[#05060f] gap-5 p-[2%] flex flex-col items-center justify-center px-4 py-16 text-white">
+    <div className="  bg-[#05060f] gap-5 p-[2%] flex flex-col items-center justify-center px-4 py-16 text-white">
       
         <ToggleTabs
                options={[

@@ -26,7 +26,7 @@ export default function ReferralSection() {
     ];
   
     return (
-      <div className="mx-[-1%] bg-[#05060f] gap-5 p-[2%]">
+      <div className=" bg-[#05060f] gap-5 p-[2%]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {cards?.map((card, index) => (
 
