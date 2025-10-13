@@ -41,10 +41,10 @@ const Herosection = () => {
       </div>
 
       <div className="mt-8 flex flex-row sm:flex-row gap-4 justify-center">
-        <button className="px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
+        <button className="px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition z-10">
           Start Free Trial
         </button>
-        <button className="px-6 py-3 bg-white/10 border border-white text-white rounded-[10px] font-medium shadow hover:bg-white hover:text-[#1e0042] transition">
+        <button className="px-6 py-3 bg-white/10 border border-white text-white rounded-[10px] font-medium shadow hover:bg-white hover:text-[#1e0042] transition z-10">
           Learn More
         </button>
       </div>
