@@ -29,8 +29,8 @@ export default function HomeTab() {
         </div>
 
         <div className="text-center mb-6">
-          <p className="text-gray-500 line-through text-lg">₹{plan === "monthly" ? "2000" : "24000"}</p>
-          <p className="text-5xl font-bold">₹{plan === "monthly" ? "1200" : "12000"}</p>
+          <p className="text-gray-500 line-through text-lg">${plan === "monthly" ? "2000" : "24000"}</p>
+          <p className="text-5xl font-bold">${plan === "monthly" ? "1200" : "12000"}</p>
         </div>
 
         <ul className="space-y-4 mb-6">

@@ -10,8 +10,8 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "Crypto Bot",
-  description: "AI-powered crypto bo assistant",
+  title: "Qbot",
+  description: "AI-powered crypto bot assistant",
 };
 
 export default function RootLayout({ children }) {

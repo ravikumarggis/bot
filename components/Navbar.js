@@ -39,9 +39,9 @@ export default function Navbar() {
           whileHover={{ scale: 1.05 }}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <img src="/assets/logo.png" alt="Crypto Bot Logo" className="w-10 h-10" />
+          <img src="/assets/logo1.png" alt="Qbot Logo" className="w-5 h-6" />
           <p className="text-md sm:text-lg lg:text-2xl font-semibold text-white">
-            Crypto Bot
+            Qbot
           </p>
         </motion.div>
       </Link>

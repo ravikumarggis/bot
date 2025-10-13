@@ -14,7 +14,7 @@ export default function Home() {
     <div className=" px-[-1%] ">
       <Herosection />
      <Section1/>
-     <ReferralSection/>
+     {/* <ReferralSection/> */}
      <div className="bg-[#05060f] w-full">
      <HomeTab/></div>
     </div>

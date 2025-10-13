@@ -77,7 +77,7 @@ const Signup = () => {
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
               src="/assets/auth/wallet.jpeg" 
-              alt="Crypto Dashboard"
+              alt="Q Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
@@ -112,7 +112,7 @@ const Signup = () => {
               )}
             </div>
 
-            <div className="mb-4 relative">
+            {/* <div className="mb-4 relative">
               <UserPlus
                 className="absolute left-3 top-3 text-gray-500"
                 size={20}
@@ -125,7 +125,7 @@ const Signup = () => {
                 onChange={handleChange}
                 className="w-full p-3 pl-10 bg-[#1A1A24] rounded focus:outline-none"
               />
-            </div>
+            </div> */}
 
             <div className="mb-4 relative">
               <Key className="absolute left-3 top-3 text-gray-500" size={20} />

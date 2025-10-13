@@ -65,7 +65,7 @@ const ForgotPassword = () => {
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
               src="/assets/auth/wallet.jpeg" 
-              alt="Crypto Dashboard"
+              alt="Q Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
