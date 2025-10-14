@@ -3,16 +3,40 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Key, UserPlus } from "lucide-react";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import { signupMutation } from "../../queries/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: "",
-    referral: "",
     password: "",
     confirmPassword: "",
     terms: false,
+  });
+  const { mutateAsync: signupMutate, isPending: mutatePending } = useMutation({
+    mutationFn: async () => {
+      return signupMutation({
+        email: formData?.email,
+        password: formData?.password,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+        router.push(`/otp-screen?email=${encodeURIComponent(formData.email)}`);
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
   });
   const [errors, setErrors] = useState({});
 
@@ -58,7 +82,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log("✅ Form Submitted:", formData);
+      signupMutate();
     }
   };
 
@@ -76,8 +100,8 @@ const Signup = () => {
 
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg" 
-              alt="Q Dashboard"
+              src="/assets/auth/wallet.jpeg"
+              alt="Crypto Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
@@ -111,21 +135,6 @@ const Signup = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
               )}
             </div>
-
-            {/* <div className="mb-4 relative">
-              <UserPlus
-                className="absolute left-3 top-3 text-gray-500"
-                size={20}
-              />
-              <input
-                type="text"
-                name="referral"
-                placeholder="Enter referral code (optional)"
-                value={formData.referral}
-                onChange={handleChange}
-                className="w-full p-3 pl-10 bg-[#1A1A24] rounded focus:outline-none"
-              />
-            </div> */}
 
             <div className="mb-4 relative">
               <Key className="absolute left-3 top-3 text-gray-500" size={20} />
@@ -193,11 +202,17 @@ const Signup = () => {
                   className="mr-2 mt-1"
                 />
                 I accept the{" "}
-                <Link href="/terms-conditions" className="text-primary ml-1 hover:underline">
+                <Link
+                  href="/terms-conditions"
+                  className="text-primary ml-1 hover:underline"
+                >
                   Terms & Conditions
                 </Link>
                 &{" "}
-                <Link href="/privacy-policy" className="text-primary ml-1 hover:underline">
+                <Link
+                  href="/privacy-policy"
+                  className="text-primary ml-1 hover:underline"
+                >
                   Privacy Policy
                 </Link>
               </label>
@@ -209,9 +224,9 @@ const Signup = () => {
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
-
+              disabled={mutatePending}
             >
-              SIGN UP
+              {mutatePending ? `Signing Up...` : `SIGN UP`}
             </button>
 
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">

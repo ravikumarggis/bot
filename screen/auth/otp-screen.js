@@ -2,14 +2,60 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { resendOTPSignup, VerifySignupOtp } from "../../queries/auth";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const OtpScreen = () => {
-  const [otp, setOtp] = useState(""); // store as a single string
+  const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(0);
   const [resendDisabled, setResendDisabled] = useState(false);
   const inputsRef = useRef([]);
-  console.log(otp,"otpotp");
-  
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const {
+    mutateAsync: VerifySignupOtpMutate,
+    isPending: VerifySignupOtpMutatePending,
+  } = useMutation({
+    mutationFn: async () => {
+      return VerifySignupOtp({
+        email: email,
+        otp: otp,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
+  });
+  const {
+    mutateAsync: resendOTPSignupMutate,
+    isPending: resendOTPSignupMutatePending,
+  } = useMutation({
+    mutationFn: async () => {
+      return resendOTPSignup({
+        emailMobile: email,
+        socialType: "mobile",
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
+  });
 
   useEffect(() => {
     const storedTime = sessionStorage.getItem("otpTimer");
@@ -48,10 +94,11 @@ const OtpScreen = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (otp.length !== 6) {
-      alert("Please enter the complete 6-digit OTP.");
+    if (otp.length !== 4) {
+      alert("Please enter the complete 4-digit OTP.");
       return;
     }
+    VerifySignupOtpMutate();
     console.log("OTP Submitted (string):", otp);
     console.log("OTP Submitted (number):", Number(otp));
   };
@@ -59,6 +106,7 @@ const OtpScreen = () => {
   const resendOtp = () => {
     console.log("OTP resent!");
     startTimer(30);
+    resendOTPSignupMutate();
   };
 
   const startTimer = (seconds) => {
@@ -105,15 +153,16 @@ const OtpScreen = () => {
         <div className="w-full max-w-md">
           <h2 className="text-4xl font-semibold mb-2">OTP Verification</h2>
           <p className="text-sm text-gray-400 mb-3">
-            Enter the 6-digit code to continue.
+            Enter the 4-digit code to continue.
           </p>
           <p className="text-sm mb-6">
-            Check your email for the One-Time Password (OTP). Also look in your spam folder if you don’t see it.
+            Check your email for the One-Time Password (OTP). Also look in your
+            spam folder if you don’t see it.
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="flex justify-between mb-6">
-              {[0, 1, 2, 3, 4, 5].map((i) => (
+              {[0, 1, 2, 3].map((i) => (
                 <input
                   key={i}
                   ref={(el) => (inputsRef.current[i] = el)}
@@ -130,8 +179,9 @@ const OtpScreen = () => {
             <button
               type="submit"
               className="w-full bg-primary font-semibold text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
+              disabled={VerifySignupOtpMutatePending}
             >
-              Verify OTP
+              {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
             </button>
 
             <div className="mt-6 flex flex-col items-center">
@@ -140,7 +190,9 @@ const OtpScreen = () => {
                 onClick={resendOtp}
                 disabled={resendDisabled}
                 className={`text-primary font-medium ${
-                  resendDisabled ? "opacity-50 cursor-not-allowed" : "hover:underline"
+                  resendDisabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:underline"
                 }`}
               >
                 {resendDisabled ? `Resend OTP in ${timer}s` : "Resend OTP"}
