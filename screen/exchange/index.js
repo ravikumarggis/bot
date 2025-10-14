@@ -1,119 +1,416 @@
-"use client";
+// "use client";
+
+// import React from "react";
+// import { motion } from "framer-motion";
+// import { LineChart, Target, PlayCircle, Cloud } from "lucide-react";
+// import { InfiniteMovingCards } from "../../components/ui/moving-card";
+
+// const steps = [
+//   {
+//     id: 1,
+//     title: "Initialization",
+//     description:
+//       "Begin by integrating your exchange accounts securely via API. Our platform ensures secure and encrypted connections, allowing seamless data flow between Qbot and your exchanges.",
+//     icon: <Cloud size={48} />,
+//   },
+//   {
+//     id: 2,
+//     title: "Market Monitoring",
+//     description:
+//       "Once connected, Qbot continuously tracks market movements in real time, analyzing price fluctuations, liquidity, and emerging trends across multiple exchanges.",
+//     icon: <LineChart size={48} />,
+//   },
+//   {
+//     id: 3,
+//     title: "Opportunity Detection",
+//     description:
+//       "Our intelligent system identifies potential trading opportunities, including arbitrage gaps, price variations, and strategic trade signals that can enhance profitability.",
+//     icon: <Target size={48} />,
+//   },
+//   {
+//     id: 4,
+//     title: "Trade Execution",
+//     description:
+//       "When the system detects a profitable opportunity, it executes trades instantly based on your defined strategy, ensuring efficient and precise order placements while reducing risks and delays.",
+//     icon: <PlayCircle size={48} />,
+//   },
+// ];
+
+// const testimonials = [
+//   {
+//     name: "Binance",
+//     icon: "/assets/exchange/bitmart.png",
+//   },
+//   {
+//     name: "CoinSwitch",
+//     icon: "/assets/exchange/binance_1.png",
+//   },
+//   {
+//     name: "Mudrex",
+//     icon: "/assets/exchange/kraken.png",
+//   },
+// ];
+
+// const Exchange = () => {
+//   return (
+//     <div className="relative w-full flex flex-col  bg-[#05060f] py-30 px-5 md:px-20 gap-10">
+//       <div className="w-full md:w-[90%] flex flex-col  gap-2">
+//         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold ">
+//           Securely Integrate Your
+//         </h1>
+//         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+//           Exchange APIs on Qbot
+//         </h1>
+//       </div>
+//       <div className="w-full  items-center justify-center flex flex-col gap-2">
+//         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
+//           Qbot Supports Multiple Exchanges
+//         </h1>
+//         <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
+//           Our platform allows users to connect and trade across leading
+//           cryptocurrency exchanges, ensuring a unified, efficient, and secure
+//           trading experience.
+//         </p>
+
+//         <InfiniteMovingCards items={testimonials} direction="right" speed="" />
+//       </div>
+//       <div className="max-w-7xl mx-auto flex flex-col gap-2">
+//         <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold text-center ">
+//           How Does It Work?
+//         </h2>
+
+//         <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
+//           Qbot is a powerful automated trading platform that helps you
+//           monitor, identify, and execute trading opportunities across multiple
+//           cryptocurrency exchanges. Our system ensures fast execution and
+//           efficiency, making trading seamless and optimized for profitability.
+//         </p>
+
+//         <div className="relative flex flex-col md:flex-row justify-between items-center gap-16 mt-2">
+//           {steps?.map((step, index) => (
+//             <motion.div
+//               key={step.id}
+//               initial={{ opacity: 0, y: 40 }}
+//               whileInView={{ opacity: 1, y: 0 }}
+//               transition={{ duration: 0.6, delay: index * 0.2 }}
+//               className="relative z-10 flex flex-col items-center text-center max-w-xs"
+//             >
+//               <div className="bg-purple-600/20 border border-purple-500 rounded-2xl p-6 mb-6 flex items-center justify-center">
+//                 {step.icon}
+//               </div>
+
+//               <span className="text-primary text-lg font-semibold mb-2">
+//                 Step {step.id}
+//               </span>
+
+//               <h3 className="text-xl font-bold mb-3">{step.title}</h3>
+
+//               <p className="text-gray-300 text-sm leading-relaxed">
+//                 {step.description}
+//               </p>
+//             </motion.div>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Exchange;
+
 
 import React from "react";
-import { motion } from "framer-motion";
-import { LineChart, Target, PlayCircle, Cloud } from "lucide-react";
-import { InfiniteMovingCards } from "../../components/ui/moving-card";
 
-const steps = [
-  {
-    id: 1,
-    title: "Initialization",
-    description:
-      "Begin by integrating your exchange accounts securely via API. Our platform ensures secure and encrypted connections, allowing seamless data flow between Qbot and your exchanges.",
-    icon: <Cloud size={48} />,
-  },
-  {
-    id: 2,
-    title: "Market Monitoring",
-    description:
-      "Once connected, Qbot continuously tracks market movements in real time, analyzing price fluctuations, liquidity, and emerging trends across multiple exchanges.",
-    icon: <LineChart size={48} />,
-  },
-  {
-    id: 3,
-    title: "Opportunity Detection",
-    description:
-      "Our intelligent system identifies potential trading opportunities, including arbitrage gaps, price variations, and strategic trade signals that can enhance profitability.",
-    icon: <Target size={48} />,
-  },
-  {
-    id: 4,
-    title: "Trade Execution",
-    description:
-      "When the system detects a profitable opportunity, it executes trades instantly based on your defined strategy, ensuring efficient and precise order placements while reducing risks and delays.",
-    icon: <PlayCircle size={48} />,
-  },
-];
+/**
+ * ExchangeHero.jsx
+ *
+ * Single-file React component (Next.js compatible) using Tailwind CSS + a small block of scoped CSS.
+ * Paste this as a component (e.g. components/ExchangeHero.jsx) into your Next.js project.
+ *
+ * Requirements:
+ * - Tailwind CSS configured (this component uses Tailwind utility classes).
+ * - Add the small `<style jsx global>` portion below into your global CSS if you prefer global keyframes.
+ *
+ * This file aims to closely match the exact composition of the screenshot you provided:
+ *  - massive left-aligned headline
+ *  - subtitle, CTAs, badges row
+ *  - "How Does It Work?" section
+ *  - 4 translucent feature cards
+ *  - right-side neon circular ring with two circular exchange badges (Binance & Bybit)
+ *
+ * Note: tiny visual differences may remain because exact fonts, exact shadows and pixel-perfect spacing
+ * depend on assets and your Tailwind config. This is a close, production-ready approximation.
+ */
 
-const testimonials = [
-  {
-    name: "Binance",
-    icon: "/assets/exchange/bitmart.png",
-  },
-  {
-    name: "CoinSwitch",
-    icon: "/assets/exchange/binance_1.png",
-  },
-  {
-    name: "Mudrex",
-    icon: "/assets/exchange/kraken.png",
-  },
-];
-
-const Exchange = () => {
+export default function Exchange() {
   return (
-    <div className="relative w-full flex flex-col  bg-[#05060f] py-30 px-5 md:px-20 gap-10">
-      <div className="w-full md:w-[90%] flex flex-col  gap-2">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold ">
-          Securely Integrate Your
-        </h1>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-          Exchange APIs on Qbot
-        </h1>
-      </div>
-      <div className="w-full  items-center justify-center flex flex-col gap-2">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-          Qbot Supports Multiple Exchanges
-        </h1>
-        <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
-          Our platform allows users to connect and trade across leading
-          cryptocurrency exchanges, ensuring a unified, efficient, and secure
-          trading experience.
-        </p>
+    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-10 py-14">
+      <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8 items-start">
+        {/* LEFT: Content */}
+        <div className="col-span-8 lg:col-span-7">
+          <h1 className="font-extrabold text-[74px] leading-[0.96] tracking-[-0.02em]">
+            Securely Integrate Your
+            <br />
+            Exchange APIs on Qbot
+          </h1>
 
-        <InfiniteMovingCards items={testimonials} direction="right" speed="" />
-      </div>
-      <div className="max-w-7xl mx-auto flex flex-col gap-2">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl  font-bold text-center ">
-          How Does It Work?
-        </h2>
+          <p className="mt-6 text-lg text-gray-300 max-w-3xl">
+            Automate trades an Binance & Bybit — simple API-only connections. Your funds remain on the exchange.
+          </p>
 
-        <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
-          Qbot is a powerful automated trading platform that helps you
-          monitor, identify, and execute trading opportunities across multiple
-          cryptocurrency exchanges. Our system ensures fast execution and
-          efficiency, making trading seamless and optimized for profitability.
-        </p>
-
-        <div className="relative flex flex-col md:flex-row justify-between items-center gap-16 mt-2">
-          {steps?.map((step, index) => (
-            <motion.div
-              key={step.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="relative z-10 flex flex-col items-center text-center max-w-xs"
+          <div className="mt-8 flex items-center gap-4">
+            <button
+              className="px-6 py-3 rounded-lg text-lg font-medium shadow-[0_20px_40px_rgba(255,70,120,0.12)] 
+                         bg-gradient-to-r from-[#ff2a8f] to-[#ff5a8f] hover:brightness-105 transition"
             >
-              <div className="bg-purple-600/20 border border-purple-500 rounded-2xl p-6 mb-6 flex items-center justify-center">
-                {step.icon}
+              Make Money
+            </button>
+
+            <button className="px-5 py-3 rounded-lg border border-white/10 bg-white/3 text-gray-200 backdrop-blur-sm">
+              Learn More
+            </button>
+          </div>
+
+          <div className="mt-6 flex items-center gap-8 text-sm text-gray-300">
+            <div className="flex items-center gap-3">
+              <span className="w-4 h-4 rounded-full border-2 border-[#2ecc71]" />
+              <span>Trusted by 15k+ traders</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="w-4 h-4 rounded-full border-2 border-[#3b82f6]" />
+              <span>API-only — no withdrawal access</span>
+            </div>
+          </div>
+
+          {/* HOW IT WORKS */}
+          <div className="mt-16">
+            <h2 className="text-3xl font-semibold">How Does It Work?</h2>
+            <p className="mt-4 text-gray-300 max-w-3xl">
+              Connect Binance or Bybit using API keys (no withdrawal permissions required).
+            </p>
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <FeatureCard
+                icon={<PlusIcon />}
+                title="Add Exchange"
+                description="Connect Binance or Bybit using API keys (no withdrawal permissions)."
+              />
+              <FeatureCard
+                icon={<BotIcon />}
+                title="Create Your Bot"
+                description="Select grid or DCA, pick pair & price, choose an optimized preset."
+              />
+              <FeatureCard
+                icon={<StrategyIcon />}
+                title="Set Strategy"
+                description="Fine tune parameters or turn limits ability with safe defaults."
+              />
+              <FeatureCard
+                icon={<MonitorIcon />}
+                title="Monitor & Manage"
+                description="Watch performance, pause or stop. Do it all from your dashboard."
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Neon ring + badges */}
+        <div className="col-span-4 lg:col-span-5 relative flex justify-center lg:justify-end items-start pt-8">
+          <div className="relative w-[420px] h-[420px] flex items-center justify-center">
+            {/* Outer faint vignette */}
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                boxShadow:
+                  "inset 0 30px 80px rgba(0,0,0,0.6), 0 60px 140px rgba(0,0,0,0.6)",
+                background:
+                  "radial-gradient(closest-side, rgba(255,50,120,0.02), transparent 45%)",
+              }}
+            />
+
+            {/* Neon ring: two layered circular borders */}
+            <div className="absolute w-[330px] h-[330px] rounded-full grid place-items-center">
+              <div
+                className="absolute rounded-full"
+                style={{
+                  width: "330px",
+                  height: "330px",
+                  border: "3px solid rgba(220, 70, 140, 0.12)",
+                  boxShadow: "0 0 40px rgba(220,70,140,0.06)",
+                }}
+              />
+              <div
+                className="absolute rounded-full animate-slow-spin"
+                style={{
+                  width: "280px",
+                  height: "280px",
+                  border: "5px solid rgba(200,50,140,0.22)",
+                  boxShadow: "0 0 90px rgba(200,50,140,0.08)",
+                }}
+              />
+            </div>
+
+            {/* Binance badge (left) */}
+            <div className="relative z-10 -mr-14">
+              <div className="flex flex-col items-center gap-3">
+                <div
+                  className="w-36 h-36 rounded-full flex items-center justify-center"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(10,18,32,0.95), rgba(2,8,18,0.9))",
+                    boxShadow:
+                      "inset 0 10px 30px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.6)",
+                    border: "1px solid rgba(255,255,255,0.04)",
+                  }}
+                >
+                  <BinanceLogo />
+                </div>
+                <div className="text-center">
+                  <div className="font-semibold">Binance</div>
+                  <div className="text-xs text-gray-400">Supported</div>
+                </div>
               </div>
+            </div>
 
-              <span className="text-primary text-lg font-semibold mb-2">
-                Step {step.id}
-              </span>
+            {/* Bybit badge (right) */}
+            <div className="relative z-10 -ml-14">
+              <div className="flex flex-col items-center gap-3">
+                <div
+                  className="w-36 h-36 rounded-full flex items-center justify-center"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(3,3,6,0.95), rgba(10,4,10,0.92))",
+                    boxShadow:
+                      "inset 0 10px 30px rgba(0,0,0,0.75), 0 10px 30px rgba(0,0,0,0.6)",
+                    border: "1px solid rgba(255,255,255,0.03)",
+                  }}
+                >
+                  <BybitLogo />
+                </div>
+                <div className="text-center">
+                  <div className="font-semibold">Bybit</div>
+                  <div className="text-xs text-gray-400">Supported</div>
+                </div>
+              </div>
+            </div>
 
-              <h3 className="text-xl font-bold mb-3">{step.title}</h3>
+            {/* faint small logos stacked to the right */}
+            <div className="absolute right-3 top-16 flex flex-col gap-3 opacity-30">
+              <div className="w-10 h-10 rounded-md bg-white/4 grid place-items-center text-xs">atz</div>
+              <div className="w-10 h-10 rounded-md bg-white/4 grid place-items-center text-xs">Ki</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {step.description}
-              </p>
-            </motion.div>
-          ))}
+      {/* Scoped styles for slow spin and minor adjustments */}
+      <style js>{`
+        .animate-slow-spin {
+          animation: slowSpin 20s linear infinite;
+        }
+        @keyframes slowSpin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        /* small responsive tweaks to match screenshot spacing */
+        @media (max-width: 1024px) {
+          h1 {
+            font-size: 52px !important;
+          }
+        }
+        @media (max-width: 640px) {
+          h1 {
+            font-size: 36px !important;
+            line-height: 1.02 !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ----------------------
+   Subcomponents & SVGs
+   ---------------------- */
+
+function FeatureCard({ icon, title, description }) {
+  return (
+    <div
+      className="rounded-2xl p-5 bg-gradient-to-b from-white/3 to-white/2 border border-white/6 backdrop-blur-sm"
+      style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
+    >
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-lg bg-black/20 grid place-items-center">
+          {icon}
+        </div>
+        <div>
+          <div className="font-semibold">{title}</div>
+          <div className="mt-2 text-sm text-gray-400">{description}</div>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default Exchange;
+/* Icons */
+function PlusIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M12 5v14M5 12h14" stroke="#ff6b9b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function BotIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="12" rx="3" stroke="#7dd3fc" strokeWidth="1.6" />
+      <circle cx="9.5" cy="9" r="1" fill="#7dd3fc" />
+      <circle cx="14.5" cy="9" r="1" fill="#7dd3fc" />
+    </svg>
+  );
+}
+function StrategyIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M4 16l6-6 4 4 6-6" stroke="#c084fc" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function MonitorIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="4" width="18" height="12" rx="2" stroke="#34d399" strokeWidth="1.6" />
+      <path d="M8 20h8" stroke="#34d399" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* Exchange logos */
+function BinanceLogo() {
+  // stylized simplified Binance mark
+  return (
+    <svg width="68" height="68" viewBox="0 0 24 24" fill="none">
+      <g transform="translate(2 2) scale(0.85)">
+        <path d="M8 1L11 4L8 7L5 4L8 1Z" fill="#F3BA2F" />
+        <path d="M1 8L4 11L1 14L-2 11L1 8Z" fill="#F3BA2F" />
+        <path d="M8 15L11 18L8 21L5 18L8 15Z" fill="#F3BA2F" />
+        <path d="M15 8L18 11L15 14L12 11L15 8Z" fill="#F3BA2F" />
+        <path d="M8 8L11 11L8 14L5 11L8 8Z" fill="#F3BA2F" />
+      </g>
+    </svg>
+  );
+}
+function BybitLogo() {
+  return (
+    <svg width="68" height="68" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12" fill="transparent" />
+      <text x="50%" y="52%" dominantBaseline="middle" textAnchor="middle" fontSize="11" fontWeight="700" fill="#ff6b88">
+        B
+      </text>
+    </svg>
+  );
+}

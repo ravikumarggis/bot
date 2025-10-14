@@ -28,7 +28,7 @@ const Section1 = () => {
   ];
   return (
     <div className="  bg-[#05060f] gap-5 p-[2%]">
-      <div className=" items-center w-full justify-center  ">
+      {/* <div className=" items-center w-full justify-center  ">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
         Strategies Offered by Qbot:
         Simple, Smart, and Secure
@@ -39,9 +39,9 @@ const Section1 = () => {
 Our Grid and DCA (Dollar-Cost Averaging) strategies are built for both beginners and experienced traders, helping you trade efficiently without constant monitoring.
 All trades run securely through API connections on Bybit and Binance — ensuring your funds stay safe while Qbot does the work.
         </p>
-      </div>
+      </div> */}
 
-      <CommonCard items={items} className="gap-4" />
+      {/* <CommonCard items={items} className="gap-4" /> */}
       <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left sm:justify-between w-full">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold  w-full sm:w-[40%]">
           Discover How Qbot Simplifies Trading
