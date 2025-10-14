@@ -173,7 +173,7 @@ export default function Navbar() {
         {/* Buttons */}
         <div className="hidden md:flex items-center space-x-3">
           <Link
-            href="#"
+            href="/login"
             className="px-5 py-1.5 border border-white/30 text-gray-200 rounded-full hover:bg-white/10 transition"
           >
             LOGIN
@@ -204,7 +204,7 @@ export default function Navbar() {
             <Link href="#" className="hover:text-white transition">Docs</Link>
             <div className="flex space-x-2 pt-3">
               <Link
-                href="#"
+                href="/login"
                 className="flex-1 text-center border bg-primary rounded-full py-2 hover:bg-white/10 transition"
               >
                 LOGIN
