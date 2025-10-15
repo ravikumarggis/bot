@@ -68,8 +68,8 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[#030b1f] text-white min-h-screen flex items-center justify-center px-6 md:px-12">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-20 md:pt-28">
-        <div className="flex-1 space-y-6 text-center lg:text-left">
-          <div className="inline-block px-4 py-1.5 rounded-full text-xs tracking-wide font-medium bg-white/10 border border-white/20 text-gray-200">
+        <div className="flex-1 space-y-6 text-center lg:text-center">
+          <div className="inline-block px-4 py-1.5  text-sm tracking-wide font-medium  text-gray-200">
             YOUR GATEWAY TO SMARTER AUTOMATED
           </div>
 
@@ -85,7 +85,7 @@ export default function HeroSection() {
           </p>
 
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-center gap-4 pt-2">
             <button className="px-6 py-3 rounded-lg font-medium text-white bg-primary hover:opacity-90 transition flex items-center space-x-2 shadow-lg shadow-blue-500/30">
               <span>🚀</span>
               <span>Make Money</span>
@@ -97,10 +97,12 @@ export default function HeroSection() {
           </div>
 
           {/* Feature List */}
-          <div className="pt-6 space-y-3 text-gray-300">
+          <div className=" flex items-center justify-center">
+          <div className="pt-6 space-y-3 text-gray-300 flex-col justify-center  ">
             <Feature text="Trusted by 15k traders" />
             <Feature text="24/7 uptime" />
             <Feature text="Funds stay on Binance & Bybit" />
+          </div>
           </div>
 
           <div className="pt-4 text-sm text-gray-400">
@@ -115,9 +117,9 @@ export default function HeroSection() {
             <Image
              src="/assets/homepage/heroImage.png"
               alt="Dashboard preview"
-              width={800}
-              height={600}
-              className="relative rounded-2xl shadow-2xl border border-white/10"
+              width={1000}
+              height={800}
+              className="relative "
             />
           </div>
         </div>
