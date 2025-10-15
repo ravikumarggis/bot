@@ -1,3 +1,4 @@
+import { useGoogleLogin } from "@react-oauth/google";
 import { api } from "../service/api-service";
 
 export const signupMutation = async ({ email, password }) => {
@@ -77,4 +78,34 @@ export const verifyLoginOtp = async ({ email, otp }) => {
   } catch (error) {
     return error?.response;
   }
+};
+
+export const useHandleGoogleSignup = () => {
+  const handleApiLogin = async ({ idToken }) => {
+    try {
+      const response = await api({
+        method: "POST",
+        url: "/user/googleLogin",
+        data: {
+          idToken: idToken || undefined,
+        },
+      });
+      return response;
+    } catch (error) {
+      return error?.response;
+    }
+  };
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse, "token>>");
+
+      const data = await handleApiLogin({
+        idToken: tokenResponse?.access_token,
+      });
+    },
+    flow: "auth-code",
+  });
+
+  return login;
 };
