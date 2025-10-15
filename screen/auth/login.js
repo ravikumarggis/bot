@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { loginMutation } from "../../queries/auth";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Login = () => {
   const router = useRouter();
@@ -12,6 +15,27 @@ const Login = () => {
     email: "",
     password: "",
     remember: false,
+  });
+  const { mutateAsync: loginMutate, isPending: mutatePending } = useMutation({
+    mutationFn: async () => {
+      return loginMutation({
+        email: formData?.email,
+        password: formData?.password,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+        router.push(
+          `/login-otp-screen?email=${encodeURIComponent(formData.email)}`
+        );
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
   });
   const [errors, setErrors] = useState({});
 
@@ -51,7 +75,7 @@ const Login = () => {
     e.preventDefault();
     if (validate()) {
       console.log("Form Submitted:", formData);
-      router.push("/dashboard/home")
+      loginMutate();
     }
   };
 
@@ -69,7 +93,7 @@ const Login = () => {
 
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg" 
+              src="/assets/auth/wallet.jpeg"
               alt="Q Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -141,7 +165,10 @@ const Login = () => {
                 />
                 Remember me
               </label>
-              <Link href="/forgot-screen" className="text-primary hover:underline">
+              <Link
+                href="/forgot-screen"
+                className="text-primary hover:underline"
+              >
                 Forgot Password?
               </Link>
             </div>
@@ -149,8 +176,9 @@ const Login = () => {
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
+              disabled={mutatePending}
             >
-              LOGIN
+              {mutatePending ? `LOGIN...` : `LOGIN`}
             </button>
 
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">

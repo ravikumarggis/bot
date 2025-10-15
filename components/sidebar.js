@@ -1,30 +1,76 @@
 "use client";
 import { useState } from "react";
-import { LayoutDashboard, Settings, LogOut, Home, Calendar, Settings2 } from "lucide-react";
+import {
+  LayoutDashboard,
+  Settings,
+  LogOut,
+  Home,
+  Calendar,
+  Settings2,
+} from "lucide-react";
 import Link from "next/link";
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import { toast } from "sonner";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const logoutHandler = () => {
+    deleteCookie("token");
+    toast.success("Logout successfully");
+    router.replace("/login");
+  };
 
   // Nav items for desktop view
   const navItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    { label: "Exchange", path: "/dashboard/exchange", Icon: IconExchange, type: "link" },
-    { label: "Pricing", path: "/dashboard/pricing", Icon: IconCurrency, type: "link" },
-    { label: "Plan Management", path: "/dashboard/plan-management", Icon: Calendar, type: "link" },
-    { label: "Transaction", path: "/dashboard/transaction", Icon: IconHistory, type: "link" },
-    { label: "Settings", path: "/dashboard/settings", Icon: Settings2, type: "link" },
-    { label: "Logout", Icon: LogOut, type: "button" }, // no path since it's a button
+    {
+      label: "Exchange",
+      path: "/dashboard/exchange",
+      Icon: IconExchange,
+      type: "link",
+    },
+    {
+      label: "Pricing",
+      path: "/dashboard/pricing",
+      Icon: IconCurrency,
+      type: "link",
+    },
+    {
+      label: "Plan Management",
+      path: "/dashboard/plan-management",
+      Icon: Calendar,
+      type: "link",
+    },
+    {
+      label: "Transaction",
+      path: "/dashboard/transaction",
+      Icon: IconHistory,
+      type: "link",
+    },
+    {
+      label: "Settings",
+      path: "/dashboard/settings",
+      Icon: Settings2,
+      type: "link",
+    },
+    { label: "Logout", Icon: LogOut, type: "button", onClick: logoutHandler }, // no path since it's a button
   ];
 
   // Nav items for mobile view (subset, based on your original code)
   const mobileNavItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    { label: "Settings", path: "/dashboard/settings", Icon: Settings, type: "link" },
-    { label: "Logout", Icon: LogOut, type: "button" },
+    {
+      label: "Settings",
+      path: "/dashboard/settings",
+      Icon: Settings,
+      type: "link",
+    },
+    { label: "Logout", Icon: LogOut, type: "button", onClick: logoutHandler },
   ];
 
   const isActive = (path) =>
@@ -35,13 +81,15 @@ export default function Sidebar() {
       <div className="hidden md:flex flex-col bg-gray-800 border-r border-gray-700 w-64 min-h-screen p-5">
         <h2 className="text-2xl font-semibold mb-10 text-primary">My App</h2>
         <nav className="flex flex-col gap-4">
-          {navItems.map(({ label, path, Icon, type }) => {
+          {navItems.map(({ label, path, Icon, type, onClick }) => {
             if (type === "link") {
               return (
                 <Link
                   key={label}
                   href={path}
-                  className={`flex items-center gap-3 p-2 rounded-md transition ${isActive(path)}`}
+                  className={`flex items-center gap-3 p-2 rounded-md transition ${isActive(
+                    path
+                  )}`}
                 >
                   <Icon /> {label}
                 </Link>
@@ -51,6 +99,11 @@ export default function Sidebar() {
                 <button
                   key={label}
                   className="flex items-center gap-3 hover:bg-gray-700 p-2 rounded-md mt-auto"
+                  onClick={() => {
+                    if (onClick) {
+                      onClick();
+                    }
+                  }}
                 >
                   <Icon /> {label}
                 </button>
