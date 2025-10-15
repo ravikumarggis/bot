@@ -118,7 +118,6 @@
 
 // export default Exchange;
 
-
 import React from "react";
 
 /**
@@ -144,18 +143,19 @@ import React from "react";
 
 export default function Exchange() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-10 py-14">
+    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-10 py-30">
       <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT: Content */}
         <div className="col-span-8 lg:col-span-7">
-          <h1 className="font-extrabold text-[74px] leading-[0.96] tracking-[-0.02em]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
             Securely Integrate Your
             <br />
             Exchange APIs on Qbot
           </h1>
 
           <p className="mt-6 text-lg text-gray-300 max-w-3xl">
-            Automate trades an Binance & Bybit — simple API-only connections. Your funds remain on the exchange.
+            Automate trades an Binance & Bybit — simple API-only connections.
+            Your funds remain on the exchange.
           </p>
 
           <div className="mt-8 flex items-center gap-4">
@@ -186,10 +186,44 @@ export default function Exchange() {
           <div className="mt-16">
             <h2 className="text-3xl font-semibold">How Does It Work?</h2>
             <p className="mt-4 text-gray-300 max-w-3xl">
-              Connect Binance or Bybit using API keys (no withdrawal permissions required).
+              Connect Binance or Bybit using API keys (no withdrawal permissions
+              required).
             </p>
 
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+           
+          </div>
+        </div>
+
+        {/* RIGHT: Neon ring + badges */}
+        <div className=" lg:col-span-5 flex justify-center lg:justify-center items-center pt-8 gap-10">
+          <div className="gap-4 flex-col items-center justify-center">
+            <div className="p-1.5 sm:p-1.5 md:p-2 rounded-md bg-[#0d1726] border border-white/6 w-20 h-20 sm:w-20 sm:h-20 flex items-center justify-center">
+              <img
+                src="././../assets/homepage/binance.png"
+                alt="Binance"
+                className="w-25 h-25 object-contain"
+              />
+            </div>
+            <p className="text-md text-gray-300 max-w-3xl font-bold text-center">
+              Binance
+            </p>
+          </div>
+          <div className="gap-4 flex-col items-center justify-center">
+          <div className="p-1.5 sm:p-1.5 md:p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-20 h-20 sm:w-20 sm:h-20 flex items-center justify-center">
+            <img
+              src="././../assets/homepage/bybit.webp"
+              alt="Bybit"
+              className="w-25 h-25 object-contain"
+            />
+          </div>
+          <p className="text-md text-gray-300 max-w-3xl font-bold text-center">
+              Bybit
+            </p>
+            </div>
+        </div>
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <FeatureCard
                 icon={<PlusIcon />}
                 title="Add Exchange"
@@ -211,97 +245,6 @@ export default function Exchange() {
                 description="Watch performance, pause or stop. Do it all from your dashboard."
               />
             </div>
-          </div>
-        </div>
-
-        {/* RIGHT: Neon ring + badges */}
-        <div className="col-span-4 lg:col-span-5 relative flex justify-center lg:justify-end items-start pt-8">
-          <div className="relative w-[420px] h-[420px] flex items-center justify-center">
-            {/* Outer faint vignette */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                boxShadow:
-                  "inset 0 30px 80px rgba(0,0,0,0.6), 0 60px 140px rgba(0,0,0,0.6)",
-                background:
-                  "radial-gradient(closest-side, rgba(255,50,120,0.02), transparent 45%)",
-              }}
-            />
-
-            {/* Neon ring: two layered circular borders */}
-            <div className="absolute w-[330px] h-[330px] rounded-full grid place-items-center">
-              <div
-                className="absolute rounded-full"
-                style={{
-                  width: "330px",
-                  height: "330px",
-                  border: "3px solid rgba(220, 70, 140, 0.12)",
-                  boxShadow: "0 0 40px rgba(220,70,140,0.06)",
-                }}
-              />
-              <div
-                className="absolute rounded-full animate-slow-spin"
-                style={{
-                  width: "280px",
-                  height: "280px",
-                  border: "5px solid rgba(200,50,140,0.22)",
-                  boxShadow: "0 0 90px rgba(200,50,140,0.08)",
-                }}
-              />
-            </div>
-
-            {/* Binance badge (left) */}
-            <div className="relative z-10 -mr-14">
-              <div className="flex flex-col items-center gap-3">
-                <div
-                  className="w-36 h-36 rounded-full flex items-center justify-center"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(10,18,32,0.95), rgba(2,8,18,0.9))",
-                    boxShadow:
-                      "inset 0 10px 30px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.6)",
-                    border: "1px solid rgba(255,255,255,0.04)",
-                  }}
-                >
-                  <BinanceLogo />
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold">Binance</div>
-                  <div className="text-xs text-gray-400">Supported</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bybit badge (right) */}
-            <div className="relative z-10 -ml-14">
-              <div className="flex flex-col items-center gap-3">
-                <div
-                  className="w-36 h-36 rounded-full flex items-center justify-center"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(3,3,6,0.95), rgba(10,4,10,0.92))",
-                    boxShadow:
-                      "inset 0 10px 30px rgba(0,0,0,0.75), 0 10px 30px rgba(0,0,0,0.6)",
-                    border: "1px solid rgba(255,255,255,0.03)",
-                  }}
-                >
-                  <BybitLogo />
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold">Bybit</div>
-                  <div className="text-xs text-gray-400">Supported</div>
-                </div>
-              </div>
-            </div>
-
-            {/* faint small logos stacked to the right */}
-            <div className="absolute right-3 top-16 flex flex-col gap-3 opacity-30">
-              <div className="w-10 h-10 rounded-md bg-white/4 grid place-items-center text-xs">atz</div>
-              <div className="w-10 h-10 rounded-md bg-white/4 grid place-items-center text-xs">Ki</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Scoped styles for slow spin and minor adjustments */}
       <style js>{`
@@ -340,7 +283,7 @@ export default function Exchange() {
 function FeatureCard({ icon, title, description }) {
   return (
     <div
-      className="rounded-2xl p-5 bg-gradient-to-b from-white/3 to-white/2 border border-white/6 backdrop-blur-sm"
+      className="rounded-2xl p-5 bg-gradient-to-b from-white/3 to-white/2 border border-white/6 backdrop-blur-sm py-10"
       style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
     >
       <div className="flex items-start gap-4">
@@ -360,14 +303,28 @@ function FeatureCard({ icon, title, description }) {
 function PlusIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M12 5v14M5 12h14" stroke="#ff6b9b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M12 5v14M5 12h14"
+        stroke="#ff6b9b"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 function BotIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="3" width="18" height="12" rx="3" stroke="#7dd3fc" strokeWidth="1.6" />
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="12"
+        rx="3"
+        stroke="#7dd3fc"
+        strokeWidth="1.6"
+      />
       <circle cx="9.5" cy="9" r="1" fill="#7dd3fc" />
       <circle cx="14.5" cy="9" r="1" fill="#7dd3fc" />
     </svg>
@@ -376,15 +333,34 @@ function BotIcon() {
 function StrategyIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M4 16l6-6 4 4 6-6" stroke="#c084fc" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M4 16l6-6 4 4 6-6"
+        stroke="#c084fc"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 function MonitorIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="4" width="18" height="12" rx="2" stroke="#34d399" strokeWidth="1.6" />
-      <path d="M8 20h8" stroke="#34d399" strokeWidth="1.6" strokeLinecap="round" />
+      <rect
+        x="3"
+        y="4"
+        width="18"
+        height="12"
+        rx="2"
+        stroke="#34d399"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M8 20h8"
+        stroke="#34d399"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -408,7 +384,15 @@ function BybitLogo() {
   return (
     <svg width="68" height="68" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="12" fill="transparent" />
-      <text x="50%" y="52%" dominantBaseline="middle" textAnchor="middle" fontSize="11" fontWeight="700" fill="#ff6b88">
+      <text
+        x="50%"
+        y="52%"
+        dominantBaseline="middle"
+        textAnchor="middle"
+        fontSize="11"
+        fontWeight="700"
+        fill="#ff6b88"
+      >
         B
       </text>
     </svg>

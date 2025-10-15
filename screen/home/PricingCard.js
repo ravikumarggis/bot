@@ -7,14 +7,14 @@ export default function PricingCard() {
 
   return (
     <section className="bg-[#0a0f1e] text-white py-24 px-6 flex justify-center items-center">
-      <div className="max-w-sm w-full text-center">
+      <div className="max-w-sm w-full text-center gap-3">
         {/* Toggle Buttons */}
-        <div className="flex justify-center mb-8 bg-[#11182f] p-1 rounded-full border border-white/10 w-fit mx-auto">
+        <div className="flex justify-center mb-8 bg-[#11182f] p-1 rounded-xl border border-white/10 w-fit mx-auto">
           <button
             onClick={() => setPlanType("monthly")}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-6 py-2 rounded-xl text-sm font-medium transition ${
               planType === "monthly"
-                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+                ? "bg-primary text-white"
                 : "text-gray-400 hover:text-white"
             }`}
           >
@@ -22,9 +22,9 @@ export default function PricingCard() {
           </button>
           <button
             onClick={() => setPlanType("yearly")}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-6 py-2 rounded-xl text-sm font-medium transition ${
               planType === "yearly"
-                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+                ? "bg-primary text-white"
                 : "text-gray-400 hover:text-white"
             }`}
           >
@@ -32,59 +32,117 @@ export default function PricingCard() {
           </button>
         </div>
 
-        {/* Pricing Card */}
-        <div className="relative rounded-2xl p-8 text-left shadow-lg bg-gradient-to-br from-blue-500/30 via-purple-600/40 to-pink-500/30">
-          {/* Ribbon */}
-          <div className="absolute -top-3 left-0 bg-gradient-to-r from-pink-500 to-purple-500 text-xs font-semibold px-4 py-1 rounded-tr-lg rounded-bl-lg shadow-sm">
-            Limited-Time Offer
-          </div>
+        <div className="col-span-12 lg:col-span-5 flex justify-center lg:justify-end mt-5">
+          <div className="relative w-full max-w-[400px]">
+            {/* Ribbon */}
+            <div className="absolute -left-4 -top-4 z-20 transform rotate-[-18deg]">
+              <div className="bg-pink-600 text-white text-xs px-4 py-1 rounded-md shadow-md">
+                FL. limited
+              </div>
+            </div>
 
-          {/* Plan Type */}
-          <div className="inline-block bg-[#11182f]/80 px-4 py-1 rounded-full text-sm text-gray-200 mb-4">
-            {planType === "monthly" ? "Monthly Plan" : "Yearly Plan"}
-          </div>
+            {/* Card */}
+            <div
+              className="relative rounded-2xl p-8 pt-12 pb-10"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))",
+                border: "1px solid rgba(255,255,255,0.06)",
+                boxShadow: "0 10px 40px rgba(167,39,124,0.08)",
+                backdropFilter: "blur(8px)",
+                overflow: "hidden",
+              }}
+            >
+              {/* inner neon border */}
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  borderRadius: 16,
+                  padding: 1,
+                  background:
+                    "linear-gradient(180deg, rgba(196,63,192,0.06), rgba(86,55,185,0.06))",
+                  WebkitMask:
+                    "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+                  WebkitMaskComposite: "xor",
+                  pointerEvents: "none",
+                }}
+              />
 
-          {/* Price */}
-          <h2 className="text-5xl font-extrabold text-blue-300 mb-6">
-            {planType === "monthly" ? "₹1200" : "₹12000"}
-          </h2>
+              {/* badge label */}
+              <div className="absolute top-6 right-6 bg-pink-700/20 text-pink-200 px-3 py-1 rounded-full text-xs">
+                Special offer
+              </div>
 
-          {/* Features */}
-          <ul className="space-y-3 mb-6 text-gray-200">
-            <li className="flex items-center space-x-2">
-              <Check className="text-cyan-400 w-5 h-5" />
-              <span>
-                Duration: {planType === "monthly" ? "1 Month" : "12 Months"}
-              </span>
-            </li>
-            <li className="flex items-center space-x-2">
-              <Check className="text-cyan-400 w-5 h-5" />
-              <span>Exchange: Binance</span>
-            </li>
-            <li className="flex items-center space-x-2">
-              <Check className="text-cyan-400 w-5 h-5" />
-              <span>Profit Cap: {planType === "monthly" ? "$200" : "$3000"}</span>
-            </li>
-          </ul>
+              {/* Price */}
+              <div className="text-center mt-1">
+                <div className="text-md text-gray-400 line-through">$2000</div>
+                <div className="mt-2 text-5xl font-extrabold">$1200</div>
+              </div>
 
-          {/* Description */}
-          <p className="text-gray-300 text-sm mb-8 leading-relaxed">
-            Expand arbitrage with AI-driven automation. Limited-time offer.
-            Instant activation.
-          </p>
+              {/* Bullet list */}
+              <ul className="mt-6 space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckMark />
+                  <div>
+                    <div className="text-sm font-semibold">Duration: 1 Month</div>
+                  </div>
+                </li>
 
-          {/* CTA Button */}
-          <button className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-md hover:opacity-90 transition">
-            Activate Plan
-          </button>
+                <li className="flex items-start gap-3">
+                  <CheckMark />
+                  <div>
+                    <div className="text-sm font-semibold">Exchanges: Binance , Bybit</div>
+                  </div>
+                </li>
 
-          {/* Secure Info */}
-          <div className="flex items-center justify-center mt-5 text-gray-300 text-sm space-x-2">
-            <Lock className="w-4 h-4" />
-            <span>Secure API-based integration</span>
+                <li className="flex items-start gap-3">
+                  <CheckMark />
+                  <div>
+                    <div className="text-sm font-semibold">Profit Cap: Unlimited</div>
+                  </div>
+                </li>
+              </ul>
+
+              {/* small description */}
+              <p className="mt-6 text-gray-400 text-sm leading-relaxed">
+                Explore grid & DCA on Binance & Bybit. Higher price programmatically automated and monitored.
+              </p>
+
+              {/* CTA */}
+              <div className="mt-8">
+                <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#ff3b7a] to-[#ff6a9a] text-white font-semibold shadow-lg">
+                  Login To Buy
+                </button>
+              </div>
+            </div>
+
+            {/* neon outer glow */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: -12,
+                borderRadius: 20,
+                boxShadow: "0 30px 80px rgba(160,50,140,0.18), inset 0 0 60px rgba(120,30,120,0.08)",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+
+function CheckMark() {
+  return (
+    <div className="w-6 h-6 rounded-full bg-primary grid place-items-center flex-shrink-0">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
   );
 }

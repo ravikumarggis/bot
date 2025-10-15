@@ -66,60 +66,64 @@ import { Check } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#030b1f] text-white min-h-screen flex items-center justify-center px-6 md:px-12">
+    <section className="relative overflow-hidden bg-[#030b1f] text-white min-h-screen  items-center justify-center px-6 md:px-12">
+      <div className="inline-block px-4 py-1.5 text-sm tracking-wide font-medium text-gray-200">
+    YOUR GATEWAY TO SMARTER AUTOMATED
+  </div>
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-20 md:pt-28">
-        <div className="flex-1 space-y-6 text-center lg:text-center">
-          <div className="inline-block px-4 py-1.5  text-sm tracking-wide font-medium  text-gray-200">
-            YOUR GATEWAY TO SMARTER AUTOMATED
-          </div>
+      <div className="flex-1 space-y-6 ">
+ 
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-            Trade Smarter with{" "}
-            <span className="bg-primary to-cyan-400 bg-clip-text text-transparent">
-              AI-Powered Bots
-            </span>
-          </h1>
+  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+    Trade Smarter with{" "}
+    <span className="bg-primary to-cyan-400 bg-clip-text text-transparent">
+      AI-Powered Bots
+    </span>
+  </h1>
 
-          <p className="text-gray-400 text-lg max-w-lg mx-auto lg:mx-0">
-            Automate trades on Binance & Bybit — minimal setup, continuous optimization.
-          </p>
+  <p className="text-gray-400 text-lg max-w-lg mx-auto lg:mx-0">
+    Automate trades on Binance & Bybit — minimal setup, continuous optimization.
+  </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-center gap-4 pt-2">
-            <button className="px-6 py-3 rounded-lg font-medium text-white bg-primary hover:opacity-90 transition flex items-center space-x-2 shadow-lg shadow-blue-500/30">
-              <span>🚀</span>
-              <span>Make Money</span>
-            </button>
+  {/* Buttons */}
+  <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-center gap-4 pt-2">
+    <button className="px-6 py-3 rounded-lg font-medium text-white bg-primary hover:opacity-90 transition flex items-center space-x-2 shadow-lg shadow-blue-500/30">
+      <span>🚀</span>
+      <span>Make Money</span>
+    </button>
 
-            <button className="px-6 py-3 rounded-lg font-medium border border-white/20 text-gray-200 hover:bg-white/10 transition">
-              Learn
-            </button>
-          </div>
+    <button className="px-6 py-3 rounded-lg font-medium border border-white/20 text-gray-200 hover:bg-white/10 transition">
+      Learn
+    </button>
+  </div>
 
-          {/* Feature List */}
-          <div className=" flex items-center justify-center">
-          <div className="pt-6 space-y-3 text-gray-300 flex-col justify-center  ">
-            <Feature text="Trusted by 15k traders" />
-            <Feature text="24/7 uptime" />
-            <Feature text="Funds stay on Binance & Bybit" />
-          </div>
-          </div>
+  {/* Feature List */}
+  <div className="flex items-center justify-start">
+    <div className="pt-6 space-y-3 text-gray-300 flex-col justify-center">
+      <Feature text="Trusted by 15k traders" />
+      <Feature text="24/7 uptime" />
+      <Feature text="Funds stay on Binance & Bybit" />
+    </div>
+  </div>
 
-          <div className="pt-4 text-sm text-gray-400">
-            <span className="text-cyan-400 font-medium">Trusted by 18k traders</span> • 24/7 uptime
-          </div>
-        </div>
+  {/* Left-aligned stats line */}
+  <div className="flex-1 space-y-6 pt-4 text-sm text-gray-400 flex items-center justify-start px-4 lg:px-0 text-center">
+    <span className="text-cyan-400 font-medium">Trusted by 18k traders</span> • 24/7 uptime
+  </div>
+</div>
+
+       
 
         {/* Right Image Section */}
         <div className="flex-1 flex justify-center lg:justify-end relative">
-          <div className="relative w-[90%] max-w-[550px]">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl blur-3xl opacity-40 animate-pulse"></div>
+          <div className="relative w-[100%] max-w-[750px] ">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-200 rounded-3xl blur-3xl opacity-40 animate-pulse"></div>
             <Image
              src="/assets/homepage/heroImage.png"
               alt="Dashboard preview"
               width={1000}
-              height={800}
-              className="relative "
+              height={1000}
+              className="relative rounded-2xl"
             />
           </div>
         </div>
