@@ -32,14 +32,45 @@ export const VerifySignupOtp = async ({ email, otp }) => {
   }
 };
 
-export const resendOTPSignup = async ({ emailMobile, socialType }) => {
+export const resendOTPSignup = async ({ email }) => {
   try {
     const response = await api({
       method: "POST",
       url: "/user/resendOTP",
       data: {
-        emailMobile: emailMobile || undefined,
-        socialType: socialType || undefined,
+        email: email || undefined,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error?.response;
+  }
+};
+
+export const loginMutation = async ({ email, password }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: "/user/login",
+      data: {
+        email: email || undefined,
+        password: password || undefined,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error?.response;
+  }
+};
+
+export const verifyLoginOtp = async ({ email, otp }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: "/user/verifyLoginOtp",
+      data: {
+        email: email || undefined,
+        otp: otp || undefined,
       },
     });
     return response;

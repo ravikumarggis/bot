@@ -5,6 +5,7 @@ import { Roboto } from "next/font/google";
 import Footer from "../screen/home/footer";
 import QueryProvider from "../providers/query-provider";
 import { Toaster, toast } from "sonner";
+import AuthGuard from "../guard/auth-guard";
 
 const roboto = Roboto({
   weight: "400",
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
       <body className="antialiased  ">
         <Toaster />
 
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <AuthGuard>{children}</AuthGuard>
+        </QueryProvider>
       </body>
     </html>
   );
