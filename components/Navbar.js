@@ -144,6 +144,7 @@
 //     </motion.header>
 //   );
 // }
+
 "use client";
 import Link from "next/link";
 import { useState } from "react";
@@ -194,29 +195,52 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Dropdown */}
-      {isOpen && (
-        <div className="md:hidden bg-[#030b1f]/95 border-t border-white/10">
-          <div className="flex flex-col px-6 py-4 space-y-3 text-gray-300">
-            <Link href="#" className="hover:text-white transition">Exchanges</Link>
-            <Link href="#" className="hover:text-white transition">Pricing</Link>
-            <Link href="#" className="hover:text-white transition">Docs</Link>
-            <div className="flex space-x-2 pt-3">
-              <Link
-                href="/login"
-                className="flex-1 text-center border bg-primary rounded-full py-2 hover:bg-primary transition"
-              >
-                LOGIN
-              </Link>
-              <Link
-                href="#"
-                className="flex-1 text-center bg-white/10 border border-white/30 text-white rounded-full py-2 hover:bg-white/20 transition"
-              >
-                SIGN UP
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+     {/* Mobile Dropdown */}
+{isOpen && (
+  <div className="md:hidden bg-[#030b1f]/95 border-t border-white/10">
+    <div className="flex flex-col px-6 py-4 space-y-3 text-gray-300">
+      <Link
+        href="/exchange"
+        onClick={() => setIsOpen(false)}
+        className="hover:text-white transition"
+      >
+        Exchanges
+      </Link>
+      <Link
+        href="/pricing"
+        onClick={() => setIsOpen(false)}
+        className="hover:text-white transition"
+      >
+        Pricing
+      </Link>
+      <Link
+        href="#"
+        onClick={() => setIsOpen(false)}
+        className="hover:text-white transition"
+      >
+        Docs
+      </Link>
+
+      <div className="flex space-x-2 pt-3">
+        <Link
+          href="/login"
+          onClick={() => setIsOpen(false)}
+          className="flex-1 text-center border bg-primary rounded-full py-2 hover:bg-primary transition"
+        >
+          LOGIN
+        </Link>
+        <Link
+          href="#"
+          onClick={() => setIsOpen(false)}
+          className="flex-1 text-center bg-white/10 border border-white/30 text-white rounded-full py-2 hover:bg-white/20 transition"
+        >
+          SIGN UP
+        </Link>
+      </div>
+    </div>
+  </div>
+)}
+
     </nav>
   );
 }

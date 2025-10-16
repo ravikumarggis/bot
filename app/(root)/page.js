@@ -21,7 +21,7 @@ export default function Home() {
       <HowItWorks />
       <SupportsExchanges />
       <PricingCard />
-      <NeonHero />
+      {/* <NeonHero /> */}
       {/* <Section1/> */}
       {/* <ReferralSection/> */}
       {/* <div className="bg-[#05060f] w-full">

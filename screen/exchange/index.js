@@ -120,47 +120,26 @@
 
 import React from "react";
 
-/**
- * ExchangeHero.jsx
- *
- * Single-file React component (Next.js compatible) using Tailwind CSS + a small block of scoped CSS.
- * Paste this as a component (e.g. components/ExchangeHero.jsx) into your Next.js project.
- *
- * Requirements:
- * - Tailwind CSS configured (this component uses Tailwind utility classes).
- * - Add the small `<style jsx global>` portion below into your global CSS if you prefer global keyframes.
- *
- * This file aims to closely match the exact composition of the screenshot you provided:
- *  - massive left-aligned headline
- *  - subtitle, CTAs, badges row
- *  - "How Does It Work?" section
- *  - 4 translucent feature cards
- *  - right-side neon circular ring with two circular exchange badges (Binance & Bybit)
- *
- * Note: tiny visual differences may remain because exact fonts, exact shadows and pixel-perfect spacing
- * depend on assets and your Tailwind config. This is a close, production-ready approximation.
- */
-
 export default function Exchange() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-10 py-30">
+    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 sm:px-10 py-12 sm:py-24 overflow-x-hidden">
       <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT: Content */}
-        <div className="col-span-8 lg:col-span-7">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
+        <div className="col-span-12 lg:col-span-7 order-2 lg:order-1">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
             Securely Integrate Your
             <br />
             Exchange APIs on Qbot
           </h1>
 
           <p className="mt-6 text-lg text-gray-300 max-w-3xl">
-            Automate trades an Binance & Bybit — simple API-only connections.
+            Automate trades on Binance & Bybit — simple API-only connections.
             Your funds remain on the exchange.
           </p>
 
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <button
-              className="px-6 py-3 rounded-lg text-lg font-medium shadow-[0_20px_40px_rgba(255,70,120,0.12)] 
+              className="px-6 py-3 rounded-lg text-lg font-medium shadow-[0_20px_40px_rgba(255,70,120,0.12)]
                          bg-gradient-to-r from-[#ff2a8f] to-[#ff5a8f] hover:brightness-105 transition"
             >
               Make Money
@@ -171,7 +150,7 @@ export default function Exchange() {
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-8 text-sm text-gray-300">
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-gray-300">
             <div className="flex items-center gap-3">
               <span className="w-4 h-4 rounded-full border-2 border-[#2ecc71]" />
               <span>Trusted by 15k+ traders</span>
@@ -186,90 +165,75 @@ export default function Exchange() {
           <div className="mt-16">
             <h2 className="text-3xl font-semibold">How Does It Work?</h2>
             <p className="mt-4 text-gray-300 max-w-3xl">
-              Connect Binance or Bybit using API keys (no withdrawal permissions
-              required).
+              Connect Binance or Bybit using API keys (no withdrawal permissions required).
             </p>
-
-           
           </div>
         </div>
 
         {/* RIGHT: Neon ring + badges */}
-        <div className=" lg:col-span-5 flex justify-center lg:justify-center items-center pt-8 gap-10">
-          <div className="gap-4 flex-col items-center justify-center">
-            <div className="p-1.5 sm:p-1.5 md:p-2 rounded-md bg-[#0d1726] border border-white/6 w-20 h-20 sm:w-20 sm:h-20 flex items-center justify-center">
+        <div className="col-span-12 lg:col-span-5 flex justify-center mt-10 lg:justify-center items-start lg:items-center gap-6 order-1 lg:order-2">
+          {/* Binance block */}
+          <div className="flex flex-col items-center justify-center gap-3">
+            <div className="p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-[80px] h-[80px] flex items-center justify-center">
               <img
                 src="././../assets/homepage/binance.png"
                 alt="Binance"
-                className="w-25 h-25 object-contain"
+                className="max-w-[60px] w-full h-auto object-contain"
               />
             </div>
-            <p className="text-md text-gray-300 max-w-3xl font-bold text-center">
-              Binance
-            </p>
+            <p className="text-md text-gray-300 font-bold text-center">Binance</p>
           </div>
-          <div className="gap-4 flex-col items-center justify-center">
-          <div className="p-1.5 sm:p-1.5 md:p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-20 h-20 sm:w-20 sm:h-20 flex items-center justify-center">
-            <img
-              src="././../assets/homepage/bybit.webp"
-              alt="Bybit"
-              className="w-25 h-25 object-contain"
-            />
-          </div>
-          <p className="text-md text-gray-300 max-w-3xl font-bold text-center">
-              Bybit
-            </p>
+
+          {/* Bybit block */}
+          <div className="flex flex-col items-center justify-center gap-3">
+            <div className="p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-[80px] h-[80px] flex items-center justify-center">
+              <img
+                src="././../assets/homepage/bybit.webp"
+                alt="Bybit"
+                className="max-w-[60px] w-full h-auto object-contain"
+              />
             </div>
+            <p className="text-md text-gray-300 font-bold text-center">Bybit</p>
+          </div>
         </div>
       </div>
 
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <FeatureCard
-                icon={<PlusIcon />}
-                title="Add Exchange"
-                description="Connect Binance or Bybit using API keys (no withdrawal permissions)."
-              />
-              <FeatureCard
-                icon={<BotIcon />}
-                title="Create Your Bot"
-                description="Select grid or DCA, pick pair & price, choose an optimized preset."
-              />
-              <FeatureCard
-                icon={<StrategyIcon />}
-                title="Set Strategy"
-                description="Fine tune parameters or turn limits ability with safe defaults."
-              />
-              <FeatureCard
-                icon={<MonitorIcon />}
-                title="Monitor & Manage"
-                description="Watch performance, pause or stop. Do it all from your dashboard."
-              />
-            </div>
+        <FeatureCard
+          icon={<PlusIcon />}
+          title="Add Exchange"
+          description="Connect Binance or Bybit using API keys (no withdrawal permissions)."
+        />
+        <FeatureCard
+          icon={<BotIcon />}
+          title="Create Your Bot"
+          description="Select grid or DCA, pick pair & price, choose an optimized preset."
+        />
+        <FeatureCard
+          icon={<StrategyIcon />}
+          title="Set Strategy"
+          description="Fine tune parameters or turn limits ability with safe defaults."
+        />
+        <FeatureCard
+          icon={<MonitorIcon />}
+          title="Monitor & Manage"
+          description="Watch performance, pause or stop. Do it all from your dashboard."
+        />
+      </div>
 
-      {/* Scoped styles for slow spin and minor adjustments */}
       <style js>{`
         .animate-slow-spin {
           animation: slowSpin 20s linear infinite;
         }
         @keyframes slowSpin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        /* small responsive tweaks to match screenshot spacing */
         @media (max-width: 1024px) {
-          h1 {
-            font-size: 52px !important;
-          }
+          h1 { font-size: 52px !important; }
         }
         @media (max-width: 640px) {
-          h1 {
-            font-size: 36px !important;
-            line-height: 1.02 !important;
-          }
+          h1 { font-size: 36px !important; line-height: 1.02 !important; }
         }
       `}</style>
     </section>
@@ -283,15 +247,18 @@ export default function Exchange() {
 function FeatureCard({ icon, title, description }) {
   return (
     <div
-      className="rounded-2xl p-5 bg-gradient-to-b from-white/3 to-white/2 border border-white/6 backdrop-blur-sm py-10"
+      className="rounded-2xl p-5 bg-gradient-to-b from-white/3 to-white/2 border border-white/6 backdrop-blur-sm"
       style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
     >
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-lg bg-black/20 grid place-items-center">
-          {icon}
+        {/* Icon container */}
+        <div className="w-20 h-20 rounded-lg bg-black/20 grid place-items-center text-white flex-shrink-0">
+          <div className="w-12 h-12">{icon}</div>
         </div>
+
+        {/* Text content */}
         <div>
-          <div className="font-semibold">{title}</div>
+          <div className="font-semibold text-lg">{title}</div>
           <div className="mt-2 text-sm text-gray-400">{description}</div>
         </div>
       </div>
@@ -302,20 +269,21 @@ function FeatureCard({ icon, title, description }) {
 /* Icons */
 function PlusIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
       <path
         d="M12 5v14M5 12h14"
         stroke="#ff6b9b"
-        strokeWidth="1.8"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
   );
 }
+
 function BotIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
       <rect
         x="3"
         y="3"
@@ -323,29 +291,31 @@ function BotIcon() {
         height="12"
         rx="3"
         stroke="#7dd3fc"
-        strokeWidth="1.6"
+        strokeWidth="2"
       />
-      <circle cx="9.5" cy="9" r="1" fill="#7dd3fc" />
-      <circle cx="14.5" cy="9" r="1" fill="#7dd3fc" />
+      <circle cx="9.5" cy="9" r="1.5" fill="#7dd3fc" />
+      <circle cx="14.5" cy="9" r="1.5" fill="#7dd3fc" />
     </svg>
   );
 }
+
 function StrategyIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
       <path
         d="M4 16l6-6 4 4 6-6"
         stroke="#c084fc"
-        strokeWidth="1.8"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
   );
 }
+
 function MonitorIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
       <rect
         x="3"
         y="4"
@@ -353,12 +323,12 @@ function MonitorIcon() {
         height="12"
         rx="2"
         stroke="#34d399"
-        strokeWidth="1.6"
+        strokeWidth="2"
       />
       <path
         d="M8 20h8"
         stroke="#34d399"
-        strokeWidth="1.6"
+        strokeWidth="2"
         strokeLinecap="round"
       />
     </svg>
@@ -367,7 +337,6 @@ function MonitorIcon() {
 
 /* Exchange logos */
 function BinanceLogo() {
-  // stylized simplified Binance mark
   return (
     <svg width="68" height="68" viewBox="0 0 24 24" fill="none">
       <g transform="translate(2 2) scale(0.85)">

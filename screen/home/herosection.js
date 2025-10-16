@@ -108,7 +108,7 @@ export default function HeroSection() {
 
   {/* Left-aligned stats line */}
   <div className="flex-1 space-y-6 pt-4 text-sm text-gray-400 flex items-center justify-start px-4 lg:px-0 text-center">
-    <span className="text-cyan-400 font-medium">Trusted by 18k traders</span> • 24/7 uptime
+    <span className="text-primary font-medium">Trusted by 18k traders</span> • 24/7 uptime
   </div>
 </div>
 
