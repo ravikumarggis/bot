@@ -70,7 +70,7 @@ export default function HeroSection() {
       <div className="inline-block px-4 py-1.5 text-sm tracking-wide font-medium text-gray-200">
     YOUR GATEWAY TO SMARTER AUTOMATED
   </div>
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-20 md:pt-28">
+      <div className=" mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-20 md:pt-28">
       <div className="flex-1 space-y-6 ">
  
 

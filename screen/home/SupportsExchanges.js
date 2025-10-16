@@ -14,7 +14,7 @@ import React from "react";
 export default function SupportsExchanges() {
   return (
     <section className="bg-[#040616] text-white py-24 px-6">
-      <div className="max-w-6xl mx-auto text-center">
+      <div className=" mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
           SUPPORTS <span className="text-primary">TOP EXCHANGES</span>
         </h2>
