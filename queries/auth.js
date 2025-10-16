@@ -97,15 +97,53 @@ export const useHandleGoogleSignup = () => {
     }
   };
 
+  const googleCall = async ({ code }) => {
+    try {
+      if (!code) throw new Error("Authorization code is missing");
+
+      const params = new URLSearchParams();
+      params.append("code", code);
+      params.append("client_id", process.env.client_id);
+      params.append("grant_type", "authorization_code");
+      params.append("client_secret", process.env.client_secret);
+      params.append(
+        "redirect_uri",
+        `http://localhost:3000/auth/google/callback`
+      );
+
+      const response = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: params.toString(),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error_description || "Google token exchange failed"
+        );
+      }
+
+      console.log("Token response:", data);
+      return data;
+    } catch (error) {
+      console.error("Google login error:", error);
+      return { error: error.message };
+    }
+  };
+
   const login = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse, "tokenresponse>>");
 
-      // const data = await googleCall({
-      //   code: tokenResponse?.code,
-      // });
-      // console.log(data, "data>>>>");
+      const data = await googleCall({
+        code: tokenResponse?.code,
+      });
+      console.log(data, "data>>>>");
 
       // const data = await handleApiLogin({
       //   idToken: tokenResponse?.code,
