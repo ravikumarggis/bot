@@ -3,6 +3,10 @@ import "./globals.css";
 import "./index.css";
 import { Roboto } from "next/font/google";
 import Footer from "../screen/home/footer";
+import QueryProvider from "../providers/query-provider";
+import { Toaster, toast } from "sonner";
+import AuthGuard from "../guard/auth-guard";
+import GoogleAuthProvider from "../providers/google-auth";
 
 const roboto = Roboto({
   weight: "400",
@@ -10,15 +14,21 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "Crypto Bot",
-  description: "AI-powered crypto bo assistant",
+  title: "Qbot",
+  description: "AI-powered crypto bot assistant",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={roboto.className}>
       <body className="antialiased  ">
-        {children}
+        <Toaster />
+
+        <QueryProvider>
+          <AuthGuard>
+            <GoogleAuthProvider>{children}</GoogleAuthProvider>
+          </AuthGuard>
+        </QueryProvider>
       </body>
     </html>
   );

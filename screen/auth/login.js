@@ -4,14 +4,39 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { loginMutation, useHandleGoogleSignup } from "../../queries/auth";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Login = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const googleLogin = useHandleGoogleSignup();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     remember: false,
+  });
+  const { mutateAsync: loginMutate, isPending: mutatePending } = useMutation({
+    mutationFn: async () => {
+      return loginMutation({
+        email: formData?.email,
+        password: formData?.password,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+        router.push(
+          `/login-otp-screen?email=${encodeURIComponent(formData.email)}`
+        );
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
   });
   const [errors, setErrors] = useState({});
 
@@ -51,7 +76,7 @@ const Login = () => {
     e.preventDefault();
     if (validate()) {
       console.log("Form Submitted:", formData);
-      router.push("/dashboard/home")
+      loginMutate();
     }
   };
 
@@ -69,8 +94,8 @@ const Login = () => {
 
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg" 
-              alt="Crypto Dashboard"
+              src="/assets/auth/wallet.jpeg"
+              alt="Q Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
@@ -141,7 +166,10 @@ const Login = () => {
                 />
                 Remember me
               </label>
-              <Link href="/forgot-screen" className="text-primary hover:underline">
+              <Link
+                href="/forgot-screen"
+                className="text-primary hover:underline"
+              >
                 Forgot Password?
               </Link>
             </div>
@@ -149,8 +177,9 @@ const Login = () => {
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
+              disabled={mutatePending}
             >
-              LOGIN
+              {mutatePending ? `LOGIN...` : `LOGIN`}
             </button>
 
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">
@@ -162,6 +191,7 @@ const Login = () => {
             <button
               type="button"
               className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"
+              onClick={googleLogin}
             >
               <img
                 src="https://developers.google.com/identity/images/g-logo.png"

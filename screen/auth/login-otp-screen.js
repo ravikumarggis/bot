@@ -8,11 +8,16 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
-import { resendOTPSignup, VerifySignupOtp } from "../../queries/auth";
+import {
+  resendOTPSignup,
+  verifyLoginOtp,
+  VerifySignupOtp,
+} from "../../queries/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { setCookie } from "cookies-next";
 
-const OtpScreen = () => {
+const OtpScreenLogin = () => {
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(0);
   const [resendDisabled, setResendDisabled] = useState(false);
@@ -26,7 +31,7 @@ const OtpScreen = () => {
     isPending: VerifySignupOtpMutatePending,
   } = useMutation({
     mutationFn: async () => {
-      return VerifySignupOtp({
+      return verifyLoginOtp({
         email: email,
         otp: otp,
       });
@@ -34,7 +39,8 @@ const OtpScreen = () => {
     onSuccess: (data) => {
       if (data?.data?.responseCode == 200) {
         toast.success(data?.data?.responseMessage);
-        router.replace("/login");
+        setCookie("token", data?.data?.result?.token);
+        router.replace("/dashboard/home");
       } else {
         toast.error(data?.data?.responseMessage);
       }
@@ -225,4 +231,4 @@ const OtpScreen = () => {
   );
 };
 
-export default OtpScreen;
+export default OtpScreenLogin;
