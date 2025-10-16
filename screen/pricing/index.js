@@ -103,8 +103,8 @@ import Image from "next/image";
 
 export default function PricingHero() {
   return (
-    <section className=" bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 sm:px-10 py-20 sm:py-28 overflow-x-hidden">
-      <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8 items-start">
+    <section className=" bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 md:px-20 py-20 sm:py-28 overflow-x-hidden">
+      <div className=" mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT CONTENT */}
         <div className="col-span-10 lg:col-span-7  flex-col">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">

@@ -35,7 +35,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="bg-[#030b1f] text-white py-24 px-6 md:px-12 relative overflow-hidden">
+    <section className="bg-[#030b1f] text-white py-24 px-6 md:px-20 relative overflow-hidden">
       <div className=" mx-auto text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
           How Qbots Works —{" "}

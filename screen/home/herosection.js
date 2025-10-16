@@ -66,7 +66,7 @@ import { Check } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#030b1f] text-white min-h-screen  items-center justify-center px-6 md:px-12">
+    <section className="relative overflow-hidden bg-[#030b1f] text-white min-h-screen  items-center justify-center px-6 md:px-20">
       <div className="inline-block px-4 py-1.5 text-sm tracking-wide font-medium text-gray-200">
     YOUR GATEWAY TO SMARTER AUTOMATED
   </div>
