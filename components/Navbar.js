@@ -155,7 +155,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full bg-[#030b1f]/70 backdrop-blur-md border-b border-white/10 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 gap-2">
+      <div className=" mx-auto flex items-center justify-between px-20 py-3 gap-2">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
         <img src="/assets/logo1.png" alt="Qbot Logo" className="w-5 h-6" />

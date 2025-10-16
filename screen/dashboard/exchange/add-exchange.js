@@ -64,7 +64,7 @@ export default function AddExchange() {
 
   return (
     <div className="min-h-screen  ">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className=" mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="w-full  flex justify-center items-center p-8">
         <div className="w-full max-w-lg">
           <h2 className="text-3xl font-semibold mb-2">Add Exchange</h2>
