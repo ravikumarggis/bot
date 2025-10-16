@@ -4,13 +4,39 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import { forgotPassword } from "../../queries/auth";
+import { toast } from "sonner";
 
 const ForgotPassword = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-   
+  });
+
+  const {
+    mutateAsync: forgotPasswordMutate,
+    isPending: forgotPasswordMutatePending,
+  } = useMutation({
+    mutationFn: async () => {
+      return forgotPassword({
+        email: formData?.email,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+        router.push(
+          `/forgot-otp-screen?email=${encodeURIComponent(formData.email)}`
+        );
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
   });
   const [errors, setErrors] = useState({});
 
@@ -36,8 +62,6 @@ const ForgotPassword = () => {
       newErrors.email = "Please enter a valid email";
     }
 
- 
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -46,7 +70,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     if (validate()) {
       console.log("Form Submitted:", formData);
-      router.push("/otp-screen")
+      forgotPasswordMutate();
     }
   };
 
@@ -64,7 +88,7 @@ const ForgotPassword = () => {
 
           <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg" 
+              src="/assets/auth/wallet.jpeg"
               alt="Q Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -76,7 +100,8 @@ const ForgotPassword = () => {
         <div className="w-full max-w-md">
           <h2 className="text-4xl font-semibold mb-2">Forgot Password ?</h2>
           <p className="text-sm text-gray-400 mb-6">
-          Enter your registered email below, and we'll send a verification code on your email.
+            Enter your registered email below, and we'll send a verification
+            code on your email.
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -96,8 +121,6 @@ const ForgotPassword = () => {
               )}
             </div>
 
-            
-
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
@@ -112,11 +135,10 @@ const ForgotPassword = () => {
             </div>
 
             <Link
-             href="/login"
+              href="/login"
               className="w-full flex items-center justify-center  hover:text-primary transition-colors"
             >
-              
-             Go Back to Login
+              Go Back to Login
             </Link>
           </form>
         </div>

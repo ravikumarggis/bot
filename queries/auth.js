@@ -1,5 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import { api } from "../service/api-service";
+import { api, baseUrl } from "../service/api-service";
+import axios from "axios";
 
 export const signupMutation = async ({ email, password }) => {
   try {
@@ -97,15 +98,50 @@ export const useHandleGoogleSignup = () => {
   };
 
   const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse, "token>>");
-
-      const data = await handleApiLogin({
-        idToken: tokenResponse?.access_token,
-      });
-    },
     flow: "auth-code",
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse, "tokenresponse>>");
+
+      // const data = await googleCall({
+      //   code: tokenResponse?.code,
+      // });
+      // console.log(data, "data>>>>");
+
+      // const data = await handleApiLogin({
+      //   idToken: tokenResponse?.code,
+      // });
+    },
   });
 
   return login;
+};
+
+export const forgotPassword = async ({ email }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: "/user/forgotPassword",
+      data: {
+        email: email || undefined,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error?.response;
+  }
+};
+export const resetPassword = async ({ email, password }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: "/user/resetPassword",
+      data: {
+        email: email || undefined,
+        password: password || undefined,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error?.response;
+  }
 };
