@@ -122,8 +122,8 @@ import React from "react";
 
 export default function Exchange() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 sm:px-10 py-12 sm:py-24 overflow-x-hidden">
-      <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8 items-start">
+    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 md:px-20 sm:px-10 py-12 sm:py-24 overflow-x-hidden">
+      <div className=" mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT: Content */}
         <div className="col-span-12 lg:col-span-7 order-2 lg:order-1">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
