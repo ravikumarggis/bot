@@ -70,7 +70,7 @@ export default function SupportsExchanges() {
 
           {/* Left exchange node (Binance) - absolute positioned relative to container */}
           <div
-            className="absolute left-[5%] sm:left-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
+            className="absolute left-[5%] sm:left-[15%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
             style={{ pointerEvents: "auto" }}
           >
             <div className="w-20 h-20 rounded-full bg-[#0b1229] flex items-center justify-center border border-white/8 shadow-[0_10px_30px_rgba(20,120,255,0.06)]">
@@ -81,7 +81,7 @@ export default function SupportsExchanges() {
 
           {/* Right exchange node (Bybit) */}
           <div
-            className="absolute right-[5%] sm:right-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
+            className="absolute right-[5%] sm:right-[15%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
             style={{ pointerEvents: "auto" }}
           >
             <div className="w-20 h-20 rounded-full bg-[#0b1229] flex items-center justify-center border border-white/8 shadow-[0_10px_30px_rgba(200,100,255,0.06)]">

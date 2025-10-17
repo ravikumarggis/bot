@@ -153,7 +153,7 @@ export default function Footer() {
               <div>
                 <h5 className="text-slate-200 font-semibold mb-3">Subscribe</h5>
                 <ul className="space-y-2 text-slate-300 text-sm">
-                  <li><a className="hover:text-white" href="#">Email amOus</a></li>
+                  <li><a className="hover:text-white" href="#">Email QIE</a></li>
                   <li><a className="hover:text-white" href="#">Pricing</a></li>
                   <li><a className="hover:text-white" href="#">Tutorials</a></li>
                   <li><a className="hover:text-white" href="#">Blog</a></li>

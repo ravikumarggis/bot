@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import ToggleTabs from "../../../components/toggle-Tabs";
 import { CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Pricing = () => {
   const [plan, setPlan] = useState("monthly");
+  const router = useRouter();
 
   return (
     <div>
@@ -60,7 +62,12 @@ const Pricing = () => {
         </div>
 
         <div className=" w-full flex justify-center items-center">
-          <button className=" justify-center items-center mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition">
+          <button
+            className=" justify-center items-center mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition"
+            onClick={() => {
+              router.push("/dashboard/pricing/confirm-payment");
+            }}
+          >
             Choose Plan
           </button>
         </div>
