@@ -1,27 +1,33 @@
 "use client";
 import { getCookie } from "cookies-next";
-import { redirect, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const guradedRoutes = ["/dashboard/home", "/dashboard/pricing/confirm-payment"];
+const guardedRoutes = ["/dashboard/home", "/dashboard/pricing/confirm-payment"];
+const publicRoutes = [];
 
 const AuthGuard = ({ children }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = getCookie("token");
-    const isCurrentRountGuarded = !!guradedRoutes?.find(
-      (path) => path == pathname
-    );
-    if (!token && isCurrentRountGuarded) {
-      return redirect("/login");
+    const isGuarded = guardedRoutes.includes(pathname);
+    const isPublic = publicRoutes.includes(pathname);
+
+    if (!token && isGuarded) {
+      router.replace("/login");
+      return;
     }
-    if (token && !isCurrentRountGuarded) {
-      return redirect("/dashboard/home");
+
+    if (token && isPublic) {
+      router.replace("/dashboard/home");
+      return;
     }
+
     setIsLoading(false);
-  }, []);
+  }, [pathname, router]);
 
   if (isLoading) {
     return (
@@ -31,7 +37,7 @@ const AuthGuard = ({ children }) => {
     );
   }
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 };
 
 export default AuthGuard;
