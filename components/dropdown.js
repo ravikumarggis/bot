@@ -5,9 +5,10 @@ import { ChevronDown } from "lucide-react";
 export default function Dropdown({
   label = "Select Option",
   options = [],
-  value = null, // controlled value from parent
+  value = null,
   onSelect,
   className = "",
+  bgColor
 }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -35,8 +36,8 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between bg-[#1a1a25] px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition"
-      >
+        className={`w-full flex items-center justify-between px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition`}
+        style={{ backgroundColor: bgColor || "#1a1a25" }}    >
         {selectedOption?.label || label}
         <ChevronDown
           className={`w-4 h-4 ml-2 transition-transform ${open ? "rotate-180" : ""}`}

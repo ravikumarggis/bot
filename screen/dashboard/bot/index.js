@@ -18,6 +18,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Eye, EyeOff, Info, Copy } from "lucide-react";
 import { IconExchange } from "@tabler/icons-react";
+import Dropdown from "../../../components/dropdown";
+
 
 const exchangeOptions = [
   { label: "New Grid Bot", value: "New Grid Bot" },
@@ -61,16 +63,20 @@ export default function Bot() {
 
   return (
     <div className="min-h-screen  p-8 text-white">
-           <Dropdown
-                  label=""
-                  placeholder="Create New Bot"
+         
+      <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
+        <div className="flex">
+      <Dropdown
+                  
+                  label="Create New Bot"
+                  bgColor="#EE3379"
                   options={exchangeOptions}
                   value={formData.exchange || ""}
                   onSelect={(val) => setFormData({ ...formData, exchange: val })}
         
-                  className="w-56"
+                className="w-56"
                 />
-      <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
+                </div>
         <div className="col-span-2">
           <div className="grid grid-cols-3 gap-6">
             {Array.from({ length: 9 })?.map((_, i) => (
@@ -100,41 +106,6 @@ export default function Bot() {
 
 
 /* ---------- Small inline components for demonstration --------- */
-
-function Dropdown({ label, options, value, onSelect ,placeholder}) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef();
-
-  useEffect(() => {
-    function onDoc(e) {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    }
-    document.addEventListener("click", onDoc);
-    return () => document.removeEventListener("click", onDoc);
-  }, []);
-
-  const selected = options.find((o) => o.value === value);
-
-  return (
-    <div className="relative" ref={ref}>
-      <label className="block text-sm mb-2">{label}</label>
-      <button type="button" onClick={() => setOpen((p) => !p)} className="w-full text-left p-3 bg-[#1A1A24] rounded flex items-center justify-between">
-        <span>{selected ? selected.label : placeholder ? placeholder : "Choose an exchange"}</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-      </button>
-
-      {open && (
-        <div className="absolute left-0 right-0 mt-2 bg-[#0f1117] rounded shadow-lg border border-gray-800 z-20 overflow-hidden">
-          {options.map((opt) => (
-            <div key={opt.value} onClick={() => { onSelect(opt.value); setOpen(false); }} className="px-4 py-3 hover:bg-[#1A1A25] cursor-pointer">
-              {opt.label}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function OTPModal({ isOpen, onClose, onSubmit }) {
   const [code, setCode] = useState("");
