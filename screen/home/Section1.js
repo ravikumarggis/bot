@@ -30,21 +30,21 @@ const Section1 = () => {
     <div className="  bg-[#05060f] gap-5 p-[2%]">
       {/* <div className=" items-center w-full justify-center  ">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-        Strategies Offered by Qbot:
+        Strategies Offered by Qbots:
         Simple, Smart, and Secure
         </h1>
 
         <p className="mt-6 text-sm sm:text-base md:text-lg text-gray-200  text-center">
-        Qbot provides proven automated trading strategies designed for consistent performance and risk management.
+        Qbots provides proven automated trading strategies designed for consistent performance and risk management.
 Our Grid and DCA (Dollar-Cost Averaging) strategies are built for both beginners and experienced traders, helping you trade efficiently without constant monitoring.
-All trades run securely through API connections on Bybit and Binance — ensuring your funds stay safe while Qbot does the work.
+All trades run securely through API connections on Bybit and Binance — ensuring your funds stay safe while Qbots does the work.
         </p>
       </div> */}
 
       {/* <CommonCard items={items} className="gap-4" /> */}
       <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left sm:justify-between w-full">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold  w-full sm:w-[40%]">
-          Discover How Qbot Simplifies Trading
+          Discover How Qbots Simplifies Trading
         </h1>
         <p className="mt-4 sm:mt-0 w-full sm:w-[50%]  sm:text-md">
           Experience advanced automated crypto trading with a seamless and
@@ -62,7 +62,7 @@ All trades run securely through API connections on Bybit and Binance — ensurin
                 👤 Sign Up The Account
               </h3>
               <p className="mt-2 text-gray-400 text-sm sm:text-base">
-                Join Qbot by quickly creating your account with a few basic
+                Join Qbots by quickly creating your account with a few basic
                 details.
               </p>
             </div>
@@ -88,7 +88,7 @@ All trades run securely through API connections on Bybit and Binance — ensurin
                 📊 Start Trading
               </h3>
               <p className="mt-2 text-gray-400 text-sm sm:text-base">
-                Leverage automation to execute profitable trades while Qbot
+                Leverage automation to execute profitable trades while Qbots
                 handles market fluctuations.
               </p>
             </div>
@@ -107,7 +107,7 @@ All trades run securely through API connections on Bybit and Binance — ensurin
       </div>
       {/* <div className=" flex-col items-center text-center   w-full">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold  w-full sm:w-[40%]">
-          Why Choose Qbot! Your Gateway to Smarter Trading.
+          Why Choose Qbots! Your Gateway to Smarter Trading.
         </h1>
         <div className="w-full sm:w-[50%] gap-5 items-center">
           <p className="mt-4 sm:mt-0   sm:text-md">
@@ -122,7 +122,7 @@ All trades run securely through API connections on Bybit and Binance — ensurin
       </div> */}
        <div className=" items-center w-full justify-center  ">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-        Why Choose Qbot! Your Gateway to Smarter Trading.
+        Why Choose Qbots! Your Gateway to Smarter Trading.
         </h1>
 
         <p className="mt-3 text-sm sm:text-base md:text-lg text-gray-200  text-center">
