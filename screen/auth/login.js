@@ -7,6 +7,8 @@ import Link from "next/link";
 import { loginMutation, useHandleGoogleSignup } from "../../queries/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { GoogleLogin } from "@react-oauth/google";
+console.log(process.env.NEXT_PUBLIC_client_id, "env>>");
 
 const Login = () => {
   const router = useRouter();
@@ -128,7 +130,6 @@ const Login = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.email}</p>
               )}
             </div>
-
             <div className="mb-4 relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -154,7 +155,6 @@ const Login = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.password}</p>
               )}
             </div>
-
             <div className="flex items-center justify-between text-sm mb-6">
               <label className="flex items-center cursor-pointer">
                 <input
@@ -173,7 +173,6 @@ const Login = () => {
                 Forgot Password?
               </Link>
             </div>
-
             <button
               type="submit"
               className="w-full bg-primary  font-semibold  text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
@@ -181,14 +180,27 @@ const Login = () => {
             >
               {mutatePending ? `LOGIN...` : `LOGIN`}
             </button>
-
             <div className="my-6 flex items-center justify-center text-gray-500 text-sm">
               <span className="border-b w-1/5 lg:w-1/4"></span>
               <span className="mx-2">Or</span>
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
-
-            <button
+            <div className=" flex items-center justify-center">
+              <GoogleLogin
+                size="large"
+                className="w-full"
+                // width={700}
+                onSuccess={(credentialResponse) => {
+                  console.log(credentialResponse);
+                  googleLogin({ idToken: credentialResponse?.credential });
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+                useOneTap
+              />
+            </div>
+            {/* <button
               type="button"
               className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"
               onClick={googleLogin}
@@ -199,7 +211,7 @@ const Login = () => {
                 className="w-5 h-5 mr-2"
               />
               Sign in with Google
-            </button>
+            </button> */}
           </form>
         </div>
       </div>
