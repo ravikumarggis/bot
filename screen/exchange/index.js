@@ -122,10 +122,10 @@ import React from "react";
 
 export default function Exchange() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 md:px-20 sm:px-10 py-12 sm:py-24 overflow-x-hidden">
+    <section className=" bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 md:px-20 sm:px-10 py-20 sm:py-30 overflow-x-hidden">
       <div className=" mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT: Content */}
-        <div className="col-span-12 lg:col-span-7 order-2 lg:order-1">
+        <div className="col-span-12 lg:col-span-7 order-1 ">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
             Securely Integrate Your
             <br />
@@ -171,7 +171,7 @@ export default function Exchange() {
         </div>
 
         {/* RIGHT: Neon ring + badges */}
-        <div className="col-span-12 lg:col-span-5 flex justify-center mt-10 lg:justify-center items-start lg:items-center gap-6 order-1 lg:order-2">
+        <div className="col-span-12 lg:col-span-5 flex justify-center  lg:justify-center items-start lg:items-center gap-20 order-2 h-[100%]">
           {/* Binance block */}
           <div className="flex flex-col items-center justify-center gap-3">
             <div className="p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-[80px] h-[80px] flex items-center justify-center">
@@ -198,7 +198,7 @@ export default function Exchange() {
         </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="mt-15 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <FeatureCard
           icon={<PlusIcon />}
           title="Add Exchange"
