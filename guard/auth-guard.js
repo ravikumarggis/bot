@@ -3,7 +3,7 @@ import { getCookie } from "cookies-next";
 import { redirect, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const guradedRoutes = ["/dashboard/home"];
+const guradedRoutes = ["/dashboard/home", "/dashboard/pricing/confirm-payment"];
 
 const AuthGuard = ({ children }) => {
   const pathname = usePathname();
