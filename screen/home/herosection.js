@@ -23,7 +23,7 @@
 //       </div>
 //       <div className=" items-center w-full flex flex-col justify-center">
 //         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold  leading-snug">
-//         Qbot — Intelligent Crypto Trading 
+//         Qbots — Intelligent Crypto Trading 
 
 //           <br className="hidden sm:block" />
 //           Simplified{" "}
@@ -31,8 +31,8 @@
 //         </h1>
 
 //         <p className="mt-6 w-full md:w-[70%]  text-sm sm:text-base md:text-lg  text-center">
-//         Grow your portfolio effortlessly with Qbot’s powerful automated trading engine.
-// Whether you’re a beginner or a pro, Qbot’s advanced Grid and DCA strategies execute trades with precision on Bybit and Binance — helping you maximize profits and minimize emotions.
+//         Grow your portfolio effortlessly with Qbots’s powerful automated trading engine.
+// Whether you’re a beginner or a pro, Qbots’s advanced Grid and DCA strategies execute trades with precision on Bybit and Binance — helping you maximize profits and minimize emotions.
 // Stay ahead of the market with smart, data-driven automation — and more strategies coming soon.
 //         </p>
 //       </div>
@@ -66,8 +66,8 @@ import { Check } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#030b1f] text-white min-h-screen  items-center justify-center px-6 md:px-20">
-      <div className="inline-block px-4 py-1.5 text-sm tracking-wide font-medium text-gray-200">
+    <section className="relative overflow-hidden bg-[#030b1f] text-white   items-center justify-center px-6 md:px-20">
+      <div className="inline-block px-4 py-1.5 pb-4 text-sm tracking-wide font-medium text-gray-200">
     YOUR GATEWAY TO SMARTER AUTOMATED
   </div>
       <div className=" mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-20 md:pt-28">

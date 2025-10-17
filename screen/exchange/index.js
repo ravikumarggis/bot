@@ -10,14 +10,14 @@
 //     id: 1,
 //     title: "Initialization",
 //     description:
-//       "Begin by integrating your exchange accounts securely via API. Our platform ensures secure and encrypted connections, allowing seamless data flow between Qbot and your exchanges.",
+//       "Begin by integrating your exchange accounts securely via API. Our platform ensures secure and encrypted connections, allowing seamless data flow between Qbots and your exchanges.",
 //     icon: <Cloud size={48} />,
 //   },
 //   {
 //     id: 2,
 //     title: "Market Monitoring",
 //     description:
-//       "Once connected, Qbot continuously tracks market movements in real time, analyzing price fluctuations, liquidity, and emerging trends across multiple exchanges.",
+//       "Once connected, Qbots continuously tracks market movements in real time, analyzing price fluctuations, liquidity, and emerging trends across multiple exchanges.",
 //     icon: <LineChart size={48} />,
 //   },
 //   {
@@ -59,12 +59,12 @@
 //           Securely Integrate Your
 //         </h1>
 //         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-//           Exchange APIs on Qbot
+//           Exchange APIs on Qbots
 //         </h1>
 //       </div>
 //       <div className="w-full  items-center justify-center flex flex-col gap-2">
 //         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-//           Qbot Supports Multiple Exchanges
+//           Qbots Supports Multiple Exchanges
 //         </h1>
 //         <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
 //           Our platform allows users to connect and trade across leading
@@ -80,7 +80,7 @@
 //         </h2>
 
 //         <p className=" w-full   text-sm sm:text-base md:text-lg text-gray-200 items-center text-center">
-//           Qbot is a powerful automated trading platform that helps you
+//           Qbots is a powerful automated trading platform that helps you
 //           monitor, identify, and execute trading opportunities across multiple
 //           cryptocurrency exchanges. Our system ensures fast execution and
 //           efficiency, making trading seamless and optimized for profitability.
@@ -129,7 +129,7 @@ export default function Exchange() {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
             Securely Integrate Your
             <br />
-            Exchange APIs on Qbot
+            Exchange APIs on Qbots
           </h1>
 
           <p className="mt-6 text-lg text-gray-300 max-w-3xl">

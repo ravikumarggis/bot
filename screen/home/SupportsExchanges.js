@@ -13,7 +13,7 @@ import React from "react";
 
 export default function SupportsExchanges() {
   return (
-    <section className="bg-[#040616] text-white py-24 px-6">
+    <section className="bg-[#040616] text-white pt-24 px-6">
       <div className=" mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
           SUPPORTS <span className="text-primary">TOP EXCHANGES</span>
@@ -23,7 +23,7 @@ export default function SupportsExchanges() {
         </p>
 
         {/* Visualization container */}
-        <div className="relative mx-auto w-full max-w-3xl h-[520px] md:h-[520px]">
+        <div className="relative mx-auto w-full max-w-3xl h-[250px] sm:h-[400px]">
           {/* SVG background (rings + semicircle arc) */}
           <svg viewBox="0 0 900 520" preserveAspectRatio="xMidYMid meet" className="w-full h-full">
             <defs>
@@ -70,7 +70,7 @@ export default function SupportsExchanges() {
 
           {/* Left exchange node (Binance) - absolute positioned relative to container */}
           <div
-            className="absolute left-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
+            className="absolute left-[5%] sm:left-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
             style={{ pointerEvents: "auto" }}
           >
             <div className="w-20 h-20 rounded-full bg-[#0b1229] flex items-center justify-center border border-white/8 shadow-[0_10px_30px_rgba(20,120,255,0.06)]">
@@ -81,7 +81,7 @@ export default function SupportsExchanges() {
 
           {/* Right exchange node (Bybit) */}
           <div
-            className="absolute right-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
+            className="absolute right-[5%] sm:right-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
             style={{ pointerEvents: "auto" }}
           >
             <div className="w-20 h-20 rounded-full bg-[#0b1229] flex items-center justify-center border border-white/8 shadow-[0_10px_30px_rgba(200,100,255,0.06)]">
@@ -91,9 +91,9 @@ export default function SupportsExchanges() {
           </div>
 
           {/* Decorative glowing orbit dots placed along bottom center */}
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-[6%]">
+          {/* <div className="absolute left-1/2 -translate-x-1/2 bottom-[6%]">
             <div className="w-3 h-3 rounded-full bg-cyan-400/90 blur-sm" />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

@@ -39,9 +39,9 @@
 //           whileHover={{ scale: 1.05 }}
 //           className="flex items-center gap-2 cursor-pointer"
 //         >
-//           <img src="/assets/logo1.png" alt="Qbot Logo" className="w-5 h-6" />
+//           <img src="/assets/logo1.png" alt="Qbots Logo" className="w-5 h-6" />
 //           <p className="text-md sm:text-lg lg:text-2xl font-semibold text-white">
-//             Qbot
+//             Qbots
 //           </p>
 //         </motion.div>
 //       </Link>
@@ -61,7 +61,7 @@
 
 //         <motion.div whileHover={{ scale: 1.1 }}>
 //           <Link
-//             href="https://Qbot.gitbook.io/helper/"
+//             href="https://Qbots.gitbook.io/helper/"
 //             className={linkClass("/docs")}
 //           >
 //             Docs
@@ -112,7 +112,7 @@
 //             <Link href="/tutorials" onClick={() => setIsOpen(false)} className={linkClass("/tutorials")}>
 //               Tutorials
 //             </Link>
-//             <Link href="https://Qbot.gitbook.io/helper/" onClick={() => setIsOpen(false)} className={linkClass("/docs")}>
+//             <Link href="https://Qbots.gitbook.io/helper/" onClick={() => setIsOpen(false)} className={linkClass("/docs")}>
 //               Docs
 //             </Link>
 
@@ -158,7 +158,7 @@ export default function Navbar() {
       <div className=" mx-auto flex items-center justify-between px-6 md:px-20 py-3 gap-2">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-        <img src="/assets/logo1.png" alt="Qbot Logo" className="w-5 h-6" />
+        <img src="/assets/logo1.jpeg" alt="Qbots Logo" className="w-5 h-6" />
           <span className="text-white font-semibold text-lg tracking-tight">Qbots</span>
         </Link>
 
