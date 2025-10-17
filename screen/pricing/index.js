@@ -89,56 +89,59 @@
 // export default Pricing;
 
 
+"use client";
 import React from "react";
+import Image from "next/image";
 
 /**
  * PricingHero.jsx
- * Single-file React component (Next.js compatible) using Tailwind CSS.
- * Paste into /components and import into a page.
- *
- * This reproduces the pricing layout from the provided screenshot:
- * - Left: large headline, subtitle, exchange icons, trust line
- * - Right: tall pricing card with ribbon, price, bullet list and CTA
- *
- * Requires Tailwind CSS in your project. Small inline styles / keyframes are included for effects.
+ * A modern pricing section with exchange badges and pricing card.
+ * Compatible with Next.js + Tailwind CSS.
+ * Place exchange logos in: /public/assets/homepage/
+ * Example: /public/assets/homepage/binance.png, /bybit.png, /kucoin.png
  */
 
 export default function PricingHero() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#061026] via-[#0b0720] to-[#2b0630] text-white px-8 py-16 font-sans">
-      <div className="max-w-6xl mx-auto grid grid-cols-12 gap-8 items-start">
+    <section className=" bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 md:px-20 py-20 sm:py-28 overflow-x-hidden">
+      <div className=" mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT CONTENT */}
-        <div className="col-span-12 lg:col-span-7">
-          <h1 className="text-[48px] sm:text-[56px] md:text-[72px] lg:text-[84px] font-extrabold leading-tight">
+        <div className="col-span-10 lg:col-span-7  flex-col">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
             Enjoy Automated Trading at
             <br />
             <span className="block">Competitive Pricing</span>
           </h1>
 
-          <h2 className="mt-8 text-2xl font-semibold">Plans & Pricing</h2>
+          <h2 className="mt-4 sm:mt-8 text-3xl font-semibold">Plans & Pricing</h2>
 
-          <p className="mt-4 max-w-2xl text-gray-300">
-            Automate trades on Binance & Bybit — single API-only connections. Your funds remain on the exchange.
+          <p className="mt-4 sm:mt-6 max-w-2xl text-gray-300">
+            Automate trades on Binance & Bybit — single API-only connections.
+            Your funds remain on the exchange.
           </p>
 
           {/* Exchanges row */}
-          <div className="mt-8 flex flex-wrap items-center gap-8">
+          <div className="mt-4 sm:mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
             <ExchangeBadge name="BINANCE" accent="yellow" active />
             <ExchangeBadge name="BYBIT" accent="gold" active />
             <ExchangeBadge name="KUCOIN" accent="gray" comingSoon />
-            <div className="ml-2 text-gray-400">coming soon</div>
+            <ExchangeBadge name="MEXC" accent="gray" comingSoon />
+            {/* <div className="ml-2 text-gray-400 text-sm">coming soon</div> */}
           </div>
 
-          <div className="mt-10 text-gray-200 font-medium">
-            Trusted by <span className="font-semibold">18k+</span> traders &nbsp; • &nbsp; 24/7 uptime
+          <div className="pt-2 sm:pt-12 text-sm text-gray-400 flex items-center gap-2">
+            <span className="text-pink-400 font-medium">
+              Trusted by 18k traders
+            </span>
+            • 24/7 uptime
           </div>
         </div>
 
         {/* RIGHT PRICING CARD */}
-        <div className="col-span-12 lg:col-span-5 flex justify-center lg:justify-end">
-          <div className="relative w-full max-w-[320px]">
+        <div className="col-span-12 lg:col-span-4 flex justify-center lg:justify-end lg:ml-12 mt-5">
+          <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg">
             {/* Ribbon */}
-            <div className="absolute -left-4 -top-4 z-20 transform rotate-[-18deg]">
+            <div className="absolute left-0 sm:-left-4 -top-4 z-20 transform sm:-rotate-18 -rotate-12">
               <div className="bg-pink-600 text-white text-xs px-4 py-1 rounded-md shadow-md">
                 FL. limited
               </div>
@@ -146,7 +149,7 @@ export default function PricingHero() {
 
             {/* Card */}
             <div
-              className="relative rounded-2xl p-8 pt-12 pb-10"
+              className="relative w-[90%] mx-auto rounded-2xl p-6 sm:p-8 pt-10 pb-8 sm:pt-12 sm:pb-10"
               style={{
                 background:
                   "linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))",
@@ -174,72 +177,60 @@ export default function PricingHero() {
               />
 
               {/* badge label */}
-              <div className="absolute top-6 right-6 bg-pink-700/20 text-pink-200 px-3 py-1 rounded-full text-xs">
+              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-pink-700/20 text-pink-200 px-3 py-1 rounded-full text-[10px] sm:text-xs">
                 Special offer
               </div>
 
               {/* Price */}
-              <div className="text-center mt-1">
-                <div className="text-sm text-gray-400 line-through">₹2000</div>
-                <div className="mt-2 text-5xl font-extrabold">₹1200</div>
+              <div className="text-center mt-2 sm:mt-1">
+                <div className="text-sm sm:text-md text-gray-400 line-through">
+                  $2000
+                </div>
+                <div className="mt-2 text-4xl sm:text-5xl font-extrabold">
+                  $1200
+                </div>
               </div>
 
               {/* Bullet list */}
-              <ul className="mt-6 space-y-4">
+              <ul className="mt-6 space-y-3 sm:space-y-4">
                 <li className="flex items-start gap-3">
                   <CheckMark />
-                  <div>
-                    <div className="text-sm font-semibold">Duration. 1 MONTH</div>
-                  </div>
+                  <span className="text-sm font-semibold">
+                    Duration: 1 Month
+                  </span>
                 </li>
 
                 <li className="flex items-start gap-3">
                   <CheckMark />
-                  <div>
-                    <div className="text-sm font-semibold">Exchanges, Binance</div>
-                  </div>
+                  <span className="text-sm font-semibold">
+                    Exchanges: Binance , Bybit
+                  </span>
                 </li>
 
                 <li className="flex items-start gap-3">
                   <CheckMark />
-                  <div>
-                    <div className="text-sm font-semibold">Profit Cap, $200</div>
-                  </div>
+                  <span className="text-sm font-semibold">
+                    Profit Cap: Unlimited
+                  </span>
                 </li>
               </ul>
 
               {/* small description */}
-              <p className="mt-6 text-gray-400 text-sm leading-relaxed">
-                Explore arbitrage on Binance & Bybit. Higher price programmatically automated and monitored.
+              <p className="mt-6 text-gray-400 text-xs sm:text-sm leading-relaxed">
+                Explore grid & DCA on Binance & Bybit. Higher price
+                programmatically automated and monitored.
               </p>
 
               {/* CTA */}
               <div className="mt-8">
-                <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#ff3b7a] to-[#ff6a9a] text-white font-semibold shadow-lg">
+                <button className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#ff3b7a] to-[#ff6a9a] text-white font-semibold shadow-lg hover:opacity-90 transition">
                   Login To Buy
                 </button>
               </div>
             </div>
-
-            {/* neon outer glow */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                inset: -12,
-                borderRadius: 20,
-                boxShadow: "0 30px 80px rgba(160,50,140,0.18), inset 0 0 60px rgba(120,30,120,0.08)",
-                pointerEvents: "none",
-              }}
-            />
           </div>
         </div>
       </div>
-
-      {/* tiny keyframes for subtle animation if desired */}
-      <style js>{`
-        /* nothing required—kept for future micro-animations */
-      `}</style>
     </section>
   );
 }
@@ -249,40 +240,73 @@ export default function PricingHero() {
    ------------------------- */
 
 function ExchangeBadge({ name, accent = "gray", active = false, comingSoon = false }) {
-  const accentColor =
-    accent === "yellow" ? "bg-amber-400 text-amber-400" : accent === "gold" ? "bg-yellow-300 text-yellow-300" : "bg-gray-400 text-gray-400";
+  // map exchange names to logo paths in /public/assets/homepage/
+  const logos = {
+    BINANCE: "/assets/homepage/binance.png",
+    BYBIT: "/assets/homepage/bybit.webp",
+    KUCOIN: "/assets/homepage/kucoin.png",
+    MEXC: "/assets/homepage/mexc.png",
+  };
+  const isKucoin = name === "KUCOIN";
+  const logoSize = isKucoin ? 100 : 40;
+
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
       <div
-        className={`w-9 h-9 rounded-md grid place-items-center ${active ? "bg-opacity-100" : "bg-opacity-30"}`}
+        className={`w-10 h-10 rounded-md grid place-items-center ${
+          active ? "bg-opacity-100" : "bg-opacity-30"
+        }`}
         style={{
-          background: active ? "linear-gradient(135deg,#0f1724,#142033)" : "transparent",
-          border: active ? "1px solid rgba(255,255,255,0.04)" : "1px dashed rgba(255,255,255,0.03)",
+          background: active
+            ? ""
+            : "transparent",
+          border: active
+            ? "1px solid rgba(255,255,255,0.04)"
+            : "1px dashed rgba(255,255,255,0.03)",
         }}
       >
-        {/* small check or placeholder icon */}
-        {active ? (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M20 6L9 17l-5-5" stroke="#47d0a8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        {logos[name] ? (
+          <Image
+            src={logos[name]}
+            alt={name}
+            width={logoSize}
+            height={logoSize}
+
+            className={"object-contain"}
+          />
         ) : (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" opacity="0.25">
-            <rect x="3" y="3" width="18" height="18" rx="3" stroke="rgba(255,255,255,0.06)" strokeWidth="1.2" />
-          </svg>
+          <></>
         )}
       </div>
-      <div className={`text-sm font-semibold ${active ? "text-white" : "text-gray-400"}`}>{name}</div>
+
+      <div
+        className={`text-sm font-semibold ${
+          active ? "text-white" : "text-gray-400"
+        }`}
+      >
+        {name}
+      </div>
+      {comingSoon && (
+          <span className="text-[10px] text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-1.5 py-0.5 rounded">
+            Coming Soon
+          </span>
+        )}
     </div>
   );
 }
 
 function CheckMark() {
   return (
-    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 grid place-items-center flex-shrink-0">
+    <div className="w-6 h-6 rounded-full bg-primary grid place-items-center flex-shrink-0">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-        <path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M20 6L9 17l-5-5"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   );
 }
-

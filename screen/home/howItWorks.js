@@ -9,37 +9,37 @@ export default function HowItWorks() {
       title: "Add Exchange",
       description:
         "Securely connect your Binance or Bybit account using API keys. Your funds always stay on your exchange.",
-      icon: <Key className="w-10 h-10 text-blue-400" />,
+      icon: <Key className="w-10 h-10 text-primary" />,
     },
     {
       number: "02",
       title: "Create Your Bot",
       description:
         "Choose between Grid or DCA — pick what fits your trading style and goals.",
-      icon: <Bot className="w-10 h-10 text-indigo-400" />,
+      icon: <Bot className="w-10 h-10 text-primary" />,
     },
     {
       number: "03",
       title: "Set Strategy",
       description:
         "Customize trading parameters or run instantly with default optimized settings.",
-      icon: <Settings className="w-10 h-10 text-purple-400" />,
+      icon: <Settings className="w-10 h-10 text-primary" />,
     },
     {
       number: "04",
       title: "Monitor & Manage",
       description:
         "Track live performance, open/close orders, and P&L — all from a single dashboard.",
-      icon: <BarChart3 className="w-10 h-10 text-fuchsia-400" />,
+      icon: <BarChart3 className="w-10 h-10 text-primary" />,
     },
   ];
 
   return (
-    <section className="bg-[#030b1f] text-white py-24 px-6 md:px-12 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto text-center mb-16">
+    <section className="bg-[#030b1f] text-white py-24 px-6 md:px-20 relative overflow-hidden">
+      <div className=" mx-auto text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
           How Qbots Works —{" "}
-          <span className="text-blue-400">Simple, Secure, Automated</span>
+          <span className="text-primary">Simple, Secure, Automated</span>
         </h2>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto">
           From connecting your exchange to running AI-driven strategies — Qbots
@@ -51,7 +51,7 @@ export default function HowItWorks() {
       <div className="absolute top-[50%] left-0 w-full h-[2px] bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 hidden md:block"></div>
 
       {/* Step Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative max-w-6xl mx-auto z-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative  mx-auto z-10">
         {steps.map((step, index) => (
           <div
             key={index}

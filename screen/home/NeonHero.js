@@ -21,7 +21,7 @@ import {
 
 export default function ComingSoon() {
   return (
-    <section className="bg-[#030315] text-white py-20 px-6 md:px-12">
+    <section className="bg-[#030315] text-white py-20 px-6 md:px-20">
       <div className="max-w-5xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-wide mb-6">
           <span className="text-cyan-300/95">COMING SOON</span>

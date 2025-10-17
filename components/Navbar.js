@@ -144,6 +144,7 @@
 //     </motion.header>
 //   );
 // }
+
 "use client";
 import Link from "next/link";
 import { useState } from "react";
@@ -154,13 +155,11 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full bg-[#030b1f]/70 backdrop-blur-md border-b border-white/10 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <div className=" mx-auto flex items-center justify-between px-6 md:px-20 py-3 gap-2">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-md flex items-center justify-center text-white font-bold text-sm">
-            Q
-          </div>
-          <span className="text-white font-semibold text-lg tracking-tight">Qbot</span>
+        <img src="/assets/logo1.png" alt="Qbot Logo" className="w-5 h-6" />
+          <span className="text-white font-semibold text-lg tracking-tight">Qbots</span>
         </Link>
 
         {/* Desktop Links */}
@@ -174,13 +173,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center space-x-3">
           <Link
             href="/login"
-            className="px-5 py-1.5 border border-white/30 text-gray-200 rounded-full hover:bg-white/10 transition"
+            className="px-5 py-1.5 border border-white/30 text-gray-200 rounded-full hover:bg-primary transition"
           >
             LOGIN
           </Link>
           <Link
             href="#"
-            className="px-5 py-1.5 bg-white/10 text-white rounded-full hover:bg-white/20 border border-white/30 transition"
+            className="px-5 py-1.5 bg-white/10 text-white rounded-full hover:bg-primary border border-white/30 transition"
           >
             SIGN UP
           </Link>
@@ -196,29 +195,52 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Dropdown */}
-      {isOpen && (
-        <div className="md:hidden bg-[#030b1f]/95 border-t border-white/10">
-          <div className="flex flex-col px-6 py-4 space-y-3 text-gray-300">
-            <Link href="#" className="hover:text-white transition">Exchanges</Link>
-            <Link href="#" className="hover:text-white transition">Pricing</Link>
-            <Link href="#" className="hover:text-white transition">Docs</Link>
-            <div className="flex space-x-2 pt-3">
-              <Link
-                href="/login"
-                className="flex-1 text-center border bg-primary rounded-full py-2 hover:bg-white/10 transition"
-              >
-                LOGIN
-              </Link>
-              <Link
-                href="#"
-                className="flex-1 text-center bg-white/10 border border-white/30 text-white rounded-full py-2 hover:bg-white/20 transition"
-              >
-                SIGN UP
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+     {/* Mobile Dropdown */}
+{isOpen && (
+  <div className="md:hidden bg-[#030b1f]/95 border-t border-white/10">
+    <div className="flex flex-col px-6 py-4 space-y-3 text-gray-300">
+      <Link
+        href="/exchange"
+        onClick={() => setIsOpen(false)}
+        className="hover:text-white transition"
+      >
+        Exchanges
+      </Link>
+      <Link
+        href="/pricing"
+        onClick={() => setIsOpen(false)}
+        className="hover:text-white transition"
+      >
+        Pricing
+      </Link>
+      <Link
+        href="#"
+        onClick={() => setIsOpen(false)}
+        className="hover:text-white transition"
+      >
+        Docs
+      </Link>
+
+      <div className="flex space-x-2 pt-3">
+        <Link
+          href="/login"
+          onClick={() => setIsOpen(false)}
+          className="flex-1 text-center border bg-primary rounded-full py-2 hover:bg-primary transition"
+        >
+          LOGIN
+        </Link>
+        <Link
+          href="#"
+          onClick={() => setIsOpen(false)}
+          className="flex-1 text-center bg-white/10 border border-white/30 text-white rounded-full py-2 hover:bg-white/20 transition"
+        >
+          SIGN UP
+        </Link>
+      </div>
+    </div>
+  </div>
+)}
+
     </nav>
   );
 }

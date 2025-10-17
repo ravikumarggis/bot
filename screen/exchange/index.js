@@ -118,49 +118,28 @@
 
 // export default Exchange;
 
-
 import React from "react";
-
-/**
- * ExchangeHero.jsx
- *
- * Single-file React component (Next.js compatible) using Tailwind CSS + a small block of scoped CSS.
- * Paste this as a component (e.g. components/ExchangeHero.jsx) into your Next.js project.
- *
- * Requirements:
- * - Tailwind CSS configured (this component uses Tailwind utility classes).
- * - Add the small `<style jsx global>` portion below into your global CSS if you prefer global keyframes.
- *
- * This file aims to closely match the exact composition of the screenshot you provided:
- *  - massive left-aligned headline
- *  - subtitle, CTAs, badges row
- *  - "How Does It Work?" section
- *  - 4 translucent feature cards
- *  - right-side neon circular ring with two circular exchange badges (Binance & Bybit)
- *
- * Note: tiny visual differences may remain because exact fonts, exact shadows and pixel-perfect spacing
- * depend on assets and your Tailwind config. This is a close, production-ready approximation.
- */
 
 export default function Exchange() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-10 py-14">
-      <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8 items-start">
+    <section className="min-h-screen bg-gradient-to-b from-[#040414] via-[#070619] to-[#080312] text-white px-6 md:px-20 sm:px-10 py-12 sm:py-24 overflow-x-hidden">
+      <div className=" mx-auto grid grid-cols-12 gap-8 items-start">
         {/* LEFT: Content */}
-        <div className="col-span-8 lg:col-span-7">
-          <h1 className="font-extrabold text-[74px] leading-[0.96] tracking-[-0.02em]">
+        <div className="col-span-12 lg:col-span-7 order-2 lg:order-1">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
             Securely Integrate Your
             <br />
             Exchange APIs on Qbot
           </h1>
 
           <p className="mt-6 text-lg text-gray-300 max-w-3xl">
-            Automate trades an Binance & Bybit — simple API-only connections. Your funds remain on the exchange.
+            Automate trades on Binance & Bybit — simple API-only connections.
+            Your funds remain on the exchange.
           </p>
 
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <button
-              className="px-6 py-3 rounded-lg text-lg font-medium shadow-[0_20px_40px_rgba(255,70,120,0.12)] 
+              className="px-6 py-3 rounded-lg text-lg font-medium shadow-[0_20px_40px_rgba(255,70,120,0.12)]
                          bg-gradient-to-r from-[#ff2a8f] to-[#ff5a8f] hover:brightness-105 transition"
             >
               Make Money
@@ -171,7 +150,7 @@ export default function Exchange() {
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-8 text-sm text-gray-300">
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-gray-300">
             <div className="flex items-center gap-3">
               <span className="w-4 h-4 rounded-full border-2 border-[#2ecc71]" />
               <span>Trusted by 15k+ traders</span>
@@ -188,145 +167,73 @@ export default function Exchange() {
             <p className="mt-4 text-gray-300 max-w-3xl">
               Connect Binance or Bybit using API keys (no withdrawal permissions required).
             </p>
-
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <FeatureCard
-                icon={<PlusIcon />}
-                title="Add Exchange"
-                description="Connect Binance or Bybit using API keys (no withdrawal permissions)."
-              />
-              <FeatureCard
-                icon={<BotIcon />}
-                title="Create Your Bot"
-                description="Select grid or DCA, pick pair & price, choose an optimized preset."
-              />
-              <FeatureCard
-                icon={<StrategyIcon />}
-                title="Set Strategy"
-                description="Fine tune parameters or turn limits ability with safe defaults."
-              />
-              <FeatureCard
-                icon={<MonitorIcon />}
-                title="Monitor & Manage"
-                description="Watch performance, pause or stop. Do it all from your dashboard."
-              />
-            </div>
           </div>
         </div>
 
         {/* RIGHT: Neon ring + badges */}
-        <div className="col-span-4 lg:col-span-5 relative flex justify-center lg:justify-end items-start pt-8">
-          <div className="relative w-[420px] h-[420px] flex items-center justify-center">
-            {/* Outer faint vignette */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                boxShadow:
-                  "inset 0 30px 80px rgba(0,0,0,0.6), 0 60px 140px rgba(0,0,0,0.6)",
-                background:
-                  "radial-gradient(closest-side, rgba(255,50,120,0.02), transparent 45%)",
-              }}
-            />
-
-            {/* Neon ring: two layered circular borders */}
-            <div className="absolute w-[330px] h-[330px] rounded-full grid place-items-center">
-              <div
-                className="absolute rounded-full"
-                style={{
-                  width: "330px",
-                  height: "330px",
-                  border: "3px solid rgba(220, 70, 140, 0.12)",
-                  boxShadow: "0 0 40px rgba(220,70,140,0.06)",
-                }}
-              />
-              <div
-                className="absolute rounded-full animate-slow-spin"
-                style={{
-                  width: "280px",
-                  height: "280px",
-                  border: "5px solid rgba(200,50,140,0.22)",
-                  boxShadow: "0 0 90px rgba(200,50,140,0.08)",
-                }}
+        <div className="col-span-12 lg:col-span-5 flex justify-center mt-10 lg:justify-center items-start lg:items-center gap-6 order-1 lg:order-2">
+          {/* Binance block */}
+          <div className="flex flex-col items-center justify-center gap-3">
+            <div className="p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-[80px] h-[80px] flex items-center justify-center">
+              <img
+                src="././../assets/homepage/binance.png"
+                alt="Binance"
+                className="max-w-[60px] w-full h-auto object-contain"
               />
             </div>
+            <p className="text-md text-gray-300 font-bold text-center">Binance</p>
+          </div>
 
-            {/* Binance badge (left) */}
-            <div className="relative z-10 -mr-14">
-              <div className="flex flex-col items-center gap-3">
-                <div
-                  className="w-36 h-36 rounded-full flex items-center justify-center"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(10,18,32,0.95), rgba(2,8,18,0.9))",
-                    boxShadow:
-                      "inset 0 10px 30px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.6)",
-                    border: "1px solid rgba(255,255,255,0.04)",
-                  }}
-                >
-                  <BinanceLogo />
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold">Binance</div>
-                  <div className="text-xs text-gray-400">Supported</div>
-                </div>
-              </div>
+          {/* Bybit block */}
+          <div className="flex flex-col items-center justify-center gap-3">
+            <div className="p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-[80px] h-[80px] flex items-center justify-center">
+              <img
+                src="././../assets/homepage/bybit.webp"
+                alt="Bybit"
+                className="max-w-[60px] w-full h-auto object-contain"
+              />
             </div>
-
-            {/* Bybit badge (right) */}
-            <div className="relative z-10 -ml-14">
-              <div className="flex flex-col items-center gap-3">
-                <div
-                  className="w-36 h-36 rounded-full flex items-center justify-center"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(3,3,6,0.95), rgba(10,4,10,0.92))",
-                    boxShadow:
-                      "inset 0 10px 30px rgba(0,0,0,0.75), 0 10px 30px rgba(0,0,0,0.6)",
-                    border: "1px solid rgba(255,255,255,0.03)",
-                  }}
-                >
-                  <BybitLogo />
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold">Bybit</div>
-                  <div className="text-xs text-gray-400">Supported</div>
-                </div>
-              </div>
-            </div>
-
-            {/* faint small logos stacked to the right */}
-            <div className="absolute right-3 top-16 flex flex-col gap-3 opacity-30">
-              <div className="w-10 h-10 rounded-md bg-white/4 grid place-items-center text-xs">atz</div>
-              <div className="w-10 h-10 rounded-md bg-white/4 grid place-items-center text-xs">Ki</div>
-            </div>
+            <p className="text-md text-gray-300 font-bold text-center">Bybit</p>
           </div>
         </div>
       </div>
 
-      {/* Scoped styles for slow spin and minor adjustments */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <FeatureCard
+          icon={<PlusIcon />}
+          title="Add Exchange"
+          description="Connect Binance or Bybit using API keys (no withdrawal permissions)."
+        />
+        <FeatureCard
+          icon={<BotIcon />}
+          title="Create Your Bot"
+          description="Select grid or DCA, pick pair & price, choose an optimized preset."
+        />
+        <FeatureCard
+          icon={<StrategyIcon />}
+          title="Set Strategy"
+          description="Fine tune parameters or turn limits ability with safe defaults."
+        />
+        <FeatureCard
+          icon={<MonitorIcon />}
+          title="Monitor & Manage"
+          description="Watch performance, pause or stop. Do it all from your dashboard."
+        />
+      </div>
+
       <style js>{`
         .animate-slow-spin {
           animation: slowSpin 20s linear infinite;
         }
         @keyframes slowSpin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-        /* small responsive tweaks to match screenshot spacing */
         @media (max-width: 1024px) {
-          h1 {
-            font-size: 52px !important;
-          }
+          h1 { font-size: 52px !important; }
         }
         @media (max-width: 640px) {
-          h1 {
-            font-size: 36px !important;
-            line-height: 1.02 !important;
-          }
+          h1 { font-size: 36px !important; line-height: 1.02 !important; }
         }
       `}</style>
     </section>
@@ -344,11 +251,14 @@ function FeatureCard({ icon, title, description }) {
       style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
     >
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-lg bg-black/20 grid place-items-center">
-          {icon}
+        {/* Icon container */}
+        <div className="w-20 h-20 rounded-lg bg-black/20 grid place-items-center text-white flex-shrink-0">
+          <div className="w-12 h-12">{icon}</div>
         </div>
+
+        {/* Text content */}
         <div>
-          <div className="font-semibold">{title}</div>
+          <div className="font-semibold text-lg">{title}</div>
           <div className="mt-2 text-sm text-gray-400">{description}</div>
         </div>
       </div>
@@ -359,39 +269,74 @@ function FeatureCard({ icon, title, description }) {
 /* Icons */
 function PlusIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M12 5v14M5 12h14" stroke="#ff6b9b" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 5v14M5 12h14"
+        stroke="#ff6b9b"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
+
 function BotIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="3" width="18" height="12" rx="3" stroke="#7dd3fc" strokeWidth="1.6" />
-      <circle cx="9.5" cy="9" r="1" fill="#7dd3fc" />
-      <circle cx="14.5" cy="9" r="1" fill="#7dd3fc" />
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="12"
+        rx="3"
+        stroke="#7dd3fc"
+        strokeWidth="2"
+      />
+      <circle cx="9.5" cy="9" r="1.5" fill="#7dd3fc" />
+      <circle cx="14.5" cy="9" r="1.5" fill="#7dd3fc" />
     </svg>
   );
 }
+
 function StrategyIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M4 16l6-6 4 4 6-6" stroke="#c084fc" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M4 16l6-6 4 4 6-6"
+        stroke="#c084fc"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
+
 function MonitorIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="4" width="18" height="12" rx="2" stroke="#34d399" strokeWidth="1.6" />
-      <path d="M8 20h8" stroke="#34d399" strokeWidth="1.6" strokeLinecap="round" />
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+      <rect
+        x="3"
+        y="4"
+        width="18"
+        height="12"
+        rx="2"
+        stroke="#34d399"
+        strokeWidth="2"
+      />
+      <path
+        d="M8 20h8"
+        stroke="#34d399"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
 /* Exchange logos */
 function BinanceLogo() {
-  // stylized simplified Binance mark
   return (
     <svg width="68" height="68" viewBox="0 0 24 24" fill="none">
       <g transform="translate(2 2) scale(0.85)">
@@ -408,7 +353,15 @@ function BybitLogo() {
   return (
     <svg width="68" height="68" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="12" fill="transparent" />
-      <text x="50%" y="52%" dominantBaseline="middle" textAnchor="middle" fontSize="11" fontWeight="700" fill="#ff6b88">
+      <text
+        x="50%"
+        y="52%"
+        dominantBaseline="middle"
+        textAnchor="middle"
+        fontSize="11"
+        fontWeight="700"
+        fill="#ff6b88"
+      >
         B
       </text>
     </svg>

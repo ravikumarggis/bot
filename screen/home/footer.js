@@ -103,15 +103,15 @@ export default function Footer() {
 
   return (
     <footer className="bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-full mx-auto ">
         {/* Card */}
-        <div className="bg-[#071028] rounded-2xl p-6 sm:p-8 lg:p-10 mt-10 text-slate-100 shadow-xl border border-white/6">
+        <div className="bg-[#071028]  p-6 sm:p-8 lg:p-10  text-slate-100 shadow-xl border border-white/6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             {/* Left column: Logo + subscribe */}
             <div className="md:col-span-4 space-y-5">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-md bg-[#1a2336] flex items-center justify-center shrink-0">
-                  <img src="/logo-square.png" alt="Crypto Bot" className="w-8 h-8 object-contain"/>
+                <div className="w-12 h-12  flex items-center justify-center shrink-0">
+                <img src="/assets/logo1.png" alt="Qbot Logo" className="w-6 h-8" />
                 </div>
                 <span className="text-2xl font-semibold leading-none">Crypto Bot</span>
               </div>
@@ -195,15 +195,17 @@ export default function Footer() {
               <h5 className="text-slate-200 font-semibold mb-2">Resources</h5>
 
               <div className="flex gap-3 items-center">
-                <div className="p-2 sm:p-3 md:p-3 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
-                  <img src="/binance-logo.png" alt="Binance" className="object-contain w-8 h-8"/>
+                <div className="p-1.5 sm:p-1.5 md:p-2 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
+                <img src="././../assets/homepage/binance.png" alt="Binance" className="w-12 h-12 object-contain"/>
+
                 </div>
-                <div className="p-2 sm:p-3 md:p-3 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
-                  <img src="/bybit-logo.png" alt="Bybit" className="object-contain w-8 h-8"/>
+                <div className="p-1.5 sm:p-1.5 md:p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
+                <img src="././../assets/homepage/bybit.webp" alt="Bybit" className="w-12 h-12 object-contain"/>
+
                 </div>
-                <div className="p-2 sm:p-3 md:p-3 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
+                {/* <div className="p-2 sm:p-3 md:p-3 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
                   <div className="text-xs text-slate-300">AFS 256</div>
-                </div>
+                </div> */}
               </div>
 
               <div className="pt-2">

@@ -14,9 +14,9 @@ import React from "react";
 export default function SupportsExchanges() {
   return (
     <section className="bg-[#040616] text-white py-24 px-6">
-      <div className="max-w-6xl mx-auto text-center">
+      <div className=" mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
-          SUPPORTS <span className="text-blue-400">TOP EXCHANGES</span>
+          SUPPORTS <span className="text-primary">TOP EXCHANGES</span>
         </h2>
         <p className="text-slate-300 max-w-3xl mx-auto mb-12 text-lg">
           Gain broader market access and enhanced trading opportunities with minimal commissions through major exchanges.
@@ -62,30 +62,30 @@ export default function SupportsExchanges() {
               />
 
               {/* small decorative glow dots on arc */}
-              <circle cx="345" cy="110" r="6" fill="#71e6ff" style={{ filter: 'url(#softGlow)' }}/>
+              <circle cx="365" cy="110" r="6" fill="#71e6ff" style={{ filter: 'url(#softGlow)' }}/>
               <circle cx="450" cy="30" r="7" fill="#2de0d6" style={{ filter: 'url(#softGlow)' }}/>
-              <circle cx="600" cy="160" r="6" fill="#c98bff" style={{ filter: 'url(#softGlow)' }}/>
+              <circle cx="540" cy="112" r="6" fill="#c98bff" style={{ filter: 'url(#softGlow)' }}/>
             </g>
           </svg>
 
           {/* Left exchange node (Binance) - absolute positioned relative to container */}
           <div
-            className="absolute left-[10%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
+            className="absolute left-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
             style={{ pointerEvents: "auto" }}
           >
             <div className="w-20 h-20 rounded-full bg-[#0b1229] flex items-center justify-center border border-white/8 shadow-[0_10px_30px_rgba(20,120,255,0.06)]">
-              <img src="/binance.png" alt="Binance" className="w-10 h-10 object-contain"/>
+              <img src="././../assets/homepage/binance.png" alt="Binance" className="w-12 h-12 object-contain"/>
             </div>
             <div className="mt-3 text-white font-semibold text-lg">Binance</div>
           </div>
 
           {/* Right exchange node (Bybit) */}
           <div
-            className="absolute right-[10%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
+            className="absolute right-[13%] top-[58%] transform -translate-y-1/2 w-40 flex flex-col items-center"
             style={{ pointerEvents: "auto" }}
           >
             <div className="w-20 h-20 rounded-full bg-[#0b1229] flex items-center justify-center border border-white/8 shadow-[0_10px_30px_rgba(200,100,255,0.06)]">
-              <img src="/bybit.png" alt="Bybit" className="w-12 h-8 object-contain"/>
+              <img src="././../assets/homepage/bybit.webp" alt="Bybit" className="w-12 h-12 object-contain"/>
             </div>
             <div className="mt-3 text-white font-semibold text-lg">Bybit</div>
           </div>
