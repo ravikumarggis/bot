@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Copy,
   Menu,
@@ -14,28 +14,59 @@ import {
   Settings2,
 } from "lucide-react";
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
+import { deleteCookie } from "cookies-next";
+import { useLogout } from "../queries/auth";
 
 export default function DashboardHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-
+  const logout = useLogout();
+  const router = useRouter();
   const navItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    { label: "Exchange", path: "/dashboard/exchange", Icon: IconExchange, type: "link" },
-    { label: "Pricing", path: "/dashboard/pricing", Icon: IconCurrency, type: "link" },
-    { label: "Plan Management", path: "/dashboard/plan-management", Icon: Calendar, type: "link" },
-    { label: "Transaction", path: "/dashboard/transaction", Icon: IconHistory, type: "link" },
-    { label: "Settings", path: "/dashboard/settings", Icon: Settings2, type: "link" },
+    {
+      label: "Exchange",
+      path: "/dashboard/exchange",
+      Icon: IconExchange,
+      type: "link",
+    },
+    {
+      label: "Pricing",
+      path: "/dashboard/pricing",
+      Icon: IconCurrency,
+      type: "link",
+    },
+    {
+      label: "Plan Management",
+      path: "/dashboard/plan-management",
+      Icon: Calendar,
+      type: "link",
+    },
+    {
+      label: "Transaction",
+      path: "/dashboard/transaction",
+      Icon: IconHistory,
+      type: "link",
+    },
+    {
+      label: "Settings",
+      path: "/dashboard/settings",
+      Icon: Settings2,
+      type: "link",
+    },
     { label: "Logout", Icon: LogOut, type: "button" },
   ];
 
   const handleLogout = () => {
     console.log("Logged out");
     setMenuOpen(false);
+    deleteCookie("token");
+    logout();
+    router.replace("/");
   };
 
   // Helper for active route styling
-  const isActive = (path) => 
+  const isActive = (path) =>
     pathname.startsWith(path)
       ? "bg-primary text-white"
       : "text-gray-300 hover:bg-white/10";
@@ -66,7 +97,11 @@ export default function DashboardHeader() {
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden text-white"
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -79,7 +114,9 @@ export default function DashboardHeader() {
                   href={path}
                   key={idx}
                   onClick={() => setMenuOpen(false)}
-                  className={`flex items-center w-full px-4 py-2 rounded-md transition ${isActive(path)}`}
+                  className={`flex items-center w-full px-4 py-2 rounded-md transition ${isActive(
+                    path
+                  )}`}
                 >
                   <Icon className="w-4 h-4 mr-2" />
                   {label}

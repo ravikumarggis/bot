@@ -4,14 +4,16 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Key, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
-import { signupMutation } from "../../queries/auth";
+import { signupMutation, useHandleGoogleSignup } from "../../queries/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
+  const googleLogin = useHandleGoogleSignup();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -234,8 +236,23 @@ const Signup = () => {
               <span className="mx-2">Or</span>
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
+            <div className=" flex items-center justify-center">
+              <GoogleLogin
+                size="large"
+                className="w-full"
+                // width={700}
+                onSuccess={(credentialResponse) => {
+                  console.log(credentialResponse);
+                  googleLogin({ idToken: credentialResponse?.credential });
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+                useOneTap
+              />
+            </div>
 
-            <button
+            {/* <button
               type="button"
               className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"
             >
@@ -245,7 +262,7 @@ const Signup = () => {
                 className="w-5 h-5 mr-2"
               />
               Sign up with Google
-            </button>
+            </button> */}
           </form>
         </div>
       </div>

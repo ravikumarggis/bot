@@ -1,6 +1,13 @@
-import { useGoogleLogin } from "@react-oauth/google";
+import {
+  googleLogout,
+  useGoogleLogin,
+  useGoogleOneTapLogin,
+} from "@react-oauth/google";
 import { api, baseUrl } from "../service/api-service";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
+import { toast } from "sonner";
 
 export const signupMutation = async ({ email, password }) => {
   try {
@@ -82,6 +89,7 @@ export const verifyLoginOtp = async ({ email, otp }) => {
 };
 
 export const useHandleGoogleSignup = () => {
+  const router = useRouter();
   const handleApiLogin = async ({ idToken }) => {
     try {
       const response = await api({
@@ -91,67 +99,30 @@ export const useHandleGoogleSignup = () => {
           idToken: idToken || undefined,
         },
       });
+      if (response?.data?.token) {
+        toast.success(response?.data?.message);
+        setCookie("token", response?.data?.token);
+        router.replace("/dashboard/home");
+      } else {
+        toast.error(response?.data?.message);
+      }
       return response;
     } catch (error) {
       return error?.response;
     }
   };
 
-  const googleCall = async ({ code }) => {
-    try {
-      if (!code) throw new Error("Authorization code is missing");
-
-      const params = new URLSearchParams();
-      params.append("code", code);
-      params.append("client_id", process.env.client_id);
-      params.append("grant_type", "authorization_code");
-      params.append("client_secret", process.env.client_secret);
-      params.append(
-        "redirect_uri",
-        `http://localhost:3000/auth/google/callback`
-      );
-
-      const response = await fetch("https://oauth2.googleapis.com/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params.toString(),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.error_description || "Google token exchange failed"
-        );
-      }
-
-      console.log("Token response:", data);
-      return data;
-    } catch (error) {
-      console.error("Google login error:", error);
-      return { error: error.message };
-    }
-  };
-
-  const login = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse, "tokenresponse>>");
-
-      const data = await googleCall({
-        code: tokenResponse?.code,
-      });
-      console.log(data, "data>>>>");
-
-      // const data = await handleApiLogin({
-      //   idToken: tokenResponse?.code,
-      // });
+  const login = useGoogleOneTapLogin({
+    onSuccess: async (credentialResponse) => {
+      console.log(credentialResponse);
+      console.log(credentialResponse, "token>>");
+      handleApiLogin({ idToken: credentialResponse?.credential });
+    },
+    onError: () => {
+      console.log("Login Failed");
     },
   });
-
-  return login;
+  return handleApiLogin;
 };
 
 export const forgotPassword = async ({ email }) => {
@@ -182,4 +153,8 @@ export const resetPassword = async ({ email, password }) => {
   } catch (error) {
     return error?.response;
   }
+};
+
+export const useLogout = () => {
+  return googleLogout();
 };
