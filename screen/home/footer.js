@@ -111,9 +111,9 @@ export default function Footer() {
             <div className="md:col-span-4 space-y-5">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12  flex items-center justify-center shrink-0">
-                <img src="/assets/logo1.png" alt="Qbots Logo" className="w-6 h-8" />
+                <img src="/assets/logo1.jpeg" alt="Qbots Logo" className="w-6 h-8" />
                 </div>
-                <span className="text-2xl font-semibold leading-none">Crypto Bot</span>
+                <span className="text-2xl font-semibold leading-none">Qbots</span>
               </div>
 
               <div>
@@ -233,7 +233,7 @@ export default function Footer() {
           {/* Bottom row */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-slate-300 text-sm text-center md:text-left">
-              © {new Date().getFullYear()} Crypto Bot. All rights reserved.
+              © {new Date().getFullYear()} Qbots. All rights reserved.
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3">
