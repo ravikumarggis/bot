@@ -140,7 +140,7 @@ All trades run securely through API connections on Bybit and Binance — ensurin
         {" "}
         <img
           src="/assets/homepage/dashboardimage.png"
-          alt="Crypto Bot Logo"
+          alt="Qbots Logo"
           className="w-[90%] sm:w-[60%] h-auto items-center justify-center"
         />
       </div>
@@ -157,7 +157,7 @@ All trades run securely through API connections on Bybit and Binance — ensurin
         {" "}
         <img
           src="/assets/homepage/suportExchange.png"
-          alt="Crypto Bot Logo"
+          alt="Qbots Logo"
           className="w-[90%] sm:w-[60%] h-auto items-center justify-center"
         />
       </div>

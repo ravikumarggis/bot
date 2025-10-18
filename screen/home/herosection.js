@@ -48,7 +48,7 @@
 //       <div className="items-center justify-center w-full p-5 flex my-4 ">
 //         <img
 //           src="/assets/homepage/heroImage.png"
-//           alt="Crypto Bot Logo"
+//           alt="Qbots Logo"
 //           className="w-[90%] sm:w-[60%] rounded-xl sm:rounded-2xl h-auto items-center justify-center z-10"
 //         />
 //       </div>

@@ -178,7 +178,7 @@ export default function Navbar() {
             LOGIN
           </Link>
           <Link
-            href="#"
+            href="/signup"
             className="px-5 py-1.5 bg-white/10 text-white rounded-full hover:bg-primary border border-white/30 transition"
           >
             SIGN UP
@@ -230,7 +230,7 @@ export default function Navbar() {
           LOGIN
         </Link>
         <Link
-          href="#"
+          href="/signup"
           onClick={() => setIsOpen(false)}
           className="flex-1 text-center bg-white/10 border border-white/30 text-white rounded-full py-2 hover:bg-white/20 transition"
         >
