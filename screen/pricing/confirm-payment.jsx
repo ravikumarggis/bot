@@ -88,8 +88,9 @@ const ConfirmPayment = () => {
               onApprove={() => {}}
             />
             <button className="bg-[#1a2747] h-10 font-normal text-lg rounded">
-              Pay with QIE
+              Pay with Debit or Credit Card
             </button>
+            <ConnectButton />
             <p>
               You'll be securely redirected to PayPal to complete your payment
             </p>
