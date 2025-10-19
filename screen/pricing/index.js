@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
 
 /**
  * PricingHero.dynamic.jsx
@@ -12,6 +14,13 @@ import Image from "next/image";
 
 export default function PricingHero() {
   const [planType, setPlanType] = useState("monthly");
+  const [token, setToken] = useState();
+  const router = useRouter();
+
+  useMemo(() => {
+    const cookieToken = getCookie("token");
+    setToken(cookieToken);
+  }, []);
 
   const plans = [
     {
@@ -110,16 +119,19 @@ export default function PricingHero() {
           <div className="w-full ">
             <div className="flex flex-col lg:flex-row  justify-center gap-8 ">
               {plans.map((p) => (
-                <div key={p.id} className="w-full max-w-md lg:max-w-[420px] mx-auto">
-                  <PlanCard plan={p} planType={planType} />
+                <div
+                  key={p.id}
+                  className="w-full max-w-md lg:max-w-[420px] mx-auto"
+                >
+                  <PlanCard plan={p} planType={planType} token={token}/>
                 </div>
               ))}
             </div>
           </div>
 
           <p className="mt-8 max-w-2xl text-gray-300 text-center lg:text-left">
-            Automate trades on Binance & Bybit — single API-only connections. Your funds remain
-            on the exchange.
+            Automate trades on Binance & Bybit — single API-only connections.
+            Your funds remain on the exchange.
           </p>
 
           <div className="mt-4 sm:mt-10 flex flex-wrap items-center gap-4 sm:gap-6 justify-center lg:justify-start">
@@ -130,7 +142,10 @@ export default function PricingHero() {
           </div>
 
           <div className="pt-2 sm:pt-12 text-sm text-gray-400 flex items-center gap-2 justify-center lg:justify-start">
-            <span className="text-pink-400 font-medium">Trusted by 18k traders</span> • 24/7 uptime
+            <span className="text-pink-400 font-medium">
+              Trusted by 18k traders
+            </span>{" "}
+            • 24/7 uptime
           </div>
         </div>
       </div>
@@ -138,7 +153,8 @@ export default function PricingHero() {
   );
 }
 
-function PlanCard({ plan, planType = "monthly" }) {
+function PlanCard({ plan, planType = "monthly" ,token}) {
+  const router = useRouter();
   const {
     title,
     exchanges,
@@ -185,7 +201,7 @@ function PlanCard({ plan, planType = "monthly" }) {
     >
       {badge && (
         <div className="absolute left-0 -top-4 z-20 transform -rotate-12">
-          <div className="bg-pink-600 text-white text-xs px-4 py-1 rounded-md shadow-md">{badge}</div>
+          <div className="bg-pink-600 text-white text-xs px-4 py-1 rounded-md shadow-md"></div>
         </div>
       )}
 
@@ -213,15 +229,21 @@ function PlanCard({ plan, planType = "monthly" }) {
 
       <div className="text-center mt-2 sm:mt-1">
         <div className="mt-2 text-3xl text-gray-300 font-semibold">{title}</div>
-        <div className="text-sm sm:text-md text-gray-400 line-through">{showPriceOld}</div>
-        <div className="mt-2 text-4xl sm:text-5xl font-extrabold">{showPrice}</div>
+        <div className="text-sm sm:text-md text-gray-400 line-through">
+          {showPriceOld}
+        </div>
+        <div className="mt-2 text-4xl sm:text-5xl font-extrabold">
+          {showPrice}
+        </div>
         <div className="text-sm text-gray-400 mt-1">{showDuration}</div>
       </div>
 
       <ul className="mt-6 space-y-3 sm:space-y-4">
         <li className="flex items-start gap-3">
           <CheckMark />
-          <span className="text-sm font-semibold">Exchanges: {exchanges.join(", ")}</span>
+          <span className="text-sm font-semibold">
+            Exchanges: {exchanges.join(", ")}
+          </span>
         </li>
         <li className="flex items-start gap-3">
           <CheckMark />
@@ -251,11 +273,22 @@ function PlanCard({ plan, planType = "monthly" }) {
       </p>
 
       <div className="mt-8">
-        <button className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#ff3b7a] to-[#ff6a9a] text-white font-semibold shadow-lg hover:opacity-90 transition">
-          Login To Buy
+        <button
+          onClick={() => {
+            if (token) {
+              router.push("/dashboard/pricing");
+            } else {
+              router.push("/login");
+            }
+          }}
+          className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#ff3b7a] to-[#ff6a9a] text-white font-semibold shadow-lg hover:opacity-90 transition"
+        >
+          {token ? "Choose plan" : "Login To Buy"}
         </button>
       </div>
-      <div className="mt-4 text-xl text-gray-600 font-semibold text-center">{showBottom}</div>
+      <div className="mt-4 text-xl text-gray-600 font-semibold text-center">
+        {showBottom}
+      </div>
 
       {popular && (
         <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-primary text-sm px-3 py-1 rounded-full text-pink-200">
@@ -266,7 +299,12 @@ function PlanCard({ plan, planType = "monthly" }) {
   );
 }
 
-function ExchangeBadge({ name, accent = "gray", active = false, comingSoon = false }) {
+function ExchangeBadge({
+  name,
+  accent = "gray",
+  active = false,
+  comingSoon = false,
+}) {
   const logos = {
     BINANCE: "/assets/homepage/binance.png",
     BYBIT: "/assets/homepage/bybit.webp",
@@ -284,17 +322,31 @@ function ExchangeBadge({ name, accent = "gray", active = false, comingSoon = fal
         }`}
         style={{
           background: active ? "" : "transparent",
-          border: active ? "1px solid rgba(255,255,255,0.04)" : "1px dashed rgba(255,255,255,0.03)",
+          border: active
+            ? "1px solid rgba(255,255,255,0.04)"
+            : "1px dashed rgba(255,255,255,0.03)",
         }}
       >
         {logos[name] ? (
-          <Image src={logos[name]} alt={name} width={logoSize} height={logoSize} className={"object-contain"} />
+          <Image
+            src={logos[name]}
+            alt={name}
+            width={logoSize}
+            height={logoSize}
+            className={"object-contain"}
+          />
         ) : (
           <></>
         )}
       </div>
 
-      <div className={`text-sm font-semibold ${active ? "text-white" : "text-gray-400"}`}>{name}</div>
+      <div
+        className={`text-sm font-semibold ${
+          active ? "text-white" : "text-gray-400"
+        }`}
+      >
+        {name}
+      </div>
       {comingSoon && (
         <span className="text-[10px] text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-1.5 py-0.5 rounded">
           Coming Soon
@@ -308,7 +360,13 @@ function CheckMark() {
   return (
     <div className="w-6 h-6 rounded-full bg-primary grid place-items-center flex-shrink-0">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-        <path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M20 6L9 17l-5-5"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   );

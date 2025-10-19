@@ -118,9 +118,22 @@
 
 // export default Exchange;
 
-import React from "react";
+"use client"
+
+import { useRouter } from "next/navigation";
+import React, { useMemo, useState } from "react";
+import {getCookie} from "cookies-next"
 
 export default function Exchange() {
+   const [token ,setToken]= useState()
+    const router = useRouter();
+   
+  
+  
+    useMemo(() => {
+      const cookieToken = getCookie("token");
+      setToken(cookieToken);
+    }, []);
   return (
     <section className="  text-white px-6 md:px-20 sm:px-10 pt-20 sm:pt-30 pb-10 md:pb-20  overflow-x-hidden">
       <div className=" mx-auto grid grid-cols-12 gap-8 items-start">
@@ -141,7 +154,15 @@ export default function Exchange() {
             <button
               className="px-6 py-3 rounded-lg text-lg font-medium shadow-[0_20px_40px_rgba(255,70,120,0.12)]
                          bg-gradient-to-r from-[#ff2a8f] to-[#ff5a8f] hover:brightness-105 transition"
-            >
+                         onClick={()=>{
+                          if(token) {
+                            router.push("/dashboard/home")
+                          }
+                          else{
+                            router.push("/login")
+                          }
+                              }}
+          >
               Make Money
             </button>
 

@@ -62,9 +62,23 @@
 
 import Image from "next/image";
 import { Check } from "lucide-react";
+import {getCookie} from "cookies-next"
+import { useEffect, useMemo, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 
 export default function HeroSection() {
+  const [token ,setToken]= useState()
+  const router = useRouter();
+ 
+
+
+  useMemo(() => {
+    const cookieToken = getCookie("token");
+    setToken(cookieToken);
+  }, []);
+  
   return (
     <section className="relative overflow-hidden bg-[#030b1f] text-white   items-center justify-center px-6 md:px-20">
       <div className="inline-block px-4 py-1.5 pb-4 text-sm tracking-wide font-medium text-gray-200">
@@ -87,7 +101,16 @@ export default function HeroSection() {
 
   {/* Buttons */}
   <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-center gap-4 pt-2">
-    <button className="px-6 py-3 rounded-lg font-medium text-white bg-primary hover:opacity-90 transition flex items-center space-x-2 shadow-lg shadow-blue-500/30">
+    <button  
+    onClick={()=>{
+if(token) {
+  router.push("/dashboard/home")
+}
+else{
+  router.push("/login")
+}
+    }}
+    className="px-6 py-3 rounded-lg font-medium text-white bg-primary hover:opacity-90 transition flex items-center space-x-2 shadow-lg shadow-blue-500/30">
       <span>🚀</span>
       <span>Make Money</span>
     </button>

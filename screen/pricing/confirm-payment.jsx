@@ -90,17 +90,25 @@ const ConfirmPayment = () => {
             <button className="bg-[#1a2747] h-10 font-normal text-lg rounded">
               Pay with Debit or Credit Card
             </button>
-            <ConnectButton />
             <p>
               You'll be securely redirected to PayPal to complete your payment
             </p>
+            <div className="w-full h-1 bg-primary">
+
+            </div>
+            <p className="font-semibold text-xl">Pay via QIE</p>
+            <div className="flex items-center w-full justify-center ">
+
+            <ConnectButton />
+            </div>
+           
           </div>
         </div>
         <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-4 lg:gap-0 lg:items-end justify-between mt-10">
           <p className="text-primary cursor-pointer">Back to payment options</p>
-          <button className=" w-[90%] lg:w-auto lg:min-w-sm bg-primary h-10 rounded cursor-pointer">
+          {/* <button className=" w-[90%] lg:w-auto lg:min-w-sm bg-primary h-10 rounded cursor-pointer">
             Continue
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
