@@ -16,8 +16,12 @@ import {
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
 import { deleteCookie } from "cookies-next";
 import { useLogout } from "../queries/auth";
+import { useUserProfile } from "@/queries/profile";
 
 export default function DashboardHeader() {
+  const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
+
+  const email = getUserData?.email;
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const logout = useLogout();
@@ -61,7 +65,7 @@ export default function DashboardHeader() {
     console.log("Logged out");
     setMenuOpen(false);
     deleteCookie("token");
-    logout();
+    logout;
     router.replace("/");
   };
 
@@ -73,9 +77,19 @@ export default function DashboardHeader() {
 
   return (
     <header className="fixed top-0 left-0 w-full z-10 bg-[#0B0B12]/80 backdrop-blur-md border-b border-white/10">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-1">
         <div className="flex items-center justify-between h-16">
-          <div className="text-xl font-bold text-white">Qbots</div>
+          <Link href="/" className="flex items-center space-x-2">
+            <img
+              src="/assets/logo1.png"
+              alt="Qbots Logo"
+              className="w-18 h-16"
+            />
+          
+              <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
+            Qbots
+          </span>
+          </Link>
 
           <div className="flex items-center gap-4">
             <a
@@ -89,7 +103,11 @@ export default function DashboardHeader() {
 
             <div className="hidden md:block">
               <button className="w-10 h-10 bg-primary text-white font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition">
-                <User className="w-5 h-5 text-white" />
+                {email ? (
+                  email.charAt(0).toUpperCase()
+                ) : (
+                  <User className="w-5 h-5 text-white" />
+                )}
               </button>
             </div>
 
@@ -108,7 +126,7 @@ export default function DashboardHeader() {
 
         {menuOpen && (
           <div className="md:hidden border-t border-white/10 mt-2 py-3 space-y-2 bg-[#0B0B12]/95 backdrop-blur-md rounded-lg shadow-lg animate-fade-in">
-            {navItems.map(({ label, path, Icon, type }, idx) =>
+            {navItems?.map(({ label, path, Icon, type }, idx) =>
               type === "link" ? (
                 <Link
                   href={path}

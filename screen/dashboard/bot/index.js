@@ -77,8 +77,8 @@ export default function Bot() {
                 className="w-56"
                 />
                 </div>
-        <div className="col-span-2">
-          <div className="grid grid-cols-3 gap-6">
+        <div className="">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Array.from({ length: 9 })?.map((_, i) => (
               <div key={i} className="bg-[#0f1117] rounded-2xl p-5 border border-gray-800 shadow-inner min-h-[120px]">
                 <div className="flex items-start justify-between">

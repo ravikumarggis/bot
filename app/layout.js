@@ -7,6 +7,8 @@ import QueryProvider from "../providers/query-provider";
 import { Toaster, toast } from "sonner";
 import AuthGuard from "../guard/auth-guard";
 import GoogleAuthProvider from "../providers/google-auth";
+import "react-circular-progressbar/dist/styles.css";
+import ClientProvider from "../providers/client-provider";
 
 const roboto = Roboto({
   weight: "400",
@@ -16,6 +18,9 @@ const roboto = Roboto({
 export const metadata = {
   title: "Qbots",
   description: "AI-powered Qbots assistant",
+  icons: {
+    icon: '/assets/logo1.png', 
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -23,11 +28,12 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.className}>
       <body className="antialiased  ">
         <Toaster />
-
         <QueryProvider>
-          <AuthGuard>
-            <GoogleAuthProvider>{children}</GoogleAuthProvider>
-          </AuthGuard>
+          <ClientProvider>
+            <AuthGuard>
+              <GoogleAuthProvider>{children}</GoogleAuthProvider>
+            </AuthGuard>
+          </ClientProvider>
         </QueryProvider>
       </body>
     </html>
