@@ -89,7 +89,8 @@ export default function HeroSection() {
  
 
   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-    Trade Smarter with{" "}
+    Trade Smarter with
+    <br/>
     <span className="bg-primary to-cyan-400 bg-clip-text text-transparent">
       AI-Powered Bots
     </span>
