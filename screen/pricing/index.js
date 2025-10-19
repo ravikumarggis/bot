@@ -4,13 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
 
-/**
- * PricingHero.dynamic.jsx
- * Dynamic & responsive pricing section compatible with Next.js + Tailwind CSS.
- * Displays two pricing cards side-by-side on desktop and stacked below the heading.
- *
- * Monthly/yearly switch uses explicit, hard-coded monthly and yearly values.
- */
+
 
 export default function PricingHero() {
   const [planType, setPlanType] = useState("monthly");

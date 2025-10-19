@@ -61,7 +61,7 @@ export default function DashboardHeader() {
     console.log("Logged out");
     setMenuOpen(false);
     deleteCookie("token");
-    logout();
+    logout;
     router.replace("/");
   };
 

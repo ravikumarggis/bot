@@ -3,27 +3,20 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { deleteCookie, getCookie } from "cookies-next";
-import { useLogout } from "@/queries/auth";
+
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [token, setToken] = useState();
-  const logout = useLogout();
-  const router = useRouter();
  
+  const router = useRouter();
 
   useMemo(() => {
     setToken(getCookie("token"));
-  }, [token,getCookie]);
+  }, [token, getCookie]);
 
-  const handleLogout = () => {
-    deleteCookie("token");
-    logout;
-    setToken(undefined); // ✅ Update local state immediately
-    router.push("/");
-  };
-
+ 
   return (
     <nav className="fixed top-0 w-full bg-[#030b1f]/70 backdrop-blur-md border-b border-white/10 z-50">
       <div className="mx-auto flex items-center justify-between px-6 md:px-20 py-3 gap-2">
@@ -51,12 +44,12 @@ export default function Navbar() {
         {/* Buttons */}
         {token ? (
           <div className="hidden md:flex items-center space-x-3">
-            <button
-              onClick={handleLogout}
+            <Link
+              href="/dashboard/home"
               className="px-5 py-1.5 border border-white/30 text-gray-200 rounded-full hover:bg-primary transition"
             >
-              Logout
-            </button>
+              Dashboard
+            </Link>
           </div>
         ) : (
           <div className="hidden md:flex items-center space-x-3">
@@ -112,15 +105,15 @@ export default function Navbar() {
 
             <div className="flex space-x-2 pt-3">
               {token ? (
-                <button
+                <Link
+                  href="/dashboard/home"
                   onClick={() => {
-                    handleLogout();
                     setIsOpen(false);
                   }}
                   className="flex-1 text-center border bg-primary rounded-full py-2 hover:bg-primary transition"
                 >
-                  Logout
-                </button>
+                  Dashboard
+                </Link>
               ) : (
                 <>
                   <Link
