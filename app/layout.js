@@ -8,6 +8,8 @@ import { Toaster, toast } from "sonner";
 import AuthGuard from "../guard/auth-guard";
 import GoogleAuthProvider from "../providers/google-auth";
 
+import ClientProvider from "../providers/client-provider";
+
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -23,12 +25,13 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.className}>
       <body className="antialiased  ">
         <Toaster />
-
-        <QueryProvider>
-          <AuthGuard>
-            <GoogleAuthProvider>{children}</GoogleAuthProvider>
-          </AuthGuard>
-        </QueryProvider>
+        <ClientProvider>
+          <QueryProvider>
+            <AuthGuard>
+              <GoogleAuthProvider>{children}</GoogleAuthProvider>
+            </AuthGuard>
+          </QueryProvider>
+        </ClientProvider>
       </body>
     </html>
   );

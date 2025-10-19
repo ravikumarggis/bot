@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.9.2",
     "@react-oauth/google": "^0.12.2",
     "@tabler/icons-react": "^3.35.0",
     "@tailwindcss/cli": "^4.1.13",
