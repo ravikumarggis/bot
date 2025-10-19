@@ -25,13 +25,13 @@ export default function RootLayout({ children }) {
     <html lang="en" className={roboto.className}>
       <body className="antialiased  ">
         <Toaster />
-        <ClientProvider>
-          <QueryProvider>
+        <QueryProvider>
+          <ClientProvider>
             <AuthGuard>
               <GoogleAuthProvider>{children}</GoogleAuthProvider>
             </AuthGuard>
-          </QueryProvider>
-        </ClientProvider>
+          </ClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );

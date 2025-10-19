@@ -5,6 +5,8 @@ import { createPayPalOrder } from "../../queries/payment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useGetSubscription } from "@/queries/pricing";
 import { formatCurrency } from "@/utils";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,21 +74,21 @@ const ConfirmPayment = () => {
           </div>
           <div className="flex border-primary/10 border flex-col lg:max-w-sm rounded-2xl  p-4 gap-4 py-6 h-fit">
             <p className="font-semibold text-xl">Pay via PayPal</p>
-            <button
+            {/* <button
               className="bg-blue-600 h-10 font-normal text-lg rounded"
               onClick={() => {
                 createPayPalOrder();
               }}
             >
               Pay with PayPal
-            </button>
-            {/* <PayPalButtons
+            </button> */}
+            <PayPalButtons
               style={{ layout: "horizontal" }}
               createOrder={() => {}}
               onApprove={() => {}}
-            /> */}
+            />
             <button className="bg-[#1a2747] h-10 font-normal text-lg rounded">
-              Pay with Debit or Credit Card
+              Pay with QIE
             </button>
             <p>
               You'll be securely redirected to PayPal to complete your payment
