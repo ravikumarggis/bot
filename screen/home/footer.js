@@ -110,10 +110,10 @@ export default function Footer() {
             {/* Left column: Logo + subscribe */}
             <div className="md:col-span-4 space-y-5">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12  flex items-center justify-center shrink-0">
-                <img src="/assets/logo1.png" alt="Qbots Logo" className="w-15 h-15" />
+                <div className="w-18 h-16  flex items-center justify-center shrink-0">
+                <img src="/assets/logo1.png" alt="Qbots Logo" className="w-18 h-16" />
                 </div>
-                <span className="text-2xl font-semibold leading-none">Qbots</span>
+                {/* <span className="text-2xl font-semibold leading-none">Qbots</span> */}
               </div>
 
               <div>
@@ -136,7 +136,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 text-white font-medium justify-center"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white font-medium justify-center"
                 >
                   <Mail className="w-4 h-4" />
                   Subscribe
