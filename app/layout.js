@@ -7,7 +7,7 @@ import QueryProvider from "../providers/query-provider";
 import { Toaster, toast } from "sonner";
 import AuthGuard from "../guard/auth-guard";
 import GoogleAuthProvider from "../providers/google-auth";
-
+import "react-circular-progressbar/dist/styles.css";
 import ClientProvider from "../providers/client-provider";
 
 const roboto = Roboto({

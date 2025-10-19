@@ -1,5 +1,5 @@
 import { Wallet, getWalletConnectConnector } from "@rainbow-me/rainbowkit";
-
+import PaymentAbi from "@/abi/paymentABI.json";
 export const qieChain = {
   id: 1990,
   name: "QIE Blockchain",
@@ -91,3 +91,8 @@ export const QieCustomWallet = ({ projectId }) => ({
   },
   createConnector: getWalletConnectConnector({ projectId }),
 });
+
+export const config = {
+  paymentAbi: PaymentAbi,
+  paymentContractAddress: "0x338b038Fa3385545E73fc332BC222816B7f16FEa",
+};
