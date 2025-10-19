@@ -18,6 +18,9 @@ const roboto = Roboto({
 export const metadata = {
   title: "Qbots",
   description: "AI-powered Qbots assistant",
+  icons: {
+    icon: '/assets/logo1.png', 
+  },
 };
 
 export default function RootLayout({ children }) {

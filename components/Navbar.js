@@ -22,7 +22,7 @@ export default function Navbar() {
       <div className="mx-auto flex items-center justify-between px-6 md:px-20 py-3 gap-2">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <img src="/assets/logo1.jpeg" alt="Qbots Logo" className="w-5 h-6" />
+          <img src="/assets/logo1.png" alt="Qbots Logo" className="w-12 h-12" />
           <span className="text-white font-semibold text-lg tracking-tight">
             Qbots
           </span>

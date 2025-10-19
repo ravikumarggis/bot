@@ -111,7 +111,7 @@ export default function Footer() {
             <div className="md:col-span-4 space-y-5">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12  flex items-center justify-center shrink-0">
-                <img src="/assets/logo1.jpeg" alt="Qbots Logo" className="w-6 h-8" />
+                <img src="/assets/logo1.png" alt="Qbots Logo" className="w-15 h-15" />
                 </div>
                 <span className="text-2xl font-semibold leading-none">Qbots</span>
               </div>

@@ -81,7 +81,7 @@ export default function DashboardHeader() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
             <img
-              src="/assets/logo1.jpeg"
+              src="/assets/logo1.png"
               alt="Qbots Logo"
               className="w-5 h-6"
             />
