@@ -1,19 +1,41 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { User, Mail, Phone, Globe, Edit } from "lucide-react";
 import Dropdown from "../../../components/dropdown";
-
+import { useUserProfile } from "@/queries/profile";
 
 export default function ProfileSettings() {
+  const [errors, setErrors] = useState({});
+  const [initialized, setInitialized] = useState(false); // ensure API data only applied once
+
+  const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
+
   const [profile, setProfile] = useState({
-    firstName: "Ravi",
-    lastName: "Singh",
-    email: "ravikumar@gmail.com",
-    phone: "+91",
-    country: "IN",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    country: "",
   });
 
-  const [errors, setErrors] = useState({});
+  // populate state when API data arrives (only once so user edits are not overwritten)
+  useMemo(() => {
+    if (getUserData && !initialized) {
+      setProfile((prev) => ({
+        firstName: getUserData.firstName ?? prev.firstName ?? "Ravi",
+        lastName: getUserData.lastName ?? prev.lastName ?? "Singh",
+        email: getUserData.email ?? prev.email ?? "",
+        phone: getUserData.phone ?? prev.phone ?? "+91",
+        country: getUserData.country ?? prev.country ?? "IN",
+      }));
+      setInitialized(true);
+    }
+  }, [getUserData, initialized]);
+
+  // Show loading until API finishes loading the initial data
+  if (getUserDataPending && !initialized) {
+    return <p>Loading...</p>;
+  }
 
   const handleChange = (key, value) => {
     setProfile((prev) => ({ ...prev, [key]: value }));
@@ -23,11 +45,10 @@ export default function ProfileSettings() {
   const validate = () => {
     const newErrors = {};
 
-    if (!profile.firstName.trim()) newErrors.firstName = "First name is required.";
-    if (!profile.lastName.trim()) newErrors.lastName = "Last name is required.";
-    if (!profile.email || !/\S+@\S+\.\S+/.test(profile.email))
-      newErrors.email = "Enter a valid email.";
-    if (!profile.phone.trim() || !/^\+?\d{6,15}$/.test(profile.phone))
+    if (!String(profile.firstName || "").trim()) newErrors.firstName = "First name is required.";
+    if (!String(profile.lastName || "").trim()) newErrors.lastName = "Last name is required.";
+    if (!profile.email || !/\S+@\S+\.\S+/.test(profile.email)) newErrors.email = "Enter a valid email.";
+    if (!String(profile.phone || "").trim() || !/^\+?\d{6,15}$/.test(profile.phone))
       newErrors.phone = "Enter a valid phone number.";
     if (!profile.country) newErrors.country = "Select a country.";
 
@@ -35,10 +56,20 @@ export default function ProfileSettings() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
-    alert("Profile updated successfully!");
-    // You can call an API here
+
+    try {
+      // Example: call your API to update the profile
+      // await api.updateProfile(profile);
+
+      // optimistic UI / success
+      alert("Profile updated successfully!");
+    } catch (err) {
+      // handle API errors and show to user
+      console.error(err);
+      alert("Failed to update profile. Please try again.");
+    }
   };
 
   const countryOptions = [
@@ -52,7 +83,7 @@ export default function ProfileSettings() {
       <div className="flex items-center gap-6 mb-8">
         <div className="relative">
           <div className="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-2xl font-semibold text-white">
-            {profile.firstName.charAt(0)}
+            {profile.firstName ? profile.firstName.charAt(0).toUpperCase() : "R"}
           </div>
           <button className="absolute bottom-1 right-1 bg-[#1a1a25] border border-gray-600 p-2 rounded-full hover:bg-primary transition">
             <Edit size={16} className="text-gray-300 hover:text-white" />
