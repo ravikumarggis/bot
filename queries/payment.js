@@ -50,3 +50,30 @@ export const generateInvoice = async ({ amount, currency, subscriptionId }) => {
     throw error;
   }
 };
+
+export const useGetInvoiceStatus = ({ invoiceId, walletAddress }) => {
+  return useQuery({
+    queryKey: ["getInvoiceStatus", invoiceId, walletAddress],
+    queryFn: () => {
+      return generateInvoice({ invoiceId, walletAddress });
+    },
+  });
+};
+
+export const getInvoiceStatus = async ({ invoiceId, walletAddress }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: "/qie/getInvoiceStatus",
+      data: {
+        invoiceId,
+        walletAddress,
+      },
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};

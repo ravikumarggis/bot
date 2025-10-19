@@ -9,11 +9,15 @@ import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
 import Modal from "@/components/ui/modal";
 import { Button, DialogTitle } from "@headlessui/react";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount, useConfig, useWriteContract } from "wagmi";
+import { encodeBytes32String, parseEther } from "ethers";
 import { IconX } from "@tabler/icons-react";
 import { useTimer } from "react-timer-hook";
 import moment from "moment";
 import { config } from "@/const";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { toast } from "sonner";
+
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,8 +27,6 @@ const ConfirmPayment = () => {
   const { isConnected, isConnecting } = useAccount();
   const { data: subscriptionData, isPending: subscriptionDataPending } =
     useGetSubscription({ id: subId });
-
-  console.log(subscriptionData, "subscriptionData>>");
 
   if (subscriptionDataPending) {
     return <p>Loading</p>;
@@ -153,7 +155,6 @@ export default ConfirmPayment;
 const WalletConnectModal = ({ open, setOpen, setInvoiceModalState }) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
-
   useEffect(() => {
     if (isConnected) {
       setInvoiceModalState(true);
@@ -181,6 +182,7 @@ const WalletConnectModal = ({ open, setOpen, setInvoiceModalState }) => {
 };
 
 const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { data: invoiceData, isPending: invoiceDataPending } =
     useGenerateInvoice({
       amount: subscriptionData?.amount,
@@ -188,7 +190,7 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
       subscriptionId: subscriptionData?.id,
     });
   const { writeContractAsync } = useWriteContract();
-
+  const chainConfig = useConfig();
   const { totalSeconds, restart } = useTimer({
     expiryTimestamp: new Date(),
     onExpire: () => {
@@ -217,14 +219,23 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
 
   const paymentHanlder = async () => {
     try {
+      setIsLoading(true);
+      const parsedValue = parseEther(String(Math.ceil(Number(1))));
+      //   const parsedValue = parseEther(
+      //   String(Math.ceil(Number(invoiceData?.qieAmount)))
+      // );
+
       const hash = await writeContractAsync({
         abi: config.paymentAbi,
         address: config.paymentContractAddress,
         functionName: "payInvoice",
-        args: [],
+        args: [encodeBytes32String(String(invoiceData?.id))],
+        value: parsedValue,
       });
+      setIsLoading(false);
     } catch (error) {
       console.log(error, "error in payment");
+      setIsLoading(false);
     }
   };
 
@@ -290,8 +301,16 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
             <p>Expires In: </p>
             <p>Expires In: </p>
           </div> */}
-              <button className="flex w-full bg-primary h-10 rounded justify-center items-center">
-                Confirm
+              <button
+                className="flex w-full bg-primary h-10 rounded justify-center items-center"
+                onClick={() => {
+                  if (isLoading) {
+                    return;
+                  }
+                  paymentHanlder();
+                }}
+              >
+                {isLoading ? `Processing...` : `Confirm`}
               </button>
             </div>
           </div>
