@@ -34,12 +34,12 @@ const Tutorials = () => {
         </div>
 
         <h2 className="text-white text-xl md:text-2xl font-semibold mb-4">
-          How to Connect Binance with Qbot?
+          How to Connect Binance with Qbots?
         </h2>
 
         <p className="text-gray-400 text-sm md:text-base leading-relaxed">
           Learn how to generate an API key within Binance and securely link it
-          to Qbot for automated and seamless trading.
+          to Qbots for automated and seamless trading.
         </p>
       </div>
 

@@ -20,7 +20,7 @@ export default function Home() {
       <WhyChoose />
       <HowItWorks />
       <SupportsExchanges />
-      <PricingCard />
+      {/* <PricingCard /> */}
       {/* <NeonHero /> */}
       {/* <Section1/> */}
       {/* <ReferralSection/> */}

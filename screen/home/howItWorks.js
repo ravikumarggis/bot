@@ -35,7 +35,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="bg-[#030b1f] text-white py-24 px-6 md:px-20 relative overflow-hidden">
+    <section className="bg-[#030b1f] text-white pt-15 md:pt-26 pb-0 md:pb-10 px-6 md:px-20 relative overflow-hidden">
       <div className=" mx-auto text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
           How Qbots Works —{" "}
@@ -48,7 +48,7 @@ export default function HowItWorks() {
       </div>
 
       {/* Timeline Line */}
-      <div className="absolute top-[50%] left-0 w-full h-[2px] bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 hidden md:block"></div>
+      <div className="absolute top-[60%] left-0 w-full h-[2px] bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 hidden md:block"></div>
 
       {/* Step Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative  mx-auto z-10">

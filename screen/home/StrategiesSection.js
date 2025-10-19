@@ -1,6 +1,6 @@
 
 "use client"
-import { BarChart3, DollarSign, Rocket, TrendingUp, Bot } from "lucide-react";
+import { BarChart3, DollarSign, Rocket, TrendingUp, Bot, Shuffle, Activity, Network, Cpu } from "lucide-react";
 
 export default function StrategiesSection() {
   const strategies = [
@@ -39,13 +39,42 @@ export default function StrategiesSection() {
       status: "Coming Soon",
       statusColor: "bg-primary text-purple-200",
     },
+    {
+      title: "Triangular Arbitrage",
+      description: "Exploit price differences between three trading pairs simultaneously and efficiently.",
+      icon: <Shuffle className="w-8 h-8 text-primary" />,
+      status: "Coming Soon",
+      statusColor: "bg-primary text-purple-200",
+    },
+    {
+      title: "Mean Reversion Strategy",
+      description: "Capitalize on short-term price deviations — buy undervalued, sell overvalued.",
+      icon: <Activity className="w-8 h-8 text-primary" />,
+      status: "Coming Soon",
+      statusColor: "bg-primary text-purple-200",
+    },
+    {
+      title: "Momentum Delta Neutral",
+      description: "Combine momentum insights with hedged neutrality to capture pure alpha.",
+      icon: <Network className="w-8 h-8 text-primary" />,
+      status: "Coming Soon",
+      statusColor: "bg-primary text-purple-200",
+    },
+    {
+      title: "AI Advanced Strategy",
+      description: "Next-gen intelligent trading self-learning bots that evolve with market dynamics.",
+      icon: <Cpu className="w-8 h-8 text-primary" />,
+      status: "Coming Soon",
+      statusColor: "bg-primary text-purple-200",
+    },
   ];
+  
 
   return (
-    <section className="bg-[#030b1f] text-white py-24 px-6 md:px-20 relative overflow-hidden">
+    <section className="bg-[#030b1f] text-white pt-24 md:pt-35 px-6 md:px-20 relative overflow-hidden">
       <div className=" mx-auto text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold mb-3">
-          Strategies Offered by <span className="text-primary">Qbot</span>: and Secure
+          Strategies Offered by <span className="text-primary">Qbots</span>: and Secure
         </h2>
         <p className="text-gray-400 text-lg">
           Automate your trading with powerful strategies – designed for every market condition

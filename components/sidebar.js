@@ -7,6 +7,7 @@ import {
   Home,
   Calendar,
   Settings2,
+  Bot,
 } from "lucide-react";
 import Link from "next/link";
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
@@ -28,6 +29,12 @@ export default function Sidebar() {
   // Nav items for desktop view
   const navItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
+    {
+      label: "Bots",
+      path: "/dashboard/bot",
+      Icon: Bot,
+      type: "link",
+    },
     {
       label: "Exchange",
       path: "/dashboard/exchange",

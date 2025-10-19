@@ -142,19 +142,20 @@ const OtpScreenLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#0F0F17]">
-      <div className="hidden md:flex w-1/2 bg-[#0B0B12] justify-center items-center p-10">
+    <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#030b1f]">
+       <div className="hidden md:flex w-1/2 bg-[#030b1f] justify-center items-center p-1">
         <div>
           <h1 className="text-3xl font-bold mb-4">
             QUICK, <span className="text-primary">SECURE</span> &{" "}
             <span className="text-primary">RELIABLE</span>
           </h1>
-          <p className="text-gray-400 mb-10">
-            Your all-in-one solution for crypto trading and exchange
+          <p className="text-gray-400 mb-10 text-center">
+            Your all-in-one solution for crypto trading
           </p>
-          <div className="w-full h-64 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
+
+          <div className="w-full h-120 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
             <img
-              src="/assets/auth/wallet.jpeg"
+              src="/assets/auth/wallet.png"
               alt="Q Dashboard"
               className="w-full h-full object-cover rounded-lg"
             />

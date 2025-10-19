@@ -39,11 +39,11 @@ export default function WhyChoose() {
   ];
 
   return (
-    <section className="bg-[#030b1f] text-white py-20  md:py-24 px-6 md:px-20 relative overflow-hidden pb-5 ">
+    <section className="bg-[#030b1f] text-white py-24 md:py-35 px-6 md:px-20 relative overflow-hidden pb-5 ">
       {/* Title */}
       <div className="max-w-5xl mx-auto text-center mb-10 md:mb-16">
         <h2 className="text-2xl md:text-4xl font-bold">
-          WHY CHOOSE <span className="text-primary">QBOTS</span>
+          WHY CHOOSE <span className="text-primary">Qbots</span>
         </h2>
       </div>
 
