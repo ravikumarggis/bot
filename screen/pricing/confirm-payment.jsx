@@ -1,18 +1,24 @@
 "use client";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPayPalOrder } from "../../queries/payment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useGetSubscription } from "@/queries/pricing";
 import { formatCurrency } from "@/utils";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-
+import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
+import Modal from "@/components/ui/modal";
+import { Button, DialogTitle } from "@headlessui/react";
+import { useAccount } from "wagmi";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const subId = searchParams.get("subId");
+  const [open, setOpen] = useState(false);
+  const [invoiceModalState, setInvoiceModalState] = useState(false);
+  const { isConnected, isConnecting } = useAccount();
   const { data: subscriptionData, isPending: subscriptionDataPending } =
     useGetSubscription({ id: subId });
+
   console.log(subscriptionData, "subscriptionData>>");
 
   if (subscriptionDataPending) {
@@ -87,10 +93,22 @@ const ConfirmPayment = () => {
               createOrder={() => {}}
               onApprove={() => {}}
             />
-            <button className="bg-[#1a2747] h-10 font-normal text-lg rounded">
-              Pay with Debit or Credit Card
+            <button
+              className="bg-[#1a2747] h-10 font-normal text-lg rounded"
+              onClick={() => {
+                if (isConnecting) {
+                  retun;
+                }
+                if (isConnected) {
+                  setInvoiceModalState(true);
+                } else {
+                  setOpen(true);
+                }
+              }}
+            >
+              {isConnecting ? `Loading...` : `Pay with QIE`}
             </button>
-            <ConnectButton />
+            {/* <ConnectButton /> */}
             <p>
               You'll be securely redirected to PayPal to complete your payment
             </p>
@@ -103,8 +121,62 @@ const ConfirmPayment = () => {
           </button>
         </div>
       </div>
+      {open && (
+        <WalletConnectModal
+          open={open}
+          setOpen={setOpen}
+          setInvoiceModalState={setInvoiceModalState}
+        />
+      )}
+      {invoiceModalState && isConnected && (
+        <InvoiceModal open={invoiceModalState} setOpen={setInvoiceModalState} />
+      )}
     </div>
   );
 };
 
 export default ConfirmPayment;
+
+const WalletConnectModal = ({ open, setOpen, setInvoiceModalState }) => {
+  const { openConnectModal } = useConnectModal();
+  const { isConnected } = useAccount();
+
+  useEffect(() => {
+    if (isConnected) {
+      setInvoiceModalState(true);
+      setOpen(false);
+    }
+  }, [isConnected]);
+
+  return (
+    <Modal open={open} setOpen={setOpen}>
+      <div className="flex items-center justify-center gap-8 flex-col">
+        <DialogTitle as="h3" className="text-white text-2xl font-semibold">
+          Please Connect Wallet
+        </DialogTitle>
+        <button
+          className="bg-primary min-w-xs h-10 rounded"
+          onClick={() => {
+            openConnectModal();
+          }}
+        >
+          Connect Wallet
+        </button>
+      </div>
+    </Modal>
+  );
+};
+
+const InvoiceModal = ({ open, setOpen }) => {
+  const { openConnectModal } = useConnectModal();
+
+  return (
+    <Modal open={open} setOpen={setOpen}>
+      <div className="flex items-center justify-center gap-8 flex-col">
+        <DialogTitle as="h3" className="text-white text-2xl font-semibold">
+          InVoice
+        </DialogTitle>
+      </div>
+    </Modal>
+  );
+};
