@@ -134,8 +134,14 @@ const ConfirmPayment = () => {
                 onApprovalMutate({ orderID: d?.orderID });
               }}
             />
+
+            <p>
+              You'll be securely redirected to PayPal to complete your payment
+            </p>
+            <div className="w-full h-1 bg-primary"></div>
+            <p className="font-semibold text-xl">Pay via QIE</p>
             <button
-              className="bg-[#1a2747] h-10 font-normal text-lg rounded"
+              className="bg-primary h-10 font-normal text-lg rounded"
               onClick={() => {
                 if (isConnecting) {
                   retun;
@@ -149,22 +155,12 @@ const ConfirmPayment = () => {
             >
               {isConnecting ? `Loading...` : `Pay with QIE`}
             </button>
-            <p>
-              You'll be securely redirected to PayPal to complete your payment
-            </p>
-            <div className="w-full h-1 bg-primary"></div>
-            <p className="font-semibold text-xl">Pay via QIE</p>
-            <div className="flex items-center w-full justify-center ">
-              <ConnectButton />
-            </div>
           </div>
         </div>
-        <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-4 lg:gap-0 lg:items-end justify-between mt-10">
+        {/* <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-4 lg:gap-0 lg:items-end justify-between mt-10">
           <p className="text-primary cursor-pointer">Back to payment options</p>
-          {/* <button className=" w-[90%] lg:w-auto lg:min-w-sm bg-primary h-10 rounded cursor-pointer">
-            Continue
-          </button> */}
-        </div>
+         
+        </div> */}
       </div>
       {open && (
         <WalletConnectModal
@@ -273,10 +269,10 @@ const InvoiceModal = ({
   const paymentHanlder = async () => {
     try {
       setIsLoading(true);
-      const parsedValue = parseEther(String(Math.ceil(Number(1))));
-      //   const parsedValue = parseEther(
-      //   String(Math.ceil(Number(invoiceData?.qieAmount)))
-      // );
+      // const parsedValue = parseEther(String(Math.ceil(Number(1))));
+      const parsedValue = parseEther(
+        String(Math.ceil(Number(invoiceData?.qieAmount)))
+      );
 
       const hash = await writeContractAsync({
         abi: config.paymentAbi,
@@ -333,11 +329,12 @@ const InvoiceModal = ({
                     })}
                   />
                 </div>
+                {console.log(invoiceData, subscriptionData, "invoiceData>>")}
                 <DialogTitle
                   as="h3"
                   className="text-white text-2xl font-semibold"
                 >
-                  In-Voice
+                  Invoice
                 </DialogTitle>
                 <IconX
                   className="cursor-pointer"
@@ -348,7 +345,20 @@ const InvoiceModal = ({
               </div>
               <div className="flex items-center justify-center gap-2 flex-col relative mt-8">
                 <div className="flex flex-row justify-between w-full">
-                  <p className="font-semibold">USD Amount</p>
+                  <p className="font-semibold">Actual Amount</p>
+                  <p>
+                    {formatCurrency({
+                      amount: subscriptionData?.amount,
+                      currency: subscriptionData?.currency,
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Discount Applied</p>
+                  <p>50%</p>
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Payable Amount</p>
                   <p>
                     {formatCurrency({
                       amount: invoiceData?.amountUsd,
@@ -357,7 +367,7 @@ const InvoiceModal = ({
                   </p>
                 </div>
                 <div className="flex flex-row justify-between w-full">
-                  <p className="font-semibold">Payable QIE</p>
+                  <p className="font-semibold">Equivalent Payable QIE</p>
                   <p>
                     {formatCurrency({
                       amount: Math.ceil(invoiceData?.qieAmount),
