@@ -78,7 +78,7 @@ export default function PricingHero() {
             <span className="block">Competitive Pricing</span>
           </h1>
 
-          <h2 className="mt-4 sm:mt-8 text-3xl font-semibold text-center lg:text-center justify-center w-full">
+          <h2 className="mt-5 sm:mt-8 text-2xl md:text-3xl font-semibold text-center lg:text-center justify-center w-full">
             Plans & Pricing
           </h2>
 

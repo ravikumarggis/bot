@@ -19,11 +19,11 @@ export default function Navbar() {
  
   return (
     <nav className="fixed top-0 w-full bg-[#030b1f]/70 backdrop-blur-md border-b border-white/10 z-50">
-      <div className="mx-auto flex items-center justify-between px-6 md:px-20 py-3 gap-2">
+      <div className="mx-auto flex items-center justify-between px-6 md:px-20 py-1 gap-2">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <img src="/assets/logo1.jpeg" alt="Qbots Logo" className="w-5 h-6" />
-          <span className="text-white font-semibold text-lg tracking-tight">
+          <img src="/assets/logo1.png" alt="Qbots Logo" className="w-14 md:w-18 h-14 md:h-18 "/>
+          <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
             Qbots
           </span>
         </Link>

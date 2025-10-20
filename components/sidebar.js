@@ -225,7 +225,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
     <>
       {/* Desktop Sidebar - hidden on small devices */}
       <div
-        className={`hidden md:flex flex-col bg-gray-800 border-r border-gray-700 min-h-screen p-5 transition-all duration-200 ease-in-out ${
+        className={`hidden pt-10 md:flex flex-col bg-gray-800 border-r border-gray-700 min-h-screen p-5 transition-all duration-200 ease-in-out ${
           isCollapsed ? "w-20" : "w-64"
         }`}
       >
