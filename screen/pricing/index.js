@@ -57,7 +57,7 @@ export default function PricingHero() {
       bottomYearly: "Pay with QIE :$250/year",
 
       exchanges: ["BINANCE", "BYBIT"],
-      access: "Access to all bot",
+      access: "Access to all bots",
       profitCap: "Unlimited",
       support1: "Priority server resources",
       support2: "24/7 premium support",
@@ -106,7 +106,7 @@ export default function PricingHero() {
           </div>
 
           <h2 className="mt-4 sm:mt-8 mb-12 text-3xl font-semibold text-center lg:text-center justify-center w-full">
-            Pay with QIE coin and get{" "}
+            Pay with QIE coins and get{" "}
             <span className="text-primary">50% off any plan.</span>
           </h2>
 
