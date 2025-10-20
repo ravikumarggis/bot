@@ -7,13 +7,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { getInvoiceStatus } from "@/queries/payment";
 import { toast } from "sonner";
+import { invoiceAtom } from "@/const/atoms";
+import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 const PaymentProcessing = ({
   open,
   setOpen,
   invoiceData,
   enableApiCalling = false,
+  subscriptionData,
 }) => {
   const { address } = useAccount();
+  const [_, setInvoiceAtom] = useAtom(invoiceAtom);
+  const router = useRouter();
+
   const { data: statusData, isPending: statusDataPending } = useQuery({
     queryKey: ["getInvoiceStatus", invoiceData],
     queryFn: () => {
@@ -28,11 +35,12 @@ const PaymentProcessing = ({
       return data?.status === "paid" ? false : 10000;
     },
   });
-  console.log(statusData, "statusData>>>");
 
   useEffect(() => {
     if (statusData?.status == "paid") {
+      setInvoiceAtom({ ...subscriptionData, invoiceData: statusData });
       toast.success("Paid successfully");
+      router.replace("/dashboard/pricing/success-payment");
       setOpen(false);
     }
   }, [statusData]);

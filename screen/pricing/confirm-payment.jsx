@@ -23,6 +23,8 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { toast } from "sonner";
 import PaymentProcessing from "./component/payment-processing";
 import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { invoiceAtom } from "@/const/atoms";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,6 +34,7 @@ const ConfirmPayment = () => {
   const [statusModalState, setStatusModalState] = useState(false);
   const [invoiceModalState, setInvoiceModalState] = useState(false);
   const { isConnected, isConnecting } = useAccount();
+  const [_, setInvoiceAtom] = useAtom(invoiceAtom);
   const { data: subscriptionData, isPending: subscriptionDataPending } =
     useGetSubscription({ id: subId });
   const [shouldUseApiCalling, setShouldUseApiCalling] = useState(false);
@@ -47,6 +50,9 @@ const ConfirmPayment = () => {
       onSuccess: (data) => {
         if (data?.status == "COMPLETED") {
           toast.success("Purchase successfully");
+          console.log(subscriptionData, "finalInvoiceData>>");
+          setInvoiceAtom({ ...subscriptionData, invoiceData: data });
+          router.replace("/dashboard/pricing/success-payment");
         } else {
           toast.error("Something went wrong, Please try again later");
         }
@@ -183,6 +189,7 @@ const ConfirmPayment = () => {
           setOpen={setStatusModalState}
           open={statusModalState || onMutatePending}
           enableApiCalling={shouldUseApiCalling}
+          subscriptionData={subscriptionData}
         />
       )}
     </div>
