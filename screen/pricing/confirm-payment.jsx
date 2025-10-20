@@ -1,7 +1,11 @@
 "use client";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { createPayPalOrder, useGenerateInvoice } from "../../queries/payment";
+import {
+  capturOrderPaypal,
+  createPayPalOrder,
+  useGenerateInvoice,
+} from "../../queries/payment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useGetSubscription } from "@/queries/pricing";
 import { formatCurrency } from "@/utils";
@@ -18,6 +22,7 @@ import { config } from "@/const";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { toast } from "sonner";
 import PaymentProcessing from "./component/payment-processing";
+import { useMutation } from "@tanstack/react-query";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,6 +34,30 @@ const ConfirmPayment = () => {
   const { isConnected, isConnecting } = useAccount();
   const { data: subscriptionData, isPending: subscriptionDataPending } =
     useGetSubscription({ id: subId });
+  const [shouldUseApiCalling, setShouldUseApiCalling] = useState(false);
+
+  const { mutateAsync: onApprovalMutate, isPending: onMutatePending } =
+    useMutation({
+      mutationFn: async ({ orderID }) => {
+        return capturOrderPaypal({
+          subscriptionId: subId,
+          orderID: orderID,
+        });
+      },
+      onSuccess: (data) => {
+        if (data?.status == "COMPLETED") {
+          toast.success("Purchase successfully");
+        } else {
+          toast.error("Something went wrong, Please try again later");
+        }
+        setStatusModalState(false);
+      },
+      onError: (data) => {
+        console.log("error in capture>", data);
+
+        setStatusModalState(false);
+      },
+    });
 
   if (subscriptionDataPending) {
     return <p>Loading</p>;
@@ -89,18 +118,15 @@ const ConfirmPayment = () => {
           </div>
           <div className="flex border-primary/10 border flex-col lg:max-w-sm rounded-2xl  p-4 gap-4 py-6 h-fit">
             <p className="font-semibold text-xl">Pay via PayPal</p>
-            {/* <button
-              className="bg-blue-600 h-10 font-normal text-lg rounded"
-              onClick={() => {
-                createPayPalOrder();
-              }}
-            >
-              Pay with PayPal
-            </button> */}
+
             <PayPalButtons
               style={{ layout: "horizontal" }}
-              createOrder={() => {}}
-              onApprove={() => {}}
+              createOrder={createPayPalOrder}
+              onApprove={(d) => {
+                setShouldUseApiCalling(false);
+                setStatusModalState(true);
+                onApprovalMutate({ orderID: d?.orderID });
+              }}
             />
             <button
               className="bg-[#1a2747] h-10 font-normal text-lg rounded"
@@ -148,13 +174,15 @@ const ConfirmPayment = () => {
           subscriptionData={subscriptionData}
           setStatusModalState={setStatusModalState}
           setFinalInvoiceData={setFinalInvoiceData}
+          setShouldUseApiCalling={setShouldUseApiCalling}
         />
       )}
-      {statusModalState && (
+      {(statusModalState || onMutatePending) && (
         <PaymentProcessing
           invoiceData={finalInvoiceData}
           setOpen={setStatusModalState}
-          open={statusModalState}
+          open={statusModalState || onMutatePending}
+          enableApiCalling={shouldUseApiCalling}
         />
       )}
     </div>
@@ -198,6 +226,7 @@ const InvoiceModal = ({
   subscriptionData,
   setStatusModalState,
   setFinalInvoiceData,
+  setShouldUseApiCalling,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: invoiceData, isPending: invoiceDataPending } =
@@ -250,6 +279,7 @@ const InvoiceModal = ({
         value: parsedValue,
       });
       setIsLoading(false);
+      setShouldUseApiCalling(true);
       setFinalInvoiceData(invoiceData);
       setStatusModalState(true);
       setOpen(false);
@@ -269,73 +299,85 @@ const InvoiceModal = ({
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between">
-            <div className="h-10 w-10">
-              <CircularProgressbar
-                minValue={0}
-                value={totalDuration}
-                text={totalSeconds}
-                strokeWidth={12}
-                styles={buildStyles({
-                  rotation: 0.25,
-
-                  textSize: "34px",
-
-                  pathTransitionDuration: 0.5,
-
-                  textColor: "#f88",
-                  trailColor: "gray",
-                  pathColor: `oklch(0.68 0.23 341.45)`,
-                })}
-              />
+          {!invoiceData?.invoiceId ? (
+            <div className="min-h-52 flex items-center justify-center flex-col">
+              <p>Unable to generate invoice</p>
+              <p>Please try again later</p>
             </div>
-            <DialogTitle as="h3" className="text-white text-2xl font-semibold">
-              In-Voice
-            </DialogTitle>
-            <IconX
-              className="cursor-pointer"
-              onClick={() => {
-                setOpen(false);
-              }}
-            />
-          </div>
-          <div className="flex items-center justify-center gap-2 flex-col relative mt-8">
-            <div className="flex flex-row justify-between w-full">
-              <p className="font-semibold">USD Amount</p>
-              <p>
-                {formatCurrency({
-                  amount: invoiceData?.amountUsd,
-                  currency: "USD",
-                })}
-              </p>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p className="font-semibold">Payable QIE</p>
-              <p>
-                {formatCurrency({
-                  amount: Math.ceil(invoiceData?.qieAmount),
-                  currency: "QIE",
-                })}
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center w-full gap-4 mt-14">
-              {/* <div className="flex flex-row">
+          ) : (
+            <>
+              <div className="flex items-center justify-between">
+                <div className="h-10 w-10">
+                  <CircularProgressbar
+                    minValue={0}
+                    value={totalDuration}
+                    text={totalSeconds}
+                    strokeWidth={12}
+                    styles={buildStyles({
+                      rotation: 0.25,
+
+                      textSize: "34px",
+
+                      pathTransitionDuration: 0.5,
+
+                      textColor: "#f88",
+                      trailColor: "gray",
+                      pathColor: `oklch(0.68 0.23 341.45)`,
+                    })}
+                  />
+                </div>
+                <DialogTitle
+                  as="h3"
+                  className="text-white text-2xl font-semibold"
+                >
+                  In-Voice
+                </DialogTitle>
+                <IconX
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                />
+              </div>
+              <div className="flex items-center justify-center gap-2 flex-col relative mt-8">
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">USD Amount</p>
+                  <p>
+                    {formatCurrency({
+                      amount: invoiceData?.amountUsd,
+                      currency: "USD",
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Payable QIE</p>
+                  <p>
+                    {formatCurrency({
+                      amount: Math.ceil(invoiceData?.qieAmount),
+                      currency: "QIE",
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center justify-center w-full gap-4 mt-14">
+                  {/* <div className="flex flex-row">
             <p>Expires In: </p>
             <p>Expires In: </p>
           </div> */}
-              <button
-                className="flex w-full bg-primary h-10 rounded justify-center items-center"
-                onClick={() => {
-                  if (isLoading) {
-                    return;
-                  }
-                  paymentHanlder();
-                }}
-              >
-                {isLoading ? `Processing...` : `Confirm`}
-              </button>
-            </div>
-          </div>
+                  <button
+                    className="flex w-full bg-primary h-10 rounded justify-center items-center"
+                    onClick={() => {
+                      if (isLoading) {
+                        return;
+                      }
+                      paymentHanlder();
+                    }}
+                  >
+                    {isLoading ? `Processing...` : `Confirm`}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </Modal>

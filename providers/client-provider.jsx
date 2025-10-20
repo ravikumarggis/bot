@@ -37,7 +37,6 @@ const config = createConfig({
 
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
-  currency: "INR",
   intent: "capture",
   environment: "sandbox",
 };
