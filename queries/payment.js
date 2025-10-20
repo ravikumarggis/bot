@@ -71,6 +71,8 @@ export const getInvoiceStatus = async ({ invoiceId, walletAddress }) => {
       },
     });
 
+    console.log(response, "response>>>");
+
     return response?.data;
   } catch (error) {
     console.error("Error", error);

@@ -17,12 +17,14 @@ import moment from "moment";
 import { config } from "@/const";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { toast } from "sonner";
-
+import PaymentProcessing from "./component/payment-processing";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const subId = searchParams.get("subId");
   const [open, setOpen] = useState(false);
+  const [finalInvoiceData, setFinalInvoiceData] = useState({});
+  const [statusModalState, setStatusModalState] = useState(false);
   const [invoiceModalState, setInvoiceModalState] = useState(false);
   const { isConnected, isConnecting } = useAccount();
   const { data: subscriptionData, isPending: subscriptionDataPending } =
@@ -144,6 +146,15 @@ const ConfirmPayment = () => {
           open={invoiceModalState}
           setOpen={setInvoiceModalState}
           subscriptionData={subscriptionData}
+          setStatusModalState={setStatusModalState}
+          setFinalInvoiceData={setFinalInvoiceData}
+        />
+      )}
+      {statusModalState && (
+        <PaymentProcessing
+          invoiceData={finalInvoiceData}
+          setOpen={setStatusModalState}
+          open={statusModalState}
         />
       )}
     </div>
@@ -181,7 +192,13 @@ const WalletConnectModal = ({ open, setOpen, setInvoiceModalState }) => {
   );
 };
 
-const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
+const InvoiceModal = ({
+  open,
+  setOpen,
+  subscriptionData,
+  setStatusModalState,
+  setFinalInvoiceData,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: invoiceData, isPending: invoiceDataPending } =
     useGenerateInvoice({
@@ -233,8 +250,13 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
         value: parsedValue,
       });
       setIsLoading(false);
+      setFinalInvoiceData(invoiceData);
+      setStatusModalState(true);
+      setOpen(false);
+      toast.success("Payment initiated.");
     } catch (error) {
       console.log(error, "error in payment");
+      toast.success(error?.shortMessage || "Something went wrong");
       setIsLoading(false);
     }
   };
