@@ -8,7 +8,7 @@ export default function Dropdown({
   value = null,
   onSelect,
   className = "",
-  bgColor
+  bgColor,
 }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -26,21 +26,27 @@ export default function Dropdown({
 
   const handleSelect = (option) => {
     setOpen(false);
-    onSelect?.(option.value); 
+    onSelect?.(option.value);
   };
 
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
-    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
+    <div
+      className={`relative inline-block text-left ${className}`}
+      ref={dropdownRef}
+    >
       <button
         type="button"
         onClick={() => setOpen(!open)}
         className={`w-full flex items-center justify-between px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition`}
-        style={{ backgroundColor: bgColor || "#1a1a25" }}    >
+        style={{ backgroundColor: bgColor || "#1a1a25" }}
+      >
         {selectedOption?.label || label}
         <ChevronDown
-          className={`w-4 h-4 ml-2 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`w-4 h-4 ml-2 transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
         />
       </button>
 
@@ -48,10 +54,19 @@ export default function Dropdown({
         <div className="absolute z-20 mt-2 w-full bg-[#1a1a25] border border-gray-700 rounded-lg shadow-lg">
           <ul className="py-2 text-md text-gray-300">
             {options.map((option) => (
-              <li key={option.value}>
+              <li
+                key={option.value}
+                className="flex flex-row items-center pl-2"
+              >
+                {option?.icon && (
+                  <img
+                    src={option?.icon}
+                    className=" w-6 rounded-full object-contain"
+                  />
+                )}
                 <button
                   onClick={() => handleSelect(option)}
-                  className={`w-full text-left px-4 py-2 rounded-md transition ${
+                  className={`w-full text-left px-2 py-2 rounded-md transition ${
                     value === option.value
                       ? "text-white"
                       : "hover:bg-primary/80 hover:text-white"

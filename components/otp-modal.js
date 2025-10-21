@@ -9,8 +9,10 @@ const OTPModal = ({
   title = "Verify Your Email",
   subtitle = "Enter the code below to continue.",
   instructions = "Check your email for the One-Time Password (OTP). Please also look in your spam folder if you don’t see it.",
-  length = 4,
-  duration = 90, // in seconds
+  length = 6,
+  duration = 90,
+  isLoading = false,
+  resendEnable = true,
 }) => {
   const [otp, setOtp] = useState(Array(length).fill(""));
   const [timer, setTimer] = useState(duration);
@@ -111,18 +113,20 @@ const OTPModal = ({
               ))}
             </div>
 
-            <div className="text-gray-400 text-sm">{formatTime(timer)}</div>
+            {resendEnable && (
+              <div className="text-gray-400 text-sm">{formatTime(timer)}</div>
+            )}
 
             <button
               type="submit"
-              disabled={!isOtpComplete}
+              disabled={!isOtpComplete || isLoading}
               className={`w-full py-3 rounded-[10px] text-white font-semibold transition-all ${
                 isOtpComplete
                   ? "bg-primary hover:opacity-90"
                   : "bg-primary opacity-50 cursor-not-allowed"
               }`}
             >
-              Submit
+              {isLoading ? "Processing.." : `Submit`}
             </button>
           </form>
         </div>

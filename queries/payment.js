@@ -10,16 +10,30 @@ export const createPayPalOrder = async () => {
         value: "10.00",
         currency: "USD",
       },
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
     });
+    console.log(response, "createPayPalOrder>>>");
 
-    return response?.data;
+    return response?.data?.id;
   } catch (error) {
     console.error("Error creating PayPal order:", error);
     throw error;
+  }
+};
+export const capturOrderPaypal = async ({ subscriptionId, orderID }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: `/paypal/orders/${orderID}/capture`,
+      data: {
+        subscriptionId: subscriptionId,
+      },
+    });
+    console.log(response?.data, "response>>>");
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error in order capture:", error);
+    throw error?.response?.data;
   }
 };
 
@@ -51,15 +65,6 @@ export const generateInvoice = async ({ amount, currency, subscriptionId }) => {
   }
 };
 
-export const useGetInvoiceStatus = ({ invoiceId, walletAddress }) => {
-  return useQuery({
-    queryKey: ["getInvoiceStatus", invoiceId, walletAddress],
-    queryFn: () => {
-      return generateInvoice({ invoiceId, walletAddress });
-    },
-  });
-};
-
 export const getInvoiceStatus = async ({ invoiceId, walletAddress }) => {
   try {
     const response = await api({
@@ -70,8 +75,47 @@ export const getInvoiceStatus = async ({ invoiceId, walletAddress }) => {
         walletAddress,
       },
     });
+    if (response?.data?.status == "paid") {
+      return response?.data;
+    } else {
+      throw new Error("Invoice not paid yet");
+    }
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+export const useHaveActiveSubscriptions = () => {
+  return useQuery({
+    queryKey: ["useHaveActiveSubscriptions"],
+    queryFn: () => {
+      return getSubscriptionDetail();
+    },
+    select: (data) => {
+      const active = data?.some(
+        (item) => item?.subscriptionDetail?.status == "ACTIVE"
+      );
+      return active;
+    },
+  });
+};
 
-    return response?.data;
+export const useGetSubscriptionDetail = () => {
+  return useQuery({
+    queryKey: ["getSubscriptionDetail"],
+    queryFn: () => {
+      return getSubscriptionDetail();
+    },
+  });
+};
+
+export const getSubscriptionDetail = async () => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: "/subscription/getSubscriptionDetail",
+    });
+    return response?.data?.result || [];
   } catch (error) {
     console.error("Error", error);
     throw error;

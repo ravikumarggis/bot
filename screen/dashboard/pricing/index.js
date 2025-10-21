@@ -4,7 +4,7 @@ import ToggleTabs from "../../../components/toggle-Tabs";
 import { CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useGetActiveSubscription } from "@/queries/pricing";
-import { formatCurrency } from "@/utils/index";
+import { formatCurrency, isMonthlyPlan } from "@/utils/index";
 
 const Pricing = () => {
   const [plan, setPlan] = useState("monthly");
@@ -45,7 +45,7 @@ const Pricing = () => {
 
               <div className="text-center mb-4">
                 <span className="bg-purple-600/20 text-primary text-sm px-4 py-1 rounded-full">
-                  {plan === "monthly" ? "Monthly" : "Yearly"}
+                  {isMonthlyPlan(item?.duration) ? "Monthly" : "Yearly"}
                 </span>
               </div>
 
@@ -67,10 +67,7 @@ const Pricing = () => {
               <ul className="space-y-4 mb-6">
                 <li className="flex items-center gap-3 text-gray-300">
                   <CheckCircle className="text-primary" size={20} />
-                  Duration:{" "}
-                  {plan === "monthly"
-                    ? `${item?.duration} MONTH`
-                    : `${item?.duration} MONTHS`}
+                  Duration: {item?.duration} days
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
                   <CheckCircle className="text-primary" size={20} />

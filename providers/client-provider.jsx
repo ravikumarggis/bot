@@ -10,6 +10,7 @@ import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { qieChain, QieCustomWallet } from "@/const/index";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { Provider as JotaiProvider } from "jotai";
 import {
   metaMaskWallet,
   walletConnectWallet,
@@ -37,20 +38,21 @@ const config = createConfig({
 
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
-  currency: "INR",
   intent: "capture",
   environment: "sandbox",
 };
 
 const ClientProvider = ({ children }) => {
   return (
-    <WagmiProvider config={config}>
-      <RainbowKitProvider>
-        <PayPalScriptProvider options={initialOptions}>
-          {children}
-        </PayPalScriptProvider>
-      </RainbowKitProvider>
-    </WagmiProvider>
+    <JotaiProvider>
+      <WagmiProvider config={config}>
+        <RainbowKitProvider>
+          <PayPalScriptProvider options={initialOptions}>
+            {children}
+          </PayPalScriptProvider>
+        </RainbowKitProvider>
+      </WagmiProvider>
+    </JotaiProvider>
   );
 };
 

@@ -1,7 +1,11 @@
 "use client";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { createPayPalOrder, useGenerateInvoice } from "../../queries/payment";
+import {
+  capturOrderPaypal,
+  createPayPalOrder,
+  useGenerateInvoice,
+} from "../../queries/payment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useGetSubscription } from "@/queries/pricing";
 import { formatCurrency } from "@/utils";
@@ -17,16 +21,49 @@ import moment from "moment";
 import { config } from "@/const";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { toast } from "sonner";
-
+import PaymentProcessing from "./component/payment-processing";
+import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { invoiceAtom } from "@/const/atoms";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const subId = searchParams.get("subId");
   const [open, setOpen] = useState(false);
+  const [finalInvoiceData, setFinalInvoiceData] = useState({});
+  const [statusModalState, setStatusModalState] = useState(false);
   const [invoiceModalState, setInvoiceModalState] = useState(false);
   const { isConnected, isConnecting } = useAccount();
+  const [_, setInvoiceAtom] = useAtom(invoiceAtom);
   const { data: subscriptionData, isPending: subscriptionDataPending } =
     useGetSubscription({ id: subId });
+  const [shouldUseApiCalling, setShouldUseApiCalling] = useState(false);
+
+  const { mutateAsync: onApprovalMutate, isPending: onMutatePending } =
+    useMutation({
+      mutationFn: async ({ orderID }) => {
+        return capturOrderPaypal({
+          subscriptionId: subId,
+          orderID: orderID,
+        });
+      },
+      onSuccess: (data) => {
+        if (data?.status == "COMPLETED") {
+          toast.success("Purchase successfully");
+          console.log(subscriptionData, "finalInvoiceData>>");
+          setInvoiceAtom({ ...subscriptionData, invoiceData: data });
+          router.replace("/dashboard/pricing/success-payment");
+        } else {
+          toast.error("Something went wrong, Please try again later");
+        }
+        setStatusModalState(false);
+      },
+      onError: (data) => {
+        console.log("error in capture>", data);
+
+        setStatusModalState(false);
+      },
+    });
 
   if (subscriptionDataPending) {
     return <p>Loading</p>;
@@ -52,9 +89,7 @@ const ConfirmPayment = () => {
                 </div>
                 <div className="flex gap-1 flex-col">
                   <p>
-                    {subscriptionData?.duration || 0}{" "}
-                    {/* {subscriptionData?.name == "Monthly" ? "Month" : "Year"} */}
-                    {"Month"}
+                    {subscriptionData?.duration || 0} {"days"}
                   </p>
 
                   <p>
@@ -87,21 +122,24 @@ const ConfirmPayment = () => {
           </div>
           <div className="flex border-primary/10 border flex-col lg:max-w-sm rounded-2xl  p-4 gap-4 py-6 h-fit">
             <p className="font-semibold text-xl">Pay via PayPal</p>
-            {/* <button
-              className="bg-blue-600 h-10 font-normal text-lg rounded"
-              onClick={() => {
-                createPayPalOrder();
-              }}
-            >
-              Pay with PayPal
-            </button> */}
+
             <PayPalButtons
               style={{ layout: "horizontal" }}
-              createOrder={() => {}}
-              onApprove={() => {}}
+              createOrder={createPayPalOrder}
+              onApprove={(d) => {
+                setShouldUseApiCalling(false);
+                setStatusModalState(true);
+                onApprovalMutate({ orderID: d?.orderID });
+              }}
             />
+
+            <p>
+              You'll be securely redirected to PayPal to complete your payment
+            </p>
+            <div className="w-full h-1 bg-primary"></div>
+            <p className="font-semibold text-xl">Pay via QIE</p>
             <button
-              className="bg-[#1a2747] h-10 font-normal text-lg rounded"
+              className="bg-primary h-10 font-normal text-lg rounded"
               onClick={() => {
                 if (isConnecting) {
                   retun;
@@ -115,22 +153,12 @@ const ConfirmPayment = () => {
             >
               {isConnecting ? `Loading...` : `Pay with QIE`}
             </button>
-            <p>
-              You'll be securely redirected to PayPal to complete your payment
-            </p>
-            <div className="w-full h-1 bg-primary"></div>
-            <p className="font-semibold text-xl">Pay via QIE</p>
-            <div className="flex items-center w-full justify-center ">
-              <ConnectButton />
-            </div>
           </div>
         </div>
-        <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-4 lg:gap-0 lg:items-end justify-between mt-10">
+        {/* <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-4 lg:gap-0 lg:items-end justify-between mt-10">
           <p className="text-primary cursor-pointer">Back to payment options</p>
-          {/* <button className=" w-[90%] lg:w-auto lg:min-w-sm bg-primary h-10 rounded cursor-pointer">
-            Continue
-          </button> */}
-        </div>
+         
+        </div> */}
       </div>
       {open && (
         <WalletConnectModal
@@ -143,6 +171,18 @@ const ConfirmPayment = () => {
         <InvoiceModal
           open={invoiceModalState}
           setOpen={setInvoiceModalState}
+          subscriptionData={subscriptionData}
+          setStatusModalState={setStatusModalState}
+          setFinalInvoiceData={setFinalInvoiceData}
+          setShouldUseApiCalling={setShouldUseApiCalling}
+        />
+      )}
+      {(statusModalState || onMutatePending) && (
+        <PaymentProcessing
+          invoiceData={finalInvoiceData}
+          setOpen={setStatusModalState}
+          open={statusModalState || onMutatePending}
+          enableApiCalling={shouldUseApiCalling}
           subscriptionData={subscriptionData}
         />
       )}
@@ -181,7 +221,14 @@ const WalletConnectModal = ({ open, setOpen, setInvoiceModalState }) => {
   );
 };
 
-const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
+const InvoiceModal = ({
+  open,
+  setOpen,
+  subscriptionData,
+  setStatusModalState,
+  setFinalInvoiceData,
+  setShouldUseApiCalling,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: invoiceData, isPending: invoiceDataPending } =
     useGenerateInvoice({
@@ -221,7 +268,7 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
     try {
       setIsLoading(true);
       const parsedValue = parseEther(String(Math.ceil(Number(1))));
-      //   const parsedValue = parseEther(
+      // const parsedValue = parseEther(
       //   String(Math.ceil(Number(invoiceData?.qieAmount)))
       // );
 
@@ -233,8 +280,14 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
         value: parsedValue,
       });
       setIsLoading(false);
+      setShouldUseApiCalling(true);
+      setFinalInvoiceData(invoiceData);
+      setStatusModalState(true);
+      setOpen(false);
+      toast.success("Payment initiated.");
     } catch (error) {
       console.log(error, "error in payment");
+      toast.success(error?.shortMessage || "Something went wrong");
       setIsLoading(false);
     }
   };
@@ -247,73 +300,99 @@ const InvoiceModal = ({ open, setOpen, subscriptionData }) => {
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between">
-            <div className="h-10 w-10">
-              <CircularProgressbar
-                minValue={0}
-                value={totalDuration}
-                text={totalSeconds}
-                strokeWidth={12}
-                styles={buildStyles({
-                  rotation: 0.25,
-
-                  textSize: "34px",
-
-                  pathTransitionDuration: 0.5,
-
-                  textColor: "#f88",
-                  trailColor: "gray",
-                  pathColor: `oklch(0.68 0.23 341.45)`,
-                })}
-              />
+          {!invoiceData?.invoiceId ? (
+            <div className="min-h-52 flex items-center justify-center flex-col">
+              <p>Unable to generate invoice</p>
+              <p>Please try again later</p>
             </div>
-            <DialogTitle as="h3" className="text-white text-2xl font-semibold">
-              In-Voice
-            </DialogTitle>
-            <IconX
-              className="cursor-pointer"
-              onClick={() => {
-                setOpen(false);
-              }}
-            />
-          </div>
-          <div className="flex items-center justify-center gap-2 flex-col relative mt-8">
-            <div className="flex flex-row justify-between w-full">
-              <p className="font-semibold">USD Amount</p>
-              <p>
-                {formatCurrency({
-                  amount: invoiceData?.amountUsd,
-                  currency: "USD",
-                })}
-              </p>
-            </div>
-            <div className="flex flex-row justify-between w-full">
-              <p className="font-semibold">Payable QIE</p>
-              <p>
-                {formatCurrency({
-                  amount: Math.ceil(invoiceData?.qieAmount),
-                  currency: "QIE",
-                })}
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center w-full gap-4 mt-14">
-              {/* <div className="flex flex-row">
+          ) : (
+            <>
+              <div className="flex items-center justify-between">
+                <div className="h-10 w-10">
+                  <CircularProgressbar
+                    minValue={0}
+                    value={totalDuration}
+                    text={totalSeconds}
+                    strokeWidth={12}
+                    styles={buildStyles({
+                      rotation: 0.25,
+
+                      textSize: "34px",
+
+                      pathTransitionDuration: 0.5,
+
+                      textColor: "#f88",
+                      trailColor: "gray",
+                      pathColor: `oklch(0.68 0.23 341.45)`,
+                    })}
+                  />
+                </div>
+                {console.log(invoiceData, subscriptionData, "invoiceData>>")}
+                <DialogTitle
+                  as="h3"
+                  className="text-white text-2xl font-semibold"
+                >
+                  Invoice
+                </DialogTitle>
+                <IconX
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                />
+              </div>
+              <div className="flex items-center justify-center gap-2 flex-col relative mt-8">
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Actual Amount</p>
+                  <p>
+                    {formatCurrency({
+                      amount: subscriptionData?.amount,
+                      currency: subscriptionData?.currency,
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Discount Applied</p>
+                  <p>50%</p>
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Payable Amount</p>
+                  <p>
+                    {formatCurrency({
+                      amount: invoiceData?.amountUsd,
+                      currency: "USD",
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <p className="font-semibold">Equivalent Payable QIE</p>
+                  <p>
+                    {formatCurrency({
+                      amount: Math.ceil(invoiceData?.qieAmount),
+                      currency: "QIE",
+                    })}
+                  </p>
+                </div>
+                <div className="flex flex-col items-center justify-center w-full gap-4 mt-14">
+                  {/* <div className="flex flex-row">
             <p>Expires In: </p>
             <p>Expires In: </p>
           </div> */}
-              <button
-                className="flex w-full bg-primary h-10 rounded justify-center items-center"
-                onClick={() => {
-                  if (isLoading) {
-                    return;
-                  }
-                  paymentHanlder();
-                }}
-              >
-                {isLoading ? `Processing...` : `Confirm`}
-              </button>
-            </div>
-          </div>
+                  <button
+                    className="flex w-full bg-primary h-10 rounded justify-center items-center"
+                    onClick={() => {
+                      if (isLoading) {
+                        return;
+                      }
+                      paymentHanlder();
+                    }}
+                  >
+                    {isLoading ? `Processing...` : `Confirm`}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </Modal>

@@ -1,25 +1,21 @@
 import { api } from "@/service/api-service";
 import { useQuery } from "@tanstack/react-query";
-
 export const useGetActiveSubscription = ({ planType }) => {
   return useQuery({
     queryKey: ["getActiveSubscription", planType],
-    queryFn: async () => {
-      return getActiveSubscription();
-    },
+    queryFn: getActiveSubscription,
     select: (data) => {
-      if (data?.data?.responseCode == 200) {
-        if (planType) {
-          return data?.data?.result?.filter(
-            (item) =>
-              String(item?.name)?.toLowerCase() ==
-              String(planType)?.toLowerCase()
-          );
-        }
-        return data?.data?.result;
-      }
+      const result = data?.data;
+      if (result?.responseCode !== 200) return [];
 
-      return [];
+      const subscriptions = result?.result || [];
+
+      if (!planType) return subscriptions;
+
+      return subscriptions.filter(({ duration }) => {
+        const days = Number(duration);
+        return planType === "yearly" ? days >= 365 : days < 365;
+      });
     },
   });
 };
