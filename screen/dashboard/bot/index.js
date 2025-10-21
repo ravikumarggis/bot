@@ -19,10 +19,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Eye, EyeOff, Info, Copy } from "lucide-react";
 import { IconExchange } from "@tabler/icons-react";
 import Dropdown from "../../../components/dropdown";
+import { useRouter } from "next/navigation";
 
 
 const exchangeOptions = [
-  { label: "New Grid Bot", value: "New Grid Bot" },
+  { label: "New Grid Bot", value: "/create-grid-bot" },
   { label: "New DCA Bot", value: "New DCA Bot" },
 ];
 
@@ -31,38 +32,22 @@ export default function Bot() {
   const [formData, setFormData] = useState({ exchange: "", apiKey: "", secretKey: "" });
   const [errors, setErrors] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);
     setIsOpen(false);
   };
 
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.exchange) newErrors.exchange = "Please select an exchange";
-    if (!formData.apiKey) newErrors.apiKey = "API Key is required";
-    if (!formData.secretKey) newErrors.secretKey = "Secret Key is required";
-    else if (formData.secretKey.length < 8) newErrors.secretKey = "Secret Key must be at least 8 characters";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log("✅ Form Submitted:", formData);
-      setIsOpen(true);
-    }
-  };
 
+  const handleSelect = (val) => {
+    // setFormData({ ...formData, exchange: val });
+    router.push(`/dashboard/bot/${val}`); 
+  };
   return (
-    <div className="min-h-screen  p-8 text-white">
+    <div className="min-h-screen  py-10 text-white">
          
       <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
         <div className="flex">
@@ -72,7 +57,8 @@ export default function Bot() {
                   bgColor="#EE3379"
                   options={exchangeOptions}
                   value={formData.exchange || ""}
-                  onSelect={(val) => setFormData({ ...formData, exchange: val })}
+                //   onSelect={(val) => setFormData({ ...formData, exchange: val })}
+                onSelect={handleSelect}
         
                 className="w-56"
                 />
