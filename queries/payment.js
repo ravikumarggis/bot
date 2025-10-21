@@ -85,3 +85,39 @@ export const getInvoiceStatus = async ({ invoiceId, walletAddress }) => {
     throw error;
   }
 };
+export const useHaveActiveSubscriptions = () => {
+  return useQuery({
+    queryKey: ["useHaveActiveSubscriptions"],
+    queryFn: () => {
+      return getSubscriptionDetail();
+    },
+    select: (data) => {
+      const active = data?.some(
+        (item) => item?.subscriptionDetail?.status == "ACTIVE"
+      );
+      return active;
+    },
+  });
+};
+
+export const useGetSubscriptionDetail = () => {
+  return useQuery({
+    queryKey: ["getSubscriptionDetail"],
+    queryFn: () => {
+      return getSubscriptionDetail();
+    },
+  });
+};
+
+export const getSubscriptionDetail = async () => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: "/subscription/getSubscriptionDetail",
+    });
+    return response?.data?.result || [];
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};

@@ -5,6 +5,8 @@ import OTPInput from "../../../components/otp-modal";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { BarChart3, DollarSign } from "lucide-react";
 import ActivityIndicator from "@/components/activity-indicator";
+import { useHaveActiveSubscriptions } from "@/queries/payment";
+import NotActiveSubs from "@/components/no-active-subs";
 export default function Exchange() {
   const router = useRouter();
   const {
@@ -12,6 +14,13 @@ export default function Exchange() {
     isLoading: exchangeKeyListLoading,
     refetch: exchangeKeyListRefetch,
   } = useGetKeysExchange();
+
+  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
+    useHaveActiveSubscriptions();
+
+  if (!haveActiveSubs) {
+    return <NotActiveSubs />;
+  }
   return (
     <div className="flex  min-h-[100%]  text-white px-4 ">
       {exchangeKeyListLoading && (
