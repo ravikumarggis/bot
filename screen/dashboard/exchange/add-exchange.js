@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { Eye, EyeOff, Info, Copy } from "lucide-react";
-import { IconExchange } from "@tabler/icons-react";
+import { IconExchange, IconTrashXFilled } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import OTPModal from "../../../components/otp-modal";
 import Dropdown from "../../../components/dropdown";
 import { useMutation } from "@tanstack/react-query";
+import Modal from "@/components/ui/modal";
 import {
   addKeysExchange,
+  deleteKeysExchange,
   sendOtpExchange,
   useGetKeysExchange,
 } from "@/queries/exchange";
@@ -24,6 +26,8 @@ const exchangeOptions = [
 export default function AddExchange() {
   const router = useRouter();
   const [showSecret, setShowSecret] = useState(false);
+  const [deleteModalState, setDeleteModalState] = useState(false);
+  const [currentSelectedItem, setCurrentSelectedItem] = useState({});
   const [formData, setFormData] = useState({
     exchange: "",
     apiKey: "",
@@ -31,8 +35,11 @@ export default function AddExchange() {
   });
   const [errors, setErrors] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const { data: exchangeKeyList, isLoading: exchangeKeyListLoading } =
-    useGetKeysExchange();
+  const {
+    data: exchangeKeyList,
+    isLoading: exchangeKeyListLoading,
+    refetch: exchangeKeyListRefetch,
+  } = useGetKeysExchange();
 
   const { mutateAsync: sendOtp, isPending: sendOtpPending } = useMutation({
     mutationFn: () => {
@@ -59,8 +66,6 @@ export default function AddExchange() {
       });
     },
     onSuccess: (data) => {
-      console.log(data, "data>>");
-
       if (data?.responseCode == 200) {
         toast.success(data?.responseMessage);
       } else {
@@ -68,6 +73,7 @@ export default function AddExchange() {
       }
       setIsOpen(false);
       resetForm();
+      exchangeKeyListRefetch();
     },
     onError: (err) => {
       toast.error(
@@ -75,6 +81,7 @@ export default function AddExchange() {
       );
       setIsOpen(false);
       resetForm();
+      exchangeKeyListRefetch();
     },
   });
 
@@ -244,8 +251,10 @@ export default function AddExchange() {
 
           <div
             className={clsx(
-              "flex flex-col items-center text-center py-16 border border-dashed border-gray-700 rounded-xl mb-6",
-              !exchangeKeyListLoading && exchangeKeyList?.length != 0 && "py-0"
+              "flex flex-col items-center text-center  border border-dashed border-gray-700 rounded-xl mb-6",
+              !exchangeKeyListLoading && exchangeKeyList?.length > 0
+                ? "py-0"
+                : "py-16"
             )}
           >
             {exchangeKeyListLoading ? (
@@ -261,17 +270,43 @@ export default function AddExchange() {
                 </p>
               </>
             ) : (
-              <div>
-                {exchangeKeyList?.map((item, idx) => {
-                  return (
-                    <div className="flex  w-full bg-blue-300">
-                      <div className="flex flex-row justify-between items-center">
-                        <p>Exhange Name:</p>
-                        <p>{item?.exchange}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="overflow-x-auto rounded-xl border border-gray-700 w-full">
+                <table className="min-w-full text-sm text-gray-300">
+                  <thead className="bg-gray-800 text-gray-200 uppercase text-xs">
+                    <tr>
+                      <th className="px-6 py-3 text-left">Exchange Name</th>
+                      <th className="px-6 py-3 text-left">Status</th>
+                      <th className="px-6 py-3 text-left">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {exchangeKeyList.map((item, idx) => (
+                      <tr
+                        key={idx}
+                        className={`${
+                          idx % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
+                        } border-b border-gray-700 hover:bg-gray-700/50 transition`}
+                      >
+                        <td className="px-6 py-3 capitalize text-left">
+                          {item?.exchange || "-"}
+                        </td>
+                        <td className="px-6 py-3 text-left">
+                          {item?.active ? "Active" : "InActive"}
+                        </td>
+                        <td className="px-6 py-3 capitalize text-left">
+                          <IconTrashXFilled
+                            onClick={() => {
+                              setCurrentSelectedItem(item);
+                              setDeleteModalState(true);
+                            }}
+                            color="red"
+                            className="cursor-pointer"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
@@ -307,6 +342,66 @@ export default function AddExchange() {
         onSubmit={handleOTPSubmit}
         isLoading={addKeysExchangePending}
       />
+      {deleteModalState && (
+        <DeleteModal
+          open={deleteModalState}
+          setOpen={setDeleteModalState}
+          data={currentSelectedItem}
+          refetch={exchangeKeyListRefetch}
+        />
+      )}
     </div>
   );
 }
+
+const DeleteModal = ({ open, setOpen, data, refetch }) => {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => {
+      return deleteKeysExchange({ id: data?.id });
+    },
+    onSuccess: (data) => {
+      if (data?.responseCode == 200) {
+        toast.success(data?.responseMessage);
+      } else {
+        toast.error(data?.responseMessage);
+      }
+      setOpen(false);
+      if (refetch) {
+        refetch();
+      }
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.responseMessage);
+      setOpen(false);
+      if (refetch) {
+        refetch();
+      }
+    },
+  });
+
+  return (
+    <Modal open={open} setOpen={setOpen}>
+      <div className="flex items-center justify-center flex-col">
+        <p className="font-semibold text-2xl">Confirmation</p>
+        <p className="mt-6">Are you sure you want to delete this?</p>
+        <div className="w-full mt-4 flex flex-row gap-4 ">
+          <button
+            className="bg-gray-300 w-full flex justify-center items-center h-10 rounded text-black"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-red-500 w-full flex justify-center items-center h-10 rounded"
+            onClick={mutateAsync}
+            disabled={isPending}
+          >
+            {isPending ? `Processing...` : `Confirm`}
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};

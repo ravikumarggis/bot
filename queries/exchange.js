@@ -59,3 +59,20 @@ export const getKeysExchange = async () => {
     throw error;
   }
 };
+
+export const deleteKeysExchange = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: "/keys/deleteKeys",
+      data: {
+        id: id,
+      },
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error in deleting keys", error);
+    throw error;
+  }
+};
