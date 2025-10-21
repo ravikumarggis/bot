@@ -199,7 +199,7 @@ export default function AddExchange() {
               </div>
 
               <div className="flex items-start gap-4 p-4 bg-[#1A1A24] rounded-xl mb-8">
-                <div className="w-12 h-12 flex items-center justify-center bg-[#2a2a38] rounded-full text-[#a68bff] text-2xl">
+                <div className="w-12 h-12 flex items-center justify-center bg-[#2a2a38] rounded-full text-primary text-2xl">
                   ••••
                 </div>
                 <div>
@@ -264,7 +264,7 @@ export default function AddExchange() {
               </>
             ) : exchangeKeyList?.length === 0 ? (
               <>
-                <IconExchange size={60} className="text-[#a68bff] mb-4" />
+                <IconExchange size={60} className="text-primary mb-4" />
                 <p className="text-gray-400">
                   No exchanges have been added yet!
                 </p>
@@ -319,7 +319,7 @@ export default function AddExchange() {
 
           <div className="bg-[#1a1a25] p-5 rounded-xl">
             <div className="flex items-center gap-2 mb-3">
-              <Info className="w-5 h-5 text-[#a68bff]" />
+              <Info className="w-5 h-5 text-primary" />
               <h3 className="text-lg font-semibold">Information</h3>
             </div>
             <ul className="list-disc list-inside text-sm text-gray-400 space-y-3">

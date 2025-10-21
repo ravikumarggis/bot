@@ -24,7 +24,7 @@ export default function Exchange() {
         <div className="min-h-[100%] w-full flex items-center justify-center">
           <div className="flex flex-col items-center text-center max-w-md">
             <div className="w-20 h-20 bg-[#1a1a25] rounded-full flex items-center justify-center mb-6">
-              <IconExchange size={42} className="text-[#a68bff]" />
+              <IconExchange size={42} className="text-primary" />
             </div>
 
             <h1 className="text-3xl font-semibold mb-3">Exchange</h1>

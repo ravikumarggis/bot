@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
+import StylesTabs from "@/components/style-tab";
 
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -11,6 +12,8 @@ const TradingViewWidget = dynamic(
 export default function StartGridBot() {
   const [selectedExchange, setSelectedExchange] = useState("");
   const [chain, setChain] = useState("");
+  const [active, setActive] = useState("Orders");
+  const tabs = ["Orders", "Trades", "Logs"];
   return (
     <div className="min-h-screen  text-gray-200">
       <div className="">
@@ -20,62 +23,78 @@ export default function StartGridBot() {
             {/* Left: Chart & controls (span 2 columns on large screens) */}
             <section className="col-span-1 lg:col-span-2 bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e]">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Create Grid Bot</h1>
-                <div className="flex-col md:flex  space-x-4 items-center gap-3">
-                  
-                  <Dropdown
-                    label="Exchange"
-                    options={[
-                      { label: "Binance", value: "binance" },
-                      { label: "Bybit", value: "Bybit" },
-                    ]}
-                    value={selectedExchange || ""}
-                    onSelect={(val) => setSelectedExchange(val)}
-                    className="w-50"
-                  />
-                  <Dropdown
-                    label="Chain"
-                    options={[
-                      { label: "BTC/USDT", value: "BTC/USDT" },
-                      { label: "ETH/USDT", value: "ETH/USDT" },
-                    ]}
-                    value={chain || ""}
-                    onSelect={(val) => setChain(val)}
-                    className="w-50"
-                  />
-               
-                </div>
+                <h1 className="text-3xl font-bold">Start Bot</h1>
               </div>
 
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
-                {/* Chart area */}
                 <div className="lg:col-span-2">
-                  <div
-                    style={{
-                      width: "100%",
-                      maxWidth: 1200,
-                      margin: "0 auto",
-                      minHeight: 500,
-                      flex: 1,
-                    }}
-                  >
+                  <div className=" h-[500px]">
                     <TradingViewWidget symbol="NASDAQ:GOOGL" />
                   </div>
 
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-                    <div className="bg-[#0b0b0d] border border-[#17171a] rounded-lg p-3">
-                      <div className="text-xs text-gray-400">Investment</div>
-                      <div className="font-medium mt-1">90.54 USDT</div>
-                    </div>
-                    <div className="bg-[#0b0b0d] border border-[#17171a] rounded-lg p-3">
-                      <div className="text-xs text-gray-400">
-                        Estimated Orders
+                  <div className=" flex items-start justify-center">
+                    <div className="w-full max-w-4xl">
+                      <div className=" rounded-2xl shadow-xl ring-1 ring-white/6 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-white/5">
+                        <StylesTabs tabs={tabs} active={active} setActive={setActive} />
+                        </div>
+
+                        <div className="px-6 py-4">
+                          <div className="hidden md:grid grid-cols-6 gap-4 text-sm text-gray-400 px-2">
+                            <div>Side</div>
+                            <div>Type</div>
+                            <div>Price</div>
+                            <div>Amount</div>
+                            <div>Status</div>
+                            <div>Status</div>
+                          </div>
+
+                          <div className="mt-8 py-12 flex flex-col items-center justify-center border-t border-white/5">
+                            <h3 className="text-gray-200 text-xl md:text-2xl font-medium">
+                              Open and orders
+                            </h3>
+                            <p className="mt-3 text-sm text-gray-400">
+                              No {active.toLowerCase()} to display right now.
+                            </p>
+
+                            <button className="mt-8 px-5 py-2 text-sm rounded-full bg-transparent border border-white/6 text-gray-300 hover:bg-white/2">
+                              Load more
+                            </button>
+                          </div>
+
+                          <div className="mt-4 space-y-3 md:space-y-0 md:block">
+                            <div className="md:grid md:grid-cols-6 md:gap-4 items-center bg-white/2 rounded p-3">
+                              <div className="text-sm font-medium text-gray-100">
+                                Buy
+                              </div>
+                              <div className="text-sm text-gray-300">Limit</div>
+                              <div className="text-sm text-gray-200">
+                                $32,000
+                              </div>
+                              <div className="text-sm text-gray-200">0.005</div>
+                              <div className="text-sm text-amber-400">Open</div>
+                              <div className="text-sm text-gray-300">More</div>
+                            </div>
+
+                            <div className="md:hidden bg-white/3 rounded p-3">
+                              <div className="flex justify-between items-center">
+                                <div className="text-sm font-medium text-gray-100">
+                                  Buy • Limit
+                                </div>
+                                <div className="text-sm text-gray-200">
+                                  $32,000
+                                </div>
+                              </div>
+                              <div className="mt-2 text-sm text-gray-300">
+                                Amount: 0.005
+                              </div>
+                              <div className="mt-2 text-sm text-amber-400">
+                                Status: Open
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="font-medium mt-1">10</div>
-                    </div>
-                    <div className="bg-[#0b0b0d] border border-[#17171a] rounded-lg p-3">
-                      <div className="text-xs text-gray-400">Required</div>
-                      <div className="font-medium mt-1">100 USDT</div>
                     </div>
                   </div>
                 </div>
@@ -95,69 +114,47 @@ export default function StartGridBot() {
             </section>
 
             {/* Right: Form */}
-            <aside className="bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e]">
+            <aside className="bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e] ">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-lg font-semibold">Fasy Form</div>
-                <div className="text-sm text-gray-400">Advanced form</div>
+                <div className="text-lg font-semibold">Magenta Tarfful</div>
+                <div className="text-sm text-gray-400">#18</div>
               </div>
 
-              <div className="space-y-4">
-                <label className="block">
-                  <div className="text-xs text-gray-400 mb-1">High Price</div>
-                  <input
-                    className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-                    placeholder="Below 144.291"
-                  />
-                </label>
-
-                <label className="block">
-                  <div className="text-xs text-gray-400 mb-1">Low Price</div>
-                  <input
-                    className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
-                    placeholder="Above 77665.31"
-                  />
-                </label>
-
-                <label className="block">
-                  <div className="text-xs text-gray-400 mb-1">
-                    Quantity per grid
-                  </div>
-                  <input
-                                       className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
-                    placeholder="0.0001"
-                  />
-                </label>
-
-                <label className="block">
-                  <div className="text-xs text-gray-400 mb-1">Grid levels</div>
-                  <input
-                                      className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
-                    placeholder="10"
-                  />
-                </label>
-
-                <div className="pt-2">
-                  <div className="text-xs text-gray-400 mb-1">Investment</div>
-                  <div className="text-xl font-semibold">90.54 USDT</div>
+              <div className="space-y-6">
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">High Price</div>
+                  <div className="text-base text-white">Below 144.291</div>
                 </div>
 
-                <label className="block">
-                  <div className="text-xs text-gray-400 mb-1">Bot Name</div>
-                  <input
-                                       className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">Low Price</div>
+                  <div className="text-base text-white">Above 77665.31</div>
+                </div>
 
-                    placeholder="Binance"
-                  />
-                </label>
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">
+                    Quantity per grid
+                  </div>
+                  <div className="text-base text-white">0.0001</div>
+                </div>
 
-                <button
-                  className="w-full mt-2 py-3 rounded-xl text-white font-semibold"
-                  style={{ background: "var(--color-primary)" }}
-                >
-                  Create Grid Bot
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">Grid levels</div>
+                  <div className="text-base text-white">10</div>
+                </div>
+
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">Investment</div>
+                  <div className="text-base text-white">90.54 USDT</div>
+                </div>
+
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">Bot Name</div>
+                  <div className="text-base text-white">Binance</div>
+                </div>
+
+                <button className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all">
+                  Start Bot
                 </button>
 
                 <div className="text-xs text-gray-500 mt-3">
