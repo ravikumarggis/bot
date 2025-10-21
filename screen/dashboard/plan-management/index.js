@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import CustomDatePicker from "../../../components/date-modal";
 import Dropdown from "../../../components/dropdown";
 import DataTable from "../../../components/common-table";
+import { useHaveActiveSubscriptions } from "@/queries/payment";
+import NotActiveSubs from "@/components/no-active-subs";
 
 export default function PlanManagement() {
   const [filters, setFilters] = useState({
@@ -12,6 +14,9 @@ export default function PlanManagement() {
     status: "",
     paymentStatus: "",
   });
+
+  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
+    useHaveActiveSubscriptions();
 
   const [filteredData, setFilteredData] = useState([]);
 
@@ -63,7 +68,9 @@ export default function PlanManagement() {
 
     if (currentFilters.search) {
       data = data.filter((item) =>
-        item.planName.toLowerCase().includes(currentFilters.search.toLowerCase())
+        item.planName
+          .toLowerCase()
+          .includes(currentFilters.search.toLowerCase())
       );
     }
 
@@ -79,14 +86,16 @@ export default function PlanManagement() {
 
     if (currentFilters.status) {
       data = data.filter(
-        (item) => item.planStatus.toLowerCase() === currentFilters.status.toLowerCase()
+        (item) =>
+          item.planStatus.toLowerCase() === currentFilters.status.toLowerCase()
       );
     }
 
     if (currentFilters.paymentStatus) {
       data = data.filter(
         (item) =>
-          item.paymentStatus.toLowerCase() === currentFilters.paymentStatus.toLowerCase()
+          item.paymentStatus.toLowerCase() ===
+          currentFilters.paymentStatus.toLowerCase()
       );
     }
 
@@ -155,21 +164,20 @@ export default function PlanManagement() {
         </div>
 
         <Dropdown
-  label="Plan Status"
-  options={statusOptions}
-  value={filters.status}
-  onSelect={(val) => handleChange("status", val)}
-  className="w-56"
-/>
+          label="Plan Status"
+          options={statusOptions}
+          value={filters.status}
+          onSelect={(val) => handleChange("status", val)}
+          className="w-56"
+        />
 
-<Dropdown
-  label="Payment Status"
-  options={paymentOptions}
-  value={filters.paymentStatus}
-  onSelect={(val) => handleChange("paymentStatus", val)}
-  className="w-56"
-/>
-
+        <Dropdown
+          label="Payment Status"
+          options={paymentOptions}
+          value={filters.paymentStatus}
+          onSelect={(val) => handleChange("paymentStatus", val)}
+          className="w-56"
+        />
 
         <div className="flex gap-2">
           <button
@@ -189,9 +197,16 @@ export default function PlanManagement() {
     );
   };
 
+  if (!haveActiveSubs) {
+    return <NotActiveSubs />;
+  }
   return (
     <div className="p-6 text-white min-h-screen">
-      <TableFilter filters={filters} setFilters={setFilters} onApply={applyFilters} />
+      <TableFilter
+        filters={filters}
+        setFilters={setFilters}
+        onApply={applyFilters}
+      />
       <DataTable columns={columns} data={filteredData} />
     </div>
   );
