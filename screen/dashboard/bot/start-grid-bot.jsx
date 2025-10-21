@@ -63,18 +63,7 @@ export default function StartGridBot() {
                           </div>
 
                           <div className="mt-4 space-y-3 md:space-y-0 md:block">
-                            <div className="md:grid md:grid-cols-6 md:gap-4 items-center bg-white/2 rounded p-3">
-                              <div className="text-sm font-medium text-gray-100">
-                                Buy
-                              </div>
-                              <div className="text-sm text-gray-300">Limit</div>
-                              <div className="text-sm text-gray-200">
-                                $32,000
-                              </div>
-                              <div className="text-sm text-gray-200">0.005</div>
-                              <div className="text-sm text-amber-400">Open</div>
-                              <div className="text-sm text-gray-300">More</div>
-                            </div>
+                         
 
                             <div className="md:hidden bg-white/3 rounded p-3">
                               <div className="flex justify-between items-center">
