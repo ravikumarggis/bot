@@ -2,15 +2,13 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
-import { useRouter } from "next/navigation";
 
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
 );
 
-export default function CreateGridBot() {
-    const router = useRouter()
+export default function StartGridBot() {
   const [selectedExchange, setSelectedExchange] = useState("");
   const [chain, setChain] = useState("");
   return (
@@ -158,9 +156,6 @@ export default function CreateGridBot() {
                 <button
                   className="w-full mt-2 py-3 rounded-xl text-white font-semibold"
                   style={{ background: "var(--color-primary)" }}
-                  onClick={()=>{
-                    router.push("/dashboard/bot/start-grid-bot")
-                  }}
                 >
                   Create Grid Bot
                 </button>
