@@ -42,7 +42,16 @@ export const useGetKeysExchange = () => {
       return getKeysExchange();
     },
     select: (data) => {
-      return data?.result || [];
+      return (
+        data?.result?.map((item) => {
+          const icon =
+            String(item?.exchange)?.toLowerCase() == "binance"
+              ? "/assets/homepage/binance.png"
+              : "/assets/homepage/bybit.webp";
+
+          return { ...item, icon: icon };
+        }) || []
+      );
     },
   });
 };

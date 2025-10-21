@@ -73,7 +73,10 @@ export default function Exchange() {
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between mb-4">
                     <div className="p-3 rounded-lg bg-[#141c3b] group-hover:bg-[#1d2650] transition">
-                      <BarChart3 className="w-8 h-8 text-primary" />
+                      <img
+                        src={strategy?.icon}
+                        className="h-10 text-primary object-contain"
+                      />
                     </div>
                     <span
                       className={`text-xs font-semibold px-3 py-1 rounded-md  bg-emerald-700/70 text-white`}

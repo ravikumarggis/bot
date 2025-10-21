@@ -19,8 +19,8 @@ import ActivityIndicator from "@/components/activity-indicator";
 import clsx from "clsx";
 
 const exchangeOptions = [
-  { label: "Binance", value: "binance" },
-  { label: "KuCoin", value: "kuCoin" },
+  { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
+  { label: "ByBit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
 ];
 
 export default function AddExchange() {
@@ -288,7 +288,13 @@ export default function AddExchange() {
                         } border-b border-gray-700 hover:bg-gray-700/50 transition`}
                       >
                         <td className="px-6 py-3 capitalize text-left">
-                          {item?.exchange || "-"}
+                          <div className="flex flex-row items-center gap-1">
+                            <img
+                              src={item?.icon}
+                              className="h-6 object-contain"
+                            />
+                            {item?.exchange || "-"}
+                          </div>
                         </td>
                         <td className="px-6 py-3 text-left">
                           {item?.active ? "Active" : "InActive"}
