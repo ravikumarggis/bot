@@ -12,6 +12,7 @@ const OTPModal = ({
   length = 6,
   duration = 90,
   isLoading = false,
+  resendEnable = true,
 }) => {
   const [otp, setOtp] = useState(Array(length).fill(""));
   const [timer, setTimer] = useState(duration);
@@ -112,7 +113,9 @@ const OTPModal = ({
               ))}
             </div>
 
-            <div className="text-gray-400 text-sm">{formatTime(timer)}</div>
+            {resendEnable && (
+              <div className="text-gray-400 text-sm">{formatTime(timer)}</div>
+            )}
 
             <button
               type="submit"

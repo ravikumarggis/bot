@@ -341,6 +341,7 @@ export default function AddExchange() {
         onClose={() => setIsOpen(false)}
         onSubmit={handleOTPSubmit}
         isLoading={addKeysExchangePending}
+        resendEnable={false}
       />
       {deleteModalState && (
         <DeleteModal
