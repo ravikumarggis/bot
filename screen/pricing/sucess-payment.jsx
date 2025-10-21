@@ -37,7 +37,7 @@ const SuccessPayment = () => {
                   <div className="flex flex-row justify-between w-full">
                     <p>Duration:</p>
                     <p>
-                      {invoiceData?.duration || ""} {"Month"}
+                      {invoiceData?.duration || ""} {"days"}
                     </p>
                   </div>
                   <div className="flex flex-row justify-between w-full">

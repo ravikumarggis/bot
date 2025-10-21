@@ -89,9 +89,7 @@ const ConfirmPayment = () => {
                 </div>
                 <div className="flex gap-1 flex-col">
                   <p>
-                    {subscriptionData?.duration || 0}{" "}
-                    {/* {subscriptionData?.name == "Monthly" ? "Month" : "Year"} */}
-                    {"Month"}
+                    {subscriptionData?.duration || 0} {"days"}
                   </p>
 
                   <p>
@@ -269,10 +267,10 @@ const InvoiceModal = ({
   const paymentHanlder = async () => {
     try {
       setIsLoading(true);
-      // const parsedValue = parseEther(String(Math.ceil(Number(1))));
-      const parsedValue = parseEther(
-        String(Math.ceil(Number(invoiceData?.qieAmount)))
-      );
+      const parsedValue = parseEther(String(Math.ceil(Number(1))));
+      // const parsedValue = parseEther(
+      //   String(Math.ceil(Number(invoiceData?.qieAmount)))
+      // );
 
       const hash = await writeContractAsync({
         abi: config.paymentAbi,

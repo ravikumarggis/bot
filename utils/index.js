@@ -4,3 +4,7 @@ export const formatCurrency = ({ amount, currency }) => {
     currency: currency || "USD",
   }).format(amount || 0);
 };
+
+export const isMonthlyPlan = (duration) => {
+  return Number(duration) <= 365;
+};
