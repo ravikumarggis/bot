@@ -22,7 +22,6 @@ export default function CreateGridBot() {
               <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold">Create Grid Bot</h1>
                 <div className="flex-col md:flex  space-x-4 items-center gap-3">
-                  
                   <Dropdown
                     label="Exchange"
                     options={[
@@ -43,22 +42,13 @@ export default function CreateGridBot() {
                     onSelect={(val) => setChain(val)}
                     className="w-50"
                   />
-               
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
                 {/* Chart area */}
                 <div className="lg:col-span-2">
-                  <div
-                    style={{
-                      width: "100%",
-                      maxWidth: 1200,
-                      margin: "0 auto",
-                      minHeight: 500,
-                      flex: 1,
-                    }}
-                  >
+                  <div className=" h-[500px]">
                     <TradingViewWidget symbol="NASDAQ:GOOGL" />
                   </div>
 
@@ -114,7 +104,6 @@ export default function CreateGridBot() {
                   <div className="text-xs text-gray-400 mb-1">Low Price</div>
                   <input
                     className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
                     placeholder="Above 77665.31"
                   />
                 </label>
@@ -124,8 +113,7 @@ export default function CreateGridBot() {
                     Quantity per grid
                   </div>
                   <input
-                                       className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
+                    className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
                     placeholder="0.0001"
                   />
                 </label>
@@ -133,8 +121,7 @@ export default function CreateGridBot() {
                 <label className="block">
                   <div className="text-xs text-gray-400 mb-1">Grid levels</div>
                   <input
-                                      className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
+                    className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
                     placeholder="10"
                   />
                 </label>
@@ -147,8 +134,7 @@ export default function CreateGridBot() {
                 <label className="block">
                   <div className="text-xs text-gray-400 mb-1">Bot Name</div>
                   <input
-                                       className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
-
+                    className={`w-full p-3 bg-[#1A1A24] rounded focus:outline-none`}
                     placeholder="Binance"
                   />
                 </label>
