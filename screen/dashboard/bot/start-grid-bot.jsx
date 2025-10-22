@@ -1,8 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import StylesTabs from "@/components/style-tab";
+import { useSearchParams } from "next/navigation";
+import { updateBotStatus, useGetBot } from "@/queries/bot";
+import { useGetKeysExchange } from "@/queries/exchange";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -10,10 +15,44 @@ const TradingViewWidget = dynamic(
 );
 
 export default function StartGridBot() {
-  const [selectedExchange, setSelectedExchange] = useState("");
-  const [chain, setChain] = useState("");
   const [active, setActive] = useState("Orders");
   const tabs = ["Orders", "Trades", "Logs"];
+  const searchParams = useSearchParams();
+  const botId = searchParams.get("botId");
+  const {
+    data: botData,
+    isPending: botDataPending,
+    refetch: botDataRefetch,
+  } = useGetBot({ id: botId });
+  const { data: exchangeData, refetch: exchangeDataRefetch } =
+    useGetKeysExchange();
+
+  const {
+    mutateAsync: updateBotStatusMutate,
+    isPending: updatebotStatusPending,
+  } = useMutation({
+    mutationFn: () => {
+      return updateBotStatus({ id: botId, status: botData?.status });
+    },
+    onSuccess: (data) => {
+      botDataRefetch();
+      exchangeDataRefetch();
+      if (data?.responseCode == 200) {
+        toast.success(data?.responseMessage);
+      } else {
+        toast.error(data?.responseMessage);
+      }
+    },
+    onError: (data) => {
+      console.log(data, "err>>");
+    },
+  });
+
+  const exchangeName = useMemo(() => {
+    return exchangeData?.find((item) => item?.id == botData?.exchangeKeyId)
+      ?.exchange;
+  }, [exchangeData, botData]);
+
   return (
     <div className="min-h-screen  text-gray-200">
       <div className="">
@@ -36,7 +75,11 @@ export default function StartGridBot() {
                     <div className="w-full max-w-4xl">
                       <div className=" rounded-2xl shadow-xl ring-1 ring-white/6 overflow-hidden">
                         <div className="px-6 py-4 border-b border-white/5">
-                        <StylesTabs tabs={tabs} active={active} setActive={setActive} />
+                          <StylesTabs
+                            tabs={tabs}
+                            active={active}
+                            setActive={setActive}
+                          />
                         </div>
 
                         <div className="px-6 py-4">
@@ -63,8 +106,6 @@ export default function StartGridBot() {
                           </div>
 
                           <div className="mt-4 space-y-3 md:space-y-0 md:block">
-                         
-
                             <div className="md:hidden bg-white/3 rounded p-3">
                               <div className="flex justify-between items-center">
                                 <div className="text-sm font-medium text-gray-100">
@@ -105,50 +146,80 @@ export default function StartGridBot() {
             {/* Right: Form */}
             <aside className="bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e] ">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-lg font-semibold">Magenta Tarfful</div>
-                <div className="text-sm text-gray-400">#18</div>
+                <div className="text-lg font-semibold">
+                  {botData?.botName || "--"}
+                </div>
+                <div className="text-sm text-gray-400">#{botData?.id}</div>
               </div>
 
               <div className="space-y-6">
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">High Price</div>
-                  <div className="text-base text-white">Below 144.291</div>
+                  <div className="text-base text-white">
+                    Below {botData?.params?.highPrice || 0}
+                  </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Low Price</div>
-                  <div className="text-base text-white">Above 77665.31</div>
+                  <div className="text-base text-white">
+                    Above {botData?.params?.lowPrice || 0}
+                  </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">
                     Quantity per grid
                   </div>
-                  <div className="text-base text-white">0.0001</div>
+                  <div className="text-base text-white">
+                    {botData?.params?.quantityPerGridUSD || 0}
+                  </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Grid levels</div>
-                  <div className="text-base text-white">10</div>
+                  <div className="text-base text-white">
+                    {" "}
+                    {botData?.params?.gridLevel || 0}
+                  </div>
                 </div>
 
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Investment</div>
                   <div className="text-base text-white">90.54 USDT</div>
-                </div>
+                </div> */}
 
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">Bot Name</div>
-                  <div className="text-base text-white">Binance</div>
+                  <div className="text-sm text-gray-400 mb-1">
+                    Exchange Name
+                  </div>
+                  <div className="text-base text-white capitalize">
+                    {exchangeName || "--"}
+                  </div>
                 </div>
 
-                <button className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all">
-                  Start Bot
+                <button
+                  className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all"
+                  onClick={updateBotStatusMutate}
+                  disabled={updatebotStatusPending}
+                >
+                  {updatebotStatusPending ? (
+                    "Processing..."
+                  ) : (
+                    <>
+                      {botData?.status == "pending" ||
+                      botData?.status == "paused" ||
+                      botData?.status == "stopped"
+                        ? "Start"
+                        : "Stop"}{" "}
+                      Bot
+                    </>
+                  )}
                 </button>
 
-                <div className="text-xs text-gray-500 mt-3">
+                {/* <div className="text-xs text-gray-500 mt-3">
                   Estimated Orders 10 | Required: 100 USDT
-                </div>
+                </div> */}
               </div>
             </aside>
           </main>

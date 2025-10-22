@@ -39,7 +39,7 @@ export default function Dropdown({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`w-full flex items-center justify-between px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition`}
+        className={`w-full flex items-center justify-between px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition capitalize`}
         style={{ backgroundColor: bgColor || "#1a1a25" }}
       >
         {selectedOption?.label || label}
@@ -66,7 +66,7 @@ export default function Dropdown({
                 )}
                 <button
                   onClick={() => handleSelect(option)}
-                  className={`w-full text-left px-2 py-2 rounded-md transition ${
+                  className={`w-full text-left px-2 py-2 rounded-md transition capitalize ${
                     value === option.value
                       ? "text-white"
                       : "hover:bg-primary/80 hover:text-white"
