@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function ProfileSettings() {
   const [initialized, setInitialized] = useState(false); // ensure API data only applied once
-  const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
+  const { data: getUserData, isPending: getUserDataPending ,refetch:userDataRefetch} = useUserProfile();
 
   const countryOptions = [
     { value: "IN", label: "India" },
@@ -18,8 +18,7 @@ export default function ProfileSettings() {
   ];
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().trim().required("First name is required."),
-    lastName: Yup.string().trim().required("Last name is required."),
+    name: Yup.string().trim().required("Name is required."),
     email: Yup.string().email("Enter a valid email.").required("Email is required."),
     phone: Yup.string()
       .matches(/^\+?\d{6,15}$/, "Enter a valid phone number.")
@@ -29,8 +28,7 @@ export default function ProfileSettings() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       phone: "",
       country: "",
@@ -51,13 +49,16 @@ export default function ProfileSettings() {
   const { mutateAsync: updateProfileMutate, isPending: mutatePending } = useMutation({
     mutationFn: async (values) => {
       return updateProfileMutation({
-        firstName: values?.firstName,
-        password: formData?.password,
+        name: values?.name,
+        email: values?.email,
+        mobileNumber: values?.Phone,
+        country: values?.country
       });
     },
     onSuccess: (data) => {
       if (data?.data?.responseCode == 200) {
         toast.success(data?.data?.responseMessage);
+        userDataRefetch()
       } else {
         toast.error(data?.data?.responseMessage);
       }
@@ -71,8 +72,7 @@ export default function ProfileSettings() {
   useEffect(() => {
     if (getUserData && !initialized) {
       formik.setValues({
-        firstName: getUserData.firstName ?? formik.values.firstName ?? "Ravi",
-        lastName: getUserData.lastName ?? formik.values.lastName ?? "Singh",
+        name: getUserData.name ?? formik.values.name ?? "Ravi",
         email: getUserData.email ?? formik.values.email ?? "",
         phone: getUserData.phone ?? formik.values.phone ?? "+91",
         country: getUserData.country ?? formik.values.country ?? "IN",
@@ -92,7 +92,7 @@ export default function ProfileSettings() {
       <div className="flex items-center gap-6 mb-8">
         <div className="relative">
           <div className="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-2xl font-semibold text-white">
-            {formik.values.firstName ? formik.values.firstName.charAt(0).toUpperCase() : "R"}
+            {formik.values.name ? formik.values.name.charAt(0).toUpperCase() : "R"}
           </div>
           <button type="button" className="absolute bottom-1 right-1 bg-[#1a1a25] border border-gray-600 p-2 rounded-full hover:bg-primary transition">
             <Edit size={16} className="text-gray-300 hover:text-white" />
@@ -101,7 +101,7 @@ export default function ProfileSettings() {
 
         <div>
           <h2 className="text-2xl font-semibold">
-            {formik.values.firstName} {formik.values.lastName}
+            {formik.values.name}
           </h2>
           <p className="text-gray-400">{formik.values.email}</p>
         </div>
@@ -115,41 +115,21 @@ export default function ProfileSettings() {
           <div className="flex items-center bg-[#1a1a25] rounded-xl px-3">
             <User className="text-gray-400 mr-2" size={18} />
             <input
-              name="firstName"
+              name="name"
               type="text"
-              value={formik.values.firstName}
+              value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="w-full bg-transparent py-2 text-white outline-none"
               placeholder="First Name"
             />
           </div>
-          {formik.touched.firstName && formik.errors.firstName && (
-            <p className="text-red-500 text-sm mt-1">{formik.errors.firstName}</p>
+          {formik.touched.name && formik.errors.name && (
+            <p className="text-red-500 text-sm mt-1">{formik.errors.name}</p>
           )}
         </div>
 
         <div>
-          <div className="flex items-center bg-[#1a1a25] rounded-xl px-3">
-            <User className="text-gray-400 mr-2" size={18} />
-            <input
-              name="lastName"
-              type="text"
-              value={formik.values.lastName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="w-full bg-transparent py-2 text-white outline-none"
-              placeholder="Last Name"
-            />
-          </div>
-          {formik.touched.lastName && formik.errors.lastName && (
-            <p className="text-red-500 text-sm mt-1">{formik.errors.lastName}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Email */}
-      <div className="mb-4">
         <div className="flex items-center bg-[#1a1a25] rounded-xl px-3">
           <Mail className="text-gray-400 mr-2" size={18} />
           <input
@@ -163,7 +143,10 @@ export default function ProfileSettings() {
         {formik.touched.email && formik.errors.email && (
           <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
         )}
+        </div>
       </div>
+
+     
 
       {/* Phone & Country Dropdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

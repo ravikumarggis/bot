@@ -33,14 +33,16 @@ export const getUserProfile = async () => {
   
 
 
-  export const updateProfileMutation = async ({ email, password }) => {
+  export const updateProfileMutation = async ({ email, country ,name,mobileNumber}) => {
     try {
       const response = await api({
-        method: "POST",
-        url: "/user/signup",
+        method: "PUT",
+        url: "/user/editProfile",
         data: {
           email: email || undefined,
-          password: password || undefined,
+          country: country || undefined,
+          name: name || undefined,
+          mobileNumber: mobileNumber || undefined,
         },
       });
       return response;
