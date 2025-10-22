@@ -31,3 +31,21 @@ export const getUserProfile = async () => {
     }
   };
   
+
+
+  export const updateProfileMutation = async ({ email, password }) => {
+    try {
+      const response = await api({
+        method: "POST",
+        url: "/user/signup",
+        data: {
+          email: email || undefined,
+          password: password || undefined,
+        },
+      });
+      return response;
+    } catch (error) {
+      return error?.response;
+    }
+  };
+  
