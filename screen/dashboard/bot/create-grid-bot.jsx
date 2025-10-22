@@ -14,7 +14,7 @@ const TradingViewWidget = dynamic(
 export default function CreateGridBot() {
     const router = useRouter()
   const [selectedExchange, setSelectedExchange] = useState("");
-  const [chain, setChain] = useState("");
+  const [pair, setPair] = useState("");
 
   // ✅ Yup validation schema
   const validationSchema = Yup.object({
@@ -103,13 +103,13 @@ export default function CreateGridBot() {
                     className="w-50"
                   />
                   <Dropdown
-                    label="Chain"
+                    label="Pair"
                     options={[
                       { label: "BTC/USDT", value: "BTC/USDT" },
                       { label: "ETH/USDT", value: "ETH/USDT" },
                     ]}
-                    value={chain || ""}
-                    onSelect={(val) => setChain(val)}
+                    value={pair || ""}
+                    onSelect={(val) => setPair(val)}
                     className="w-50"
                   />
                 </div>
