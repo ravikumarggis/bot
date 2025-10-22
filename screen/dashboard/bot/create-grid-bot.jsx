@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
 
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -44,7 +45,12 @@ export default function CreateGridBot() {
       lowPrice: "",
       quantity: "",
       gridLevels: "",
+      tpPercent: "2",
+      slPercent: "1",
       botName: "",
+      // New optional boolean toggles
+      adxLessThan20: true,
+      rsiBetween40And60: false,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -52,6 +58,29 @@ export default function CreateGridBot() {
       alert("Grid Bot Created Successfully!");
     },
   });
+
+  // small toggle button renderer
+  const Toggle = ({ name, label }) => {
+    const value = formik.values[name];
+    return (
+      <div className="flex items-center justify-between bg-[#0b0b0d] border border-[#17171a] rounded-xl p-3">
+        <div>
+          <div className="text-xs text-gray-400">{label}</div>
+          <div className="font-medium mt-1">{value ? "Yes" : "No"}</div>
+        </div>
+        <button
+          type="button"
+          onClick={() => formik.setFieldValue(name, !value)}
+          className={`px-3 py-1 rounded-full font-semibold focus:outline-none transition-shadow ${
+            value ? "shadow-[0_0_0_4px_rgba(34,197,94,0.12)]" : "shadow-[0_0_0_4px_rgba(244,63,94,0.06)]"
+          }`}
+          aria-pressed={value}
+        >
+          {value ? "ON" : "OFF"}
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen text-gray-200">
@@ -134,7 +163,7 @@ export default function CreateGridBot() {
                 <div className="space-y-4">
                   {/* High Price */}
                   <label className="block">
-                    <div className="text-xs text-gray-400 mb-1">High Price</div>
+                    <div className="text-md text-gray-400 mb-1">High Price</div>
                     <input
                       name="highPrice"
                       value={formik.values.highPrice}
@@ -152,7 +181,7 @@ export default function CreateGridBot() {
 
                   {/* Low Price */}
                   <label className="block">
-                    <div className="text-xs text-gray-400 mb-1">Low Price</div>
+                    <div className="text-md text-gray-400 mb-1">Low Price</div>
                     <input
                       name="lowPrice"
                       value={formik.values.lowPrice}
@@ -170,7 +199,7 @@ export default function CreateGridBot() {
 
                   {/* Quantity per grid */}
                   <label className="block">
-                    <div className="text-xs text-gray-400 mb-1">
+                    <div className="text-md text-gray-400 mb-1">
                       Quantity per grid
                     </div>
                     <input
@@ -190,7 +219,7 @@ export default function CreateGridBot() {
 
                   {/* Grid levels */}
                   <label className="block">
-                    <div className="text-xs text-gray-400 mb-1">
+                    <div className="text-md text-gray-400 mb-1">
                       Grid Levels
                     </div>
                     <input
@@ -207,16 +236,50 @@ export default function CreateGridBot() {
                       </div>
                     )}
                   </label>
+                  <label className="block">
+                    <div className="text-md text-gray-400 mb-1">
+                    TP Percent <span className="text-sm">(Optional)</span>
+                    </div>
+                    <input
+                      name="tpPercent"
+                      value={formik.values.tpPercent}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
+                      placeholder="10"
+                    />
+                    
+                  </label>
+                  <label className="block">
+                    <div className="text-md text-gray-400 mb-1">
+                    SL Percent <span className="text-sm">(Optional)</span>
+                    </div>
+                    <input
+                      name="slPercent"
+                      value={formik.values.slPercent}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
+                      placeholder="10"
+                    />
+                 
+                  </label>
+
+                  {/* New toggles row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Toggle name="adxLessThan20" label="ADX < 20" />
+                    <Toggle name="rsiBetween40And60" label="RSI 40-60" />
+                  </div>
 
                   {/* Investment (static display) */}
                   <div className="pt-2">
-                    <div className="text-xs text-gray-400 mb-1">Investment</div>
+                    <div className="text-md text-gray-400 mb-1">Investment</div>
                     <div className="text-xl font-semibold">90.54 USDT</div>
                   </div>
 
                   {/* Bot name */}
                   <label className="block">
-                    <div className="text-xs text-gray-400 mb-1">Bot Name</div>
+                    <div className="text-md text-gray-400 mb-1">Bot Name</div>
                     <input
                       name="botName"
                       value={formik.values.botName}

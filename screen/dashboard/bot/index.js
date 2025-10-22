@@ -46,9 +46,9 @@ export default function Bot() {
     // setFormData({ ...formData, exchange: val });
     router.push(`/dashboard/bot/${val}`);
   };
-  if (!haveActiveSubs) {
-    return <NotActiveSubs />;
-  }
+//   if (!haveActiveSubs) {
+//     return <NotActiveSubs />;
+//   }
   return (
     <div className="min-h-screen  py-10 text-white">
       <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
