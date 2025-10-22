@@ -31,3 +31,23 @@ export const getUserProfile = async () => {
     }
   };
   
+
+
+  export const updateProfileMutation = async ({ email, country ,name,mobileNumber}) => {
+    try {
+      const response = await api({
+        method: "PUT",
+        url: "/user/editProfile",
+        data: {
+          email: email || undefined,
+          country: country || undefined,
+          name: name || undefined,
+          mobileNumber: mobileNumber || undefined,
+        },
+      });
+      return response;
+    } catch (error) {
+      return error?.response;
+    }
+  };
+  

@@ -17,7 +17,7 @@ import Dropdown from "../../../components/dropdown";
 import { useRouter } from "next/navigation";
 import NotActiveSubs from "@/components/no-active-subs";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
-
+import { useGetBotList } from "@/queries/bot";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
   { label: "New DCA Bot", value: "New DCA Bot" },
@@ -33,9 +33,10 @@ export default function Bot() {
   const [errors, setErrors] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
+
+  const { data: botList, isPending: botListPending } = useGetBotList();
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);
@@ -65,10 +66,17 @@ export default function Bot() {
         </div>
         <div className="">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {Array.from({ length: 9 })?.map((_, i) => (
+            {botList?.map((item, i) => (
               <div
                 key={i}
-                className="bg-[#0f1117] rounded-2xl p-5 border border-gray-800 shadow-inner min-h-[120px]"
+                className="bg-[#0f1117] rounded-2xl p-5 border border-gray-800 shadow-inner min-h-[120px] cursor-pointer"
+                onClick={() => {
+                  router.push(
+                    `/dashboard/bot/start-grid-bot/?botId= ${encodeURIComponent(
+                      item?.id
+                    )}`
+                  );
+                }}
               >
                 <div className="flex items-start justify-between">
                   <div className="w-10 h-10 rounded-md bg-[#141420] flex items-center justify-center text-pink-400">
@@ -90,11 +98,17 @@ export default function Bot() {
                     </svg>
                   </div>
                   <div className="text-xs bg-pink-500 text-white px-2 py-1 rounded">
-                    Coming Soon
+                    {item?.status == "pending" ||
+                    item?.status == "paused" ||
+                    item?.status == "stopped"
+                      ? "InActive"
+                      : `Active`}
                   </div>
                 </div>
 
-                <h4 className="text-lg font-semibold mt-4">Strategy {i + 1}</h4>
+                <h4 className="text-lg font-semibold mt-4">
+                  {item?.botName || "--"}
+                </h4>
                 <p className="text-sm text-gray-400 mt-2">
                   Short description of this trading strategy to match the
                   visual.

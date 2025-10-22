@@ -19,7 +19,7 @@ const NotActiveSubs = () => {
         {!haveActiveSubsPending && (
           <>
             <div className="w-20 h-20 bg-[#1a1a25] rounded-full flex items-center justify-center mb-6">
-              <IconCrown size={42} className="text-[#a68bff]" />{" "}
+              <IconCrown size={42} className="text-primary" />{" "}
             </div>
 
             <h1 className="text-3xl font-semibold mb-3">
