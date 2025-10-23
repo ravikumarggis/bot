@@ -3,11 +3,14 @@ import React, { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import StylesTabs from "@/components/style-tab";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { updateBotStatus, useGetBot } from "@/queries/bot";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { IconTrashXFilled } from "@tabler/icons-react";
+import { EditIcon, FileWarning, TriangleAlert } from "lucide-react";
+import Modal from "@/components/ui/modal";
 
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -15,10 +18,13 @@ const TradingViewWidget = dynamic(
 );
 
 export default function StartGridBot() {
+  const router = useRouter();
   const [active, setActive] = useState("Orders");
   const tabs = ["Orders", "Trades", "Logs"];
   const searchParams = useSearchParams();
   const botId = searchParams.get("botId");
+  const [deleteModalState, setDeleteModalState] = useState(false);
+  const [currentSelectedItem, setCurrentSelectedItem] = useState({});
   const {
     data: botData,
     isPending: botDataPending,
@@ -216,15 +222,98 @@ export default function StartGridBot() {
                     </>
                   )}
                 </button>
-
-                {/* <div className="text-xs text-gray-500 mt-3">
-                  Estimated Orders 10 | Required: 100 USDT
-                </div> */}
+                <div className="flex justify-end gap-4">
+                  <EditIcon
+                    onClick={() => {
+                      router.push("/dashboard/bot/edit-grid-bot");
+                    }}
+                    color="red"
+                    className="cursor-pointer"
+                  />
+                  <IconTrashXFilled
+                    onClick={() => {
+                      setCurrentSelectedItem(null);
+                      setDeleteModalState(true);
+                    }}
+                    color="red"
+                    className="cursor-pointer"
+                  />
+                </div>
               </div>
             </aside>
           </main>
         </div>
       </div>
+      {deleteModalState && (
+        <DeleteModal
+          open={deleteModalState}
+          setOpen={setDeleteModalState}
+          data={currentSelectedItem}
+          // refetch={exchangeKeyListRefetch}
+        />
+      )}
     </div>
   );
 }
+
+const DeleteModal = ({ open, setOpen, data, refetch }) => {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => {
+      // return deleteKeysExchange({ id: data?.id });
+    },
+    onSuccess: (data) => {
+      if (data?.responseCode == 200) {
+        toast.success(data?.responseMessage);
+      } else {
+        toast.error(data?.responseMessage);
+      }
+      setOpen(false);
+      if (refetch) {
+        refetch();
+      }
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.responseMessage);
+      setOpen(false);
+      if (refetch) {
+        refetch();
+      }
+    },
+  });
+
+  return (
+    <Modal open={open} setOpen={setOpen}>
+      <div className="flex items-center justify-center flex-col">
+        <div className="flex items-center gap-4">
+          <TriangleAlert />
+
+          <p className="font-semibold text-2xl">Confirmation</p>
+        </div>
+        <p className="mt-6 text-xl">
+          Are you sure you want to delete this bot?
+        </p>
+        <p className="mt-2">
+          Deleting this bot will permanently remove all orders and profile
+          history. This action can't be undone.
+        </p>
+        <div className="w-full mt-4 flex flex-row gap-4 ">
+          <button
+            className="bg-gray-300 w-full flex justify-center items-center h-10 rounded text-black"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-red-500 w-full flex justify-center items-center h-10 rounded"
+            onClick={mutateAsync}
+            disabled={isPending}
+          >
+            {isPending ? `Processing...` : `Confirm`}
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
