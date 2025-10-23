@@ -139,21 +139,45 @@ export const updateBot = async ({
   botId,
 }) => {
   try {
-    const response = await api({
-      method: "PUT",
-      url: "/bot/updateBot",
-      data: {
-        botId: botId,
-        botName: botName || undefined,
-        // exchangeKeyId: exchangeKeyId || undefined,
-        // symbol: symbol || undefined,
-        status: status || undefined,
-        params,
-        pausedUntil: pausedUntil || undefined,
-      },
+    const stopResponse = await updateBotStatus({
+      id: botId,
+      status: "running",
     });
+    if (stopResponse?.responseCode == 200) {
+      const response = await api({
+        method: "PUT",
+        url: "/bot/updateBot",
+        data: {
+          botId: botId,
+          botName: botName || undefined,
+          // exchangeKeyId: exchangeKeyId || undefined,
+          // symbol: symbol || undefined,
+          status: status || undefined,
+          params,
+          pausedUntil: pausedUntil || undefined,
+        },
+      });
+      return response?.data;
+    }
+    return stopResponse?.data;
+  } catch (error) {
+    console.error("Error creating bot:", error);
+    throw error;
+  }
+};
 
-    return response?.data;
+export const deleteBot = async ({ id }) => {
+  try {
+    const stopResponse = await updateBotStatus({ id: id, status: "running" });
+    if (stopResponse?.responseCode == 200) {
+      const response = await api({
+        method: "DELETE",
+        url: `/bot/deleteBot/${id}`,
+      });
+      return response?.data;
+    }
+
+    return stopResponse?.data;
   } catch (error) {
     console.error("Error creating bot:", error);
     throw error;

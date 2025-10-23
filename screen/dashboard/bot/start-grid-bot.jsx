@@ -13,7 +13,7 @@ import { EditIcon, FileWarning, TriangleAlert } from "lucide-react";
 import Modal from "@/components/ui/modal";
 import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 import GridBotOrders from "./start-grid-bot-components/order";
-
+import { deleteBot } from "@/queries/bot";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
@@ -231,22 +231,24 @@ export default function StartGridBot() {
         <DeleteModal
           open={deleteModalState}
           setOpen={setDeleteModalState}
-          data={currentSelectedItem}
-          // refetch={exchangeKeyListRefetch}
+          botId={botId}
         />
       )}
     </div>
   );
 }
 
-const DeleteModal = ({ open, setOpen, data, refetch }) => {
+const DeleteModal = ({ open, setOpen, botId }) => {
+  const router = useRouter();
+  const { refetch } = useGetBot();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: () => {
-      // return deleteKeysExchange({ id: data?.id });
+      return deleteBot({ id: botId });
     },
     onSuccess: (data) => {
       if (data?.responseCode == 200) {
         toast.success(data?.responseMessage);
+        router.replace("/dashboard/bot");
       } else {
         toast.error(data?.responseMessage);
       }
