@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { createBot } from "@/queries/bot"; // <-- import your API function
+import { createBot, updateBot, useGetBot } from "@/queries/bot";
 import { toast } from "sonner";
 import { useGetKeysExchange } from "@/queries/exchange";
 const TradingViewWidget = dynamic(
@@ -36,24 +36,35 @@ const validationSchema = Yup.object({
 });
 
 export default function EditGridBot() {
+  const searchParams = useSearchParams();
+  const botId = searchParams.get("botId");
   const router = useRouter();
+  const {
+    data: botData,
+    isPending: botDataPending,
+    refetch: botDataRefetch,
+  } = useGetBot({ id: botId });
+
   const [selectedExchange, setSelectedExchange] = useState("");
+
   const [pair, setPair] = useState("");
+
+  useEffect(() => {
+    setSelectedExchange(botData?.exchangeKeyId);
+    setPair(botData?.symbol);
+  }, [botData]);
   const { data: exchangeList, isPending: exchangeListPending } =
     useGetKeysExchange();
 
   const { mutateAsync: handleCreateBot, isPending } = useMutation({
-    mutationFn: createBot,
+    mutationFn: updateBot,
     onSuccess: (data) => {
-      console.log(data, "data>>>");
       if (data?.responseCode == 200) {
         toast.success(
           data?.responseMessage || "Grid Bot Created Successfully!"
         );
         router.push(
-          `/dashboard/bot/start-grid-bot/?botId= ${encodeURIComponent(
-            data.result?.id
-          )}`
+          `/dashboard/bot/start-grid-bot/?botId= ${encodeURIComponent(botId)}`
         );
       } else {
         toast.error(data?.responseMessage);
@@ -67,16 +78,17 @@ export default function EditGridBot() {
 
   const formik = useFormik({
     initialValues: {
-      highPrice: "",
-      lowPrice: "",
-      quantity: "",
-      gridLevels: "",
-      tpPercent: "2",
-      slPercent: "1",
-      botName: "",
-      adxLessThan20: true,
-      rsiBetween40And60: false,
+      highPrice: botData?.params?.highPrice || "",
+      lowPrice: botData?.params?.lowPrice || "",
+      quantity: botData?.params?.quantityPerGridUSD || "",
+      gridLevels: botData?.params?.gridLevel || "",
+      tpPercent: botData?.params?.tpPercent || "",
+      slPercent: botData?.params?.slPercent || "",
+      botName: botData?.botName || "",
+      adxLessThan20: botData?.params?.adxLessThan20,
+      rsiBetween40And60: botData?.params?.rsiBetween40And60,
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (values) => {
       if (!selectedExchange || !pair) {
@@ -85,6 +97,7 @@ export default function EditGridBot() {
       }
 
       const payload = {
+        botId: botId,
         botName: values.botName,
         exchangeKeyId: selectedExchange,
         symbol: pair,
@@ -151,6 +164,7 @@ export default function EditGridBot() {
                     value={selectedExchange || ""}
                     onSelect={(val) => setSelectedExchange(val)}
                     className="w-50"
+                    disabled
                   />
                   <Dropdown
                     label="Pair"
@@ -161,6 +175,7 @@ export default function EditGridBot() {
                     value={pair || ""}
                     onSelect={(val) => setPair(val)}
                     className="w-50"
+                    disabled
                   />
                 </div>
               </div>

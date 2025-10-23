@@ -9,6 +9,7 @@ export default function Dropdown({
   onSelect,
   className = "",
   bgColor,
+  disabled = false,
 }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -37,17 +38,20 @@ export default function Dropdown({
       ref={dropdownRef}
     >
       <button
+        disabled={disabled}
         type="button"
         onClick={() => setOpen(!open)}
         className={`w-full flex items-center justify-between px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition capitalize`}
         style={{ backgroundColor: bgColor || "#1a1a25" }}
       >
         {selectedOption?.label || label}
-        <ChevronDown
-          className={`w-4 h-4 ml-2 transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
-        />
+        {!disabled && (
+          <ChevronDown
+            className={`w-4 h-4 ml-2 transition-transform ${
+              open ? "rotate-180" : ""
+            }`}
+          />
+        )}
       </button>
 
       {open && (

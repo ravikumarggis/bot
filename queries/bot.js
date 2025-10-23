@@ -100,3 +100,62 @@ export const getBotList = async () => {
     throw error;
   }
 };
+
+export const useGetOrder = ({ id }) => {
+  return useQuery({
+    queryKey: ["getOrder", id],
+    queryFn: () => {
+      return getOrder({ id });
+    },
+    select: (data) => {
+      return data?.result || {};
+    },
+  });
+};
+
+export const getOrder = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `/order/getOrder`,
+      params: {
+        botId: id,
+      },
+    });
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateBot = async ({
+  botName,
+  exchangeKeyId,
+  symbol,
+  status,
+  params,
+  pausedUntil,
+  botId,
+}) => {
+  try {
+    const response = await api({
+      method: "PUT",
+      url: "/bot/updateBot",
+      data: {
+        botId: botId,
+        botName: botName || undefined,
+        // exchangeKeyId: exchangeKeyId || undefined,
+        // symbol: symbol || undefined,
+        status: status || undefined,
+        params,
+        pausedUntil: pausedUntil || undefined,
+      },
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error creating bot:", error);
+    throw error;
+  }
+};
