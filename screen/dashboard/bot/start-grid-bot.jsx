@@ -74,7 +74,7 @@ export default function StartGridBot() {
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
                 <div className="lg:col-span-2">
                   <div className=" h-[500px]">
-                    <TradingViewWidget symbol="NASDAQ:GOOGL" />
+                    <TradingViewWidget symbol="BTC/USDT" />
                   </div>
 
                   <div className=" flex items-start justify-center">
