@@ -45,7 +45,6 @@ export default function CreateGridBot() {
   const { mutateAsync: handleCreateBot, isPending } = useMutation({
     mutationFn: createBot,
     onSuccess: (data) => {
-      console.log(data, "data>>>");
       if (data?.responseCode == 200) {
         toast.success(
           data?.responseMessage || "Grid Bot Created Successfully!"
@@ -168,7 +167,10 @@ export default function CreateGridBot() {
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
                 <div className="lg:col-span-2">
                   <div className="h-[500px]">
-                    <TradingViewWidget symbol={pair || "BTC/USDT"} />
+                    <TradingViewWidget
+                      symbol={pair || "BTC/USDT"}
+                      exchange={selectedExchange}
+                    />
                   </div>
                 </div>
               </div>

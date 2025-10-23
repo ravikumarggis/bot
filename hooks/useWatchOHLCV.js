@@ -12,6 +12,7 @@ export const useWatchOHLCV = ({
   symbol = "BTC/USDT",
   timeframe = "1m",
   limit = 100,
+  exchange = "binance",
 }) => {
   const [ohlcvData, setOhlcvData] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -27,14 +28,12 @@ export const useWatchOHLCV = ({
 
       const payload = {
         op: "subscribe",
-        exchange: "binance",
+        exchange: exchange,
         method: "watchOHLCV",
         symbol,
         timeframe,
         limit,
       };
-
-      console.log(payload, "payload>>>");
 
       ws.send(JSON.stringify(payload));
     };
@@ -42,6 +41,7 @@ export const useWatchOHLCV = ({
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
+
         setOhlcvData(data?.data);
       } catch (err) {
         console.error("Error parsing OHLCV data:", err);
@@ -58,7 +58,7 @@ export const useWatchOHLCV = ({
     return () => {
       ws.close();
     };
-  }, [symbol, timeframe, limit]);
+  }, [symbol, timeframe, limit, exchange]);
 
   return { ohlcvData, isConnected };
 };
