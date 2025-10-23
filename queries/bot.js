@@ -118,9 +118,9 @@ export const getOrder = async ({ id }) => {
     const response = await api({
       method: "GET",
       url: `/order/getOrder`,
-      params: {
-        botId: id,
-      },
+      // params: {
+      //   botId: id,
+      // },
     });
 
     return response?.data;
