@@ -42,50 +42,47 @@ const TradingViewWidget = ({ symbol, exchange }) => {
     );
   }, [ohlcvData]);
 
-  if (!ohlcvData?.isConnected || data?.length < 1) {
-    return (
-      <div className="h-[500px] w-full flex items-center justify-center flex-col">
-        <ActivityIndicator isLoading className={"h-14 w-14"} />
-        <p>Getting Chart Data...</p>
-      </div>
-    );
-  }
-
   return (
-    <div
-      ref={chartContainerRef}
-      style={{ width: "100%", height: "500px" }}
-      className="bg-black"
-    >
-      <Chart
-        options={{
-          width: chartContainerRef?.current?.offsetWidth || 400,
-          height: chartContainerRef?.current?.offsetHeight || 400,
-          layout: {
-            background: { type: "solid", color: "#0F0F0F" },
-            textColor: "#ffffff",
-          },
-          grid: {
-            vertLines: { color: "#2B2B2B" },
-            horzLines: { color: "#2B2B2B" },
-          },
-          crosshair: {
-            mode: 1,
-          },
-        }}
-      >
-        <CandlestickSeries
-          data={data}
-          upColor="#26a69a"
-          downColor="#ef5350"
-          borderVisible={false}
-          wickUpColor="#26a69a"
-          wickDownColor="#ef5350"
-        />
-        <TimeScale>
-          <TimeScaleFitContentTrigger deps={[]} />
-        </TimeScale>
-      </Chart>
+    <div ref={chartContainerRef} className="bg-black w-full h-[500px]">
+      {chartContainerRef?.current &&
+      ohlcvData?.isConnected &&
+      data?.length > 1 ? (
+        <Chart
+          options={{
+            width: chartContainerRef?.current?.offsetWidth || 400,
+            height: chartContainerRef?.current?.offsetHeight || 400,
+            autoSize: true,
+            layout: {
+              background: { type: "solid", color: "#0F0F0F" },
+              textColor: "#ffffff",
+            },
+            grid: {
+              vertLines: { color: "#2B2B2B" },
+              horzLines: { color: "#2B2B2B" },
+            },
+            crosshair: {
+              mode: 1,
+            },
+          }}
+        >
+          <CandlestickSeries
+            data={data}
+            upColor="#26a69a"
+            downColor="#ef5350"
+            borderVisible={false}
+            wickUpColor="#26a69a"
+            wickDownColor="#ef5350"
+          />
+          <TimeScale>
+            <TimeScaleFitContentTrigger deps={[]} />
+          </TimeScale>
+        </Chart>
+      ) : (
+        <div className="h-[500px] w-full flex items-center justify-center flex-col">
+          <ActivityIndicator isLoading className={"h-14 w-14"} />
+          <p>Getting Chart Data...</p>
+        </div>
+      )}
     </div>
   );
 };
