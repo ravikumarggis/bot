@@ -32,7 +32,6 @@ export const useWatchTicker = ({ symbol = "BTC/USDT" }) => {
       try {
         const data = JSON.parse(event.data);
         setTickerData(data?.data);
-        console.log(data, "data>>>");
       } catch (err) {
         console.error("Error parsing ticker data:", err);
       }

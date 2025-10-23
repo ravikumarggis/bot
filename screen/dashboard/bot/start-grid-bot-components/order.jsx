@@ -5,7 +5,6 @@ const GridBotOrders = ({ botId }) => {
   const { data: orderList, isPending: orderListPending } = useGetOrder({
     id: botId,
   });
-  console.log(orderList, "orderList>>>");
 
   return (
     <div>

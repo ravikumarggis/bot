@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import StylesTabs from "@/components/style-tab";
 import { useRouter, useSearchParams } from "next/navigation";
-import { updateBotStatus, useGetBot } from "@/queries/bot";
+import { updateBotStatus, useGetBot, useGetBotList } from "@/queries/bot";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -240,7 +240,7 @@ export default function StartGridBot() {
 
 const DeleteModal = ({ open, setOpen, botId }) => {
   const router = useRouter();
-  const { refetch } = useGetBot();
+  const { refetch } = useGetBotList();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: () => {
       return deleteBot({ id: botId });
