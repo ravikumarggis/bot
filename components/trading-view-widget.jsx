@@ -43,7 +43,7 @@ const TradingViewWidget = ({ symbol, exchange }) => {
   }, [ohlcvData]);
 
   return (
-    <div ref={chartContainerRef} className="bg-black w-full h-[500px]">
+    <div ref={chartContainerRef} className="w-full h-[500px]">
       {chartContainerRef?.current &&
       ohlcvData?.isConnected &&
       data?.length > 1 ? (

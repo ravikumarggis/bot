@@ -45,9 +45,9 @@ export const useWatchTicker = ({ symbol = "BTC/USDT" }) => {
       console.log("WebSocket disconnected (Ticker)");
     };
 
-    // return () => {
-    //   ws.close();
-    // };
+    return () => {
+      ws.close();
+    };
   }, [symbol]);
 
   return { tickerData, isConnected };

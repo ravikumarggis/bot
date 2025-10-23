@@ -6,6 +6,7 @@ import { updateProfileMutation, useUserProfile } from "@/queries/profile";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export default function ProfileSettings() {
   const [initialized, setInitialized] = useState(false); // ensure API data only applied once
@@ -28,7 +29,7 @@ export default function ProfileSettings() {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      name:  "",
       email: "",
       phone: "",
       country: "",
@@ -48,11 +49,13 @@ export default function ProfileSettings() {
 
   const { mutateAsync: updateProfileMutate, isPending: mutatePending } = useMutation({
     mutationFn: async (values) => {
+      
+      
       return updateProfileMutation({
         name: values?.name,
+        countryCode: values?.country,
         email: values?.email,
-        mobileNumber: values?.Phone,
-        country: values?.country
+        mobileNumber: values?.phone,
       });
     },
     onSuccess: (data) => {
@@ -74,8 +77,8 @@ export default function ProfileSettings() {
       formik.setValues({
         name: getUserData.name ?? formik.values.name ?? "Ravi",
         email: getUserData.email ?? formik.values.email ?? "",
-        phone: getUserData.phone ?? formik.values.phone ?? "+91",
-        country: getUserData.country ?? formik.values.country ?? "IN",
+        phone: getUserData?.mobileNumber ?? formik.values.mobileNumber ?? "+91",
+        country: getUserData.countryCode ?? formik.values.countryCode ?? "IN",
       });
       setInitialized(true);
     }
@@ -150,6 +153,19 @@ export default function ProfileSettings() {
 
       {/* Phone & Country Dropdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div>
+          <Dropdown
+            label="Country"
+            options={countryOptions}
+            value={formik.values.country}
+            onSelect={(val) => formik.setFieldValue("country", val)}
+            className="w-full "
+          />
+          {formik.touched.country && formik.errors.country && (
+            <p className="text-red-500 text-sm mt-1">{formik.errors.country}</p>
+          )}
+        </div>
+
         <div>
           <div className="flex items-center bg-[#1a1a25] rounded-xl px-3">
             <Phone className="text-gray-400 mr-2" size={18} />
@@ -168,28 +184,17 @@ export default function ProfileSettings() {
           )}
         </div>
 
-        <div>
-          <Dropdown
-            label="Country"
-            options={countryOptions}
-            value={formik.values.country}
-            onSelect={(val) => formik.setFieldValue("country", val)}
-            className="w-full "
-          />
-          {formik.touched.country && formik.errors.country && (
-            <p className="text-red-500 text-sm mt-1">{formik.errors.country}</p>
-          )}
-        </div>
+      
       </div>
 
       {/* Submit Button */}
       <div className="flex items-center justify-center">
         <button
           type="submit"
-          disabled={formik.isSubmitting}
+          disabled={formik.isSubmitting || mutatePending}
           className="w-full bg-primary font-semibold text-white py-2 rounded-[10px] hover:opacity-90 transition-opacity"
         >
-          {formik.isSubmitting ? "Updating..." : "Update"}
+          {formik.isSubmitting || mutatePending ? "Updating..." : "Update"}
         </button>
       </div>
     </form>

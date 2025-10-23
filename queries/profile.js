@@ -33,14 +33,16 @@ export const getUserProfile = async () => {
   
 
 
-  export const updateProfileMutation = async ({ email, country ,name,mobileNumber}) => {
+  export const updateProfileMutation = async ({ email, countryCode ,name,mobileNumber}) => {
     try {
+      console.log(mobileNumber,"mobileNumbermobileNumber");
+      
       const response = await api({
         method: "PUT",
         url: "/user/editProfile",
         data: {
           email: email || undefined,
-          country: country || undefined,
+          countryCode: countryCode || undefined,
           name: name || undefined,
           mobileNumber: mobileNumber || undefined,
         },
