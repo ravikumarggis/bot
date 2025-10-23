@@ -32,6 +32,7 @@ export const useWatchTicker = ({ symbol = "BTC/USDT" }) => {
       try {
         const data = JSON.parse(event.data);
         setTickerData(data?.data);
+        console.log(data, "data>>>");
       } catch (err) {
         console.error("Error parsing ticker data:", err);
       }
@@ -44,9 +45,9 @@ export const useWatchTicker = ({ symbol = "BTC/USDT" }) => {
       console.log("WebSocket disconnected (Ticker)");
     };
 
-    return () => {
-      ws.close();
-    };
+    // return () => {
+    //   ws.close();
+    // };
   }, [symbol]);
 
   return { tickerData, isConnected };

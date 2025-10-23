@@ -8,6 +8,7 @@ import { updateBotStatus, useGetBot } from "@/queries/bot";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -53,6 +54,17 @@ export default function StartGridBot() {
       ?.exchange;
   }, [exchangeData, botData]);
 
+  const ohlcvData = useWatchOHLCV({
+    symbol: botData?.symbol,
+    exchange: exchangeName ? exchangeName : undefined,
+  });
+  const currentAmount = useMemo(() => {
+    const closePrice =
+      ohlcvData?.ohlcvData?.[ohlcvData?.ohlcvData?.length - 1]?.[4];
+    const qty = botData?.params?.quantityPerGridUSD;
+    return Number(closePrice || 0) * Number(qty || 0);
+  }, [ohlcvData, botData]);
+
   return (
     <div className="min-h-screen  text-gray-200">
       <div className="">
@@ -68,7 +80,10 @@ export default function StartGridBot() {
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
                 <div className="lg:col-span-2">
                   <div className=" h-[500px]">
-                    <TradingViewWidget symbol="BTC/USDT" />
+                    <TradingViewWidget
+                      symbol={botData?.symbol}
+                      exchange={botData?.exchangeKeyId}
+                    />
                   </div>
 
                   <div className=" flex items-start justify-center">
@@ -184,10 +199,14 @@ export default function StartGridBot() {
                   </div>
                 </div>
 
-                {/* <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">Investment</div>
-                  <div className="text-base text-white">90.54 USDT</div>
-                </div> */}
+                {currentAmount > 0 && (
+                  <div className="flex justify-between">
+                    <div className="text-sm text-gray-400 mb-1">Investment</div>
+                    <div className="text-base text-white">
+                      {Number(currentAmount)?.toFixed(4)} USDT
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">
