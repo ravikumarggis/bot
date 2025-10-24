@@ -1,4 +1,5 @@
 
+
 "use client";
 import {
   LayoutDashboard,
@@ -10,6 +11,7 @@ import {
   Bot,
   ChevronLeft,
   ChevronRight,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
@@ -18,7 +20,7 @@ import { deleteCookie } from "cookies-next";
 import { toast } from "sonner";
 import { useState } from "react";
 
-export default function Sidebar({ isCollapsed, setIsCollapsed }) {
+export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -30,14 +32,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   };
 
   const navItems = [
-    { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    { label: "Bots", path: "/dashboard/bot", Icon: Bot, type: "link" },
-    { label: "Exchange", path: "/dashboard/exchange", Icon: IconExchange, type: "link" },
-    { label: "Pricing", path: "/dashboard/pricing", Icon: IconCurrency, type: "link" },
-    { label: "Plan Management", path: "/dashboard/plan-management", Icon: Calendar, type: "link" },
-    { label: "Transaction", path: "/dashboard/transaction", Icon: IconHistory, type: "link" },
-    { label: "Settings", path: "/dashboard/settings", Icon: Settings2, type: "link" },
+    { label: "Dashboard", path: "/admin-dashboard/home", Icon: Home, type: "link" },
+    { label: "Users", path: "/dashboard/home", Icon: User, type: "link" },
     { label: "Logout", Icon: LogOut, type: "button", onClick: logoutHandler },
+   
   ];
 
   const mobileNavItems = [
