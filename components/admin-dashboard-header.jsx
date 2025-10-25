@@ -59,19 +59,19 @@ export default function AdminDashboardHeader() {
             />
           
               <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
-            Qbots
+        Admin
           </span>
           </Link>
 
           <div className="flex items-center gap-4">
-            <a
+            {/* <a
               href="https://t.me/yourcommunity"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-block bg-primary text-white font-semibold rounded-[10px] px-4 py-1.5 text-sm transition-colors"
             >
               Join Telegram
-            </a>
+            </a> */}
 
             <div className="hidden md:block">
               <button className="w-10 h-10 bg-primary text-white font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition">
