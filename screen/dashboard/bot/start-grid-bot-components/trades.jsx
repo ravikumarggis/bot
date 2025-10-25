@@ -1,18 +1,15 @@
 import { useGetOrder } from "@/queries/bot";
 import React, { useMemo } from "react";
 import { formatCurrency } from "@/utils/index";
-const GridBotOrders = ({ botId }) => {
+const GridBotTrades = ({ botId }) => {
   const { data: orderList, isPending: orderListPending } = useGetOrder({
     id: botId,
   });
+
   const filteredOrder = useMemo(() => {
     return (
       orderList?.data?.filter(
-        (item) =>
-          item?.status == "PENDING" ||
-          item?.status == "OPEN" ||
-          item?.status == "CANCELED" ||
-          item?.status == "REJECTED"
+        (item) => item?.status == "PARTIALLY_FILLED" || item?.status == "FILLED"
       ) || []
     );
   }, [orderList]);
@@ -26,12 +23,12 @@ const GridBotOrders = ({ botId }) => {
               Open and orders
             </h3>
             <p className="mt-3 text-sm text-gray-400">
-              No orders to display right now.
+              No trades to display right now.
             </p>
 
-            <button className="mt-8 px-5 py-2 text-sm rounded-full bg-transparent border border-white/6 text-gray-300 hover:bg-white/2">
+            {/* <button className="mt-8 px-5 py-2 text-sm rounded-full bg-transparent border border-white/6 text-gray-300 hover:bg-white/2">
               Load more
-            </button>
+            </button> */}
           </div>
         )}
         {!orderListPending && filteredOrder?.length > 0 && (
@@ -86,4 +83,4 @@ const GridBotOrders = ({ botId }) => {
   );
 };
 
-export default GridBotOrders;
+export default GridBotTrades;

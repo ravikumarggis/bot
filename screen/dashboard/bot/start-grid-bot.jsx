@@ -13,6 +13,7 @@ import { EditIcon, FileWarning, TriangleAlert } from "lucide-react";
 import Modal from "@/components/ui/modal";
 import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 import GridBotOrders from "./start-grid-bot-components/order";
+import GridBotTrades from "./start-grid-bot-components/trades";
 import { deleteBot } from "@/queries/bot";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -105,6 +106,7 @@ export default function StartGridBot() {
                           />
                         </div>
                         {active == "Orders" && <GridBotOrders botId={botId} />}
+                        {active == "Trades" && <GridBotTrades botId={botId} />}
                       </div>
                     </div>
                   </div>
