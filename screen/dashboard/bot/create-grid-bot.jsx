@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { createBot } from "@/queries/bot"; // <-- import your API function
+import { createBot, useGetSymbolList } from "@/queries/bot"; // <-- import your API function
 import { toast } from "sonner";
 import { useGetKeysExchange } from "@/queries/exchange";
 const TradingViewWidget = dynamic(
@@ -41,6 +41,14 @@ export default function CreateGridBot() {
   const [pair, setPair] = useState("");
   const { data: exchangeList, isPending: exchangeListPending } =
     useGetKeysExchange();
+
+  const exchangeName = useMemo(() => {
+    return exchangeList?.find((item) => item?.id == selectedExchange)?.exchange;
+  }, [exchangeList, selectedExchange]);
+
+  const { data: pairData, isPending: pairDataPending } = useGetSymbolList({
+    exchange: exchangeName,
+  });
 
   const { mutateAsync: handleCreateBot, isPending } = useMutation({
     mutationFn: createBot,
@@ -153,10 +161,12 @@ export default function CreateGridBot() {
                   />
                   <Dropdown
                     label="Pair"
-                    options={[
-                      { label: "BTC/USDT", value: "BTC/USDT" },
-                      { label: "ETH/USDT", value: "ETH/USDT" },
-                    ]}
+                    options={pairData?.map((item) => {
+                      return {
+                        label: item?.symbol,
+                        value: item?.symbol,
+                      };
+                    })}
                     value={pair || ""}
                     onSelect={(val) => setPair(val)}
                     className="w-50"

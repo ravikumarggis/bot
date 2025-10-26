@@ -183,3 +183,31 @@ export const deleteBot = async ({ id }) => {
     throw error;
   }
 };
+
+export const useGetSymbolList = ({ exchange }) => {
+  return useQuery({
+    queryKey: ["getSymbolList", exchange],
+    queryFn: () => {
+      return getSymbolList({ exchange });
+    },
+    select: (data) => {
+      return data?.result || [];
+    },
+  });
+};
+
+export const getSymbolList = async ({ exchange }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `/keys/getSymbolList`,
+      params: {
+        exchange: exchange,
+      },
+    });
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
