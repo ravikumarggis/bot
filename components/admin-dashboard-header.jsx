@@ -16,19 +16,20 @@ import {
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
 import { deleteCookie } from "cookies-next";
 import { useLogout } from "../queries/auth";
-import { useUserProfile } from "@/queries/profile";
+import { useAdminProfile } from "@/queries/admin";
+
 
 export default function AdminDashboardHeader() {
-  const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
+  const { data: getAdminData, isPending: getAdminDataPending } = useAdminProfile();
 
-  const email = getUserData?.email;
+  const email = getAdminData?.email;
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const logout = useLogout();
   const router = useRouter();
   const navItems = [
-    { label: "Dashboard", path: "/admin-dashboard/home", Icon: Home, type: "link" },
-    { label: "Users", path: "/admin-dashboard/home", Icon: User, type: "link" },
+    { label: "Dashboard", path: "/admin/home", Icon: Home, type: "link" },
+    { label: "Users", path: "/admin/home", Icon: User, type: "link" },
   
     { label: "Logout", Icon: LogOut, type: "button" },
   ];
@@ -41,7 +42,6 @@ export default function AdminDashboardHeader() {
     router.replace("/");
   };
 
-  // Helper for active route styling
   const isActive = (path) =>
     pathname.startsWith(path)
       ? "bg-primary text-white"
