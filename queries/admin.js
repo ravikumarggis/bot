@@ -24,3 +24,38 @@ export const useGetAdminDashboard = () => {
     }
   };
   
+
+
+
+
+export const useAdminProfile = () => {
+    return useQuery({
+      queryKey: ["getAdminProfile"],
+      queryFn: async () => {
+        return getAdminProfile(); 
+      },
+      select: (data) => {
+        if (data?.data?.responseCode == 200) {
+         
+          return data?.data?.result;
+        }
+  
+        return {};
+      },
+    });
+  };
+  
+  export const getAdminProfile = async () => {
+      try {
+        const response = await api({
+          method: "GET",
+          url: "/admin/getAdminProfile",
+        });
+    
+        return response;
+      } catch (error) {
+        return error?.response;
+      }
+    };
+    
+  
