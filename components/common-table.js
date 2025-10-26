@@ -1,6 +1,14 @@
 "use client";
 
 export default function CommonTable({ columns, data }) {
+  const getStatusColor = (value) => {
+    if (!value) return "text-gray-400";
+    const lower = value.toLowerCase();
+    if (lower === "active") return "text-green-500 ";
+    if (lower === "inactive") return "text-red-500 ";
+    return "text-gray-300";
+  };
+
   return (
     <div className="overflow-x-auto bg-[#12121d] rounded-xl border border-gray-800">
       <table className="min-w-full text-left text-sm text-gray-300">
@@ -20,11 +28,21 @@ export default function CommonTable({ columns, data }) {
                 key={idx}
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
-                {columns.map((col) => (
-                  <td key={col?.key} className="px-4 py-3">
-                    {row[col?.key]}
-                  </td>
-                ))}
+                {columns.map((col) => {
+                  const cellValue = row[col?.key];
+
+                  // Apply color styling if this is the "status" column
+                  const cellClass =
+                    col.key === "status"
+                      ? getStatusColor(cellValue)
+                      : "text-gray-300";
+
+                  return (
+                    <td key={col?.key} className={`px-4 py-3 ${cellClass}`}>
+                      {cellValue}
+                    </td>
+                  );
+                })}
               </tr>
             ))
           ) : (

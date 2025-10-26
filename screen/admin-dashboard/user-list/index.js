@@ -171,10 +171,8 @@ export default function Users() {
     for (let i = start; i <= end; i++) pages.push(i);
 
     return (
-      <div className="mt-6 flex items-center justify-between">
-        <div className="text-sm text-gray-400">
-          Page {page} of {totalPages}
-        </div>
+      <div className="mt-6 flex items-center justify-end">
+      
 
         <nav className="inline-flex items-center gap-2">
           <button
