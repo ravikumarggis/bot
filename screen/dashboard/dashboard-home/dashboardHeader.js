@@ -33,7 +33,6 @@ export default function DashboardHeader() {
           </div>
         </div>
       </div>
-    
     </div>
   );
 }
