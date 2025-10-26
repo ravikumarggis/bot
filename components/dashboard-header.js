@@ -12,6 +12,7 @@ import {
   Home,
   Calendar,
   Settings2,
+  Bot,
 } from "lucide-react";
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
 import { deleteCookie } from "cookies-next";
@@ -28,6 +29,12 @@ export default function DashboardHeader() {
   const router = useRouter();
   const navItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
+    {
+      label: "Bots",
+      path: "/dashboard/bot",
+      Icon: Bot,
+      type: "link",
+    },
     {
       label: "Exchange",
       path: "/dashboard/exchange",

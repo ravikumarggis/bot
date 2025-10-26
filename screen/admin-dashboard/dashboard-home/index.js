@@ -6,17 +6,15 @@ import StatCard from "./statCard";
 
 import { ArrowLeftRight, Receipt, TrendingUp, Wallet } from "lucide-react";
 import {
-  useGetSubscriptionDetail,
-  useHaveActiveSubscriptions,
-} from "@/queries/payment";
+  useGetAdminDashboard
+} from "@/queries/admin";
 import NotActiveSubs from "@/components/no-active-subs";
 export default function Dashboard() {
-  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
-    useHaveActiveSubscriptions();
 
-  // if (!haveActiveSubs) {
-  //   return <NotActiveSubs />;
-  // }
+
+ const {data } = useGetAdminDashboard()
+ console.log(useGetAdminDashboard,"useGetAdminDashboarduseGetAdminDashboard");
+ 
 
   return (
     <div className="min-h-screen  text-white ">
