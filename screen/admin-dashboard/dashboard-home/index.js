@@ -4,19 +4,17 @@ import React from "react";
 
 import StatCard from "./statCard";
 
-import { ArrowLeftRight, Receipt, TrendingUp, Wallet } from "lucide-react";
+import { ArrowLeftRight, Receipt, TrendingUp, User, Wallet } from "lucide-react";
 import {
-  useGetSubscriptionDetail,
-  useHaveActiveSubscriptions,
-} from "@/queries/payment";
+  useGetAdminDashboard
+} from "@/queries/admin";
 import NotActiveSubs from "@/components/no-active-subs";
 export default function Dashboard() {
-  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
-    useHaveActiveSubscriptions();
 
-  // if (!haveActiveSubs) {
-  //   return <NotActiveSubs />;
-  // }
+
+ const {data  :dashboardCount} = useGetAdminDashboard()
+ console.log(dashboardCount,"useGetAdminDashboarduseGetAdminDashboard");
+ 
 
   return (
     <div className="min-h-screen  text-white ">
@@ -26,7 +24,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Account Balance"
-            value="110"
+            value={dashboardCount?.accountBalance}
             currency="(USDT)"
             subtitle="Lock Balance : 10
 Available to Trade : 100"
@@ -34,22 +32,29 @@ Available to Trade : 100"
           />
           <StatCard
             title="Exchange"
-            value="10"
+            value={dashboardCount?.exchangeConnectedCount}
             subtitle="Connected Exchange"
             icon={ArrowLeftRight}
           />
           <StatCard
             title="Transactions"
-            value="5"
+            value={dashboardCount?.transactionCount}
             subtitle="Transactions"
             icon={Receipt}
           />
           <StatCard
             title="Total Bots"
-            value="10"
+            value={dashboardCount?.noOfBot}
             currency="Bots"
             subtitle="Total Bots"
             icon={TrendingUp}
+          />
+          <StatCard
+            title="Users"
+            value={dashboardCount?.userCounts}
+           
+            subtitle="Total Users"
+            icon={User}
           />
         </div>
 
