@@ -1,5 +1,3 @@
-
-
 "use client";
 import {
   LayoutDashboard,
@@ -19,15 +17,18 @@ import { usePathname, useRouter } from "next/navigation";
 import { deleteCookie } from "cookies-next";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useLogout } from "@/queries/auth";
 
 export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const logout = useLogout();
 
   const logoutHandler = () => {
     deleteCookie("token");
     toast.success("Logout successfully");
+    logout();
     router.replace("/login");
   };
 
@@ -35,12 +36,16 @@ export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
     { label: "Dashboard", path: "/admin/home", Icon: Home, type: "link" },
     { label: "Users", path: "/admin/user-list", Icon: User, type: "link" },
     { label: "Logout", Icon: LogOut, type: "button", onClick: logoutHandler },
-   
   ];
 
   const mobileNavItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    { label: "Settings", path: "/dashboard/settings", Icon: Settings, type: "link" },
+    {
+      label: "Settings",
+      path: "/dashboard/settings",
+      Icon: Settings,
+      type: "link",
+    },
     { label: "Logout", Icon: LogOut, type: "button", onClick: logoutHandler },
   ];
 
@@ -69,7 +74,11 @@ export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
             onClick={() => setIsCollapsed((v) => !v)}
             className="absolute right-[-35px] top-15 p-1 rounded-full bg-gray-600 hover:bg-gray-700"
           >
-            {isCollapsed ? <ChevronRight size={25} /> : <ChevronLeft size={25} />}
+            {isCollapsed ? (
+              <ChevronRight size={25} />
+            ) : (
+              <ChevronLeft size={25} />
+            )}
           </button>
         </div>
 
@@ -96,7 +105,9 @@ export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
                   </div>
                   <span
                     className={`transition-opacity duration-150 whitespace-nowrap ${
-                      isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
+                      isCollapsed
+                        ? "opacity-0 w-0 overflow-hidden"
+                        : "opacity-100"
                     }`}
                   >
                     {label}
@@ -116,7 +127,9 @@ export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
                   <Icon />
                   <span
                     className={`transition-opacity duration-150 whitespace-nowrap ${
-                      isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
+                      isCollapsed
+                        ? "opacity-0 w-0 overflow-hidden"
+                        : "opacity-100"
                     }`}
                   >
                     {label}
