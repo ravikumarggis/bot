@@ -1,11 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import CustomDatePicker from "../../../components/date-modal";
 import Dropdown from "../../../components/dropdown";
 import DataTable from "../../../components/common-table";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
 import NotActiveSubs from "@/components/no-active-subs";
-
+import { useGetAllSubscription } from "@/queries/plan-management";
 export default function PlanManagement() {
   const [filters, setFilters] = useState({
     search: "",
@@ -17,6 +17,8 @@ export default function PlanManagement() {
 
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
+  const { data: subsData, isPending: subsDataPending } =
+    useGetAllSubscription();
 
   const [filteredData, setFilteredData] = useState([]);
 
@@ -33,6 +35,24 @@ export default function PlanManagement() {
     { key: "endTime", label: "End Time" },
     { key: "payAddress", label: "Pay Address" },
   ];
+
+  const formattedSubsData = useMemo(() => {
+    return subsData?.map((item) => {
+      return {
+        sr: 1,
+        planName: item?.name || "--",
+        planAmount: item?.displayAmount || 0,
+        paidAmount: item?.amount || 0,
+        paymentOrderId: "ORD-J36C5529L2",
+        duration: `${item?.duration} DAYS`,
+        paymentStatus: "Finished",
+        planStatus: item?.status || "--",
+        startTime: "2025-09-24T20:40:00",
+        endTime: "2025-10-01T20:40:00",
+        payAddress: "...",
+      };
+    });
+  });
 
   const dummyData = [
     {
@@ -207,7 +227,7 @@ export default function PlanManagement() {
         setFilters={setFilters}
         onApply={applyFilters}
       />
-      <DataTable columns={columns} data={filteredData} />
+      <DataTable columns={columns} data={formattedSubsData} />
     </div>
   );
 }

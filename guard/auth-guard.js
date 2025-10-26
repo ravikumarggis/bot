@@ -13,11 +13,30 @@ const AuthGuard = ({ children }) => {
 
   useEffect(() => {
     const token = getCookie("token");
+    const userType = getCookie("userType");
+    const isAdmin = userType === "admin";
     const isGuarded = guardedRoutes.includes(pathname);
     const isPublic = publicRoutes.includes(pathname);
+    const isAdminRoute = pathname?.includes("admin");
 
     if (!token && isGuarded) {
       router.replace("/login");
+      return;
+    }
+
+    if (isAdminRoute) {
+      if (!token) {
+        router.replace("/login");
+        return;
+      }
+      if (!isAdmin) {
+        router.replace("/dashboard/home");
+        return;
+      }
+    }
+
+    if (token && isAdmin && !isAdminRoute && !isGuarded) {
+      router.replace("/admin/home");
       return;
     }
 

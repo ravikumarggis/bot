@@ -6,7 +6,7 @@ import {
 import { api, baseUrl } from "../service/api-service";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { toast } from "sonner";
 
 export const signupMutation = async ({ email, password }) => {
@@ -156,5 +156,9 @@ export const resetPassword = async ({ email, password }) => {
 };
 
 export const useLogout = () => {
-  return googleLogout();
+  return () => {
+    deleteCookie("token");
+    deleteCookie("userType");
+    googleLogout();
+  };
 };

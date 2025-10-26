@@ -18,9 +18,9 @@ import { deleteCookie } from "cookies-next";
 import { useLogout } from "../queries/auth";
 import { useAdminProfile } from "@/queries/admin";
 
-
 export default function AdminDashboardHeader() {
-  const { data: getAdminData, isPending: getAdminDataPending } = useAdminProfile();
+  const { data: getAdminData, isPending: getAdminDataPending } =
+    useAdminProfile();
 
   const email = getAdminData?.email;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,8 +29,8 @@ export default function AdminDashboardHeader() {
   const router = useRouter();
   const navItems = [
     { label: "Dashboard", path: "/admin/home", Icon: Home, type: "link" },
-    { label: "Users", path: "/admin/home", Icon: User, type: "link" },
-  
+    { label: "Users", path: "/admin/user-list", Icon: User, type: "link" },
+
     { label: "Logout", Icon: LogOut, type: "button" },
   ];
 
@@ -38,7 +38,7 @@ export default function AdminDashboardHeader() {
     console.log("Logged out");
     setMenuOpen(false);
     deleteCookie("token");
-    logout;
+    logout();
     router.replace("/");
   };
 
@@ -57,10 +57,10 @@ export default function AdminDashboardHeader() {
               alt="Qbots Logo"
               className="w-18 h-16"
             />
-          
-              <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
-        Admin
-          </span>
+
+            <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
+              Admin
+            </span>
           </Link>
 
           <div className="flex items-center gap-4">
