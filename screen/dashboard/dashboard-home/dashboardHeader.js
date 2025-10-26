@@ -1,8 +1,11 @@
 "use client";
 
+import { useHaveActiveSubscriptions } from "@/queries/payment";
 import { Copy } from "lucide-react";
 
 export default function DashboardHeader() {
+  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
+    useHaveActiveSubscriptions();
   const handleCopyReferralCode = () => {
     navigator.clipboard.writeText("ldaxdoyq");
   };
@@ -12,13 +15,18 @@ export default function DashboardHeader() {
       <div className="flex gap-12">
         <div className="space-y-1">
           <div className="text-sm text-gray-400">
-            Plan Status : <span className="text-red-500">Inactive</span>
+            Plan Status :{" "}
+            <span
+              className={haveActiveSubs ? "text-green-600" : "text-red-500"}
+            >
+              {haveActiveSubs ? "Active" : `Inactive`}
+            </span>
           </div>
-          <div className="text-sm text-gray-400">
+          {/* <div className="text-sm text-gray-400">
             Referral Earning : <span className="text-red-500">Off</span>
-          </div>
+          </div> */}
         </div>
-        <div className="space-y-1">
+        {/* <div className="space-y-1">
           <div className="text-sm text-gray-400">
             DCA : <span className="text-red-500">Off</span>
           </div>
@@ -31,7 +39,7 @@ export default function DashboardHeader() {
               <Copy className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

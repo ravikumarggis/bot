@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+const Percentage = 100;
 
 export default function CurrentPlan() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function CurrentPlan() {
       <div className="flex flex-col items-center justify-center py-8">
         <div className="relative w-64 h-64 mb-8">
           <CircularProgressbar
-            value={50}
+            value={Percentage}
             styles={buildStyles({
               rotation: 0.25,
               strokeLinecap: "butt",
@@ -28,7 +29,6 @@ export default function CurrentPlan() {
               backgroundColor: "#3e98c7",
             })}
           />
-          ;
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="text-3xl font-semibold text-white">Unlimited</div>
             <div className="text-sm text-gray-400 mt-1">Available Cap</div>
@@ -40,7 +40,7 @@ export default function CurrentPlan() {
             variant="outline"
             className="w-full bg-transparent border-gray-700/50 text-white hover:bg-gray-800/50 rounded-full py-6 text-base"
           >
-            Profit Cap Unlimited
+            Profit Cap: Unlimited
           </button>
           <button
             className="w-full bg-primary text-[white] rounded-[10px] py-3 text-base font-semibold"

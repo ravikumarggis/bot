@@ -18,6 +18,7 @@ import {
   useTransactionCount,
 } from "@/queries/dashboard";
 import ActivityIndicator from "@/components/activity-indicator";
+
 export default function Dashboard() {
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
@@ -57,9 +58,9 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen  text-white ">
       <div className="max-w-[1600px] mx-auto">
-        {/* <DashboardHeader /> */}
+        <DashboardHeader />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Account Balance"
             value={Number(balance)?.toFixed(2) || 0}
