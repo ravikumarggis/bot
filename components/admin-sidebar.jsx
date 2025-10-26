@@ -33,7 +33,7 @@ export default function AdminSidebar({ isCollapsed, setIsCollapsed }) {
 
   const navItems = [
     { label: "Dashboard", path: "/admin/home", Icon: Home, type: "link" },
-    { label: "Users", path: "/admin/users", Icon: User, type: "link" },
+    { label: "Users", path: "/admin/user-list", Icon: User, type: "link" },
     { label: "Logout", Icon: LogOut, type: "button", onClick: logoutHandler },
    
   ];

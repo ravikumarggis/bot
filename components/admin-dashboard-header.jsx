@@ -29,7 +29,7 @@ export default function AdminDashboardHeader() {
   const router = useRouter();
   const navItems = [
     { label: "Dashboard", path: "/admin/home", Icon: Home, type: "link" },
-    { label: "Users", path: "/admin/home", Icon: User, type: "link" },
+    { label: "Users", path: "/admin/user-list", Icon: User, type: "link" },
   
     { label: "Logout", Icon: LogOut, type: "button" },
   ];
