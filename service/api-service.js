@@ -1,3 +1,4 @@
+"use client";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
@@ -10,7 +11,16 @@ export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // live
 
 export const api = axios.create({
   baseURL: baseUrl,
-  headers: {
-    token: getCookie("token"),
-  },
+});
+
+api.interceptors.request.use((config) => {
+  const token = getCookie("token");
+
+  return {
+    ...config,
+    headers: {
+      ...config.headers,
+      token: token,
+    },
+  };
 });
