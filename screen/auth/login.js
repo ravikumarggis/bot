@@ -32,6 +32,7 @@ const Login = () => {
         if (data?.data?.result?.userType === "ADMIN") {
           toast.success(data?.data?.responseMessage);
           setCookie("token", data?.data?.result?.token);
+          setCookie("userType", "admin");
           router.replace("/admin/home");
         } else {
           toast.success(data?.data?.responseMessage);
