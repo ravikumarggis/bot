@@ -3,24 +3,26 @@ import { useState, useEffect, useMemo } from "react";
 import CustomDatePicker from "../../../components/date-modal";
 import Dropdown from "../../../components/dropdown";
 import DataTable from "../../../components/common-table";
-import { useHaveActiveSubscriptions } from "@/queries/payment";
+import {
+  useGetSubscriptionDetail,
+  useHaveActiveSubscriptions,
+} from "@/queries/payment";
 import NotActiveSubs from "@/components/no-active-subs";
-import { useGetAllSubscription } from "@/queries/plan-management";
+import moment from "moment";
+import ActivityIndicator from "@/components/activity-indicator";
+
 export default function PlanManagement() {
   const [filters, setFilters] = useState({
     search: "",
     from: "",
     to: "",
     status: "",
-    paymentStatus: "",
   });
 
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
   const { data: subsData, isPending: subsDataPending } =
-    useGetAllSubscription();
-
-  const [filteredData, setFilteredData] = useState([]);
+    useGetSubscriptionDetail();
 
   const columns = [
     { key: "sr", label: "Sr" },
@@ -29,113 +31,63 @@ export default function PlanManagement() {
     { key: "paidAmount", label: "Paid Amount" },
     { key: "paymentOrderId", label: "Payment Order ID" },
     { key: "duration", label: "Duration" },
-    { key: "paymentStatus", label: "Payment Status" },
     { key: "planStatus", label: "Plan Status" },
     { key: "startTime", label: "Start Time" },
     { key: "endTime", label: "End Time" },
-    { key: "payAddress", label: "Pay Address" },
   ];
 
+  // 🧩 Format API data
   const formattedSubsData = useMemo(() => {
-    return subsData?.map((item) => {
-      return {
-        sr: 1,
-        planName: item?.name || "--",
-        planAmount: item?.displayAmount || 0,
-        paidAmount: item?.amount || 0,
-        paymentOrderId: "ORD-J36C5529L2",
-        duration: `${item?.duration} DAYS`,
-        paymentStatus: "Finished",
-        planStatus: item?.status || "--",
-        startTime: "2025-09-24T20:40:00",
-        endTime: "2025-10-01T20:40:00",
-        payAddress: "...",
-      };
-    });
-  });
+    if (!subsData) return [];
 
-  const dummyData = [
-    {
-      sr: 1,
-      planName: "Free Trial",
-      planAmount: 0,
-      paidAmount: 0,
-      paymentOrderId: "ORD-J36C5529L2",
-      duration: "7 DAYS",
-      paymentStatus: "Finished",
-      planStatus: "Inactive",
-      startTime: "2025-09-24T20:40:00",
-      endTime: "2025-10-01T20:40:00",
-      payAddress: "...",
-    },
-    {
-      sr: 2,
-      planName: "Pro Plan",
-      planAmount: 99,
-      paidAmount: 99,
-      paymentOrderId: "ORD-XY12345",
-      duration: "30 DAYS",
-      paymentStatus: "Pending",
-      planStatus: "Active",
-      startTime: "2025-09-15T10:00:00",
-      endTime: "2025-10-15T10:00:00",
-      payAddress: "...",
-    },
-  ];
+    return subsData.map((item, index) => ({
+      sr: index + 1,
+      planName: item?.subscriptionDetail?.name || "--",
+      planAmount: item?.subscriptionDetail?.displayAmount || 0,
+      paidAmount: item?.amount || 0,
+      paymentOrderId: item?.orderId || "--",
+      duration: `${item?.subscriptionDetail?.duration || 0} DAYS`,
 
-  const applyFilters = (currentFilters) => {
-    let data = dummyData;
+      planStatus: item?.subscriptionDetail?.status || "--",
+      startTime: item?.createdAt ? moment(item?.createdAt).format("lll") : "--",
+      endTime: item?.endDate ? moment(item?.endDate).format("lll") : "--",
+    }));
+  }, [subsData]);
 
-    if (currentFilters.search) {
+  const filteredData = useMemo(() => {
+    if (!formattedSubsData) return [];
+
+    let data = [...formattedSubsData];
+
+    if (filters.search) {
       data = data.filter((item) =>
-        item.planName
-          .toLowerCase()
-          .includes(currentFilters.search.toLowerCase())
+        item.planName?.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
-    if (currentFilters.from) {
-      const fromDate = new Date(currentFilters.from);
+    if (filters.from) {
+      const fromDate = new Date(filters.from);
       data = data.filter((item) => new Date(item.startTime) >= fromDate);
     }
 
-    if (currentFilters.to) {
-      const toDate = new Date(currentFilters.to);
+    if (filters.to) {
+      const toDate = new Date(filters.to);
       data = data.filter((item) => new Date(item.endTime) <= toDate);
     }
 
-    if (currentFilters.status) {
+    if (filters.status) {
       data = data.filter(
-        (item) =>
-          item.planStatus.toLowerCase() === currentFilters.status.toLowerCase()
+        (item) => item.planStatus.toLowerCase() === filters.status.toLowerCase()
       );
     }
 
-    if (currentFilters.paymentStatus) {
-      data = data.filter(
-        (item) =>
-          item.paymentStatus.toLowerCase() ===
-          currentFilters.paymentStatus.toLowerCase()
-      );
-    }
+    return data;
+  }, [filters, formattedSubsData]);
 
-    setFilteredData(data);
-  };
-
-  useEffect(() => {
-    setFilteredData(dummyData);
-  }, []);
-
-  const TableFilter = ({ filters, setFilters, onApply }) => {
+  const TableFilter = ({ filters, setFilters }) => {
     const statusOptions = [
-      { label: "Active", value: "active" },
-      { label: "Inactive", value: "inactive" },
-      { label: "Pending", value: "pending" },
-    ];
-
-    const paymentOptions = [
-      { label: "Finished", value: "finished" },
-      { label: "Pending", value: "pending" },
+      { label: "Active", value: "ACTIVE" },
+      { label: "Expired", value: "EXPIRED" },
     ];
 
     const handleChange = (key, value) => {
@@ -143,15 +95,12 @@ export default function PlanManagement() {
     };
 
     const handleReset = () => {
-      const resetFilters = {
+      setFilters({
         search: "",
         from: "",
         to: "",
         status: "",
-        paymentStatus: "",
-      };
-      setFilters(resetFilters);
-      onApply(resetFilters);
+      });
     };
 
     return (
@@ -191,17 +140,9 @@ export default function PlanManagement() {
           className="w-56"
         />
 
-        <Dropdown
-          label="Payment Status"
-          options={paymentOptions}
-          value={filters.paymentStatus}
-          onSelect={(val) => handleChange("paymentStatus", val)}
-          className="w-56"
-        />
-
         <div className="flex gap-2">
           <button
-            onClick={() => onApply(filters)}
+            onClick={() => {}} // no manual apply needed since useMemo auto updates
             className="bg-primary px-6 py-2 rounded-md font-semibold"
           >
             Apply
@@ -217,17 +158,23 @@ export default function PlanManagement() {
     );
   };
 
-  if (!haveActiveSubs) {
+  if (subsDataPending) {
+    return (
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+        <ActivityIndicator isLoading className={"h-12 w-12"} />
+        <p className="text-2xl font-semibold">Getting Data...</p>
+      </div>
+    );
+  }
+
+  if (!haveActiveSubs && !haveActiveSubsPending) {
     return <NotActiveSubs />;
   }
+
   return (
     <div className="p-6 text-white min-h-screen">
-      <TableFilter
-        filters={filters}
-        setFilters={setFilters}
-        onApply={applyFilters}
-      />
-      <DataTable columns={columns} data={formattedSubsData} />
+      <TableFilter filters={filters} setFilters={setFilters} />
+      <DataTable columns={columns} data={filteredData} />
     </div>
   );
 }

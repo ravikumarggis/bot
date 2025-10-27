@@ -1,6 +1,8 @@
 "use client";
 
-export default function CommonTable({ columns, data }) {
+import clsx from "clsx";
+
+export default function CommonTable({ columns, data, className }) {
   const getStatusColor = (value) => {
     if (!value) return "text-gray-400";
     const lower = value.toLowerCase();
@@ -10,8 +12,17 @@ export default function CommonTable({ columns, data }) {
   };
 
   return (
-    <div className="overflow-x-auto bg-[#12121d] rounded-xl border border-gray-800">
-      <table className="min-w-full text-left text-sm text-gray-300">
+    <div
+      className={clsx(
+        "overflow-x-auto bg-[#12121d] rounded-xl border border-gray-800"
+      )}
+    >
+      <table
+        className={clsx(
+          "min-w-full text-left text-sm text-gray-300",
+          className
+        )}
+      >
         <thead className="bg-[#1a1a25] text-gray-400 uppercase text-xs">
           <tr>
             {columns.map((col) => (
