@@ -1,11 +1,17 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 export default function CommonTable({ columns, data }) {
+
+
+  
+  const router = useRouter();
+
   const getStatusColor = (value) => {
     if (!value) return "text-gray-400";
     const lower = value.toLowerCase();
-    if (lower === "active") return "text-green-500 ";
-    if (lower === "inactive") return "text-red-500 ";
+    if (lower === "active") return "text-green-500 font-semibold";
+    if (lower === "inactive") return "text-red-500 font-semibold";
     return "text-gray-300";
   };
 
@@ -29,16 +35,32 @@ export default function CommonTable({ columns, data }) {
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
                 {columns.map((col) => {
-                  const cellValue = row[col?.key];
+                  if (col.key === "actions") {
+                    return (
+                      <td key={col.key} className="px-4 py-3">
+                        <button
+                          className="px-3 py-1 rounded-md bg-primary text-black font-medium"
+                          onClick={() =>
 
-                  // Apply color styling if this is the "status" column
+                          {  console.log(cellValue,"iuhuihuiniunh")
+                            
+                            router.push(`/userlist-view?id=${encodeURIComponent(data?.id)}`)}
+                          }
+                        >
+                          View
+                        </button>
+                      </td>
+                    );
+                  }
+
+                  const cellValue = row[col.key];
                   const cellClass =
                     col.key === "status"
                       ? getStatusColor(cellValue)
                       : "text-gray-300";
 
                   return (
-                    <td key={col?.key} className={`px-4 py-3 ${cellClass}`}>
+                    <td key={col.key} className={`px-4 py-3 ${cellClass}`}>
                       {cellValue}
                     </td>
                   );
