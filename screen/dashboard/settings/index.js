@@ -7,8 +7,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function ProfileSettings() {
+  const router = useRouter();
   const [initialized, setInitialized] = useState(false); // ensure API data only applied once
   const { data: getUserData, isPending: getUserDataPending ,refetch:userDataRefetch} = useUserProfile();
 
@@ -196,6 +198,18 @@ export default function ProfileSettings() {
         >
           {formik.isSubmitting || mutatePending ? "Updating..." : "Update"}
         </button>
+      </div>
+      <div className="flex mt-5  items-center justify-end">
+      <button
+  type="button"
+  onClick={() => {
+   router.push("/dashboard/settings/change-password")
+  }}
+  className="inline-flex items-center gap-2 bg-[#1a1a25] border border-gray-700 py-2 px-4 rounded-xl text-sm text-gray-300 hover:bg-primary hover:text-white transition-all cursor-pointer"
+>
+  <Globe size={16} />
+  Change Password
+</button>
       </div>
     </form>
   );
