@@ -109,8 +109,10 @@ export default function DashboardHeader() {
 
             <div className="hidden md:block">
               <button className="w-10 h-10 bg-primary text-white font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition">
-                {getUserData?.name ? (
-                  getUserData?.name?.charAt(0).toUpperCase()
+                {getUserData?.name || getUserData?.email ? (
+                  (
+                    getUserData?.name?.[0] || getUserData?.email?.[0]
+                  )?.toUpperCase()
                 ) : (
                   <User className="w-5 h-5 text-white" />
                 )}

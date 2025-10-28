@@ -1,27 +1,30 @@
 "use client";
+import { useRouter } from "next/navigation";
 
-import clsx from "clsx";
+export default function CommonTable({ columns, data }) {
 
-export default function CommonTable({ columns, data, className }) {
+
+  
+  const router = useRouter();
+
   const getStatusColor = (value) => {
     if (!value) return "text-gray-400";
     const lower = value.toLowerCase();
-    if (lower === "active") return "text-green-500 ";
-    if (lower === "inactive") return "text-red-500 ";
+    if (lower === "active") return "text-green-500 font-semibold";
+    if (lower === "inactive") return "text-red-500 font-semibold";
     return "text-gray-300";
   };
 
   return (
     <div
-      className={clsx(
+      className={
         "overflow-x-auto bg-[#12121d] rounded-xl border border-gray-800"
-      )}
+      }
     >
       <table
-        className={clsx(
-          "min-w-full text-left text-sm text-gray-300",
-          className
-        )}
+        className={
+          "min-w-full text-left text-sm text-gray-300"
+        }
       >
         <thead className="bg-[#1a1a25] text-gray-400 uppercase text-xs">
           <tr>
@@ -40,16 +43,31 @@ export default function CommonTable({ columns, data, className }) {
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
                 {columns.map((col) => {
-                  const cellValue = row[col?.key];
+                  if (col.key === "actions") {
+                    return (
+                      <td key={col.key} className="px-4 py-3">
+                        <button
+                          className="px-3 py-1 rounded-md bg-primary text-black font-medium"
+                          onClick={() => {
+                            const id = row?.id;
+                           
+                            router.push(`/admin/user-list/user-view?id=${encodeURIComponent(id)}`);
+                          }}
+                        >
+                          View
+                        </button>
+                      </td>
+                    );
+                  }
 
-                  // Apply color styling if this is the "status" column
+                  const cellValue = row[col.key];
                   const cellClass =
                     col.key === "status"
                       ? getStatusColor(cellValue)
                       : "text-gray-300";
 
                   return (
-                    <td key={col?.key} className={`px-4 py-3 ${cellClass}`}>
+                    <td key={col.key} className={`px-4 py-3 ${cellClass}`}>
                       {cellValue}
                     </td>
                   );

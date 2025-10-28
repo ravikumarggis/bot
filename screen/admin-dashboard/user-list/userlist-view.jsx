@@ -6,8 +6,11 @@ import DataTable from "../../../components/common-table";
 
 import { useGetAllSubscription } from "@/queries/plan-management";
 import { useGetAllUserList } from "@/queries/admin";
+import { useSearchParams } from "next/navigation";
 
-export default function Users() {
+export default function UsersListView() {
+  const searchParams = useSearchParams();
+
   const [filters, setFilters] = useState({
     search: "",
     from: "",
@@ -38,11 +41,10 @@ export default function Users() {
       { key: "email", label: "Email" },
       { key: "mobileNumber", label: "Phone number" },
       { key: "status", label: "Status" },
-      { key: "actions", label: "Action" }, 
+     
     ],
     []
   );
-  
 
   // Support both shaped responses: either an array or an object with `data` array
   const items = useMemo(() => {
@@ -59,7 +61,7 @@ export default function Users() {
       email: item?.email ?? "--",
       mobileNumber: item?.mobileNumber ?? "--",
       status: item?.status ?? "--",
-      id: item?.id, 
+    
     }));
   }, [items, page]);
 
@@ -238,7 +240,7 @@ export default function Users() {
 
   return (
     <div className="p-6 text-white min-h-screen">
-      <h3 className="text-2xl font-bold mb-4">Users</h3>
+      <h3 className="text-2xl font-bold mb-4">User's Detail</h3>
 
       <DataTable columns={columns} data={filteredData} />
 
@@ -247,5 +249,3 @@ export default function Users() {
     </div>
   );
 }
-
-
