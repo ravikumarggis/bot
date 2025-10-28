@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import DashboardHeader from "./dashboardHeader";
 import StatCard from "./statCard";
 import ProfitChart from "./profitChart";
@@ -14,42 +14,54 @@ import NotActiveSubs from "@/components/no-active-subs";
 import {
   useAccountDetails,
   useExchangeCount,
+  useExchangesAccountDetails,
   useTotalProfit,
   useTransactionCount,
 } from "@/queries/dashboard";
 import ActivityIndicator from "@/components/activity-indicator";
+import { getKeysExchange, useGetKeysExchange } from "@/queries/exchange";
 
 export default function Dashboard() {
+  const [selectedExchangeId, setselectedExchangeId] = useState("");
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
-  const { data: accountDetail, isPending: accountDetailPending } =
-    useAccountDetails();
+
   const { data: exchangeCount, isPending: exchangeCountPending } =
     useExchangeCount();
   const { data: trxCount, isPending: trxCountPending } = useTransactionCount();
   const { data: totalProfit, isPending: totalProfitPending } = useTotalProfit();
+  const { data: exchangeKeys, isPending: exchangeKeysPending } =
+    useGetKeysExchange();
+  const { data: exchangeDetail, isPending: exchangeDetailPending } =
+    useExchangesAccountDetails({ exchangeId: 35 });
+  console.log(exchangeDetail, "exchangeDetail>>>");
 
-  const balance = useMemo(() => {
-    return accountDetail?.reduce(
-      (a, b) => Number(a || 0) + Number(b?.balance?.["USDT"] || 0),
-      0
-    );
-  }, [accountDetail]);
+  console.log(exchangeKeys, "exchangeKeys>>");
 
-  if (
-    haveActiveSubsPending ||
-    accountDetailPending ||
-    exchangeCountPending ||
-    trxCountPending ||
-    totalProfitPending
-  ) {
-    return (
-      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
-        <ActivityIndicator isLoading className={"h-12 w-12"} />
-        <p className="text-2xl font-semibold">Getting Data...</p>
-      </div>
-    );
-  }
+  // const { data: accountDetail, isPending: accountDetailPending } =
+  // useAccountDetails();
+
+  // const balance = useMemo(() => {
+  //   return accountDetail?.reduce(
+  //     (a, b) => Number(a || 0) + Number(b?.balance?.["USDT"] || 0),
+  //     0
+  //   );
+  // }, [accountDetail]);
+
+  // if (
+  //   haveActiveSubsPending ||
+  //   accountDetailPending ||
+  //   exchangeCountPending ||
+  //   trxCountPending ||
+  //   totalProfitPending
+  // ) {
+  //   return (
+  //     <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+  //       <ActivityIndicator isLoading className={"h-12 w-12"} />
+  //       <p className="text-2xl font-semibold">Getting Data...</p>
+  //     </div>
+  //   );
+  // }
 
   if (!haveActiveSubs) {
     return <NotActiveSubs />;
@@ -61,14 +73,14 @@ export default function Dashboard() {
         <DashboardHeader />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatCard
+          {/* <StatCard
             title="Account Balance"
             value={Number(balance)?.toFixed(2) || 0}
             currency="(USDT)"
             subtitle="Lock Balance : 0
 Available to Trade : 0"
             icon={Wallet}
-          />
+          /> */}
           <StatCard
             title="Exchange"
             value={exchangeCount}
