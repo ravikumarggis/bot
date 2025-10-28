@@ -115,25 +115,39 @@ export default function CreateGridBot() {
 
   const Toggle = ({ name, label }) => {
     const value = formik.values[name];
+  
     return (
-      <div className="flex items-center justify-between bg-[#0b0b0d] border border-[#17171a] rounded-xl p-3">
+      <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
         <div>
           <div className="text-xs text-gray-400">{label}</div>
           <div className="font-medium mt-1">{value ? "Yes" : "No"}</div>
         </div>
+  
         <button
           type="button"
           onClick={() => formik.setFieldValue(name, !value)}
-          className={`px-3 py-1 rounded-full font-semibold focus:outline-none transition-shadow ${
-            value ? "bg-primary" : "shadow-[0_0_0_4px_rgba(244,63,94,0.06)]"
-          }`}
           aria-pressed={value}
+          className="relative inline-flex h-7 w-14 cursor-pointer rounded-full transition-colors duration-300 focus:outline-none"
+          style={{
+            backgroundColor: value ? "#ee3379" : "#151518",
+            boxShadow: !value
+              ? "0 0 0 4px rgba(244,63,94,0.06)"
+              : "0 0 10px rgba(225,29,72,0.4)",
+          }}
         >
-          {value ? "ON" : "OFF"}
+          <span
+            className={`absolute left-1 top-1 h-5 w-5 rounded-full bg-white transform transition-transform duration-300 ${
+              value ? "translate-x-7" : ""
+            }`}
+            style={{
+              boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
+            }}
+          />
         </button>
       </div>
     );
   };
+  
 
   return (
     <div className="min-h-screen text-gray-200">
