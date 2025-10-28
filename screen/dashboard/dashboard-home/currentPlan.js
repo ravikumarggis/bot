@@ -9,7 +9,12 @@ export default function CurrentPlan() {
     <div className="bg-[#12121a] border border-gray-800/50 rounded-2xl p-6">
       <div className="flex items-center justify-between mb-8">
         <h3 className="text-white text-lg font-normal">Current Plan</h3>
-        <button className="text-gray-400 hover:text-white hover:bg-gray-800/50">
+        <button
+          className="text-gray-400 hover:text-white hover:bg-gray-800/50"
+          onClick={() => {
+            router.push("/dashboard/pricing");
+          }}
+        >
           Update Plan
         </button>
       </div>

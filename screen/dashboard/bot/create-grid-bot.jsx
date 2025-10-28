@@ -125,9 +125,7 @@ export default function CreateGridBot() {
           type="button"
           onClick={() => formik.setFieldValue(name, !value)}
           className={`px-3 py-1 rounded-full font-semibold focus:outline-none transition-shadow ${
-            value
-              ? "shadow-[0_0_0_4px_rgba(34,197,94,0.12)]"
-              : "shadow-[0_0_0_4px_rgba(244,63,94,0.06)]"
+            value ? "bg-primary" : "shadow-[0_0_0_4px_rgba(244,63,94,0.06)]"
           }`}
           aria-pressed={value}
         >
@@ -190,7 +188,7 @@ export default function CreateGridBot() {
               <form onSubmit={formik.handleSubmit}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-lg font-semibold">Fast Form</div>
-                  <div className="text-sm text-gray-400">Advanced form</div>
+                  {/* <div className="text-sm text-gray-400">Advanced form</div> */}
                 </div>
 
                 <div className="space-y-4">

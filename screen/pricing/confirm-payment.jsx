@@ -125,7 +125,12 @@ const ConfirmPayment = () => {
 
             <PayPalButtons
               style={{ layout: "horizontal" }}
-              createOrder={createPayPalOrder}
+              createOrder={() => {
+                return createPayPalOrder({
+                  amount: subscriptionData?.amount,
+                  currency: subscriptionData?.currency,
+                });
+              }}
               onApprove={(d) => {
                 setShouldUseApiCalling(false);
                 setStatusModalState(true);

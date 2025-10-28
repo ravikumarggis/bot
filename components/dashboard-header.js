@@ -22,7 +22,6 @@ import { useUserProfile } from "@/queries/profile";
 export default function DashboardHeader() {
   const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
 
-  const email = getUserData?.email;
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const logout = useLogout();
@@ -92,10 +91,10 @@ export default function DashboardHeader() {
               alt="Qbots Logo"
               className="w-18 h-16"
             />
-          
-              <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
-            Qbots
-          </span>
+
+            <span className="text-white font-semibold text-xl md:text-3xl tracking-tight">
+              Qbots
+            </span>
           </Link>
 
           <div className="flex items-center gap-4">
@@ -110,8 +109,8 @@ export default function DashboardHeader() {
 
             <div className="hidden md:block">
               <button className="w-10 h-10 bg-primary text-white font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition">
-                {email ? (
-                  email.charAt(0).toUpperCase()
+                {getUserData?.name ? (
+                  getUserData?.name?.charAt(0).toUpperCase()
                 ) : (
                   <User className="w-5 h-5 text-white" />
                 )}

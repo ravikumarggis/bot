@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../service/api-service";
 
-export const createPayPalOrder = async () => {
+export const createPayPalOrder = async ({ amount, currency }) => {
   try {
+    console.log(amount, currency, "asdasdasdsa");
+
     const response = await api({
       method: "POST",
       url: "/paypal/orders",
       data: {
-        value: "10.00",
-        currency: "USD",
+        value: amount,
+        currency: currency,
       },
     });
     console.log(response, "createPayPalOrder>>>");
