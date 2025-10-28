@@ -6,8 +6,11 @@ import DataTable from "../../../components/common-table";
 
 import { useGetAllSubscription } from "@/queries/plan-management";
 import { useGetAllUserList } from "@/queries/admin";
+import { useSearchParams } from "next/navigation";
 
 export default function UsersListView() {
+  const searchParams = useSearchParams();
+
   const [filters, setFilters] = useState({
     search: "",
     from: "",

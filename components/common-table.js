@@ -43,18 +43,16 @@ export default function CommonTable({ columns, data }) {
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
                 {columns.map((col) => {
-                  const cellValue = row[col?.key];
                   if (col.key === "actions") {
                     return (
                       <td key={col.key} className="px-4 py-3">
                         <button
                           className="px-3 py-1 rounded-md bg-primary text-black font-medium"
-                          onClick={() =>
-
-                          {  console.log(cellValue,"iuhuihuiniunh")
-                            
-                            router.push(`/userlist-view?id=${encodeURIComponent(data?.id)}`)}
-                          }
+                          onClick={() => {
+                            const id = row?.id;
+                           
+                            router.push(`/admin/user-list/user-view?id=${encodeURIComponent(id)}`);
+                          }}
                         >
                           View
                         </button>
@@ -62,7 +60,7 @@ export default function CommonTable({ columns, data }) {
                     );
                   }
 
-                  
+                  const cellValue = row[col.key];
                   const cellClass =
                     col.key === "status"
                       ? getStatusColor(cellValue)
