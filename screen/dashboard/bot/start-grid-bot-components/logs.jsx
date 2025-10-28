@@ -1,10 +1,9 @@
-import { useGetOrder } from "@/queries/bot";
+import { useGetLogList, useGetOrder } from "@/queries/bot";
 import React, { useMemo } from "react";
 import { formatCurrency } from "@/utils/index";
-const GridBotOrders = ({ botId }) => {
-  const { data: orderList, isPending: orderListPending } = useGetOrder({
+const GridBotLogs = ({ botId }) => {
+  const { data: orderList, isPending: orderListPending } = useGetLogList({
     id: botId,
-    filter: "PENDING",
   });
 
   return (
@@ -13,26 +12,21 @@ const GridBotOrders = ({ botId }) => {
         {!orderListPending && orderList?.data?.length == 0 && (
           <div className="mt-8 py-12 flex flex-col items-center justify-center border-t border-white/5">
             <h3 className="text-gray-200 text-xl md:text-2xl font-medium">
-              Open and orders
+              Logs
             </h3>
             <p className="mt-3 text-sm text-gray-400">
-              No orders to display right now.
+              No logs to display right now.
             </p>
-
-            <button className="mt-8 px-5 py-2 text-sm rounded-full bg-transparent border border-white/6 text-gray-300 hover:bg-white/2">
-              Load more
-            </button>
           </div>
         )}
         {!orderListPending && orderList?.data?.length > 0 && (
           <table className="hidden md:table w-full text-sm text-gray-400">
             <thead>
               <tr className="text-left">
-                <th className="px-2 py-2">Side</th>
-                <th className="px-2 py-2">Type</th>
-                <th className="px-2 py-2">Price</th>
-                <th className="px-2 py-2">Amount</th>
-                <th className="px-2 py-2">Status</th>
+                <th className="px-2 py-2">Level</th>
+                <th className="px-2 py-2">Source</th>
+                <th className="px-2 py-2">Message</th>
+                <th className="px-2 py-2">BotInstanceId</th>
               </tr>
             </thead>
             <tbody>
@@ -42,16 +36,10 @@ const GridBotOrders = ({ botId }) => {
                     className="text-gray-300 border-t border-gray-700"
                     key={idx}
                   >
-                    <td className="px-2 py-2">{item?.side || "--"}</td>
-                    <td className="px-2 py-2">{item?.type || "--"}</td>
-                    <td className="px-2 py-2">
-                      {formatCurrency({ amount: item?.price, currency: "USD" })}
-                    </td>
-                    <td className="px-2 py-2">
-                      {item?.quantity}{" "}
-                      {String(item?.symbol)?.split("/")?.[0] || "--"}
-                    </td>
-                    <td className="px-2 py-2">{item?.status || "--"}</td>
+                    <td className="px-2 py-2">{item?.level || "--"}</td>
+                    <td className="px-2 py-2">{item?.source || "--"}</td>
+                    <td className="px-2 py-2">{item?.message || "--"}</td>
+                    <td className="px-2 py-2">{item?.botInstanceId || "--"}</td>
                   </tr>
                 );
               })}
@@ -76,4 +64,4 @@ const GridBotOrders = ({ botId }) => {
   );
 };
 
-export default GridBotOrders;
+export default GridBotLogs;

@@ -2,43 +2,62 @@ import { api } from "@/service/api-service";
 import { useQuery } from "@tanstack/react-query";
 import { useGetKeysExchange } from "./exchange";
 
-export const useAccountDetails = () => {
-  const { data: exchangeData, isLoading: isExchangeLoading } =
-    useGetKeysExchange();
+// export const useAccountDetails = () => {
+//   const { data: exchangeData, isLoading: isExchangeLoading } =
+//     useGetKeysExchange();
 
+//   return useQuery({
+//     queryKey: ["exchangesAccountDetails", exchangeData],
+//     queryFn: async () => {
+//       if (!Array.isArray(exchangeData) || exchangeData.length === 0) return [];
+
+//       const responses = await Promise.all(
+//         exchangeData.map(async (item) => {
+//           try {
+//             const response = await api({
+//               method: "GET",
+//               url: `/keys/exchangesAccountDetails/${item?.id}`,
+//             });
+//             return {
+//               exchangeId: item?.id,
+//               ...response?.data?.result?.[0],
+//             };
+//           } catch (error) {
+//             console.error(
+//               "Error fetching account details for",
+//               item?.id,
+//               error
+//             );
+//             return { exchangeId: item?.id, error: true };
+//           }
+//         })
+//       );
+
+//       return responses;
+//     },
+//     enabled:
+//       Array.isArray(exchangeData) &&
+//       exchangeData.length > 0 &&
+//       !isExchangeLoading,
+//   });
+// };
+
+export const useExchangesAccountDetails = ({ exchangeId }) => {
   return useQuery({
-    queryKey: ["exchangesAccountDetails", exchangeData],
+    queryKey: ["exchangesAccountDetails", exchangeId],
     queryFn: async () => {
-      if (!Array.isArray(exchangeData) || exchangeData.length === 0) return [];
+      try {
+        const res = await api({
+          method: "GET",
+          url: `/keys/exchangesAccountDetails/${exchangeId}`,
+        });
+        console.log(res?.data, "asdasdasdasd");
 
-      const responses = await Promise.all(
-        exchangeData.map(async (item) => {
-          try {
-            const response = await api({
-              method: "GET",
-              url: `/keys/exchangesAccountDetails/${item?.id}`,
-            });
-            return {
-              exchangeId: item?.id,
-              ...response?.data?.result?.[0],
-            };
-          } catch (error) {
-            console.error(
-              "Error fetching account details for",
-              item?.id,
-              error
-            );
-            return { exchangeId: item?.id, error: true };
-          }
-        })
-      );
-
-      return responses;
+        return res?.data?.result || {};
+      } catch (error) {
+        throw error?.response;
+      }
     },
-    enabled:
-      Array.isArray(exchangeData) &&
-      exchangeData.length > 0 &&
-      !isExchangeLoading,
   });
 };
 

@@ -4,20 +4,13 @@ import { formatCurrency } from "@/utils/index";
 const GridBotTrades = ({ botId }) => {
   const { data: orderList, isPending: orderListPending } = useGetOrder({
     id: botId,
+    filter: "FILLED",
   });
-
-  const filteredOrder = useMemo(() => {
-    return (
-      orderList?.data?.filter(
-        (item) => item?.status == "PARTIALLY_FILLED" || item?.status == "FILLED"
-      ) || []
-    );
-  }, [orderList]);
 
   return (
     <div>
       <div className="px-6 py-4">
-        {!orderListPending && filteredOrder?.length == 0 && (
+        {!orderListPending && orderList?.data?.length == 0 && (
           <div className="mt-8 py-12 flex flex-col items-center justify-center border-t border-white/5">
             <h3 className="text-gray-200 text-xl md:text-2xl font-medium">
               Open and orders
@@ -31,7 +24,7 @@ const GridBotTrades = ({ botId }) => {
             </button> */}
           </div>
         )}
-        {!orderListPending && filteredOrder?.length > 0 && (
+        {!orderListPending && orderList?.data?.length > 0 && (
           <table className="hidden md:table w-full text-sm text-gray-400">
             <thead>
               <tr className="text-left">
@@ -43,7 +36,7 @@ const GridBotTrades = ({ botId }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredOrder?.map((item, idx) => {
+              {orderList?.data?.map((item, idx) => {
                 return (
                   <tr
                     className="text-gray-300 border-t border-gray-700"
@@ -66,7 +59,7 @@ const GridBotTrades = ({ botId }) => {
           </table>
         )}
 
-        <div className="mt-4 space-y-3 md:space-y-0 md:block">
+        {/* <div className="mt-4 space-y-3 md:space-y-0 md:block">
           <div className="md:hidden bg-white/3 rounded p-3">
             <div className="flex justify-between items-center">
               <div className="text-sm font-medium text-gray-100">
@@ -77,7 +70,7 @@ const GridBotTrades = ({ botId }) => {
             <div className="mt-2 text-sm text-gray-300">Amount: 0.005</div>
             <div className="mt-2 text-sm text-amber-400">Status: Open</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

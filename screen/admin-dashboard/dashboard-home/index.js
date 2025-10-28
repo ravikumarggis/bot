@@ -13,7 +13,6 @@ export default function Dashboard() {
 
 
  const {data  :dashboardCount} = useGetAdminDashboard()
- console.log(dashboardCount,"useGetAdminDashboarduseGetAdminDashboard");
  
 
   return (
