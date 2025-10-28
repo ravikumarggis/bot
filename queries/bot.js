@@ -101,11 +101,11 @@ export const getBotList = async () => {
   }
 };
 
-export const useGetOrder = ({ id }) => {
+export const useGetOrder = ({ id, filter }) => {
   return useQuery({
-    queryKey: ["getOrder", id],
+    queryKey: ["getOrder", id, filter],
     queryFn: () => {
-      return getOrder({ id });
+      return getOrder({ id, filter });
     },
     select: (data) => {
       return data?.result || {};
@@ -113,14 +113,15 @@ export const useGetOrder = ({ id }) => {
   });
 };
 
-export const getOrder = async ({ id }) => {
+export const getOrder = async ({ id, filter }) => {
   try {
     const response = await api({
       method: "GET",
       url: `/order/getOrder`,
-      // params: {
-      //   botId: id,
-      // },
+      params: {
+        botId: id,
+        status: filter,
+      },
     });
 
     return response?.data;
@@ -203,6 +204,34 @@ export const getSymbolList = async ({ exchange }) => {
       url: `/keys/getSymbolList`,
       params: {
         exchange: exchange,
+      },
+    });
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useGetLogList = ({ id }) => {
+  return useQuery({
+    queryKey: ["getLogList", id],
+    queryFn: () => {
+      return getLogList({ id });
+    },
+    select: (data) => {
+      return data?.result || {};
+    },
+  });
+};
+
+export const getLogList = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `/logs/getLogList`,
+      params: {
+        botId: id,
       },
     });
 
