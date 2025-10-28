@@ -17,15 +17,14 @@ export default function CommonTable({ columns, data }) {
 
   return (
     <div
-      className={clsx(
+      className={
         "overflow-x-auto bg-[#12121d] rounded-xl border border-gray-800"
-      )}
+      }
     >
       <table
-        className={clsx(
-          "min-w-full text-left text-sm text-gray-300",
-          className
-        )}
+        className={
+          "min-w-full text-left text-sm text-gray-300"
+        }
       >
         <thead className="bg-[#1a1a25] text-gray-400 uppercase text-xs">
           <tr>
@@ -44,6 +43,7 @@ export default function CommonTable({ columns, data }) {
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
                 {columns.map((col) => {
+                  const cellValue = row[col?.key];
                   if (col.key === "actions") {
                     return (
                       <td key={col.key} className="px-4 py-3">
@@ -62,7 +62,7 @@ export default function CommonTable({ columns, data }) {
                     );
                   }
 
-                  const cellValue = row[col.key];
+                  
                   const cellClass =
                     col.key === "status"
                       ? getStatusColor(cellValue)
