@@ -8,11 +8,16 @@ import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { forgotPassword } from "@/queries/auth";
 
 export default function ProfileSettings() {
   const router = useRouter();
   const [initialized, setInitialized] = useState(false); // ensure API data only applied once
-  const { data: getUserData, isPending: getUserDataPending ,refetch:userDataRefetch} = useUserProfile();
+  const {
+    data: getUserData,
+    isPending: getUserDataPending,
+    refetch: userDataRefetch,
+  } = useUserProfile();
 
   const countryOptions = [
     { value: "IN", label: "India" },
@@ -22,7 +27,9 @@ export default function ProfileSettings() {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().trim().required("Name is required."),
-    email: Yup.string().email("Enter a valid email.").required("Email is required."),
+    email: Yup.string()
+      .email("Enter a valid email.")
+      .required("Email is required."),
     phone: Yup.string()
       .matches(/^\+?\d{6,15}$/, "Enter a valid phone number.")
       .required("Phone is required."),
@@ -31,7 +38,7 @@ export default function ProfileSettings() {
 
   const formik = useFormik({
     initialValues: {
-      name:  "",
+      name: "",
       email: "",
       phone: "",
       country: "",
@@ -39,7 +46,7 @@ export default function ProfileSettings() {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        updateProfileMutate(values)
+        updateProfileMutate(values);
       } catch (err) {
         console.error(err);
         alert("Failed to update profile. Please try again.");
@@ -49,29 +56,28 @@ export default function ProfileSettings() {
     },
   });
 
-  const { mutateAsync: updateProfileMutate, isPending: mutatePending } = useMutation({
-    mutationFn: async (values) => {
-      
-      
-      return updateProfileMutation({
-        name: values?.name,
-        countryCode: values?.country,
-        email: values?.email,
-        mobileNumber: values?.phone,
-      });
-    },
-    onSuccess: (data) => {
-      if (data?.data?.responseCode == 200) {
-        toast.success(data?.data?.responseMessage);
-        userDataRefetch()
-      } else {
-        toast.error(data?.data?.responseMessage);
-      }
-    },
-    onError: (err) => {
-      console.log(err, "err>>>");
-    },
-  });
+  const { mutateAsync: updateProfileMutate, isPending: mutatePending } =
+    useMutation({
+      mutationFn: async (values) => {
+        return updateProfileMutation({
+          name: values?.name,
+          countryCode: values?.country,
+          email: values?.email,
+          mobileNumber: values?.phone,
+        });
+      },
+      onSuccess: (data) => {
+        if (data?.data?.responseCode == 200) {
+          toast.success(data?.data?.responseMessage);
+          userDataRefetch();
+        } else {
+          toast.error(data?.data?.responseMessage);
+        }
+      },
+      onError: (err) => {
+        console.log(err, "err>>>");
+      },
+    });
 
   // populate state when API data arrives (only once so user edits are not overwritten)
   useEffect(() => {
@@ -88,26 +94,59 @@ export default function ProfileSettings() {
   }, [getUserData, initialized]);
 
   // Show loading until API finishes loading the initial data
-  if (getUserDataPending && !initialized) {
+
+  const {
+    mutateAsync: forgotPasswordMutate,
+    isPending: forgotPasswordMutatePending,
+  } = useMutation({
+    mutationFn: async () => {
+      return forgotPassword({
+        email: getUserData.email,
+      });
+    },
+    onSuccess: (data) => {
+      if (data?.data?.responseCode == 200) {
+        toast.success(data?.data?.responseMessage);
+        router.push(
+          `/dashboard/settings/otp-screen?email=${encodeURIComponent(
+            getUserData.email
+          )}`
+        );
+      } else {
+        toast.error(data?.data?.responseMessage);
+      }
+    },
+    onError: (err) => {
+      console.log(err, "err>>>");
+    },
+  });
+
+  if (getUserDataPending && !initialized && forgotPasswordMutatePending) {
     return <p>Loading...</p>;
   }
 
   return (
-    <form onSubmit={formik.handleSubmit} className="bg-[#13131e] p-8 rounded-2xl border border-gray-800 shadow-lg max-w-3xl mx-auto mt-10 ">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="bg-[#13131e] p-8 rounded-2xl border border-gray-800 shadow-lg max-w-3xl mx-auto mt-10 "
+    >
       <div className="flex items-center gap-6 mb-8">
         <div className="relative">
           <div className="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-2xl font-semibold text-white">
-            {formik.values.name ? formik.values.name.charAt(0).toUpperCase() : "R"}
+            {formik.values.name
+              ? formik.values.name.charAt(0).toUpperCase()
+              : "R"}
           </div>
-          <button type="button" className="absolute bottom-1 right-1 bg-[#1a1a25] border border-gray-600 p-2 rounded-full hover:bg-primary transition">
+          <button
+            type="button"
+            className="absolute bottom-1 right-1 bg-[#1a1a25] border border-gray-600 p-2 rounded-full hover:bg-primary transition"
+          >
             <Edit size={16} className="text-gray-300 hover:text-white" />
           </button>
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold">
-            {formik.values.name}
-          </h2>
+          <h2 className="text-2xl font-semibold">{formik.values.name}</h2>
           <p className="text-gray-400">{formik.values.email}</p>
         </div>
       </div>
@@ -135,27 +174,25 @@ export default function ProfileSettings() {
         </div>
 
         <div>
-        <div className="flex items-center bg-[#1a1a25] rounded-xl px-3">
-          <Mail className="text-gray-400 mr-2" size={18} />
-          <input
-            name="email"
-            type="text"
-            value={formik.values.email}
-            disabled
-            className="w-full bg-transparent py-2 text-gray-400 outline-none cursor-not-allowed"
-          />
-        </div>
-        {formik.touched.email && formik.errors.email && (
-          <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
-        )}
+          <div className="flex items-center bg-[#1a1a25] rounded-xl px-3">
+            <Mail className="text-gray-400 mr-2" size={18} />
+            <input
+              name="email"
+              type="text"
+              value={formik.values.email}
+              disabled
+              className="w-full bg-transparent py-2 text-gray-400 outline-none cursor-not-allowed"
+            />
+          </div>
+          {formik.touched.email && formik.errors.email && (
+            <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
+          )}
         </div>
       </div>
 
-     
-
       {/* Phone & Country Dropdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <div>
+        <div>
           <Dropdown
             label="Country"
             options={countryOptions}
@@ -185,8 +222,6 @@ export default function ProfileSettings() {
             <p className="text-red-500 text-sm mt-1">{formik.errors.phone}</p>
           )}
         </div>
-
-      
       </div>
 
       {/* Submit Button */}
@@ -200,16 +235,17 @@ export default function ProfileSettings() {
         </button>
       </div>
       <div className="flex mt-5  items-center justify-end">
-      <button
-  type="button"
-  onClick={() => {
-   router.push("/dashboard/settings/change-password")
-  }}
-  className="inline-flex items-center gap-2 bg-[#1a1a25] border border-gray-700 py-2 px-4 rounded-xl text-sm text-gray-300 hover:bg-primary hover:text-white transition-all cursor-pointer"
->
-  <Globe size={16} />
-  Change Password
-</button>
+        <button
+          type="button"
+          onClick={() => {
+            //  router.push("/dashboard/settings/change-password")
+            forgotPasswordMutate()
+          }}
+          className="inline-flex items-center gap-2 bg-[#1a1a25] border border-gray-700 py-2 px-4 rounded-xl text-sm text-gray-300 hover:bg-primary hover:text-white transition-all cursor-pointer"
+        >
+          <Globe size={16} />
+          Change Password
+        </button>
       </div>
     </form>
   );

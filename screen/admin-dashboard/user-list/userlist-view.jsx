@@ -5,11 +5,16 @@ import Dropdown from "../../../components/dropdown";
 import DataTable from "../../../components/common-table";
 
 import { useGetAllSubscription } from "@/queries/plan-management";
-import { useGetAllUserList } from "@/queries/admin";
+import { useGetAlluserSubList, useGetUserSubscription } from "@/queries/admin";
 import { useSearchParams } from "next/navigation";
 
 export default function UsersListView() {
   const searchParams = useSearchParams();
+
+  const id = searchParams.get("id");
+
+  console.log(id,"searchParamssearchParams");
+  
 
   const [filters, setFilters] = useState({
     search: "",
@@ -22,17 +27,19 @@ export default function UsersListView() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data: userList, isPending: userListPending } = useGetAllUserList({
+  const { data: userSubList, isPending: userSubListPending } = useGetUserSubscription({
+    id,
     page,
     limit,
+
   });
 
   // totalPages is expected from the response as "pages" (or fallback to 1)
   const totalPages = useMemo(() => {
-    return Number(userList?.pages ?? 1);
-  }, [userList]);
+    return Number(userSubList?.pages ?? 1);
+  }, [userSubList]);
 
-  console.log(userList, "userListuserList");
+  console.log(userSubList, "userSubListuserSubList");
 
   const columns = useMemo(
     () => [
@@ -48,11 +55,11 @@ export default function UsersListView() {
 
   // Support both shaped responses: either an array or an object with `data` array
   const items = useMemo(() => {
-    if (Array.isArray(userList?.docs)) return userList?.docs;
-    return Array.isArray(userList?.docs) ? userList.docs : [];
-  }, [userList]);
+    if (Array.isArray(userSubList?.docs)) return userSubList?.docs;
+    return Array.isArray(userSubList?.docs) ? userSubList.docs : [];
+  }, [userSubList]);
 
-  const formatteduserList = useMemo(() => {
+  const formatteduserSubList = useMemo(() => {
     if (!Array.isArray(items)) return [];
 
     return items?.map((item, index) => ({
@@ -130,26 +137,26 @@ export default function UsersListView() {
       paymentStatus: "",
     };
     setFilters(empty);
-    applyFilters(empty, formatteduserList);
+    applyFilters(empty, formatteduserSubList);
   };
 
   const onApply = (currentFilters) => {
-    applyFilters(currentFilters, formatteduserList);
+    applyFilters(currentFilters, formatteduserSubList);
   };
 
   // Re-apply filters whenever the source data changes so table stays in sync
   useEffect(() => {
-    applyFilters(filters, formatteduserList);
+    applyFilters(filters, formatteduserSubList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formatteduserList]);
+  }, [formatteduserSubList]);
 
   useEffect(() => {
     // initialize when component mounts or when formatted data first arrives
-    applyFilters(filters, formatteduserList);
+    applyFilters(filters, formatteduserSubList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (userListPending) {
+  if (userSubListPending) {
     return (
       <div className="p-6 text-white min-h-screen">Loading...</div>
     );
