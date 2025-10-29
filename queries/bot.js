@@ -240,3 +240,16 @@ export const getLogList = async ({ id }) => {
     throw error;
   }
 };
+
+export const cancelOrder = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "PATCH",
+      url: `/order/cancelOrder/${id}`,
+    });
+    return response?.data;
+  } catch (error) {
+    console.error("Error creating bot:", error);
+    throw error;
+  }
+};

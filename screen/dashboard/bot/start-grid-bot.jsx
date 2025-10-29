@@ -15,6 +15,8 @@ import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 import GridBotOrders from "./start-grid-bot-components/order";
 import GridBotTrades from "./start-grid-bot-components/trades";
 import GridBotLogs from "./start-grid-bot-components/logs";
+
+import GridBotCancelledOrder from "./start-grid-bot-components/cancelled-order";
 import { deleteBot } from "@/queries/bot";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
@@ -24,7 +26,7 @@ const TradingViewWidget = dynamic(
 export default function StartGridBot() {
   const router = useRouter();
   const [active, setActive] = useState("Orders");
-  const tabs = ["Orders", "Trades", "Logs"];
+  const tabs = ["Orders", "Trades", "Logs", "Cancelled"];
   const searchParams = useSearchParams();
   const botId = searchParams.get("botId");
   const [deleteModalState, setDeleteModalState] = useState(false);
@@ -96,7 +98,7 @@ export default function StartGridBot() {
                     />
                   </div>
 
-                  <div className=" flex items-start justify-center">
+                  <div className=" flex items-start justify-center mt-12">
                     <div className="w-full max-w-4xl">
                       <div className=" rounded-2xl shadow-xl ring-1 ring-white/6 overflow-hidden">
                         <div className="px-6 py-4 border-b border-white/5">
@@ -109,6 +111,9 @@ export default function StartGridBot() {
                         {active == "Orders" && <GridBotOrders botId={botId} />}
                         {active == "Trades" && <GridBotTrades botId={botId} />}
                         {active == "Logs" && <GridBotLogs botId={botId} />}
+                        {active == "Cancelled" && (
+                          <GridBotCancelledOrder botId={botId} />
+                        )}
                       </div>
                     </div>
                   </div>
