@@ -83,3 +83,34 @@ export const getAllUserList = async ({ page = 1, limit = 10 }) => {
     throw error;
   }
 };
+
+export const useGetUserSubscription = ({ page = 1, limit = 10 ,id}) => {
+  return useQuery({
+    queryKey: ["userSubscription", page, limit,id],
+    queryFn: () => {
+      return getuserSubscription({ page, limit ,id});
+    },
+    select: (data) => {
+      return data?.result || [];
+    },
+    //   keepPreviousData: true,
+  });
+};
+
+export const getuserSubscription = async ({ page = 1, limit = 10 ,id}) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: `/admin/userSubscription`,
+      data: {
+        page: page,
+        limit: limit,
+      },
+      params:{userId:id}
+    });
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
