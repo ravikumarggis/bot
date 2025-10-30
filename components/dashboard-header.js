@@ -108,7 +108,7 @@ export default function DashboardHeader() {
             </a>
 
             <div className="hidden md:block">
-              <button className="w-10 h-10 bg-primary text-white font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition">
+              <button className="w-10 h-10 bg-primary text-white font-semibold rounded-[10px] flex items-center justify-center hover:ring-2 hover:ring-violet-400 transition" onClick={()=>router.push("/dashboard/settings")}>
                 {getUserData?.name || getUserData?.email ? (
                   (
                     getUserData?.name?.[0] || getUserData?.email?.[0]

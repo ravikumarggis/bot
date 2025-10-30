@@ -7,6 +7,7 @@ import DataTable from "../../../components/common-table";
 import { useGetAllSubscription } from "@/queries/plan-management";
 import { useGetAlluserSubList, useGetUserSubscription } from "@/queries/admin";
 import { useSearchParams } from "next/navigation";
+import ActivityIndicator from "@/components/activity-indicator";
 
 export default function UsersListView() {
   const searchParams = useSearchParams();
@@ -27,7 +28,7 @@ export default function UsersListView() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data: userSubList, isPending: userSubListPending } = useGetUserSubscription({
+  const { data: userSubList, isLoading: userSubListPending } = useGetUserSubscription({
     id,
     page,
     limit,
@@ -44,9 +45,9 @@ export default function UsersListView() {
   const columns = useMemo(
     () => [
       { key: "sr", label: "Sr" },
-      { key: "name", label: "Name" },
+      { key: "name", label: "Plan Type" },
       { key: "email", label: "Email" },
-      { key: "mobileNumber", label: "Phone number" },
+      { key: "amount", label: "Amount" },
       { key: "status", label: "Status" },
      
     ],
@@ -64,10 +65,10 @@ export default function UsersListView() {
 
     return items?.map((item, index) => ({
       sr: (page - 1) * limit + index + 1,
-      name: item?.name ?? "--",
-      email: item?.email ?? "--",
-      mobileNumber: item?.mobileNumber ?? "--",
-      status: item?.status ?? "--",
+      name: item?.subscriptionDetail?.name      ?? "--",
+      email: item?.payerEmail ?? "--",
+      amount: item?.amount ? `${item.amount} USD` : "--",
+      status: item?.planStatus ?? "--",
     
     }));
   }, [items, page]);
@@ -156,11 +157,7 @@ export default function UsersListView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (userSubListPending) {
-    return (
-      <div className="p-6 text-white min-h-screen">Loading...</div>
-    );
-  }
+ 
 
   // Simple pagination controls
   const Pagination = () => {
@@ -244,6 +241,15 @@ export default function UsersListView() {
       </div>
     );
   };
+
+  if (userSubListPending) {
+    return (
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+      <ActivityIndicator isLoading className={"h-12 w-12"} />
+      <p className="text-2xl font-semibold">Getting Data...</p>
+    </div>
+    );
+  }
 
   return (
     <div className="p-6 text-white min-h-screen">
