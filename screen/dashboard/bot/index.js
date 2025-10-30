@@ -18,6 +18,8 @@ import { useRouter } from "next/navigation";
 import NotActiveSubs from "@/components/no-active-subs";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
 import { useGetBotList } from "@/queries/bot";
+import ComingSoon from "@/components/comming-soon";
+import CommingSoon from "@/components/comming-soon";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
   { label: "New DCA Bot", value: "New DCA Bot" },
@@ -32,6 +34,7 @@ export default function Bot() {
   });
   const [errors, setErrors] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
   const router = useRouter();
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
@@ -44,15 +47,20 @@ export default function Bot() {
   };
 
   const handleSelect = (val) => {
-    // setFormData({ ...formData, exchange: val });
+    if (val === "New DCA Bot") {
+    setShowComingSoon(true);
+    return;
+    }
+    
+    
     router.push(`/dashboard/bot/${val}`);
-  };
+    };
   if (!haveActiveSubs) {
     return <NotActiveSubs />;
   }
   return (
     <div className="min-h-screen  py-10 text-white">
-      <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
+      <div className="w-full   mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
         <div className="flex">
           <Dropdown
             label="Create New Bot"
@@ -118,6 +126,12 @@ export default function Bot() {
           </div>
         </div>
       </div>
+      {showComingSoon && (
+  <div className="h-96  flex items-center justify-center">
+    <CommingSoon />
+  </div>
+)}
+
 
       <OTPModal
         isOpen={isOpen}
