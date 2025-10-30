@@ -4,7 +4,7 @@ import ComingIndicator from './comming-indicator'
 
 const CommingSoon = () => {
   return (
-    <div className=" flex flex-col justify-center items-center gap-4">
+    <div className="min-h-[100%] w-full flex items-center justify-center">
     {/* <ComingIndicator isLoading className={"h-12 w-12"} />
     <p className="text-2xl font-semibold">Coming Soon</p> */}
       <img

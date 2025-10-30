@@ -67,8 +67,12 @@ export default function Bot() {
   if (!haveActiveSubs) {
     return <NotActiveSubs />;
   }
+  if (showComingSoon) {
+    return <CommingSoon />;
+  }
+  
   return (
-    <div className="min-h-screen  py-10 text-white">
+    <div className="  py-10 text-white">
       <div className="w-full   mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
         <div className="flex">
           <Dropdown
@@ -138,11 +142,7 @@ export default function Bot() {
           </div>
         </div>
       </div>
-      {showComingSoon && (
-  <div className="h-96  flex items-center justify-center">
-    <CommingSoon />
-  </div>
-)}
+    
 
 
       <OTPModal
