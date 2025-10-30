@@ -1,9 +1,12 @@
 import { cancelOrder, useGetOrder } from "@/queries/bot";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { formatCurrency } from "@/utils/index";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { RefreshCcw } from "lucide-react";
+import clsx from "clsx";
 const GridBotOrders = ({ botId }) => {
+  const [currentDeletingItem, setCurrentDeletingItem] = useState("");
   const queryclient = useQueryClient();
   const {
     data: orderList,
@@ -36,7 +39,7 @@ const GridBotOrders = ({ botId }) => {
 
   return (
     <div>
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 h-96 overflow-auto">
         {!orderListPending && orderList?.data?.length == 0 && (
           <div className="mt-8 py-12 flex flex-col items-center justify-center border-t border-white/5">
             <h3 className="text-gray-200 text-xl md:text-2xl font-medium">
@@ -46,13 +49,16 @@ const GridBotOrders = ({ botId }) => {
               No orders to display right now.
             </p>
 
-            <button className="mt-8 px-5 py-2 text-sm rounded-full bg-transparent border border-white/6 text-gray-300 hover:bg-white/2">
-              Load more
+            <button
+              className="mt-8 px-5 py-2 text-sm rounded-full bg-transparent border border-white/6 text-gray-300 hover:bg-white/2"
+              onClick={refetch}
+            >
+              {orderListPending ? `Refreshing..` : `Refresh`}
             </button>
           </div>
         )}
         {!orderListPending && orderList?.data?.length > 0 && (
-          <table className="hidden md:table w-full text-sm text-gray-400">
+          <table className="table w-full text-sm text-gray-400 ">
             <thead>
               <tr className="text-left">
                 <th className="px-2 py-2">Side</th>
@@ -81,12 +87,18 @@ const GridBotOrders = ({ botId }) => {
                     </td>
                     <td className="px-2 py-2">{item?.status || "--"}</td>
                     <td
-                      className="px-2 py-2 text-primary cursor-pointer"
+                      className="px-2 py-2 text-red-500 cursor-pointer"
                       onClick={() => {
+                        if (isPending) {
+                          return;
+                        }
+                        setCurrentDeletingItem(item?.id);
                         mutateAsync({ orderID: item?.id });
                       }}
                     >
-                      Cancel
+                      {isPending && currentDeletingItem == item?.id
+                        ? `Cancelling`
+                        : `Cancel`}
                     </td>
                   </tr>
                 );

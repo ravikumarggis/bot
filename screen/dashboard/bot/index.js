@@ -16,10 +16,10 @@ import { IconExchange } from "@tabler/icons-react";
 import Dropdown from "../../../components/dropdown";
 import { useRouter } from "next/navigation";
 import NotActiveSubs from "@/components/no-active-subs";
+import CommingSoon from "@/components/comming-soon";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
 import { useGetBotList } from "@/queries/bot";
-import ComingSoon from "@/components/comming-soon";
-import CommingSoon from "@/components/comming-soon";
+import clsx from "clsx";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
   { label: "New DCA Bot", value: "New DCA Bot" },
@@ -54,7 +54,20 @@ export default function Bot() {
     
     
     router.push(`/dashboard/bot/${val}`);
+  };
+  console.log(botList, "botList>>");
+
+  const getStatus = (item) => {
+    return {
+      status:
+        item?.status == "pending" ||
+        item?.status == "paused" ||
+        item?.status == "stopped"
+          ? "InActive"
+          : `Active`,
     };
+  };
+
   if (!haveActiveSubs) {
     return <NotActiveSubs />;
   }
@@ -105,12 +118,15 @@ export default function Bot() {
                       />
                     </svg>
                   </div>
-                  <div className="text-xs bg-pink-500 text-white px-2 py-1 rounded">
-                    {item?.status == "pending" ||
-                    item?.status == "paused" ||
-                    item?.status == "stopped"
-                      ? "InActive"
-                      : `Active`}
+                  <div
+                    className={clsx(
+                      "text-xs text-white px-2 py-1 rounded",
+                      getStatus(item)?.status == "Active"
+                        ? "bg-green-600"
+                        : "bg-red-600"
+                    )}
+                  >
+                    {getStatus(item)?.status}
                   </div>
                 </div>
 
