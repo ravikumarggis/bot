@@ -1,10 +1,13 @@
 "use client";
+import { useUserProfile } from "@/queries/profile";
 import { useRouter } from "next/navigation";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 const Percentage = 100;
 
 export default function CurrentPlan() {
   const router = useRouter();
+  const { data: profileData, isPending: profileDataPending } = useUserProfile();
+
   return (
     <div className="bg-[#12121a] border border-gray-800/50 rounded-2xl p-6">
       <div className="flex items-center justify-between mb-8">

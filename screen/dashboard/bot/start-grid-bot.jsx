@@ -9,7 +9,7 @@ import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { IconTrashXFilled } from "@tabler/icons-react";
-import { EditIcon, FileWarning, TriangleAlert } from "lucide-react";
+import { EditIcon, FileWarning, RefreshCcw, TriangleAlert } from "lucide-react";
 import Modal from "@/components/ui/modal";
 import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 import GridBotOrders from "./start-grid-bot-components/order";
@@ -18,6 +18,7 @@ import GridBotLogs from "./start-grid-bot-components/logs";
 
 import GridBotCancelledOrder from "./start-grid-bot-components/cancelled-order";
 import { deleteBot } from "@/queries/bot";
+import clsx from "clsx";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
