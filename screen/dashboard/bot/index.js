@@ -27,11 +27,7 @@ const exchangeOptions = [
 
 export default function Bot() {
   const [showSecret, setShowSecret] = useState(false);
-  const [formData, setFormData] = useState({
-    exchange: "",
-    apiKey: "",
-    secretKey: "",
-  });
+  const [select, setSelect] = useState("");
   const [errors, setErrors] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
@@ -47,6 +43,7 @@ export default function Bot() {
   };
 
   const handleSelect = (val) => {
+    setSelect(val)
     if (val === "New DCA Bot") {
     setShowComingSoon(true);
     return;
@@ -79,7 +76,7 @@ export default function Bot() {
             label="Create New Bot"
             bgColor="#EE3379"
             options={exchangeOptions}
-            value={formData.exchange || ""}
+            value={select || ""}
             //   onSelect={(val) => setFormData({ ...formData, exchange: val })}
             onSelect={handleSelect}
             className="w-56"
