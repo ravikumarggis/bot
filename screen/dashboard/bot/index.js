@@ -52,7 +52,6 @@ export default function Bot() {
     
     router.push(`/dashboard/bot/${val}`);
   };
-  console.log(botList, "botList>>");
 
   const getStatus = (item) => {
     return {
