@@ -48,7 +48,6 @@ export default function Bot() {
     // setFormData({ ...formData, exchange: val });
     router.push(`/dashboard/bot/${val}`);
   };
-  console.log(botList, "botList>>");
 
   const getStatus = (item) => {
     return {

@@ -4,7 +4,13 @@ import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import StylesTabs from "@/components/style-tab";
 import { useRouter, useSearchParams } from "next/navigation";
-import { updateBotStatus, useGetBot, useGetBotList } from "@/queries/bot";
+import {
+  updateBotStatus,
+  useGetBot,
+  useGetBotList,
+  useGetLogList,
+  useGetOrder,
+} from "@/queries/bot";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -37,6 +43,24 @@ export default function StartGridBot() {
     isPending: botDataPending,
     refetch: botDataRefetch,
   } = useGetBot({ id: botId });
+  const { refetch: filledRefetch, isLoading: filledRefetchloading } =
+    useGetOrder({
+      id: botId,
+      filter: "FILLED",
+    });
+  const { refetch: logRefetch, isLoading: logRefetchLoading } = useGetLogList({
+    id: botId,
+  });
+  const { refetch: cancelledRefetch, isLoading: cancelledRefetchLoading } =
+    useGetOrder({
+      id: botId,
+      filter: "CANCELED",
+    });
+  const { refetch: pendingRefetch, isLoading: pendingRefetchLoading } =
+    useGetOrder({
+      id: botId,
+      filter: "PENDING",
+    });
 
   const { data: exchangeData, refetch: exchangeDataRefetch } =
     useGetKeysExchange();
@@ -102,12 +126,30 @@ export default function StartGridBot() {
                   <div className=" flex items-start justify-center mt-12">
                     <div className="w-full max-w-4xl">
                       <div className=" rounded-2xl shadow-xl ring-1 ring-white/6 overflow-hidden">
-                        <div className="px-6 py-4 border-b border-white/5">
+                        <div className="px-6 py-4 border-b border-white/5 relative">
                           <StylesTabs
                             tabs={tabs}
                             active={active}
                             setActive={setActive}
                           />
+                          <div className="absolute top-4 right-8 z-50 hidden md:flex">
+                            <RefreshCcw
+                              onClick={() => {
+                                filledRefetch();
+                                logRefetch();
+                                cancelledRefetch();
+                                pendingRefetch();
+                              }}
+                              className={clsx(
+                                "cursor-pointer",
+                                (filledRefetchloading ||
+                                  logRefetchLoading ||
+                                  cancelledRefetchLoading ||
+                                  pendingRefetchLoading) &&
+                                  "animate-spin"
+                              )}
+                            />
+                          </div>
                         </div>
                         {active == "Orders" && <GridBotOrders botId={botId} />}
                         {active == "Trades" && <GridBotTrades botId={botId} />}
