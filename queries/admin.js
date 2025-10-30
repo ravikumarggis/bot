@@ -101,12 +101,12 @@ export const getuserSubscription = async ({ page = 1, limit = 10 ,id}) => {
   try {
     const response = await api({
       method: "POST",
-      url: `/admin/userSubscription`,
+      url: `/admin/userSubscription/${id}`,
       data: {
         page: page,
         limit: limit,
       },
-      params:{userId:id}
+    
     });
 
     return response?.data;

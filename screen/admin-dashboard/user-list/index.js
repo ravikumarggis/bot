@@ -6,6 +6,7 @@ import DataTable from "../../../components/common-table";
 
 import { useGetAllSubscription } from "@/queries/plan-management";
 import { useGetAllUserList } from "@/queries/admin";
+import ActivityIndicator from "@/components/activity-indicator";
 
 export default function Users() {
   const [filters, setFilters] = useState({
@@ -19,7 +20,7 @@ export default function Users() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data: userList, isPending: userListPending } = useGetAllUserList({
+  const { data: userList, isLoading: userListPending } = useGetAllUserList({
     page,
     limit,
   });
@@ -149,9 +150,14 @@ export default function Users() {
 
   if (userListPending) {
     return (
-      <div className="p-6 text-white min-h-screen">Loading...</div>
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+      <ActivityIndicator isLoading className={"h-12 w-12"} />
+      <p className="text-2xl font-semibold">Getting Data...</p>
+    </div>
     );
   }
+
+  
 
   // Simple pagination controls
   const Pagination = () => {

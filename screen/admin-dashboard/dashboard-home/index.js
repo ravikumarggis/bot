@@ -9,11 +9,21 @@ import {
   useGetAdminDashboard
 } from "@/queries/admin";
 import NotActiveSubs from "@/components/no-active-subs";
+import ActivityIndicator from "@/components/activity-indicator";
 export default function Dashboard() {
 
 
- const {data  :dashboardCount} = useGetAdminDashboard()
+ const {data  :dashboardCount ,isLoading : userListPending} = useGetAdminDashboard()
  
+ if (userListPending) {
+  return (
+    <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+    <ActivityIndicator isLoading className={"h-12 w-12"} />
+    <p className="text-2xl font-semibold">Getting Data...</p>
+  </div>
+  );
+}
+
 
   return (
     <div className="min-h-screen  text-white ">
