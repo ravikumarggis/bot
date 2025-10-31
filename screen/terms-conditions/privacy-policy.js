@@ -1,98 +1,183 @@
-"use client";
-import { CheckCircle } from "lucide-react";
-import React, { useState } from "react";
+"use client"
+import React from "react";
 
-const PrivacyPolicy = () => {
+export default function PrivacyPolicy() {
   return (
-    <div className="relative w-full flex flex-col bg-[#05060f]  py-30 px-5 md:px-20 gap-10">
-    
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold ">
-          Term and condition
-        </h1>
+    <div className="max-w-4xl mx-auto px-6 pt-20 sm:pt-30 pb-10 md:pb-20 space-y-10">
+      <section>
+        <h1 className="text-4xl font-bold mb-4">🔒 Privacy &amp; Cookies Policy — QIE Bots</h1>
+        <p className="text-lg opacity-80">Last Updated: <strong>October 2025</strong></p>
+        <p className="mt-4 opacity-90">
+          This Privacy and Cookies Policy (“Privacy Policy”) governs your use of the QIE Bots website, its platform, and related services (collectively, the “Services”).
+          QIE Bots (“we,” “our,” or “us”) refers to the domain{" "}
+          <a className="text-indigo-600 underline" href="https://qiebots.com/">https://qiebots.com/</a> (“Platform”), including all content, data, and materials made available through it.
+          This Policy explains how we collect, store, process, and protect your personal information when you access or use our Platform.
+          By using QIE Bots, you agree to the collection and use of your information in accordance with this Policy. If you do not agree, you must discontinue use of the Platform.
+        </p>
+      </section>
 
-        <div>
-          <p className="text-sm  md:text-md">
-            Welcome to Qbots, a cloud-based crypto trading platform. We offer
-            Qbots as a software solution ("Platform") through our website
-            https://Qbots.com ("Website"). Our Platform provides users with an
-            automated trading assist tool, which is fully configurable by the
-            user, to trade and invest in cryptocurrencies. By accessing or using
-            our Platform and Website (collectively referred to as "Services"),
-            you agree to comply with and be bound by these Terms & Conditions
-            ("Terms"). Please read these Terms carefully before using our
-            Services. If you do not agree to these Terms, you must not access or
-            use our Services. This document outlines the legal agreements
-            between Qbots and its customers, including details of our
-            services, user responsibilities, payment terms, usage restrictions,
-            intellectual property ownership, limitations of liability, and
-            dispute resolution procedures. 1. Definitions 1.1 Qbots Account:
-            The user account on the Platform, accessible only via the user's
-            login credentials. 1.2 Platform: Qbots’s automated crypto trading
-            system, enabling users to trade and invest through configurable
-            strategies and tools. 1.3 Services: Collectively, the Qbots
-            Platform and Website. 1.4 Fuel Wallet: The pre-funded digital wallet
-            within the Qbots Account used for deducting profit-based
-            commissions and other applicable fees. 1.5 Subscription Tiers:
-            Different feature sets and access levels available on the Platform,
-            determined by the user's chosen plan (e.g., trading limits,
-            supported exchanges, and API access). 1.6 User(s): Any individual or
-            legal entity utilizing Qbots's Services. 1.7 Login Credentials:
-            The email address and password used to access an Qbots Account. 2.
-            Registration & Personal Account 2.1 To access Qbots's Services,
-            Users must register on the Website and create an Account. 2.2 During
-            registration, Users must provide their accurate email address and
-            set a strong, unique password. These details form the Login
-            Credentials. Users may also be required to provide additional
-            information for identity verification (KYC/AML purposes) as per
-            applicable laws and Qbots's internal policies. 2.3 Users are
-            solely responsible for maintaining the confidentiality and security
-            of their Login Credentials and for all activities that occur under
-            their Account. Users must not share their account details with any
-            third parties. Any unauthorized use of an Account must be reported
-            to Qbots immediately. 2.4 Users must ensure that all registration
-            details and personal information provided are accurate, complete,
-            and kept up-to-date. Qbots is not liable for any losses arising
-            from outdated or inaccurate information. 2.5 Qbots reserves the
-            right, at its sole discretion, to modify Platform functionalities,
-            deny account registration, suspend or terminate accounts, or enforce
-            additional security measures (e.g., two-factor authentication)
-            without prior notice. 3. Services Offered & User Responsibilities
-            3.1 Qbots provides an automated crypto trading assist tool. This
-            tool allows Users to configure strategies and settings for trading
-            and investing in cryptocurrencies. 3.2 User Responsibility for
-            Configuration: Users acknowledge and agree that Qbots is a
-            software solution that executes trades based solely on the
-            configurations and parameters set by the User. Qbots does not
-            provide investment advice, financial recommendations, or trading
-            signals. 3.3 User Responsibility for Outcomes: Users are entirely
-            responsible for all trading decisions, strategies, and
-            configurations made on the Platform. Any profits or losses incurred
-            from using the Services are solely the User's responsibility. 3.4 No
-            Guarantees: Qbots does not guarantee any specific trading
-            outcomes, profits, or protection against losses. 3.5 Compliance:
-            Users are responsible for ensuring their use of the Services
-            complies with all applicable laws, regulations, and tax obligations
-            in their relevant jurisdiction. 4. Pricing & Fuel Wallet System 4.1
-            All pricing and offers displayed on the Website are subject to these
-            Terms. 4.2 Prices displayed exclude taxes (such as GST/VAT) unless
-            explicitly stated otherwise. Users are responsible for any
-            applicable taxes. 4.3 Qbots reserves the right to update pricing,
-            commission structures, and Subscription Tier features at any time.
-            Any changes will be effective immediately upon publication on the
-            Website, or as otherwise communicated to Users. 4.4 Any obvious
-            pricing errors or misquotations on the Website are non-binding and
-            may be corrected at Qbots's sole discretion. 4.5 To access the
-            full functionality of the Platform, Users must maintain a sufficient
-            balance in their Fuel Wallet. The Fuel Wallet is primarily used for
-            the deduction of profit-based commissions and other applicable
-            trading fees, as outlined in the chosen Subscription Tier. 4.6
-            Qbots offers different Subscription Tiers with varying features,
-            including but not limited to trading limits, supported exchange
-          </p>
-        </div>
-    
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">1. Definitions</h2>
+        <ul className="list-disc pl-6 opacity-90 space-y-2">
+          <li><strong>Account:</strong> The registered user profile created on the QIE Bots Platform, accessible via unique login credentials.</li>
+          <li><strong>Personal Data:</strong> Any information that directly or indirectly identifies an individual, including but not limited to name, email, or device identifiers.</li>
+          <li><strong>Platform:</strong> The QIE Bots web interface and any associated subdomains or apps.</li>
+          <li><strong>User:</strong> Any person or entity accessing or interacting with QIE Bots’ Services.</li>
+          <li><strong>Third-Party Partner:</strong> External service providers (e.g., exchange APIs, payment processors, or analytics tools) that assist in operating the Platform.</li>
+          <li><strong>Cookies:</strong> Small files placed on your device to store preferences, enhance functionality, and improve user experience.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">2. Purpose of This Policy</h2>
+        <p className="opacity-90">
+          At QIE Bots, transparency and data security are top priorities. This Policy outlines how we collect, use, and protect your Personal Data in connection with the operation of our automated trading platform.
+          We are committed to compliance with applicable privacy and data protection laws, including the General Data Protection Regulation (GDPR) where applicable.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">3. Acceptance</h2>
+        <p className="opacity-90">
+          By using or registering on QIE Bots, you confirm that you have read, understood, and accepted this Privacy Policy along with our Terms & Conditions.
+          If you decline to accept this Policy, some services or features (such as account access or cookie-dependent functionality) may be limited or unavailable.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">4. Personal Data We Collect</h2>
+        <ul className="list-disc pl-6 opacity-90 space-y-2">
+          <li><strong>Identification Data:</strong> Full name, email address, country, and contact details.</li>
+          <li><strong>Technical Data:</strong> IP address, browser type, device information, and operating system.</li>
+          <li><strong>Platform Data:</strong> Login timestamps, activity logs, connected exchange details, API connection status, and trading performance metrics.</li>
+          <li><strong>Financial Data:</strong> Limited wallet identifiers, subscription payments, or Fuel Wallet transaction history (excluding private keys or withdrawal permissions).</li>
+          <li><strong>Cookies & Tracking:</strong> Pages visited, referral sources, and browsing preferences to improve platform usability.</li>
+        </ul>
+        <p className="opacity-90 mt-3">
+          We do not collect or store exchange credentials that allow fund withdrawals. QIE Bots only uses limited API permissions for trade execution and balance tracking.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">5. How We Use Your Data</h2>
+        <ul className="list-disc pl-6 opacity-90 space-y-2">
+          <li>To provide and improve our Services and platform performance.</li>
+          <li>To authenticate users and secure access.</li>
+          <li>To monitor and prevent fraud or misuse.</li>
+          <li>To analyze platform usage for optimization and feature improvements.</li>
+          <li>To communicate with users, including support, billing, or important updates.</li>
+          <li>To comply with applicable laws and regulations (KYC/AML, taxation, etc.).</li>
+          <li>For marketing communications, where consent has been provided.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">6. Third-Party Data Sharing</h2>
+        <p className="opacity-90">QIE Bots may share limited Personal Data with trusted third parties only when necessary for service delivery, including:</p>
+        <ul className="list-disc pl-6 opacity-90 space-y-2 mt-2">
+          <li>Exchanges and API providers — to execute trades according to your configured strategies.</li>
+          <li>Payment processors — to process subscriptions or Fuel Wallet top-ups.</li>
+          <li>Cloud infrastructure providers — for secure data hosting and performance optimization.</li>
+          <li>Analytics and monitoring tools — to improve functionality and detect performance issues.</li>
+          <li>Regulatory authorities — when legally required (e.g., AML or compliance requests).</li>
+        </ul>
+        <p className="opacity-90 mt-3">All third-party partners are contractually obligated to maintain data confidentiality and security.</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">7. Data Protection &amp; Security Measures</h2>
+        <ul className="list-disc pl-6 opacity-90 space-y-2">
+          <li>End-to-end encryption for sensitive data in transit and at rest.</li>
+          <li>Firewalls and network protection for cloud infrastructure.</li>
+          <li>Two-Factor Authentication (2FA) support for user accounts.</li>
+          <li>Continuous monitoring for unauthorized access attempts.</li>
+          <li>Access control policies limiting employee access to necessary data only.</li>
+        </ul>
+        <p className="opacity-90 mt-3">
+          Despite these precautions, no online system is entirely immune to risks. QIE Bots cannot guarantee absolute security, and users are responsible for safeguarding their credentials.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">8. Cookies Policy</h2>
+        <p className="opacity-90"><strong>8.1 What Are Cookies?</strong> Cookies are small text files stored on your browser to help us remember your preferences, login sessions, and improve user experience.</p>
+        <p className="opacity-90 mt-3"><strong>8.2 Types of Cookies Used</strong></p>
+        <ul className="list-disc pl-6 opacity-90 space-y-2">
+          <li>Essential Cookies: Required for login, navigation, and core functionality.</li>
+          <li>Session Cookies: Temporary and expire when you close your browser.</li>
+          <li>Analytics Cookies: Help us analyze usage patterns and performance.</li>
+          <li>Marketing Cookies: Used only with user consent to personalize offers and newsletters.</li>
+        </ul>
+        <p className="opacity-90 mt-3"><strong>8.3 Managing Cookies:</strong> You can control cookie preferences through your browser settings — accept, reject, or prompt before saving. However, disabling cookies may affect platform functionality.</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">9. Data Retention</h2>
+        <p className="opacity-90">QIE Bots retains user and transactional data for as long as necessary to deliver Services, comply with legal requirements, or resolve disputes.</p>
+        <p className="opacity-90 mt-2">KYC or payment-related data may be retained for up to 5 years after account termination, in compliance with applicable laws.</p>
+        <p className="opacity-90 mt-2">After the retention period expires, data is securely deleted or anonymized.</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">10. International Data Transfers</h2>
+        <p className="opacity-90">
+          QIE Bots may process or store Personal Data in servers located outside your home country. By using the Platform, you consent to such transfers, provided appropriate security and legal safeguards are in place.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">11. Your Rights (GDPR &amp; Global Data Protections)</h2>
+        <ul className="list-disc pl-6 opacity-90 space-y-2">
+          <li>Access: Request a copy of your Personal Data we hold.</li>
+          <li>Correction: Request correction of inaccurate or incomplete data.</li>
+          <li>Deletion: Request deletion (“right to be forgotten”) subject to legal obligations.</li>
+          <li>Restriction: Limit certain data processing activities.</li>
+          <li>Portability: Receive your data in a structured, machine-readable format.</li>
+          <li>Withdraw Consent: Opt out of marketing or cookie tracking at any time.</li>
+        </ul>
+        <p className="opacity-90 mt-3">You can exercise these rights by contacting our support team (see Section 16).</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">12. Blockchain Data &amp; Transparency</h2>
+        <p className="opacity-90">
+          Certain QIE Bots operations may interact with public blockchains (e.g., exchange or trading confirmations). Transactions recorded on public ledgers are permanent and transparent — such data cannot be modified or deleted. Users acknowledge that blockchain data is beyond QIE Bots’ control.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">13. Children’s Privacy</h2>
+        <p className="opacity-90">
+          QIE Bots is not intended for users under 18 years old. We do not knowingly collect data from minors. If you believe a minor has provided information, please contact us to have it deleted.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">14. AML &amp; Compliance Obligations</h2>
+        <p className="opacity-90">
+          To comply with Anti-Money Laundering (AML) and Counter-Terrorism Financing (CTF) regulations, QIE Bots may collect or verify additional identity information.
+          We may share limited data with government authorities if legally required under investigation of fraudulent or unlawful activities.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">15. Policy Updates</h2>
+        <p className="opacity-90">
+          We may update this Privacy &amp; Cookies Policy periodically. When changes are made, the “Last Updated” date at the top of this page will be revised.
+          Significant updates will be communicated via email or platform notifications.
+          Continued use of QIE Bots after updates constitutes acceptance of the revised Policy.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mb-2">16. Contact Information</h2>
+        <p className="opacity-90">
+          For any questions, privacy requests, or complaints, please contact us:
+        </p>
+        <p className="opacity-90 mt-2">📧 Email: <a className="text-indigo-600 underline" href="mailto:support@qiebots.com">support@qiebots.com</a></p>
+        <p className="opacity-90 mt-1">🌐 Website: <a className="text-indigo-600 underline" href="https://qiebots.com">https://qiebots.com</a></p>
+        <p className="opacity-90 mt-1">🕒 Support Hours: Monday to Friday, 10 AM – 6 PM (UTC)</p>
+      </section>
     </div>
   );
-};
-
-export default PrivacyPolicy;
+}

@@ -79,6 +79,7 @@ import {
   Instagram,
   Github,
 } from "lucide-react";
+import Link from "next/link";
 
 /**
  * Responsive Footer component for Next.js + Tailwind CSS
@@ -174,9 +175,9 @@ export default function Footer() {
                     </a>
                   </li> */}
                   <li>
-                    <a className="hover:text-white" href="/pricing">
+                    <Link className="hover:text-white" href="/pricing">
                       Pricing
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a className="hover:text-white" href="#">
@@ -195,75 +196,53 @@ export default function Footer() {
                 <h5 className="text-slate-200 font-semibold mb-3">Company</h5>
                 <ul className="space-y-2 text-slate-300 text-sm">
                   <li>
-                    <a className="hover:text-white" href="#">
+                    <Link className="hover:text-white" href="/about-us">
                       About
-                    </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="hover:text-white" href="/refund-policy">
+                     R&C Policy
+                    </Link>
                   </li>
                   <li>
                     <a className="hover:text-white" href="#">
                       Contact
                     </a>
                   </li>
+                 
+                  
+                </ul>
+              </div>
+
+              <div className="">
+                <h5 className="text-slate-200 font-semibold mb-3">Resources</h5>
+                <ul className="space-y-2 text-slate-300 text-sm">
+                 
                   <li>
-                    <a className="hover:text-white" href="#">
-                      Careers
-                    </a>
+                    <Link className="hover:text-white" href="/risk-disclosure">
+                    Risk Disclosure
+                    </Link>
                   </li>
                   <li>
-                    <a className="hover:text-white" href="#">
-                      Press
-                    </a>
+                    <Link className="hover:text-white" href="/terms-conditions">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="hover:text-white" href="/privacy-policy">
+                      Privacy Policy
+                    </Link>
                   </li>
                 </ul>
               </div>
 
-              <div className="hidden sm:block">
-                <h5 className="text-slate-200 font-semibold mb-3">Resources</h5>
-                <ul className="space-y-2 text-slate-300 text-sm">
-                  <li>
-                    <a className="hover:text-white" href="#">
-                      Security
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white" href="#">
-                      Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white" href="#">
-                      Privacy Policy
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* On very small screens, show Resources as last column (stacked) */}
-              <div className="sm:hidden">
-                <h5 className="text-slate-200 font-semibold mb-3">Resources</h5>
-                <ul className="space-y-2 text-slate-300 text-sm">
-                  <li>
-                    <a className="hover:text-white" href="#">
-                      Security
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white" href="#">
-                      Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white" href="#">
-                      Privacy Policy
-                    </a>
-                  </li>
-                </ul>
-              </div>
+             
             </div>
 
             {/* Right column: partners & socials */}
             <div className="md:col-span-3 space-y-4">
-              <h5 className="text-slate-200 font-semibold mb-2">Resources</h5>
+             
 
               <div className="flex gap-3 items-center">
                 <div className="p-1.5 sm:p-1.5 md:p-2 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
@@ -324,46 +303,12 @@ export default function Footer() {
           <div className="border-t border-white/6 mt-6 pt-6" />
 
           {/* Bottom row */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
             <div className="text-slate-300 text-sm text-center md:text-left">
               © {new Date().getFullYear()} Qbots. All rights reserved.
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <div className="flex items-center gap-3 border border-white/6 rounded-md px-3 py-1 bg-[#071028]">
-                <Globe2 className="w-4 h-4 text-slate-300" />
-                <label htmlFor="select-lang" className="sr-only">
-                  Language
-                </label>
-                <select
-                  id="select-lang"
-                  value={lang}
-                  onChange={(e) => setLang(e.target.value)}
-                  className="bg-transparent text-slate-200 text-sm outline-none"
-                >
-                  <option value="en-US">English (US)</option>
-                  <option value="en-GB">English (GB)</option>
-                  <option value="es-ES">Español</option>
-                </select>
-              </div>
-
-              <div className="flex items-center gap-3 border border-white/6 rounded-md px-3 py-1 bg-[#071028]">
-                <DollarSign className="w-4 h-4 text-slate-300" />
-                <label htmlFor="select-currency" className="sr-only">
-                  Currency
-                </label>
-                <select
-                  id="select-currency"
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-transparent text-slate-200 text-sm outline-none"
-                >
-                  <option value="USD">USD</option>
-                  <option value="INR">INR</option>
-                  <option value="EUR">EUR</option>
-                </select>
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>
