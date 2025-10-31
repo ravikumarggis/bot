@@ -78,7 +78,11 @@ const SuccessPayment = () => {
               className="text-purple-500 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"
             />
             <p className="text-3xl">Payment Successful</p>
-            <p>Your AI arbitage membership has been successfully activated</p>
+            <p>
+              Your membership is live. You now have access to exclusive trading
+              tools, advanced analytics, and priority support.
+            </p>
+            <p> 📊 Let’s elevate your trading journey!</p>
             <button
               className="h-10 rounded bg-primary w-full"
               onClick={() => {

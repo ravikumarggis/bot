@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { formatCurrency } from "@/utils/index";
 import { RefreshCcw } from "lucide-react";
 import clsx from "clsx";
+import moment from "moment";
 const GridBotTrades = ({ botId }) => {
   const {
     data: orderList,
@@ -41,6 +42,8 @@ const GridBotTrades = ({ botId }) => {
                 <th className="px-2 py-2">Type</th>
                 <th className="px-2 py-2">Price</th>
                 <th className="px-2 py-2">Amount</th>
+                <th className="px-2 py-2">Date/Time</th>
+
                 <th className="px-2 py-2">Status</th>
               </tr>
             </thead>
@@ -59,6 +62,10 @@ const GridBotTrades = ({ botId }) => {
                     <td className="px-2 py-2">
                       {item?.quantity}{" "}
                       {String(item?.symbol)?.split("/")?.[0] || "--"}
+                    </td>
+                    <td className="px-2 py-2">
+                      {moment(item?.updatedAt)?.format("YYYY.MM.DD HH:mm:ss") ||
+                        "--"}
                     </td>
                     <td className="px-2 py-2">{item?.status || "--"}</td>
                   </tr>

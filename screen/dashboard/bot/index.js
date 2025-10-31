@@ -19,6 +19,7 @@ import NotActiveSubs from "@/components/no-active-subs";
 import CommingSoon from "@/components/comming-soon";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
 import { useGetBotList } from "@/queries/bot";
+import NotActiveBots from "@/components/no-active-bot";
 import clsx from "clsx";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
@@ -36,6 +37,7 @@ export default function Bot() {
     useHaveActiveSubscriptions();
 
   const { data: botList, isPending: botListPending } = useGetBotList();
+  console.log(botList, "botListbotList");
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);
@@ -63,28 +65,33 @@ export default function Bot() {
     };
   };
 
-  if (!haveActiveSubs) {
-    return <NotActiveSubs />;
-  }
+  // if (!haveActiveSubs) {
+  //   return <NotActiveSubs />;
+  // }
 
   return (
     <div className="  py-10 text-white">
-      <div className="w-full   mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
-        <div className="flex">
-          <Dropdown
-            label="Create New Bot"
-            bgColor="#EE3379"
-            options={exchangeOptions}
-            value={select || ""}
-            //   onSelect={(val) => setFormData({ ...formData, exchange: val })}
-            onSelect={handleSelect}
-            className="w-56"
-          />
-        </div>
-     
-      {showComingSoon ? (
-        <div className="h-[100%] mt-14 flex items-center justify-center">
-          <CommingSoon />
+     <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
+  <div className="flex">
+    <Dropdown
+      label="Create New Bot"
+      bgColor="#EE3379"
+      options={exchangeOptions}
+      value={select || ""}
+      onSelect={handleSelect}
+      className="w-56"
+    />
+  </div>
+
+  {showComingSoon ? (
+    <div className="h-[100%] mt-14 flex items-center justify-center">
+      <CommingSoon />
+    </div>
+  ) : (
+    <>
+      {botList?.length === 0 ? (
+        <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
+          <p className="mt-3 text-xl text-gray-400">No Bot Found</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -94,7 +101,7 @@ export default function Bot() {
               className="bg-[#0f1117] rounded-2xl p-5 border border-gray-800 shadow-inner min-h-[120px] cursor-pointer"
               onClick={() => {
                 router.push(
-                  `/dashboard/bot/start-grid-bot/?botId= ${encodeURIComponent(
+                  `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
                     item?.id
                   )}`
                 );
@@ -122,7 +129,7 @@ export default function Bot() {
                 <div
                   className={clsx(
                     "text-xs text-white px-2 py-1 rounded",
-                    getStatus(item)?.status == "Active"
+                    getStatus(item)?.status === "Active"
                       ? "bg-green-600"
                       : "bg-red-600"
                   )}
@@ -141,7 +148,10 @@ export default function Bot() {
           ))}
         </div>
       )}
- </div>
+    </>
+  )}
+</div>
+
       <OTPModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

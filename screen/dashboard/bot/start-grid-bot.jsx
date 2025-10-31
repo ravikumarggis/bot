@@ -192,7 +192,6 @@ export default function StartGridBot() {
                     Below {botData?.params?.highPrice || 0}
                   </div>
                 </div>
-
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Low Price</div>
                   <div className="text-base text-white">
