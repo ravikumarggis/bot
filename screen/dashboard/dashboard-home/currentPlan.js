@@ -11,7 +11,11 @@ export default function CurrentPlan({ activeSubs }) {
   return (
     <div className="bg-[#12121a] border border-gray-800/50 rounded-2xl p-6">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="text-white text-lg font-normal">Current Plan</h3>
+        <h3 className="text-white text-lg font-normal">
+          {activeSubs?.subscriptionName
+            ? `${activeSubs?.subscriptionName} Plan`
+            : `Current Plan`}
+        </h3>
         <button
           className="text-gray-400 hover:text-white hover:bg-gray-800/50"
           onClick={() => {
@@ -43,22 +47,24 @@ export default function CurrentPlan({ activeSubs }) {
           </div>
         </div>
 
-        <div className="w-full space-y-3">
-          <button
-            variant="outline"
-            className="w-full bg-transparent border-gray-700/50 text-white hover:bg-gray-800/50 rounded-full py-6 text-base"
-          >
-            Profit Cap: Unlimited
-          </button>
-          <button
-            className="w-full bg-primary text-[white] rounded-[10px] py-3 text-base font-semibold"
-            onClick={() => {
-              router.push("/dashboard/pricing");
-            }}
-          >
-            Buy Plan
-          </button>
-        </div>
+        {!activeSubs?.subscriptionName && (
+          <div className="w-full space-y-3">
+            <button
+              variant="outline"
+              className="w-full bg-transparent border-gray-700/50 text-white hover:bg-gray-800/50 rounded-full py-6 text-base"
+            >
+              Profit Cap: Unlimited
+            </button>
+            <button
+              className="w-full bg-primary text-[white] rounded-[10px] py-3 text-base font-semibold"
+              onClick={() => {
+                router.push("/dashboard/pricing");
+              }}
+            >
+              {activeSubs?.subscriptionName ? `Upgrade Plan` : ` Buy Plan`}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
