@@ -1,5 +1,7 @@
 "use client";
 import { useUserProfile } from "@/queries/profile";
+import { formatCurrency } from "@/utils";
+import moment from "moment";
 import { useRouter } from "next/navigation";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 const Percentage = 100;
@@ -46,6 +48,24 @@ export default function CurrentPlan({ activeSubs }) {
             <div className="text-sm text-gray-400 mt-1">Available Cap</div>
           </div>
         </div>
+        {console.log(activeSubs, "activeSubs>>")}
+        {activeSubs?.subscriptionName && (
+          <div className="flex gap-2 flex-col w-full">
+            <div className="w-full flex flex-row justify-between items-center">
+              <p>Paid Amount:</p>
+              <p>
+                {formatCurrency({
+                  amount: activeSubs?.amount,
+                  currency: "USD",
+                })}
+              </p>
+            </div>
+            <div className="w-full flex flex-row justify-between items-center">
+              <p>Expiry Date:</p>
+              <p>{moment(activeSubs?.endDate)?.format("ll")}</p>
+            </div>
+          </div>
+        )}
 
         {!activeSubs?.subscriptionName && (
           <div className="w-full space-y-3">
