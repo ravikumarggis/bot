@@ -10,6 +10,81 @@ import {
 import NotActiveSubs from "@/components/no-active-subs";
 import moment from "moment";
 import ActivityIndicator from "@/components/activity-indicator";
+import { formatCurrency } from "@/utils";
+
+const TableFilter = ({ filters, setFilters }) => {
+  const statusOptions = [
+    { label: "Active", value: "ACTIVE" },
+    { label: "Expired", value: "EXPIRED" },
+  ];
+
+  const handleChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleReset = () => {
+    setFilters({
+      search: "",
+      from: "",
+      to: "",
+      status: "",
+    });
+  };
+
+  return (
+    <div className="bg-[#12121d] p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
+      <div className="flex flex-col w-full md:w-1/4">
+        <label className="text-sm text-gray-400 mb-1">Search</label>
+        <input
+          type="text"
+          placeholder="Search by plan name"
+          className="bg-[#1a1a25] rounded-md px-3 py-2 text-white focus:outline-none focus:border-primary"
+          value={filters.search || ""}
+          onChange={(e) => handleChange("search", e.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label className="text-sm text-gray-400 mb-1">From</label>
+        <CustomDatePicker
+          value={filters.from}
+          onChange={(date) => handleChange("from", date)}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label className="text-sm text-gray-400 mb-1">To</label>
+        <CustomDatePicker
+          value={filters.to}
+          onChange={(date) => handleChange("to", date)}
+        />
+      </div>
+
+      <Dropdown
+        label="Plan Status"
+        options={statusOptions}
+        value={filters.status}
+        onSelect={(val) => handleChange("status", val)}
+        className="w-56"
+      />
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => {}} // no manual apply needed since useMemo auto updates
+          className="bg-primary px-6 py-2 rounded-md font-semibold"
+        >
+          Apply
+        </button>
+        <button
+          onClick={handleReset}
+          className="bg-gray-700 px-6 py-2 rounded-md font-semibold"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default function PlanManagement() {
   const [filters, setFilters] = useState({
@@ -43,12 +118,20 @@ export default function PlanManagement() {
     return subsData.map((item, index) => ({
       sr: index + 1,
       planName: item?.subscriptionDetail?.name || "--",
-      planAmount: item?.subscriptionDetail?.displayAmount || 0,
-      paidAmount: item?.amount || 0,
+      planAmount:
+        formatCurrency({
+          amount: item?.subscriptionDetail?.displayAmount,
+          currency: "USD",
+        }) || 0,
+      paidAmount:
+        formatCurrency({
+          amount: item?.amount,
+          currency: "USD",
+        }) || 0,
       paymentOrderId: item?.orderId || "--",
       duration: `${item?.subscriptionDetail?.duration || 0} DAYS`,
 
-      planStatus: item?.subscriptionDetail?.status || "--",
+      planStatus: item?.planStatus || "--",
       startTime: item?.createdAt ? moment(item?.createdAt).format("lll") : "--",
       endTime: item?.endDate ? moment(item?.endDate).format("lll") : "--",
     }));
@@ -83,80 +166,6 @@ export default function PlanManagement() {
 
     return data;
   }, [filters, formattedSubsData]);
-
-  const TableFilter = ({ filters, setFilters }) => {
-    const statusOptions = [
-      { label: "Active", value: "ACTIVE" },
-      { label: "Expired", value: "EXPIRED" },
-    ];
-
-    const handleChange = (key, value) => {
-      setFilters((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const handleReset = () => {
-      setFilters({
-        search: "",
-        from: "",
-        to: "",
-        status: "",
-      });
-    };
-
-    return (
-      <div className="bg-[#12121d] p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
-        <div className="flex flex-col w-full md:w-1/4">
-          <label className="text-sm text-gray-400 mb-1">Search</label>
-          <input
-            type="text"
-            placeholder="Search by plan name"
-            className="bg-[#1a1a25] rounded-md px-3 py-2 text-white focus:outline-none focus:border-primary"
-            value={filters.search || ""}
-            onChange={(e) => handleChange("search", e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-400 mb-1">From</label>
-          <CustomDatePicker
-            value={filters.from}
-            onChange={(date) => handleChange("from", date)}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-400 mb-1">To</label>
-          <CustomDatePicker
-            value={filters.to}
-            onChange={(date) => handleChange("to", date)}
-          />
-        </div>
-
-        <Dropdown
-          label="Plan Status"
-          options={statusOptions}
-          value={filters.status}
-          onSelect={(val) => handleChange("status", val)}
-          className="w-56"
-        />
-
-        <div className="flex gap-2">
-          <button
-            onClick={() => {}} // no manual apply needed since useMemo auto updates
-            className="bg-primary px-6 py-2 rounded-md font-semibold"
-          >
-            Apply
-          </button>
-          <button
-            onClick={handleReset}
-            className="bg-gray-700 px-6 py-2 rounded-md font-semibold"
-          >
-            Reset
-          </button>
-        </div>
-      </div>
-    );
-  };
 
   if (subsDataPending) {
     return (

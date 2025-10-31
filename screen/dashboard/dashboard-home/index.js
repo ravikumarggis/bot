@@ -20,6 +20,7 @@ import {
 } from "@/queries/dashboard";
 import ActivityIndicator from "@/components/activity-indicator";
 import { getKeysExchange, useGetKeysExchange } from "@/queries/exchange";
+import { useUserProfile } from "@/queries/profile";
 
 export default function Dashboard() {
   const [selectedExchangeId, setselectedExchangeId] = useState("");
@@ -34,9 +35,13 @@ export default function Dashboard() {
     useGetKeysExchange();
   const { data: exchangeDetail, isPending: exchangeDetailPending } =
     useExchangesAccountDetails({ exchangeId: 35 });
-  console.log(exchangeDetail, "exchangeDetail>>>");
+  const { data: profile, isPending: profilePending } = useUserProfile();
 
-  console.log(exchangeKeys, "exchangeKeys>>");
+  const activeSubs = useMemo(() => {
+    return profile?.subscriptionDetail?.find(
+      (item) => item?.planStatus == "ACTIVE"
+    );
+  }, [profile]);
 
   // const { data: accountDetail, isPending: accountDetailPending } =
   // useAccountDetails();
@@ -107,7 +112,7 @@ Available to Trade : 0"
             <ProfitChart />
           </div>
           <div>
-            <CurrentPlan />
+            <CurrentPlan activeSubs={activeSubs} />
           </div>
         </div>
       </div>

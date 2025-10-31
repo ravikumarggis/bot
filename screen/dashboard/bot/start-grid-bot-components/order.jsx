@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RefreshCcw } from "lucide-react";
 import clsx from "clsx";
+import moment from "moment";
 const GridBotOrders = ({ botId }) => {
   const [currentDeletingItem, setCurrentDeletingItem] = useState("");
   const queryclient = useQueryClient();
@@ -65,6 +66,7 @@ const GridBotOrders = ({ botId }) => {
                 <th className="px-2 py-2">Type</th>
                 <th className="px-2 py-2">Price</th>
                 <th className="px-2 py-2">Amount</th>
+                <th className="px-2 py-2">Date/Time</th>
                 <th className="px-2 py-2">Status</th>
                 <th className="px-2 py-2">Action</th>
               </tr>
@@ -84,6 +86,10 @@ const GridBotOrders = ({ botId }) => {
                     <td className="px-2 py-2">
                       {item?.quantity}{" "}
                       {String(item?.symbol)?.split("/")?.[0] || "--"}
+                    </td>
+                    <td className="px-2 py-2">
+                      {moment(item?.updatedAt)?.format("YYYY.MM.DD HH:mm:ss") ||
+                        "--"}
                     </td>
                     <td className="px-2 py-2">{item?.status || "--"}</td>
                     <td

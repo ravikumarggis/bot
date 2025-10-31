@@ -1,19 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ToggleTabs from "../../../components/toggle-Tabs";
 import { CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useGetActiveSubscription } from "@/queries/pricing";
 import { formatCurrency, isMonthlyPlan } from "@/utils/index";
+import { useUserProfile } from "@/queries/profile";
+import clsx from "clsx";
 
 const Pricing = () => {
   const [plan, setPlan] = useState("monthly");
   const router = useRouter();
-
   const { data: getActiveSubs, isPending: getActiveSubsPending } =
     useGetActiveSubscription({ planType: plan });
 
-  if (getActiveSubsPending) {
+  const { data: profile, isPending: profilePending } = useUserProfile();
+
+  const activeSubs = useMemo(() => {
+    return profile?.subscriptionDetail?.find(
+      (item) => item?.planStatus == "ACTIVE"
+    );
+  }, [profile]);
+
+  const filterActivePlan = useMemo(() => {
+    return getActiveSubs
+      ?.filter((item) => item?.amount != 0)
+      ?.map((item) => {
+        return {
+          ...item,
+          isCurrentPlan: item?.id == activeSubs?.subscriptionId,
+        };
+      });
+  }, [activeSubs, getActiveSubs]);
+
+  if (getActiveSubsPending || profilePending) {
     return <p>Loading</p>;
   }
 
@@ -31,7 +51,7 @@ const Pricing = () => {
       </div>
 
       <div className="flex flex-row flex-wrap">
-        {getActiveSubs?.map((item, idx) => {
+        {filterActivePlan?.map((item, idx) => {
           return (
             <div
               key={idx}
@@ -43,9 +63,10 @@ const Pricing = () => {
                 </div>
               )}
 
-              <div className="text-center mb-4">
-                <span className="bg-purple-600/20 text-primary text-sm px-4 py-1 rounded-full">
-                  {isMonthlyPlan(item?.duration) ? "Monthly" : "Yearly"}
+              <div className="text-center mb-4 capitalize">
+                <span className="bg-purple-600/20 text-primary text-sm px-4 py-1 rounded-full ">
+                  {/* {isMonthlyPlan(item?.duration) ? "Monthly" : "Yearly"} */}
+                  {item?.name || "--"}
                 </span>
               </div>
 
@@ -65,32 +86,34 @@ const Pricing = () => {
               </div>
 
               <ul className="space-y-4 mb-6">
-                <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-primary" size={20} />
-                  Duration: {item?.duration} days
-                </li>
-                <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-primary" size={20} />
-                  Exchanges: {item?.exchange || ""}
-                </li>
-                <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-primary" size={20} />
-                  Profit Cap:{" "}
-                  {formatCurrency({
-                    amount: item?.profitCap,
-                    currency: item?.currency,
-                  })}
-                </li>
+                {item?.permission?.map((item, idx) => {
+                  return (
+                    <li
+                      className="flex items-center gap-3 text-gray-300"
+                      key={idx}
+                    >
+                      <CheckCircle className="text-primary" size={20} />
+                      {item}
+                    </li>
+                  );
+                })}
               </ul>
 
-              <div className="border-t border-gray-700 pt-4 text-sm text-gray-400 mb-6">
+              <div className="border-t border-gray-700 pt-4 text-sm text-gray-400 mb-6 ">
                 {item?.description}
               </div>
 
-              <div className=" w-full flex justify-center items-center">
+              <div className=" w-full flex justify-center items-center ">
                 <button
-                  className=" justify-center items-center mt-2 px-6 py-3 bg-primary text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition"
+                  className={clsx(
+                    ` justify-center items-center mt-2 px-6 py-3 ${
+                      item?.isCurrentPlan ? "bg-green-700" : "bg-primary"
+                    } text-[white] font-semibold rounded-[10px] shadow hover:opacity-90 transition`
+                  )}
                   onClick={() => {
+                    if (item?.isCurrentPlan) {
+                      return;
+                    }
                     router.push(
                       `/dashboard/pricing/confirm-payment?subId=${encodeURIComponent(
                         item.id
@@ -98,7 +121,7 @@ const Pricing = () => {
                     );
                   }}
                 >
-                  Choose Plan
+                  {item?.isCurrentPlan ? `Active Plan` : `Choose Plan`}
                 </button>
               </div>
             </div>
