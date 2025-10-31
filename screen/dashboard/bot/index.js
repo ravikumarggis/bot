@@ -91,7 +91,7 @@ export default function Bot() {
     <>
       {botList?.length === 0 ? (
         <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
-          <p className="mt-3 text-sm text-gray-400">No Bot Found</p>
+          <p className="mt-3 text-xl text-gray-400">No Bot Found</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

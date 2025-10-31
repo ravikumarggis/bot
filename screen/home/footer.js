@@ -5,7 +5,7 @@
 //     <footer className="bg-[#141424] text-white px-6 py-10">
 //       <div className="max-w-7xl mx-auto">
 //         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          
+
 //           <aside className="col-span-2 lg:col-span-1">
 //             <svg
 //               width="50"
@@ -65,7 +65,6 @@
 
 // export default Footer;
 
-
 "use client";
 
 import { useState } from "react";
@@ -77,6 +76,8 @@ import {
   Mail,
   Globe2,
   DollarSign,
+  Instagram,
+  Github,
 } from "lucide-react";
 
 /**
@@ -111,20 +112,34 @@ export default function Footer() {
             <div className="md:col-span-4 space-y-5">
               <div className="flex items-center gap-3">
                 <div className="w-18 h-16  flex items-center justify-center shrink-0">
-                <img src="/assets/logo1.png" alt="Qbots Logo" className="w-18 h-16" />
+                  <img
+                    src="/assets/logo1.png"
+                    alt="Qbots Logo"
+                    className="w-18 h-16"
+                  />
                 </div>
                 {/* <span className="text-2xl font-semibold leading-none">Qbots</span> */}
               </div>
 
               <div>
-                <h4 className="text-lg font-semibold mb-2">Subscribe to our newsletter</h4>
+                <h4 className="text-lg font-semibold mb-2">⚠️ Disclaimer</h4>
                 <p className="text-slate-300 text-sm">
-                  Stay updated with the latest news and exclusive offers.
+                  QIE Bots is a non-custodial crypto trading automation service
+                  and not a regulated financial entity. Trading digital assets
+                  carries significant risk and may result in losses. Past
+                  performance is not indicative of future results. Users are
+                  fully responsible for their trading decisions and
+                  API-connected accounts.
                 </p>
               </div>
 
-              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 mt-3">
-                <label htmlFor="footer-email" className="sr-only">Email address</label>
+              {/* <form
+                onSubmit={handleSubscribe}
+                className="flex flex-col sm:flex-row gap-3 mt-3"
+              >
+                <label htmlFor="footer-email" className="sr-only">
+                  Email address
+                </label>
                 <input
                   id="footer-email"
                   type="email"
@@ -145,7 +160,7 @@ export default function Footer() {
 
               <p className="text-slate-400 text-sm mt-2">
                 We send occasional emails. Unsubscribe anytime.
-              </p>
+              </p> */}
             </div>
 
             {/* Middle columns: links */}
@@ -153,29 +168,73 @@ export default function Footer() {
               <div>
                 <h5 className="text-slate-200 font-semibold mb-3">Subscribe</h5>
                 <ul className="space-y-2 text-slate-300 text-sm">
-                  <li><a className="hover:text-white" href="#">Email QIE</a></li>
-                  <li><a className="hover:text-white" href="#">Pricing</a></li>
-                  <li><a className="hover:text-white" href="#">Tutorials</a></li>
-                  <li><a className="hover:text-white" href="#">Blog</a></li>
+                  {/* <li>
+                    <a className="hover:text-white" href="#">
+                      Email QIE
+                    </a>
+                  </li> */}
+                  <li>
+                    <a className="hover:text-white" href="/pricing">
+                      Pricing
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Tutorials
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Blog
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
-                <h5 className="text-slate-200 font-semibold mb-3">Product</h5>
+                <h5 className="text-slate-200 font-semibold mb-3">Company</h5>
                 <ul className="space-y-2 text-slate-300 text-sm">
-                  <li><a className="hover:text-white" href="#">About</a></li>
-                  <li><a className="hover:text-white" href="#">Contact</a></li>
-                  <li><a className="hover:text-white" href="#">Careers</a></li>
-                  <li><a className="hover:text-white" href="#">Press</a></li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Contact
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Careers
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Press
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div className="hidden sm:block">
                 <h5 className="text-slate-200 font-semibold mb-3">Resources</h5>
                 <ul className="space-y-2 text-slate-300 text-sm">
-                  <li><a className="hover:text-white" href="#">Security</a></li>
-                  <li><a className="hover:text-white" href="#">Terms of Service</a></li>
-                  <li><a className="hover:text-white" href="#">Privacy Policy</a></li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Security
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Terms of Service
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Privacy Policy
+                    </a>
+                  </li>
                 </ul>
               </div>
 
@@ -183,9 +242,21 @@ export default function Footer() {
               <div className="sm:hidden">
                 <h5 className="text-slate-200 font-semibold mb-3">Resources</h5>
                 <ul className="space-y-2 text-slate-300 text-sm">
-                  <li><a className="hover:text-white" href="#">Security</a></li>
-                  <li><a className="hover:text-white" href="#">Terms of Service</a></li>
-                  <li><a className="hover:text-white" href="#">Privacy Policy</a></li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Security
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Terms of Service
+                    </a>
+                  </li>
+                  <li>
+                    <a className="hover:text-white" href="#">
+                      Privacy Policy
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -196,12 +267,18 @@ export default function Footer() {
 
               <div className="flex gap-3 items-center">
                 <div className="p-1.5 sm:p-1.5 md:p-2 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
-                <img src="././../assets/homepage/binance.png" alt="Binance" className="w-12 h-12 object-contain"/>
-
+                  <img
+                    src="././../assets/homepage/binance.png"
+                    alt="Binance"
+                    className="w-12 h-12 object-contain"
+                  />
                 </div>
                 <div className="p-1.5 sm:p-1.5 md:p-1.5 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
-                <img src="././../assets/homepage/bybit.webp" alt="Bybit" className="w-12 h-12 object-contain"/>
-
+                  <img
+                    src="././../assets/homepage/bybit.webp"
+                    alt="Bybit"
+                    className="w-12 h-12 object-contain"
+                  />
                 </div>
                 {/* <div className="p-2 sm:p-3 md:p-3 rounded-md bg-[#0d1726] border border-white/6 w-12 h-12 sm:w-12 sm:h-12 flex items-center justify-center">
                   <div className="text-xs text-slate-300">AFS 256</div>
@@ -210,17 +287,33 @@ export default function Footer() {
 
               <div className="pt-2">
                 <div className="flex gap-3">
-                  <a aria-label="Twitter" className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition" href="#">
-                    <Twitter className="w-4 h-4 text-slate-200"/>
+                  <a
+                    aria-label="Twitter"
+                    className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition"
+                    href="https://x.com/qiblockchain"
+                  >
+                    <Twitter className="w-4 h-4 text-slate-200" />
                   </a>
-                  <a aria-label="Facebook" className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition" href="#">
-                    <Facebook className="w-4 h-4 text-slate-200"/>
+                  <a
+                    aria-label="Facebook"
+                    className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition"
+                    href="https://www.facebook.com/QiBlockchain"
+                  >
+                    <Facebook className="w-4 h-4 text-slate-200" />
                   </a>
-                  <a aria-label="YouTube" className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition" href="#">
-                    <Youtube className="w-4 h-4 text-slate-200"/>
+                  <a
+                    aria-label="YouTube"
+                    className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition"
+                    href="https://www.instagram.com/qiblockchain.online/"
+                  >
+                    <Instagram className="w-4 h-4 text-slate-200" />
                   </a>
-                  <a aria-label="LinkedIn" className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition" href="#">
-                    <Linkedin className="w-4 h-4 text-slate-200"/>
+                  <a
+                    aria-label="LinkedIn"
+                    className="p-2 rounded-full bg-[#0c1724] border border-white/6 hover:bg-[#0f2a3e] transition"
+                    href="https://github.com/Qi-Blockchain"
+                  >
+                    <Github className="w-4 h-4 text-slate-200" />
                   </a>
                 </div>
               </div>
@@ -239,7 +332,9 @@ export default function Footer() {
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <div className="flex items-center gap-3 border border-white/6 rounded-md px-3 py-1 bg-[#071028]">
                 <Globe2 className="w-4 h-4 text-slate-300" />
-                <label htmlFor="select-lang" className="sr-only">Language</label>
+                <label htmlFor="select-lang" className="sr-only">
+                  Language
+                </label>
                 <select
                   id="select-lang"
                   value={lang}
@@ -254,7 +349,9 @@ export default function Footer() {
 
               <div className="flex items-center gap-3 border border-white/6 rounded-md px-3 py-1 bg-[#071028]">
                 <DollarSign className="w-4 h-4 text-slate-300" />
-                <label htmlFor="select-currency" className="sr-only">Currency</label>
+                <label htmlFor="select-currency" className="sr-only">
+                  Currency
+                </label>
                 <select
                   id="select-currency"
                   value={currency}
@@ -269,7 +366,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
       </div>
     </footer>
   );
