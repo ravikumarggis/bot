@@ -63,9 +63,10 @@ const Pricing = () => {
                 </div>
               )}
 
-              <div className="text-center mb-4">
-                <span className="bg-purple-600/20 text-primary text-sm px-4 py-1 rounded-full">
-                  {isMonthlyPlan(item?.duration) ? "Monthly" : "Yearly"}
+              <div className="text-center mb-4 capitalize">
+                <span className="bg-purple-600/20 text-primary text-sm px-4 py-1 rounded-full ">
+                  {/* {isMonthlyPlan(item?.duration) ? "Monthly" : "Yearly"} */}
+                  {item?.name || "--"}
                 </span>
               </div>
 
