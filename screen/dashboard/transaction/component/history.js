@@ -219,8 +219,10 @@ export default function History() {
         onApply={applyFilters}
       />
       {/* <DataTable columns={columns} data={filteredData} /> */}
-      <div className="h-[100%] mt-14 flex items-center justify-center">
-        <CommingSoon />
+      <div className="min-h-96 flex items-center justify-center">
+        <p className="mt-3 text-xl text-gray-400">
+          This module is currently in active development
+        </p>
       </div>
     </div>
   );

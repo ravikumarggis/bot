@@ -207,7 +207,7 @@ export default function ActiveTrade() {
       />
       {/* <DataTable columns={columns} data={filteredData} /> */}
       <div className="min-h-96 flex items-center justify-center">
-        <p className="text-3xl font-semibold text-gray-200">
+        <p className="mt-3 text-xl text-gray-400">
           This module is currently in active development
         </p>
       </div>
