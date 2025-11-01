@@ -13,6 +13,7 @@ import {
   Calendar,
   Settings2,
   Bot,
+  XIcon,
 } from "lucide-react";
 import { IconCurrency, IconExchange, IconHistory } from "@tabler/icons-react";
 import { deleteCookie } from "cookies-next";
@@ -99,12 +100,21 @@ export default function DashboardHeader() {
 
           <div className="flex items-center gap-4">
             <a
-              href="https://t.me/yourcommunity"
+              href="https://t.me/HovRonQiblockchain"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-block bg-primary text-white font-semibold rounded-[10px] px-4 py-1.5 text-sm transition-colors"
             >
               Join Telegram
+            </a>
+
+            <a
+              href="https://t.me/HovRonQiblockchain"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sm:hidden inline-block bg-primary text-white font-semibold rounded-[10px] px-4 py-1.5 text-sm transition-colors"
+            >
+             Join Telegram
             </a>
 
             <div className="hidden md:block">
