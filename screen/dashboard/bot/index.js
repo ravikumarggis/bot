@@ -98,7 +98,7 @@ export default function Bot() {
                 {botList?.map((item, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1117] rounded-2xl p-5 border border-gray-800 shadow-inner min-h-[120px] cursor-pointer"
+                    className=" rounded-2xl p-5 bg-[#0b1229] border-white/10 border  shadow-md hover:shadow-blue-500/10 hover:bg-[#121a36] min-h-[120px] cursor-pointer"
                     onClick={() => {
                       router.push(
                         `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
