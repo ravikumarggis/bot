@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import CustomDatePicker from "../../../../components/date-modal";
 import Dropdown from "../../../../components/dropdown";
 import DataTable from "../../../../components/common-table";
+import CommingSoon from "@/components/comming-soon";
 
 export default function ActiveTrade() {
   const [filters, setFilters] = useState({
@@ -73,13 +74,15 @@ export default function ActiveTrade() {
     if (currentFilters.tradeType) {
       data = data.filter(
         (item) =>
-          item.tradeType.toLowerCase() === currentFilters.tradeType.toLowerCase()
+          item.tradeType.toLowerCase() ===
+          currentFilters.tradeType.toLowerCase()
       );
     }
 
     if (currentFilters.exchange) {
       data = data.filter(
-        (item) => item.exchange.toLowerCase() === currentFilters.exchange.toLowerCase()
+        (item) =>
+          item.exchange.toLowerCase() === currentFilters.exchange.toLowerCase()
       );
     }
 
@@ -98,9 +101,7 @@ export default function ActiveTrade() {
 
     const header = columns.map((col) => col.label).join(",");
     const rows = filteredData
-      .map((row) =>
-        columns.map((col) => `"${row[col.key] ?? ""}"`).join(",")
-      )
+      .map((row) => columns.map((col) => `"${row[col.key] ?? ""}"`).join(","))
       .join("\n");
 
     const csvContent = `${header}\n${rows}`;
@@ -174,33 +175,42 @@ export default function ActiveTrade() {
           className="w-56"
         />
 
-          <button
-            onClick={() => onApply(filters)}
-            className="bg-primary px-6 py-2 rounded-md font-semibold"
-          >
-            Apply
-          </button>
-          <button
-            onClick={handleReset}
-            className="bg-gray-700 px-6 py-2 rounded-md font-semibold"
-          >
-            Reset
-          </button>
-          
         <button
-            onClick={exportToCSV}
-            className="bg-green-600 px-6 py-2 rounded-md font-semibold"
-          >
-            Export CSV
-          </button>
+          onClick={() => onApply(filters)}
+          className="bg-primary px-6 py-2 rounded-md font-semibold"
+        >
+          Apply
+        </button>
+        <button
+          onClick={handleReset}
+          className="bg-gray-700 px-6 py-2 rounded-md font-semibold"
+        >
+          Reset
+        </button>
+
+        <button
+          onClick={exportToCSV}
+          className="bg-green-600 px-6 py-2 rounded-md font-semibold"
+        >
+          Export CSV
+        </button>
       </div>
     );
   };
 
   return (
     <div className="p-6 text-white min-h-screen">
-      <TableFilter filters={filters} setFilters={setFilters} onApply={applyFilters} />
-      <DataTable columns={columns} data={filteredData} />
+      <TableFilter
+        filters={filters}
+        setFilters={setFilters}
+        onApply={applyFilters}
+      />
+      {/* <DataTable columns={columns} data={filteredData} /> */}
+      <div className="min-h-96 flex items-center justify-center">
+        <p className="text-3xl font-semibold text-gray-200">
+          This module is currently in active development
+        </p>
+      </div>
     </div>
   );
 }
