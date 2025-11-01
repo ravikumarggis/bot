@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
   gridLevels: Yup.number()
     .typeError("Grid levels must be a number")
     .integer("Must be an integer")
-    .min(3, "At least 1 USD grid level")
+    .min(3, "At least 3 USD grid level")
     .required("Grid levels are required"),
   botName: Yup.string().required("Bot name is required"),
 });
