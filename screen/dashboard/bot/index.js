@@ -130,8 +130,8 @@ export default function Bot() {
                         className={clsx(
                           "text-xs text-white px-2 py-1 rounded",
                           getStatus(item)?.status === "Active"
-                            ? "bg-green-600"
-                            : "bg-red-600"
+                            ? "bg-emerald-700/70"
+                            : "bg-red-700/70"
                         )}
                       >
                         {getStatus(item)?.status}
