@@ -48,7 +48,6 @@ export default function CurrentPlan({ activeSubs }) {
             <div className="text-sm text-gray-400 mt-1">Available Cap</div>
           </div>
         </div>
-        {console.log(activeSubs, "activeSubs>>")}
         {activeSubs?.subscriptionName && (
           <div className="flex gap-2 flex-col w-full">
             <div className="w-full flex flex-row justify-between items-center">

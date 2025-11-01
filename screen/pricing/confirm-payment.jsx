@@ -77,30 +77,21 @@ const ConfirmPayment = () => {
           <div className="flex flex-col bg-primary/10 lg:min-w-sm rounded-2xl p-4 gap-4 py-6 border border-primary/20">
             <p className="font-semibold text-xl">Your Plan</p>
             <div className="p-4 flex gap-2 flex-col border border-primary/30 rounded-2xl bg-primary/10 ">
-              <p className="font-semibold text-xl">
+              <p className="font-semibold text-xl capitalize">
                 {subscriptionData?.name || "--"} Plan
               </p>
-              <div className="flex gap-6 font-medium text-lg">
-                <div className="flex gap-1 flex-col">
-                  <p>Duration:</p>
-                  <p>Profit Cap:</p>
-                  <p>Exchange:</p>
-                  <p>Price:</p>
+              <div className="flex font-medium text-lg flex-col">
+                <div>
+                  {subscriptionData?.permission?.map((item, idx) => {
+                    return (
+                      <div className="flex flex-row" key={idx}>
+                        <p>{item}</p>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="flex gap-1 flex-col">
-                  <p>
-                    {subscriptionData?.duration || 0} {"days"}
-                  </p>
-
-                  <p>
-                    {formatCurrency({
-                      amount: subscriptionData?.profitCap,
-                      currency: subscriptionData?.currency,
-                    })}
-                  </p>
-
-                  <p>{subscriptionData?.exchange || ""}</p>
-
+                <div className="flex flex-row">
+                  <p>Price: </p>
                   <p>
                     {formatCurrency({
                       amount: subscriptionData?.amount,
