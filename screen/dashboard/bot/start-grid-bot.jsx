@@ -25,6 +25,7 @@ import GridBotLogs from "./start-grid-bot-components/logs";
 import GridBotCancelledOrder from "./start-grid-bot-components/cancelled-order";
 import { deleteBot } from "@/queries/bot";
 import clsx from "clsx";
+import { formatCurrency } from "@/utils";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
@@ -95,12 +96,16 @@ export default function StartGridBot() {
     symbol: botData?.symbol,
     exchange: exchangeName ? exchangeName : undefined,
   });
+
   const currentAmount = useMemo(() => {
-    const closePrice =
-      ohlcvData?.ohlcvData?.[ohlcvData?.ohlcvData?.length - 1]?.[4];
-    const qty = botData?.params?.quantityPerGridUSD;
-    return Number(closePrice || 0) * Number(qty || 0);
+    const data =
+      botData?.params?.gridLevel * 2 * botData?.params?.quantityPerGridUSD;
+    return data;
   }, [ohlcvData, botData]);
+
+  const isBotRunning = useMemo(() => {
+    return botData?.status == "running";
+  }, [botData]);
 
   return (
     <div className="min-h-screen  text-gray-200">
@@ -220,7 +225,10 @@ export default function StartGridBot() {
                   <div className="flex justify-between">
                     <div className="text-sm text-gray-400 mb-1">Investment</div>
                     <div className="text-base text-white">
-                      {Number(currentAmount)?.toFixed(4)} USDT
+                      {formatCurrency({
+                        amount: Number(currentAmount)?.toFixed(4),
+                        currency: "USD",
+                      })}
                     </div>
                   </div>
                 )}
@@ -255,6 +263,12 @@ export default function StartGridBot() {
                 <div className="flex justify-end gap-4">
                   <EditIcon
                     onClick={() => {
+                      if (isBotRunning) {
+                        toast.success(
+                          "Please stop the bot before making changes."
+                        );
+                        return;
+                      }
                       router.push(
                         `/dashboard/bot/edit-grid-bot?botId=${encodeURIComponent(
                           botId

@@ -26,11 +26,12 @@ const validationSchema = Yup.object({
   quantity: Yup.number()
     .typeError("Quantity must be a number")
     .positive("Must be positive")
+    .min(5, "Minimum quantity is 5 USD")
     .required("Quantity per grid is required"),
   gridLevels: Yup.number()
     .typeError("Grid levels must be a number")
     .integer("Must be an integer")
-    .min(1, "At least 1 grid level")
+    .min(3, "At least 3 USD grid level")
     .required("Grid levels are required"),
   botName: Yup.string().required("Bot name is required"),
 });
@@ -115,14 +116,14 @@ export default function CreateGridBot() {
 
   const Toggle = ({ name, label }) => {
     const value = formik.values[name];
-  
+
     return (
       <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
         <div>
           <div className="text-xs text-gray-400">{label}</div>
           <div className="font-medium mt-1">{value ? "Yes" : "No"}</div>
         </div>
-  
+
         <button
           type="button"
           onClick={() => formik.setFieldValue(name, !value)}
@@ -147,7 +148,6 @@ export default function CreateGridBot() {
       </div>
     );
   };
-  
 
   return (
     <div className="min-h-screen text-gray-200">
@@ -209,17 +209,17 @@ export default function CreateGridBot() {
                   {[
                     {
                       name: "highPrice",
-                      label: "High Price",
+                      label: "High Price in USD",
                       placeholder: "Below 144.291",
                     },
                     {
                       name: "lowPrice",
-                      label: "Low Price",
+                      label: "Low Price in USD",
                       placeholder: "Above 77665.31",
                     },
                     {
                       name: "quantity",
-                      label: "Quantity per grid",
+                      label: "Quantity per grid in USD",
                       placeholder: "0.0001",
                     },
                     {
