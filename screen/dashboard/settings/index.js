@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { User, Mail, Phone, Globe, Edit } from "lucide-react";
-import Dropdown from "../../../components/dropdown";
+import CountryDropdown from "../../../components/country-dropdown";
 import { updateProfileMutation, useUserProfile } from "@/queries/profile";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -20,11 +20,28 @@ export default function ProfileSettings() {
   } = useUserProfile();
 
   const countryOptions = [
-    { value: "IN", label: "India" },
-    { value: "US", label: "United States" },
-    { value: "UK", label: "United Kingdom" },
+    { value: "+1", label: "United States (+1)" },
+    { value: "+44", label: "United Kingdom (+44)" },
+    { value: "+1", label: "Canada (+1)" },
+    { value: "+61", label: "Australia (+61)" },
+    { value: "+91", label: "India (+91)" },
+    { value: "+49", label: "Germany (+49)" },
+    { value: "+33", label: "France (+33)" },
+    { value: "+39", label: "Italy (+39)" },
+    { value: "+34", label: "Spain (+34)" },
+    { value: "+86", label: "China (+86)" },
+    { value: "+81", label: "Japan (+81)" },
+    { value: "+82", label: "South Korea (+82)" },
+    { value: "+65", label: "Singapore (+65)" },
+    { value: "+971", label: "United Arab Emirates (+971)" },
+    { value: "+55", label: "Brazil (+55)" },
+    { value: "+27", label: "South Africa (+27)" },
+    { value: "+7", label: "Russia (+7)" },
+    { value: "+31", label: "Netherlands (+31)" },
+    { value: "+52", label: "Mexico (+52)" }
   ];
-
+  
+  
   const validationSchema = Yup.object().shape({
     name: Yup.string().trim().required("Name is required."),
     email: Yup.string()
@@ -62,7 +79,7 @@ export default function ProfileSettings() {
         return updateProfileMutation({
           name: values?.name,
           countryCode: values?.country,
-          email: values?.email,
+         
           mobileNumber: values?.phone,
         });
       },
@@ -193,7 +210,7 @@ export default function ProfileSettings() {
       {/* Phone & Country Dropdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div>
-          <Dropdown
+          <CountryDropdown
             label="Country"
             options={countryOptions}
             value={formik.values.country}

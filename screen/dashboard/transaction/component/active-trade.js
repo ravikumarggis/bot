@@ -118,12 +118,12 @@ export default function ActiveTrade() {
   const TableFilter = ({ filters, setFilters, onApply }) => {
     const tradeTypeOptions = [
       { label: "Spot", value: "spot" },
-      { label: "Futures", value: "futures" },
+   
     ];
 
     const exchangeOptions = [
-      { label: "Binance", value: "binance" },
-      { label: "Coinbase", value: "coinbase" },
+      { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
+      { label: "Bybit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
     ];
 
     const handleChange = (key, value) => {

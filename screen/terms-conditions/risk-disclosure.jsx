@@ -8,7 +8,7 @@ export default function RiskDisclosure() {
         <h1 className="text-4xl font-bold mb-4">⚠️ Risk Disclosure — QIE Bots</h1>
         <p className="text-lg opacity-80">Last Updated: <strong>October 2025</strong></p>
         <p className="mt-4 opacity-90">
-          This General Risk Disclosure ("Risk Disclosure") applies to your use of the QIE Bots website, its platform, features, and any related products or services (collectively referred to as the "Services"). QIE Bots ("we," "our," or "us") refers to the domain <a className="text-indigo-600 underline" href="https://qiebots.com/">https://qiebots.com/</a> ("Platform"). By accessing or using QIE Bots, you acknowledge, understand, and accept the risks described below.
+          This General Risk Disclosure ("Risk Disclosure") applies to your use of the QIE Bots website, its platform, features, and any related products or services (collectively referred to as the "Services"). QIE Bots ("we," "our," or "us") refers to the domain <a className="text-indigo-600 underline" href="https://qbots.trade/">https://qbots.trade/</a> ("Platform"). By accessing or using QIE Bots, you acknowledge, understand, and accept the risks described below.
         </p>
       </section>
 

@@ -20,7 +20,7 @@ import clsx from "clsx";
 
 const exchangeOptions = [
   { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
-  { label: "ByBit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
+  { label: "Bybit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
 ];
 
 export default function AddExchange() {

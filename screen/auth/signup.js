@@ -252,17 +252,7 @@ const Signup = () => {
               />
             </div>
 
-            {/* <button
-              type="button"
-              className="w-full flex items-center justify-center border border-gray-700 py-2 rounded-[10px] hover:bg-gray-800 transition-colors"
-            >
-              <img
-                src="https://developers.google.com/identity/images/g-logo.png"
-                alt="Google logo"
-                className="w-5 h-5 mr-2"
-              />
-              Sign up with Google
-            </button> */}
+           
           </form>
         </div>
       </div>

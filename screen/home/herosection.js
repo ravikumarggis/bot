@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import React from "react";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { getCookie } from "cookies-next";
 import { useEffect, useMemo, useState } from "react";
-
+import Marquee from "react-fast-marquee";
 import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
@@ -19,7 +19,11 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[#030b1f] text-white   items-center justify-center px-6 md:px-20">
       <div className="inline-block px-4 py-1.5 pb-4 text-sm tracking-wide font-medium text-gray-200"></div>
-      <div className=" mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-20 md:pt-28">
+      <Marquee className="w-full mt-20 text-xl  font-bold bg-primary">
+        This app is in active development. Data, features, and content may be
+        incomplete or inaccurate.
+      </Marquee>
+      <div className=" mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-10 md:pt-15">
         <div className="flex-1 space-y-6 ">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             Trade Smarter with
