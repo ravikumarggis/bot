@@ -8,14 +8,14 @@ export default function TermsCondition() {
       <section>
         <h1 className="text-4xl font-bold mb-4">📜 Terms & Conditions — QIE Bots</h1>
         <p className="text-lg opacity-80">Last Updated: <strong>October 2025</strong></p>
-        <p className="mt-4 opacity-90">Welcome to QIE Bots. These Terms & Conditions ("Terms") govern your access to and use of the QIE Bots website, platform, applications, and related services (collectively, the "Services"). The Services are provided by QIE Bots ("QIE Bots", "we", "us", or "our") through the domain <a className="text-indigo-600 underline" href="https://qiebots.com/">https://qiebots.com/</a> (the "Platform"). By accessing or using the Services, creating an account, funding your account, or otherwise interacting with the Platform, you agree to be bound by these Terms.</p>
+        <p className="mt-4 opacity-90">Welcome to QIE Bots. These Terms & Conditions ("Terms") govern your access to and use of the QIE Bots website, platform, applications, and related services (collectively, the "Services"). The Services are provided by QIE Bots ("QIE Bots", "we", "us", or "our") through the domain <a className="text-indigo-600 underline" href="https://qbots.trade/">https://qbots.trade/</a> (the "Platform"). By accessing or using the Services, creating an account, funding your account, or otherwise interacting with the Platform, you agree to be bound by these Terms.</p>
       </section>
 
       <section>
         <h2 className="text-2xl font-semibold mb-2">1. Definitions</h2>
         <ul className="list-disc pl-6 space-y-1 opacity-90">
           <li><strong>Account</strong> — the user account you create on the Platform, accessed via your login credentials.</li>
-          <li><strong>Platform</strong> — QIE Bots' web application, services, tools, and interfaces provided via https://qiebots.com.</li>
+          <li><strong>Platform</strong> — QIE Bots' web application, services, tools, and interfaces provided via https://qbots.trade.</li>
           <li><strong>Services</strong> — the Platform, mobile/desktop apps, features, documentation, APIs, and support services.</li>
           <li><strong>Fuel Wallet</strong> — a wallet or internal account used to deposit credits/crypto to cover fees or platform charges.</li>
           <li><strong>Subscription Tier</strong> — the pricing plan or Service level you choose (e.g., Starter, Pro).</li>

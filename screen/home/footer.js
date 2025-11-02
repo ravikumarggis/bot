@@ -81,15 +81,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-/**
- * Responsive Footer component for Next.js + Tailwind CSS
- * Place your assets in /public:
- *  - /public/logo-square.png
- *  - /public/binance-logo.png
- *  - /public/bybit-logo.png
- *
- * This component is mobile-first and will adapt across screens.
- */
 
 export default function Footer() {
   const [email, setEmail] = useState("");

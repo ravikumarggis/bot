@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
         <p className="mt-4 opacity-90">
           This Privacy and Cookies Policy (“Privacy Policy”) governs your use of the QIE Bots website, its platform, and related services (collectively, the “Services”).
           QIE Bots (“we,” “our,” or “us”) refers to the domain{" "}
-          <a className="text-indigo-600 underline" href="https://qiebots.com/">https://qiebots.com/</a> (“Platform”), including all content, data, and materials made available through it.
+          <a className="text-indigo-600 underline" href="https://qbots.trade/">https://qbots.trade/</a> (“Platform”), including all content, data, and materials made available through it.
           This Policy explains how we collect, store, process, and protect your personal information when you access or use our Platform.
           By using QIE Bots, you agree to the collection and use of your information in accordance with this Policy. If you do not agree, you must discontinue use of the Platform.
         </p>
@@ -175,7 +175,7 @@ export default function PrivacyPolicy() {
           For any questions, privacy requests, or complaints, please contact us:
         </p>
         <p className="opacity-90 mt-2">📧 Email: <a className="text-indigo-600 underline" href="mailto:support@qiebots.com">support@qiebots.com</a></p>
-        <p className="opacity-90 mt-1">🌐 Website: <a className="text-indigo-600 underline" href="https://qiebots.com">https://qiebots.com</a></p>
+        <p className="opacity-90 mt-1">🌐 Website: <a className="text-indigo-600 underline" href="https://qbots.trade">https://qbots.trade</a></p>
         <p className="opacity-90 mt-1">🕒 Support Hours: Monday to Friday, 10 AM – 6 PM (UTC)</p>
       </section>
     </div>

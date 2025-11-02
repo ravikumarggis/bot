@@ -17,9 +17,9 @@ const roboto = Roboto({
 
 export const metadata = {
   title: "Qbots",
-  description: "AI-powered Qbots assistant",
+  description: "Automated crypto trading bot that runs 24/7, optimizing trades and maximizing profits with smart algorithmic execution.",
   icons: {
-    icon: '/assets/logo1.png', 
+    icon: '/assets/logo.png', 
   },
 };
 

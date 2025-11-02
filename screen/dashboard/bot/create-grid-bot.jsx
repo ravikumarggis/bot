@@ -209,12 +209,12 @@ export default function CreateGridBot() {
                   {[
                     {
                       name: "highPrice",
-                      label: "High Price in USD",
+                      label: "High Asset Price in USD",
                       placeholder: "Below 144.291",
                     },
                     {
                       name: "lowPrice",
-                      label: "Low Price in USD",
+                      label: "Low Asset Price in USD",
                       placeholder: "Above 77665.31",
                     },
                     {

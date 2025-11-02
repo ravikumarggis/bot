@@ -119,7 +119,7 @@ export default function History() {
   const TableFilter = ({ filters, setFilters, onApply }) => {
     const tradeTypeOptions = [
       { label: "Spot", value: "spot" },
-      { label: "Futures", value: "futures" },
+      // { label: "Futures", value: "futures" },
     ];
     const tradeStatusOptions = [
       { label: "Completed", value: "completed" },
@@ -127,8 +127,8 @@ export default function History() {
     ];
 
     const exchangeOptions = [
-      { label: "Binance", value: "binance" },
-      { label: "Coinbase", value: "coinbase" },
+      { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
+      { label: "Bybit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
     ];
 
     const handleChange = (key, value) => {
