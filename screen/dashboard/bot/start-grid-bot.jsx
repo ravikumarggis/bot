@@ -66,6 +66,9 @@ export default function StartGridBot() {
   const { data: exchangeData, refetch: exchangeDataRefetch } =
     useGetKeysExchange();
 
+    console.log(botData,"exchangeDataexchangeDataexchangeData");
+    
+
   const {
     mutateAsync: updateBotStatusMutate,
     isPending: updatebotStatusPending,
@@ -116,7 +119,7 @@ export default function StartGridBot() {
             {/* Left: Chart & controls (span 2 columns on large screens) */}
             <section className="col-span-1 lg:col-span-2 bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e]">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Start Bot</h1>
+                <h1 className="text-3xl font-bold">Bot Status:  {isBotRunning ? <span className="text-green-700">Runing</span>: <span className="text-red-600">Ofline</span>}<span> </span></h1>
               </div>
 
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
@@ -192,21 +195,21 @@ export default function StartGridBot() {
 
               <div className="space-y-6">
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">High Price</div>
+                  <div className="text-sm text-gray-400 mb-1">High Asset Price</div>
                   <div className="text-base text-white">
-                    Below {botData?.params?.highPrice || 0}
+                    {botData?.params?.highPrice || 0}
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">Low Price</div>
+                  <div className="text-sm text-gray-400 mb-1">Low Asset Price</div>
                   <div className="text-base text-white">
-                    Above {botData?.params?.lowPrice || 0}
+                  {botData?.params?.lowPrice || 0}
                   </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">
-                    Quantity per grid
+                    Quantity per grid in USD
                   </div>
                   <div className="text-base text-white">
                     {botData?.params?.quantityPerGridUSD || 0}
@@ -223,7 +226,7 @@ export default function StartGridBot() {
 
                 {currentAmount > 0 && (
                   <div className="flex justify-between">
-                    <div className="text-sm text-gray-400 mb-1">Investment</div>
+                    <div className="text-sm text-gray-400 mb-1">Investment amount</div>
                     <div className="text-base text-white">
                       {formatCurrency({
                         amount: Number(currentAmount)?.toFixed(4),
@@ -239,6 +242,14 @@ export default function StartGridBot() {
                   </div>
                   <div className="text-base text-white capitalize">
                     {exchangeName || "--"}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">
+                    Pair
+                  </div>
+                  <div className="text-base text-white capitalize">
+                    {botData?.symbol || "--"}
                   </div>
                 </div>
 
@@ -279,10 +290,19 @@ export default function StartGridBot() {
                     className="cursor-pointer"
                   />
                   <IconTrashXFilled
-                    onClick={() => {
-                      setCurrentSelectedItem(null);
-                      setDeleteModalState(true);
-                    }}
+                   onClick={() => {
+                    if (isBotRunning) {
+                      toast.success(
+                        "Please stop the bot before making changes."
+                      );
+                      return;
+                    }
+                   else{
+                    setCurrentSelectedItem(null);
+                    setDeleteModalState(true);
+                   }
+                  }}
+                  
                     color="red"
                     className="cursor-pointer"
                   />

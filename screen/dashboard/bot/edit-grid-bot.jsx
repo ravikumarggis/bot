@@ -200,15 +200,14 @@ export default function EditGridBot() {
                     className="w-50"
                     disabled
                   />
-                  <Dropdown
+                  <input
                     label="Pair"
-                    options={[
-                      { label: "BTC/USDT", value: "BTC/USDT" },
-                      { label: "ETH/USDT", value: "ETH/USDT" },
-                    ]}
+                   
                     value={pair || ""}
                     onSelect={(val) => setPair(val)}
-                    className="w-50"
+                   
+                    className="w-50 bg-[#1a1a25] rounded-md px-3 py-2 text-white focus:outline-none focus:border-primary"
+           
                     disabled
                   />
                 </div>
@@ -234,12 +233,12 @@ export default function EditGridBot() {
                   {[
                     {
                       name: "highPrice",
-                      label: "High Price in USD",
+                      label: "High Asset Price in USD",
                       placeholder: "Below 144.291",
                     },
                     {
                       name: "lowPrice",
-                      label: "Low Price in USD",
+                      label: "Low Asset Price in USD",
                       placeholder: "Above 77665.31",
                     },
                     {
