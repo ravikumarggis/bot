@@ -62,7 +62,7 @@ export default function CommonTable({ columns, data }) {
 
                   const cellValue = row[col.key];
                   const cellClass =
-                    col.key === "status"
+                    (col.key === "status" ||col.key ==="planStatus")
                       ? getStatusColor(cellValue)
                       : "text-gray-300";
 

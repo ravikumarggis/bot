@@ -110,7 +110,7 @@ export default function Bot() {
                     <div className="flex items-start justify-between">
                       <div className="w-10 h-10 rounded-md bg-[#141420] flex items-center justify-center text-pink-400">
                         {/* icon placeholder */}
-                        <svg
+                        {/* <svg
                           width="18"
                           height="18"
                           viewBox="0 0 24 24"
@@ -124,7 +124,12 @@ export default function Bot() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                           />
-                        </svg>
+                        </svg> */}
+                         <img
+                    src="/assets/logo1.png"
+                    alt="Qbots Logo"
+                    className="w-16 h-12"
+                  />
                       </div>
                       <div
                         className={clsx(
