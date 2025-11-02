@@ -25,6 +25,7 @@ import PaymentProcessing from "./component/payment-processing";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { invoiceAtom } from "@/const/atoms";
+import { X } from "lucide-react";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,7 +73,7 @@ const ConfirmPayment = () => {
   return (
     <div className="container mx-auto flex items-center justify-center mt-20">
       <div className="flex flex-col ">
-        <h3 className="font-bold text-3xl">Review & Pay via PayPal</h3>
+        <h3 className="font-bold text-3xl">Review & Pay</h3>
         <div className="flex flex-col lg:flex-row  mt-6 gap-4">
           <div className="flex flex-col bg-primary/10 lg:min-w-sm rounded-2xl p-4 gap-4 py-6 border border-primary/20">
             <p className="font-semibold text-xl">Your Plan</p>
@@ -91,14 +92,15 @@ const ConfirmPayment = () => {
                   })}
                 </div>
                 <div className="flex flex-row">
-                  <p>Price: </p>
-                  <p>
-                    {formatCurrency({
-                      amount: subscriptionData?.amount,
-                      currency: subscriptionData?.currency,
-                    })}
-                  </p>
-                </div>
+  <p>Price:</p>
+  <p className="ml-1">
+    {formatCurrency({
+      amount: subscriptionData?.amount,
+      currency: subscriptionData?.currency,
+    })}
+  </p>
+</div>
+
               </div>
               <p
                 className="text-primary pt-6 hover:underline cursor-pointer"
@@ -133,7 +135,7 @@ const ConfirmPayment = () => {
               You'll be securely redirected to PayPal to complete your payment
             </p>
             <div className="w-full h-1 bg-primary"></div>
-            <p className="font-semibold text-xl">Pay via QIE</p>
+            <p className="font-semibold text-xl">Pay via QIE <span className="text-primary">(50% off)</span></p>
             <button
               className="bg-primary h-10 font-normal text-lg rounded"
               onClick={() => {
@@ -147,7 +149,7 @@ const ConfirmPayment = () => {
                 }
               }}
             >
-              {isConnecting ? `Loading...` : `Pay with QIE`}
+              {isConnecting ? `Loading...` : `Buy in $${subscriptionData?.amount/2}`}
             </button>
           </div>
         </div>
@@ -200,20 +202,28 @@ const WalletConnectModal = ({ open, setOpen, setInvoiceModalState }) => {
 
   return (
     <Modal open={open} setOpen={setOpen}>
-      <div className="flex items-center justify-center gap-8 flex-col">
-        <DialogTitle as="h3" className="text-white text-2xl font-semibold">
-          Please Connect Wallet
-        </DialogTitle>
-        <button
-          className="bg-primary min-w-xs h-10 rounded"
-          onClick={() => {
-            openConnectModal();
-          }}
-        >
-          Connect Wallet
-        </button>
-      </div>
-    </Modal>
+    <div className="relative flex items-center justify-center gap-8 flex-col p-6">
+      {/* Close Button */}
+      <button
+        onClick={() => setOpen(false)}
+        className="absolute top-0 right-0 text-gray-400 hover:text-white transition"
+      >
+        <X className="w-7 h-7" />
+      </button>
+  
+      {/* Modal Content */}
+      <DialogTitle as="h3" className="text-white text-2xl font-semibold">
+        Please Connect Wallet
+      </DialogTitle>
+  
+      <button
+        className="bg-primary min-w-xs h-10 rounded hover:opacity-90 transition"
+        onClick={() => openConnectModal()}
+      >
+        Connect Wallet
+      </button>
+    </div>
+  </Modal>
   );
 };
 

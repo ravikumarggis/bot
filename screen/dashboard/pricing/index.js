@@ -70,6 +70,13 @@ const Pricing = () => {
                 </span>
               </div>
 
+
+      {item?.name === "Pro" && (
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-primary text-pink-200 px-3 py-1 rounded-full text-[10px] sm:text-xs">
+          Popular
+        </div>
+      )}
+
               <div className="text-center mb-6">
                 <p className="text-gray-500 line-through text-lg">
                   {formatCurrency({
@@ -124,6 +131,9 @@ const Pricing = () => {
                   {item?.isCurrentPlan ? `Active Plan` : `Choose Plan`}
                 </button>
               </div>
+              <p className="mt-4 text-xl text-gray-600 font-semibold text-center">
+      Pay with QIE: ${item?.amount/2}/month
+      </p>
             </div>
           );
         })}

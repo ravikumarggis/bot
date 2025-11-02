@@ -25,7 +25,7 @@ export default function ProfitChart() {
     <div className="w-full bg-[#0B0B12] text-white p-6 rounded-2xl shadow-lg">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">
-          Profit Chart <span className="text-sm text-gray-400">(USDT)</span>
+          Profit & Loss Chart <span className="text-sm text-gray-400">(USD)</span>
         </h2>
 
         <select
@@ -53,7 +53,7 @@ export default function ProfitChart() {
             <YAxis
               yAxisId="left"
               label={{
-                value: "Profit (USDT)",
+                value: "Profit & Loss (USD)",
                 angle: -90,
                 position: "insideLeft",
                 fill: "#9CA3AF",
@@ -65,7 +65,7 @@ export default function ProfitChart() {
               yAxisId="right"
               orientation="right"
               label={{
-                value: "Capital (USDT)",
+                value: "Capital (USD)",
                 angle: 90,
                 position: "insideRight",
                 fill: "#9CA3AF",

@@ -25,13 +25,13 @@ export default function PricingHero() {
       priceOldMonthly: "$40",
       priceMonthly: "$20",
       durationMonthly: "1 Month",
-      bottomMonthly: "Pay with QIE :$10/month",
+      bottomMonthly: "Pay with QIE: $10/month",
 
       // Yearly values — must be hard-coded
       priceOldYearly: "$400",
       priceYearly: "$200",
       durationYearly: "1 Year",
-      bottomYearly: "Pay with QIE :$100/year",
+      bottomYearly: "Pay with QIE: $100/year",
 
       exchanges: ["BYBIT"],
       access: "Access to 1 bot",
@@ -48,13 +48,13 @@ export default function PricingHero() {
       priceOldMonthly: "$100",
       priceMonthly: "$50",
       durationMonthly: "1 Month",
-      bottomMonthly: "Pay with QIE :$25/month",
+      bottomMonthly: "Pay with QIE: $25/month",
 
       // Yearly (hard-coded)
       priceOldYearly: "$1000",
       priceYearly: "$500",
       durationYearly: "1 Year",
-      bottomYearly: "Pay with QIE :$250/year",
+      bottomYearly: "Pay with QIE: $250/year",
 
       exchanges: ["BINANCE", "BYBIT"],
       access: "Access to all bots",

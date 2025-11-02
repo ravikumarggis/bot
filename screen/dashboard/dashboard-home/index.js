@@ -93,16 +93,17 @@ Available to Trade : 0"
             icon={ArrowLeftRight}
           />
           <StatCard
-            title="Transactions"
+            title="Total Transactions"
             value={trxCount}
             subtitle="Transactions"
             icon={Receipt}
           />
           <StatCard
-            title="Total Profits"
+            title="Total Profit & Loss"
             value={totalProfit}
-            currency="(USDT)"
-            subtitle="Total Profit"
+            currency="(USD)"
+            currencyIcon="$"
+            subtitle="Total Profit & Loss"
             icon={TrendingUp}
           />
         </div>
