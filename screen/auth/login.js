@@ -30,10 +30,14 @@ const Login = () => {
     onSuccess: (data) => {
       if (data?.data?.responseCode == 200) {
         if (data?.data?.result?.userType === "ADMIN") {
-          toast.success(data?.data?.responseMessage);
-          setCookie("token", data?.data?.result?.token);
-          setCookie("userType", "admin");
-          router.replace("/admin/home");
+          router.push(
+            `/admin-otp-screen?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.name)}&token=${encodeURIComponent(data?.data?.result?.token)}`
+          );
+          
+          // toast.success(data?.data?.responseMessage);
+          // setCookie("token", data?.data?.result?.token);
+          // setCookie("userType", "admin");
+          // router.replace("/admin/home");
         } else {
           toast.success(data?.data?.responseMessage);
           router.push(
