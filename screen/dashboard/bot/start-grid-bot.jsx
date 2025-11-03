@@ -119,7 +119,7 @@ export default function StartGridBot() {
             {/* Left: Chart & controls (span 2 columns on large screens) */}
             <section className="col-span-1 lg:col-span-2 bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e]">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Bot Status:  {isBotRunning ? <span className="text-green-700">Runing</span>: <span className="text-red-600">Ofline</span>}<span> </span></h1>
+                <h1 className="text-3xl font-bold">Bot Status:  {isBotRunning ? <span className="text-green-700">Running</span>: <span className="text-red-600">Offline</span>}<span> </span></h1>
               </div>
 
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
