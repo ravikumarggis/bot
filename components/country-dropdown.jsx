@@ -62,7 +62,7 @@ export default function CountryDropdown({
         disabled={disabled}
         type="button"
         onClick={() => setOpen(!open)}
-        className={`w-full flex items-center justify-between px-5 py-2 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition capitalize`}
+        className={`w-full flex items-center justify-between px-5 py-3 rounded-md text-md font-medium text-white focus:outline-none focus:border-primary transition capitalize`}
         style={{ backgroundColor: bgColor || "#1a1a25" }}
       >
         {selectedOption ? `${selectedOption.label}` : label}
