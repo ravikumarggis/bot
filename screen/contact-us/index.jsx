@@ -1,17 +1,34 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Mail, Phone, MessageSquare, RefreshCw } from "lucide-react";
+import { Mail, Phone, MessageSquare, RefreshCw, User } from "lucide-react";
 import { contactUsMutation } from "@/queries/miss";
 import { useMutation } from "@tanstack/react-query";
 import Dropdown from "@/components/dropdown";
 import { toast } from "sonner";
-
+import CountryDropdown from "@/components/country-dropdown";
 const countryOptions = [
-  { value: "IN", label: "India" },
-  { value: "US", label: "United States" },
-  { value: "UK", label: "United Kingdom" },
+  { value: "+1", label: "United States (+1)" },
+  { value: "+44", label: "United Kingdom (+44)" },
+  { value: "+1", label: "Canada (+1)" },
+  { value: "+61", label: "Australia (+61)" },
+  { value: "+91", label: "India (+91)" },
+  { value: "+49", label: "Germany (+49)" },
+  { value: "+33", label: "France (+33)" },
+  { value: "+39", label: "Italy (+39)" },
+  { value: "+34", label: "Spain (+34)" },
+  { value: "+86", label: "China (+86)" },
+  { value: "+81", label: "Japan (+81)" },
+  { value: "+82", label: "South Korea (+82)" },
+  { value: "+65", label: "Singapore (+65)" },
+  { value: "+971", label: "United Arab Emirates (+971)" },
+  { value: "+55", label: "Brazil (+55)" },
+  { value: "+27", label: "South Africa (+27)" },
+  { value: "+7", label: "Russia (+7)" },
+  { value: "+31", label: "Netherlands (+31)" },
+  { value: "+52", label: "Mexico (+52)" }
 ];
+
 
 export default function ContactFormInline() {
   const [formData, setFormData] = useState({
@@ -41,6 +58,7 @@ export default function ContactFormInline() {
   function validate() {
     const e = {};
     if (!formData.name.trim()) e.name = "Name is required.";
+    if (!formData.phone.trim()) e.phone = "Phone no. is required.";
     if (!formData.email.trim()) e.email = "Email is required.";
     else if (!emailPattern.test(formData.email)) e.email = "Enter a valid email address.";
     if (formData.phone && !phonePattern.test(formData.phone))
@@ -118,7 +136,7 @@ export default function ContactFormInline() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
-            <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
+            <User className="absolute left-3 top-3 text-gray-400" size={20} />
             <input
               type="text"
               name="name"
@@ -149,7 +167,7 @@ export default function ContactFormInline() {
 
           <div className="relative">
             <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
-            <Dropdown
+            <CountryDropdown
               label="Country"
               options={countryOptions}
               value={formData.country}
@@ -167,7 +185,7 @@ export default function ContactFormInline() {
             <input
               type="text"
               name="phone"
-              placeholder="+91 (optional)"
+              placeholder="Enter phone no."
               value={formData.phone}
               onChange={handleChange}
               className={`w-full p-3 pl-10 bg-[#1A1A24] rounded focus:outline-none ${

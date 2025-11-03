@@ -1,10 +1,8 @@
-import Navbar, { Header } from "../components/Navbar";
 import "./globals.css";
 import "./index.css";
 import { Roboto } from "next/font/google";
-import Footer from "../screen/home/footer";
 import QueryProvider from "../providers/query-provider";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import AuthGuard from "../guard/auth-guard";
 import GoogleAuthProvider from "../providers/google-auth";
 import "react-circular-progressbar/dist/styles.css";
@@ -17,15 +15,22 @@ const roboto = Roboto({
 
 export const metadata = {
   title: "Qbots",
-  description: "Automated crypto trading bot that runs 24/7, optimizing trades and maximizing profits with smart algorithmic execution.",
+  description:
+    "Automated crypto trading bot that runs 24/7, optimizing trades and maximizing profits with smart algorithmic execution.",
   icons: {
-    icon: '/assets/logo.png', 
+    icon: "/favicon.ico",                  // primary favicon (ico)
+    shortcut: "/assets/logo1.png",         // used for shortcut icon
+    apple: "/assets/logo1.png",            // apple touch icon (optional)
   },
 };
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={roboto.className}>
+      {/* <head>
+      <link rel="icon" href="/app/logo1.png" sizes="any" />
+      </head> */}
       <body className="antialiased  ">
         <Toaster />
         <QueryProvider>
