@@ -24,16 +24,16 @@ const AdminOtpScreenLogin = () => {
   const inputsRef = useRef([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const token = searchParams.get("token");
-
-  console.log(token,"tokentoken");
+  const email = searchParams.get("email");
   
   const {
     mutateAsync: VerifySignupOtpMutate,
     isPending: VerifySignupOtpMutatePending,
   } = useMutation({
     mutationFn: async () => {
+
+
+      
       return verifyLoginOtp({
         email: email,
         otp: otp,
@@ -41,9 +41,14 @@ const AdminOtpScreenLogin = () => {
     },
     onSuccess: (data) => {
       if (data?.data?.responseCode == 200) {
+        // toast.success(data?.data?.responseMessage);
+        // setCookie("token", data?.data?.result?.token);
+        // router.replace("/dashboard/home");
+
         toast.success(data?.data?.responseMessage);
-        setCookie("token", data?.data?.result?.token);
-        router.replace("/dashboard/home");
+                  setCookie("token", data?.data?.result?.token);
+                  setCookie("userType", "admin");
+                  router.replace("/admin/home");
       } else {
         toast.error(data?.data?.responseMessage);
       }
@@ -188,8 +193,8 @@ const AdminOtpScreenLogin = () => {
                   value={otp[i] || ""}
                   onChange={(e) => handleChange(e.target.value, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
-                  className="w-12 h-12 text-center text-xl bg-[#1A1A24] text-white rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+                  className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
               ))}
             </div>
 

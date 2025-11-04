@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Eye, EyeOff, Mail, Key, UserPlus } from "lucide-react";
+import { Eye, EyeOff, Mail, Key, UserPlus, User } from "lucide-react";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { signupMutation, useHandleGoogleSignup } from "../../queries/auth";
@@ -16,6 +16,7 @@ const Signup = () => {
   const googleLogin = useHandleGoogleSignup();
 
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -25,6 +26,7 @@ const Signup = () => {
     mutationFn: async () => {
       return signupMutation({
         email: formData?.email,
+        name: formData?.name,
         password: formData?.password,
       });
     },
@@ -60,7 +62,10 @@ const Signup = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Enter a valid email";
     }
-
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+   
+    }
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
@@ -121,6 +126,22 @@ const Signup = () => {
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
+            <div className="mb-4 relative">
+              <User className="absolute left-3 top-3 text-gray-500" size={20} />
+              <input
+                type="name"
+                name="name"
+                placeholder="Enter name"
+                value={formData.name}
+                onChange={handleChange}
+                className={`w-full p-3 pl-10 bg-[#1A1A24] rounded focus:outline-none ${
+                  errors.name ? "border border-red-500" : ""
+                }`}
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+              )}
+            </div>
             <div className="mb-4 relative">
               <Mail className="absolute left-3 top-3 text-gray-500" size={20} />
               <input
