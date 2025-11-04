@@ -183,8 +183,8 @@ const OtpScreenForget = () => {
                   value={otp[i] || ""}
                   onChange={(e) => handleChange(e.target.value, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
-                  className="w-12 h-12 text-center text-xl bg-[#1A1A24] text-white rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+                  className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
+      />
               ))}
             </div>
 

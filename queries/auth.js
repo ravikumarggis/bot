@@ -9,12 +9,13 @@ import { useRouter } from "next/navigation";
 import { deleteCookie, setCookie } from "cookies-next";
 import { toast } from "sonner";
 
-export const signupMutation = async ({ email, password }) => {
+export const signupMutation = async ({name, email, password }) => {
   try {
     const response = await api({
       method: "POST",
       url: "/user/signup",
       data: {
+        name: name || undefined,
         email: email || undefined,
         password: password || undefined,
       },

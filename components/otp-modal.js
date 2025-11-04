@@ -98,18 +98,19 @@ const OTPModal = ({
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex justify-center gap-4">
-              {otp.map((digit, idx) => (
-                <input
-                  key={idx}
-                  id={`otp-${idx}`}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleChange(idx, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(e, idx)}
-                  className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                />
+              {otp?.map((digit, idx) => (
+               <input
+               key={idx}
+               id={`otp-${idx}`}
+               type="text"
+               inputMode="numeric"
+               maxLength={1}
+               value={digit}
+               onChange={(e) => handleChange(idx, e.target.value)}
+               onKeyDown={(e) => handleKeyDown(e, idx)}
+               className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
+             />
+             
               ))}
             </div>
 
