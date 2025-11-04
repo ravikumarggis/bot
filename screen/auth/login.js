@@ -31,7 +31,7 @@ const Login = () => {
       if (data?.data?.responseCode == 200) {
         if (data?.data?.result?.userType === "ADMIN") {
           router.push(
-            `/admin-otp-screen?email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.name)}&token=${encodeURIComponent(data?.data?.result?.token)}`
+            `/ad-otp-screen?email=${encodeURIComponent(formData.email)}`
           );
           
           // toast.success(data?.data?.responseMessage);

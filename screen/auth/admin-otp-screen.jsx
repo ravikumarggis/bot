@@ -24,16 +24,16 @@ const AdminOtpScreenLogin = () => {
   const inputsRef = useRef([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const token = searchParams.get("token");
-
-  console.log(token,"tokentoken");
+  const email = searchParams.get("email");
   
   const {
     mutateAsync: VerifySignupOtpMutate,
     isPending: VerifySignupOtpMutatePending,
   } = useMutation({
     mutationFn: async () => {
+
+
+      
       return verifyLoginOtp({
         email: email,
         otp: otp,
@@ -41,9 +41,14 @@ const AdminOtpScreenLogin = () => {
     },
     onSuccess: (data) => {
       if (data?.data?.responseCode == 200) {
+        // toast.success(data?.data?.responseMessage);
+        // setCookie("token", data?.data?.result?.token);
+        // router.replace("/dashboard/home");
+
         toast.success(data?.data?.responseMessage);
-        setCookie("token", data?.data?.result?.token);
-        router.replace("/dashboard/home");
+                  setCookie("token", data?.data?.result?.token);
+                  setCookie("userType", "admin");
+                  router.replace("/admin/home");
       } else {
         toast.error(data?.data?.responseMessage);
       }
