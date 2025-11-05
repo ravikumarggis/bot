@@ -229,9 +229,9 @@ const Signup = () => {
                   href="/terms-conditions"
                   className="text-primary ml-1 hover:underline"
                 >
-                  Terms & Conditions
+                  Terms & Conditions {" "} 
                 </Link>
-                &{" "}
+                <p className="text-white ml-1"> {" "} &</p>
                 <Link
                   href="/privacy-policy"
                   className="text-primary ml-1 hover:underline"

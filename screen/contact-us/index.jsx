@@ -252,7 +252,7 @@ export default function ContactFormInline() {
               <Link href="/terms-conditions" className="text-primary ml-1 hover:underline">
                 Terms &amp; Conditions{"  "}
               </Link>{" "}
-              &amp;{" "}
+              <p className="text-white ml-1"> {" "} &</p>
               <Link href="/privacy-policy" className="text-primary ml-1 hover:underline">
                 Privacy Policy
               </Link>
