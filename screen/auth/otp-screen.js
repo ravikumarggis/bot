@@ -64,14 +64,18 @@ const OtpScreen = () => {
     },
   });
 
+ 
+
   useEffect(() => {
     const storedTime = sessionStorage.getItem("otpTimer");
     if (storedTime) {
       const remaining = parseInt(storedTime, 10) - Date.now();
       if (remaining > 0) {
         startTimer(Math.ceil(remaining / 1000));
+        return;
       }
     }
+    startTimer(120);
   }, []);
 
   const handleChange = (value, index) => {
@@ -110,18 +114,21 @@ const OtpScreen = () => {
     console.log("OTP Submitted (number):", Number(otp));
   };
 
-  const resendOtp = () => {
-    console.log("OTP resent!");
-    startTimer(30);
-    resendOTPSignupMutate();
+  const formatTime = (secs) => {
+    const minutes = Math.floor(secs / 60);
+    const seconds = secs % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
+  
 
   const startTimer = (seconds) => {
     setResendDisabled(true);
     setTimer(seconds);
     const endTime = Date.now() + seconds * 1000;
     sessionStorage.setItem("otpTimer", endTime);
-
+  
     const interval = setInterval(() => {
       const remaining = Math.ceil((endTime - Date.now()) / 1000);
       if (remaining <= 0) {
@@ -134,6 +141,12 @@ const OtpScreen = () => {
       }
     }, 1000);
   };
+
+  const resendOtp = () => {
+    startTimer(120);
+    resendOTPSignupMutate();
+  };
+
 
   return (
     <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#030b1f]">
@@ -191,7 +204,6 @@ const OtpScreen = () => {
             >
               {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
             </button>
-
             <div className="mt-6 flex flex-col items-center">
               <button
                 type="button"
@@ -203,7 +215,9 @@ const OtpScreen = () => {
                     : "hover:underline"
                 }`}
               >
-                {resendDisabled ? `Resend OTP in ${timer}s` : "Resend OTP"}
+                {resendDisabled
+                  ? `Resend OTP in ${formatTime(timer)}`
+                  : "Resend OTP"}
               </button>
             </div>
 

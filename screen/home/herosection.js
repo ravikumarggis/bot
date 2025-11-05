@@ -17,12 +17,19 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[#030b1f] text-white   items-center justify-center px-6 md:px-20">
+    <section className="relative overflow-hidden bg-[#030b1f] text-white pt-30  items-center justify-center px-6 md:px-20">
       <div className="inline-block px-4 py-1.5 pb-4 text-sm tracking-wide font-medium text-gray-200"></div>
-      <Marquee className="w-full mt-20 text-xl  font-bold bg-primary">
-        This app is in active development. Data, features, and content may be
-        incomplete or inaccurate.
-      </Marquee>
+      <div className="absolute top-25 md:top-30 left-0 w-full bg-primary ">
+        <div className="px-6 md:px-20"> {/* this adds parent padding */}
+          <Marquee
+            gradient={false}
+            className="text-lg md:text-xl font-bold py-3"
+          >
+            This app is in active development. Data, features, and content may
+            be incomplete or inaccurate.
+          </Marquee>
+        </div>
+      </div>
       <div className=" mx-auto flex flex-col lg:flex-row items-center justify-between w-full gap-12 pt-10 md:pt-15">
         <div className="flex-1 space-y-6 ">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">

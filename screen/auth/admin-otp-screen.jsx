@@ -78,15 +78,47 @@ const AdminOtpScreenLogin = () => {
     },
   });
 
-  useEffect(() => {
-    const storedTime = sessionStorage.getItem("otpTimer");
-    if (storedTime) {
-      const remaining = parseInt(storedTime, 10) - Date.now();
-      if (remaining > 0) {
-        startTimer(Math.ceil(remaining / 1000));
-      }
+
+// ✅ Start timer from 120 seconds on first load or resume if stored
+useEffect(() => {
+  const storedTime = sessionStorage.getItem("otpTimer");
+  if (storedTime) {
+    const remaining = parseInt(storedTime, 10) - Date.now();
+    if (remaining > 0) {
+      startTimer(Math.ceil(remaining / 1000));
+      return;
     }
-  }, []);
+  }
+  startTimer(120);
+}, []);
+
+const startTimer = (seconds) => {
+  setResendDisabled(true);
+  setTimer(seconds);
+  const endTime = Date.now() + seconds * 1000;
+  sessionStorage.setItem("otpTimer", endTime);
+
+  const interval = setInterval(() => {
+    const remaining = Math.ceil((endTime - Date.now()) / 1000);
+    if (remaining <= 0) {
+      clearInterval(interval);
+      setTimer(0);
+      setResendDisabled(false);
+      sessionStorage.removeItem("otpTimer");
+    } else {
+      setTimer(remaining);
+    }
+  }, 1000);
+};
+
+// ✅ Convert seconds → mm:ss format
+const formatTime = (secs) => {
+  const minutes = Math.floor(secs / 60);
+  const seconds = secs % 60;
+  return `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+};
 
   const handleChange = (value, index) => {
     if (/^[0-9]?$/.test(value)) {
@@ -125,29 +157,11 @@ const AdminOtpScreenLogin = () => {
   };
 
   const resendOtp = () => {
-    console.log("OTP resent!");
-    startTimer(30);
+    startTimer(120);
     resendOTPSignupMutate();
   };
 
-  const startTimer = (seconds) => {
-    setResendDisabled(true);
-    setTimer(seconds);
-    const endTime = Date.now() + seconds * 1000;
-    sessionStorage.setItem("otpTimer", endTime);
 
-    const interval = setInterval(() => {
-      const remaining = Math.ceil((endTime - Date.now()) / 1000);
-      if (remaining <= 0) {
-        clearInterval(interval);
-        setTimer(0);
-        setResendDisabled(false);
-        sessionStorage.removeItem("otpTimer");
-      } else {
-        setTimer(remaining);
-      }
-    }, 1000);
-  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#030b1f]">
@@ -217,7 +231,9 @@ const AdminOtpScreenLogin = () => {
                     : "hover:underline"
                 }`}
               >
-                {resendDisabled ? `Resend OTP in ${timer}s` : "Resend OTP"}
+                {resendDisabled
+                  ? `Resend OTP in ${formatTime(timer)}`
+                  : "Resend OTP"}
               </button>
             </div>
 

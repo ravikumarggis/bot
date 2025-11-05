@@ -30,6 +30,7 @@ const Login = () => {
     onSuccess: (data) => {
       if (data?.data?.responseCode == 200) {
         if (data?.data?.result?.userType === "ADMIN") {
+          toast.success(data?.data?.responseMessage);
           router.push(
             `/ad-otp-screen?email=${encodeURIComponent(formData.email)}`
           );

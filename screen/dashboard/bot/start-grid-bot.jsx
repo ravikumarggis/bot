@@ -15,7 +15,13 @@ import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { IconTrashXFilled } from "@tabler/icons-react";
-import { EditIcon, FileWarning, RefreshCcw, TriangleAlert } from "lucide-react";
+import {
+  EditIcon,
+  FileWarning,
+  Info,
+  RefreshCcw,
+  TriangleAlert,
+} from "lucide-react";
 import Modal from "@/components/ui/modal";
 import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 import GridBotOrders from "./start-grid-bot-components/order";
@@ -66,8 +72,7 @@ export default function StartGridBot() {
   const { data: exchangeData, refetch: exchangeDataRefetch } =
     useGetKeysExchange();
 
-    console.log(botData,"exchangeDataexchangeDataexchangeData");
-    
+  console.log(botData, "exchangeDataexchangeDataexchangeData");
 
   const {
     mutateAsync: updateBotStatusMutate,
@@ -119,7 +124,15 @@ export default function StartGridBot() {
             {/* Left: Chart & controls (span 2 columns on large screens) */}
             <section className="col-span-1 lg:col-span-2 bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e]">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Bot Status:  {isBotRunning ? <span className="text-green-700">Running</span>: <span className="text-red-600">Offline</span>}<span> </span></h1>
+                <h1 className="text-3xl font-bold">
+                  Bot Status:{" "}
+                  {isBotRunning ? (
+                    <span className="text-green-700">Running</span>
+                  ) : (
+                    <span className="text-red-600">Offline</span>
+                  )}
+                  <span> </span>
+                </h1>
               </div>
 
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
@@ -195,21 +208,57 @@ export default function StartGridBot() {
 
               <div className="space-y-6">
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">High Asset Price</div>
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Upper Price Limit
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        The highest price at which the bot will place sell
+                        orders. If the market rises above this level, the bot
+                        will sell all held assets and stop trading.
+                      </div>
+                    </div>
+                  </div>
                   <div className="text-base text-white">
                     {botData?.params?.highPrice || 0}
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">Low Asset Price</div>
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Lower Price Limit
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        The lowest price at which the bot will place buy orders.
+                        If the market drops below this level, the bot will sell
+                        all held assets for stablecoins and stop trading.
+                      </div>
+                    </div>
+                  </div>
                   <div className="text-base text-white">
-                  {botData?.params?.lowPrice || 0}
+                    {botData?.params?.lowPrice || 0}
                   </div>
                 </div>
 
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">
-                    Quantity per grid in USD
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Investment per Grid
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        The amount (in USD) allocated to each grid order.
+                        Determines the trade size for each buy or sell level.
+                      </div>
+                    </div>
                   </div>
                   <div className="text-base text-white">
                     {botData?.params?.quantityPerGridUSD || 0}
@@ -217,16 +266,42 @@ export default function StartGridBot() {
                 </div>
 
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">Grid levels</div>
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Number of Grids
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        The number of intervals your price range will be divided
+                        into. More grids mean smaller profits per trade but more
+                        frequent trades.
+                      </div>
+                    </div>
+                  </div>
+                
                   <div className="text-base text-white">
-                    {" "}
                     {botData?.params?.gridLevel || 0}
                   </div>
                 </div>
 
                 {currentAmount > 0 && (
                   <div className="flex justify-between">
-                    <div className="text-sm text-gray-400 mb-1">Investment amount</div>
+                  
+                    <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Investment Amount
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                      The amount of funds the bot will use to execute grid trades.
+
+                      </div>
+                    </div>
+                  </div>
                     <div className="text-base text-white">
                       {formatCurrency({
                         amount: Number(currentAmount)?.toFixed(4),
@@ -245,9 +320,7 @@ export default function StartGridBot() {
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">
-                    Pair
-                  </div>
+                  <div className="text-sm text-gray-400 mb-1">Pair</div>
                   <div className="text-base text-white capitalize">
                     {botData?.symbol || "--"}
                   </div>
@@ -290,19 +363,17 @@ export default function StartGridBot() {
                     className="cursor-pointer"
                   />
                   <IconTrashXFilled
-                   onClick={() => {
-                    if (isBotRunning) {
-                      toast.success(
-                        "Please stop the bot before making changes."
-                      );
-                      return;
-                    }
-                   else{
-                    setCurrentSelectedItem(null);
-                    setDeleteModalState(true);
-                   }
-                  }}
-                  
+                    onClick={() => {
+                      if (isBotRunning) {
+                        toast.success(
+                          "Please stop the bot before making changes."
+                        );
+                        return;
+                      } else {
+                        setCurrentSelectedItem(null);
+                        setDeleteModalState(true);
+                      }
+                    }}
                     color="red"
                     className="cursor-pointer"
                   />

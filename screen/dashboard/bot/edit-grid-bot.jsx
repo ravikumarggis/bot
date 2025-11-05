@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createBot, updateBot, useGetBot } from "@/queries/bot";
 import { toast } from "sonner";
 import { useGetKeysExchange } from "@/queries/exchange";
+import { Info } from "lucide-react";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
@@ -84,7 +85,7 @@ export default function EditGridBot() {
       quantity: botData?.params?.quantityPerGridUSD || "",
       gridLevels: botData?.params?.gridLevel || "",
       tpPercent: botData?.params?.tpPercent || "",
-      slPercent: botData?.params?.slPercent || "",
+      // slPercent: botData?.params?.slPercent || "",
       botName: botData?.botName || "",
       adxLessThan20: botData?.params?.adxLessThan20,
       rsiBetween40And60: botData?.params?.rsiBetween40And60,
@@ -109,7 +110,7 @@ export default function EditGridBot() {
           gridLevel: Number(values.gridLevels),
           quantityPerGridUSD: Number(values.quantity),
           tpPercent: Number(values.tpPercent),
-          slPercent: Number(values.slPercent),
+          // slPercent: Number(values.slPercent),
           adxLessThan20: values.adxLessThan20,
           rsiBetween40And60: values.rsiBetween40And60,
         },
@@ -202,12 +203,9 @@ export default function EditGridBot() {
                   />
                   <input
                     label="Pair"
-                   
                     value={pair || ""}
                     onSelect={(val) => setPair(val)}
-                   
                     className="w-50 bg-[#1a1a25] rounded-md px-3 py-2 text-white focus:outline-none focus:border-primary"
-           
                     disabled
                   />
                 </div>
@@ -233,28 +231,48 @@ export default function EditGridBot() {
                   {[
                     {
                       name: "highPrice",
-                      label: "High Asset Price in USD",
+                      label: "Upper Price Limit",
+                      tooltipInfo:
+                        "The highest price at which the bot will place sell orders. If the market rises above this level, the bot will sell all held assets for stablecoins and stop trading.",
                       placeholder: "Below 144.291",
                     },
                     {
                       name: "lowPrice",
-                      label: "Low Asset Price in USD",
+                      label: "Lower Price Limit",
+                      tooltipInfo:
+                        "The lowest price at which the bot will place buy orders. If the market drops below this level, the bot will sell all held assets for stablecoins and stop trading.",
                       placeholder: "Above 77665.31",
                     },
                     {
                       name: "quantity",
-                      label: "Quantity per grid in USD",
+                      label: "Investment per Grid",
+                      tooltipInfo:
+                        "The amount of USD the bot will use for each individual buy or sell order within the grid. This defines how much is invested per level.",
                       placeholder: "0.0001",
                     },
                     {
                       name: "gridLevels",
-                      label: "Grid Levels",
+                      label: "Number of Grids",
+                      tooltipInfo:
+                        "The number of intervals (price levels) your range will be divided into for placing buy and sell orders. More grids = smaller profit per trade but more frequent trades.",
                       placeholder: "10",
                     },
                   ].map((f) => (
                     <label key={f.name} className="block">
-                      <div className="text-md text-gray-400 mb-1">
-                        {f.label}
+                      <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
+                        <span>{f.label}</span>
+
+                        {f.tooltipInfo && (
+                          <div className="relative group">
+                            <Info
+                              size={16}
+                              className="text-gray-400 cursor-pointer hover:text-gray-200"
+                            />
+                            <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                              {f.tooltipInfo}
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <input
                         name={f.name}
@@ -273,9 +291,23 @@ export default function EditGridBot() {
                   ))}
 
                   <label className="block">
-                    <div className="text-md text-gray-400 mb-1">
-                      TP Percent <span className="text-sm">(Optional)</span>
+                    <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
+                      <span>
+                      Profit per Grid in %{" "}  <span className="text-sm">(Optional)</span>
+                      </span>
+
+                      <div className="relative group">
+                        <Info
+                          size={16}
+                          className="text-gray-400 cursor-pointer hover:text-gray-200"
+                        />
+                        <div className="absolute left-1/2 -translate-x-1/2 top-6 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                          Estimated profit for each completed buy–sell pair
+                          based on your grid spacing.
+                        </div>
+                      </div>
                     </div>
+
                     <input
                       name="tpPercent"
                       value={formik.values.tpPercent}
@@ -284,17 +316,17 @@ export default function EditGridBot() {
                     />
                   </label>
 
-                  <label className="block">
-                    <div className="text-md text-gray-400 mb-1">
-                      SL Percent <span className="text-sm">(Optional)</span>
-                    </div>
-                    <input
-                      name="slPercent"
-                      value={formik.values.slPercent}
-                      onChange={formik.handleChange}
-                      className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
-                    />
-                  </label>
+                  {/* <label className="block">
+      <div className="text-md text-gray-400 mb-1">
+        SL Percent <span className="text-sm">(Optional)</span>
+      </div>
+      <input
+        name="slPercent"
+        value={formik.values.slPercent}
+        onChange={formik.handleChange}
+        className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
+      />
+    </label> */}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Toggle name="adxLessThan20" label="ADX < 20" />
@@ -302,7 +334,22 @@ export default function EditGridBot() {
                   </div>
 
                   <label className="block">
-                    <div className="text-md text-gray-400 mb-1">Bot Name</div>
+                    <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
+                      <span>Name your bot</span>
+
+                      <div className="relative group">
+                        <Info
+                          size={16}
+                          className="text-gray-400 cursor-pointer hover:text-gray-200"
+                        />
+                        <div className="absolute left-1/2 -translate-x-1/2 top-6 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                          A custom name to identify this bot. Use something
+                          descriptive (e.g., “BTC_grid_1h” or
+                          “mean_reversion_USD”) so you can quickly find and
+                          manage it later.
+                        </div>
+                      </div>
+                    </div>
                     <input
                       name="botName"
                       value={formik.values.botName}

@@ -69,6 +69,8 @@ export default function Bot() {
   //   return <NotActiveSubs />;
   // }
 
+   
+
   return (
     <div className="  py-10 text-white">
       <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-1 gap-8">
@@ -94,11 +96,16 @@ export default function Bot() {
                 <p className="mt-3 text-xl text-gray-400">No Bot Found</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {botList?.map((item, i) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {botList?.map((item, i) => {
+                // Move computed value outside useMemo since it's not needed inside map
+                const currentAmount =
+                item?.params?.gridLevel * 2 * item?.params?.quantityPerGridUSD;
+            
+                return (
                   <div
                     key={i}
-                    className=" rounded-2xl p-5 bg-[#0b1229] border-white/10 border  shadow-md hover:shadow-blue-500/10 hover:bg-[#121a36] min-h-[120px] cursor-pointer"
+                    className="rounded-2xl p-5 bg-[#0b1229] border-white/10 border shadow-md hover:shadow-blue-500/10 hover:bg-[#121a36] min-h-[120px] cursor-pointer"
                     onClick={() => {
                       router.push(
                         `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
@@ -109,27 +116,11 @@ export default function Bot() {
                   >
                     <div className="flex items-start justify-between">
                       <div className="w-10 h-10 rounded-md bg-[#141420] flex items-center justify-center text-pink-400">
-                        {/* icon placeholder */}
-                        {/* <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M4 12h16"
-                            stroke="#ff7ab6"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg> */}
-                         <img
-                    src="/assets/logo1.png"
-                    alt="Qbots Logo"
-                    className="w-16 h-12"
-                  />
+                        <img
+                          src="/assets/logo1.png"
+                          alt="Qbots Logo"
+                          className="w-16 h-12"
+                        />
                       </div>
                       <div
                         className={clsx(
@@ -142,17 +133,30 @@ export default function Bot() {
                         {getStatus(item)?.status}
                       </div>
                     </div>
-
+            
                     <h4 className="text-lg font-semibold mt-4">
                       {item?.botName || "--"}
                     </h4>
-                    <p className="text-sm text-gray-400 mt-2">
-                      Short description of this trading strategy to match the
-                      visual.
-                    </p>
+            
+                    <div className="flex justify-between mt-4">
+                      <div>
+                        <h4 className="text-md font-semibold">Investment amount</h4>
+                        <p className="text-sm text-gray-300 mt-1">
+                          ${currentAmount?.toFixed(2) || "0.00"}
+                        </p>
+                      </div>
+                      <div >
+                        <h4 className="text-md font-semibold">Pair</h4>
+                        <p className="text-sm text-gray-300 mt-1">
+                          {item?.symbol}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
+            </div>
+            
             )}
           </>
         )}
