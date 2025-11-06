@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Mail, Phone, MessageSquare, RefreshCw, User } from "lucide-react";
@@ -26,9 +26,8 @@ const countryOptions = [
   { value: "+27", label: "South Africa (+27)" },
   { value: "+7", label: "Russia (+7)" },
   { value: "+31", label: "Netherlands (+31)" },
-  { value: "+52", label: "Mexico (+52)" }
+  { value: "+52", label: "Mexico (+52)" },
 ];
-
 
 export default function ContactFormInline() {
   const [formData, setFormData] = useState({
@@ -60,11 +59,23 @@ export default function ContactFormInline() {
     if (!formData.name.trim()) e.name = "Name is required.";
     if (!formData.phone.trim()) e.phone = "Phone no. is required.";
     if (!formData.email.trim()) e.email = "Email is required.";
-    else if (!emailPattern.test(formData.email)) e.email = "Enter a valid email address.";
+    else if (!emailPattern.test(formData.email))
+      e.email = "Enter a valid email address.";
     if (formData.phone && !phonePattern.test(formData.phone))
       e.phone = "Enter a valid phone number (digits only, optional +).";
-    if (!formData.message.trim()) e.message = "Message cannot be empty.";
-    else if (formData.message.trim().length < 10) e.message = "Message must be at least 10 characters.";
+    // Message word-count validation: min 10 words, max 200 words
+    const messageTrimmed = formData.message.trim();
+    if (!messageTrimmed) {
+      e.message = "Message cannot be empty.";
+    } else {
+      // split on one or more whitespace characters, ignore empty entries
+      const wordCount = messageTrimmed.split(/\s+/).filter(Boolean).length;
+      if (wordCount < 10) {
+        e.message = "Message must be at least 10 words.";
+      } else if (wordCount > 200) {
+        e.message = "Message cannot exceed 200 words.";
+      }
+    }
     const expected = captcha.a + captcha.b;
     const given = Number(formData.captchaAnswer);
     if (!formData.captchaAnswer && formData.captchaAnswer !== 0) {
@@ -86,41 +97,47 @@ export default function ContactFormInline() {
     } catch (err) {}
   }
 
-  const { mutateAsync: contactUsMutate, isPending: mutatePending } = useMutation({
-    mutationFn: async (values) => {
-      return contactUsMutation({
-        name: values?.name,
-        countryCode: values?.country,
-        email: values?.email,
-        mobileNumber: values?.phone,
-        message: values?.message,
-      });
-    },
-    onSuccess: (data) => {
-      console.log(data, "datadatadatadatadata");
-      if (data?.data?.responseCode == 200) {
-        toast.success("Thanks for contacting us! We’ll get back to you within 1–2 business days.");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-          captchaAnswer: "",
-          terms: false,
-          country: "",
+  const { mutateAsync: contactUsMutate, isPending: mutatePending } =
+    useMutation({
+      mutationFn: async (values) => {
+        return contactUsMutation({
+          name: values?.name,
+          countryCode: values?.country,
+          email: values?.email,
+          mobileNumber: values?.phone,
+          message: values?.message,
         });
-        generateCaptcha();
-      } else {
-      }
-    },
-    onError: (err) => {
-      console.log(err, "err>>>");
-    },
-  });
+      },
+      onSuccess: (data) => {
+        console.log(data, "datadatadatadatadata");
+        if (data?.data?.responseCode == 200) {
+          toast.success(
+            "Thanks for contacting us! We’ll get back to you within 1–2 business days."
+          );
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            message: "",
+            captchaAnswer: "",
+            terms: false,
+            country: "",
+          });
+          generateCaptcha();
+        } else {
+        }
+      },
+      onError: (err) => {
+        console.log(err, "err>>>");
+      },
+    });
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
-    setFormData((s) => ({ ...s, [name]: type === "checkbox" ? checked : value }));
+    setFormData((s) => ({
+      ...s,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     setErrors((prev) => ({ ...prev, [name]: undefined, form: undefined }));
   }
 
@@ -128,11 +145,14 @@ export default function ContactFormInline() {
     <div className="text-white px-6 md:px-30 lg:px-60 xl:px-90 sm:px-20 pt-20 sm:pt-30 pb-10 md:pb-20">
       <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
       <p className="text-sm text-slate-400 mb-6">
-        Have questions? Fill out the form and our team will respond within 1-2 business days.
+        Have questions? Fill out the form and our team will respond within 1-2
+        business days.
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
-        {errors.form && <p className="text-red-500 text-sm mb-4">{errors.form}</p>}
+        {errors.form && (
+          <p className="text-red-500 text-sm mb-4">{errors.form}</p>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
@@ -147,7 +167,9 @@ export default function ContactFormInline() {
                 errors.name ? "border border-red-500" : ""
               }`}
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           <div className="relative">
@@ -162,7 +184,9 @@ export default function ContactFormInline() {
                 errors.email ? "border border-red-500" : ""
               }`}
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div className="relative">
@@ -177,7 +201,9 @@ export default function ContactFormInline() {
               }}
               className="w-full"
             />
-            {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country}</p>}
+            {errors.country && (
+              <p className="text-red-500 text-sm mt-1">{errors.country}</p>
+            )}
           </div>
 
           <div className="relative">
@@ -192,11 +218,16 @@ export default function ContactFormInline() {
                 errors.phone ? "border border-red-500" : ""
               }`}
             />
-            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            )}
           </div>
 
           <div className="relative md:col-span-2">
-            <MessageSquare className="absolute left-3 top-3 text-gray-400" size={20} />
+            <MessageSquare
+              className="absolute left-3 top-3 text-gray-400"
+              size={20}
+            />
             <textarea
               name="message"
               placeholder="Enter message"
@@ -207,7 +238,9 @@ export default function ContactFormInline() {
                 errors.message ? "border border-red-500" : ""
               }`}
             />
-            {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+            {errors.message && (
+              <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+            )}
           </div>
 
           <div className="flex items-center gap-3 md:col-span-2">
@@ -226,7 +259,11 @@ export default function ContactFormInline() {
                   }`}
                 />
               </div>
-              {errors.captchaAnswer && <p className="text-red-500 text-sm mt-1">{errors.captchaAnswer}</p>}
+              {errors.captchaAnswer && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.captchaAnswer}
+                </p>
+              )}
             </label>
 
             <button
@@ -249,15 +286,23 @@ export default function ContactFormInline() {
                 className="mr-2 mt-1"
               />
               I accept the{" "}
-              <Link href="/terms-conditions" className="text-primary ml-1 hover:underline">
+              <Link
+                href="/terms-conditions"
+                className="text-primary ml-1 hover:underline"
+              >
                 Terms &amp; Conditions{"  "}
               </Link>{" "}
-              <p className="text-white ml-1"> {" "} &</p>
-              <Link href="/privacy-policy" className="text-primary ml-1 hover:underline">
+              <p className="text-white ml-1"> &</p>
+              <Link
+                href="/privacy-policy"
+                className="text-primary ml-1 hover:underline"
+              >
                 Privacy Policy
               </Link>
             </label>
-            {errors.terms && <p className="text-red-500 text-sm mt-1">{errors.terms}</p>}
+            {errors.terms && (
+              <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
+            )}
           </div>
 
           <div className="md:col-span-2">

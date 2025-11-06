@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const OTPModal = ({
   isOpen,
@@ -9,18 +9,21 @@ const OTPModal = ({
   title = "Verify Your Email",
   subtitle = "Enter the code below to continue.",
   instructions = "Check your email for the One-Time Password (OTP). Please also look in your spam folder if you don’t see it.",
-  length = 6,
+  length = 4,
   duration = 90,
   isLoading = false,
   resendEnable = true,
 }) => {
   const [otp, setOtp] = useState(Array(length).fill(""));
   const [timer, setTimer] = useState(duration);
+  const inputsRef = useRef([]); // <--- added ref for inputs
 
   useEffect(() => {
     if (isOpen) {
       setOtp(Array(length).fill(""));
       setTimer(duration);
+      // focus first input when modal opens
+      setTimeout(() => inputsRef.current?.[0]?.focus?.(), 50);
     }
   }, [isOpen, length, duration]);
 
@@ -29,25 +32,75 @@ const OTPModal = ({
       const countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
       return () => clearInterval(countdown);
     }
+    // no-op else; don't focus here repeatedly
   }, [timer, isOpen]);
 
-  const handleChange = (index, value) => {
-    if (value.length > 1) return;
-    const updatedOtp = [...otp];
-    updatedOtp[index] = value;
-    setOtp(updatedOtp);
+  // helper to update otp state from array of digits
+  const updateOtpStateFromArray = (arr) => {
+    setOtp(arr.slice(0, length));
+  };
 
+  // NOTE: keep signature (index, value) to match your current inputs' onChange
+  const handleChange = (index, value) => {
+    // allow only single digit or empty
+    if (!/^[0-9]?$/.test(value)) return;
+    const otpArray = Array.from({ length }, (_, i) => otp[i] || "");
+    otpArray[index] = value;
+    updateOtpStateFromArray(otpArray);
+
+    // move focus to next input if a digit was entered
     if (value && index < length - 1) {
-      const next = document.getElementById(`otp-${index + 1}`);
-      if (next) next.focus();
+      inputsRef.current[index + 1]?.focus?.();
+      inputsRef.current[index + 1]?.select?.();
     }
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && otp[index] === "" && index > 0) {
-      const prev = document.getElementById(`otp-${index - 1}`);
-      if (prev) prev.focus();
+    if (e.key === "Backspace") {
+      // If current input has a value, clear it
+      if (otp[index]) {
+        const otpArray = Array.from({ length }, (_, i) => otp[i] || "");
+        otpArray[index] = "";
+        updateOtpStateFromArray(otpArray);
+      } else if (index > 0) {
+        // If current is empty, move to previous and clear it
+        inputsRef.current[index - 1]?.focus?.();
+        const otpArray = Array.from({ length }, (_, i) => otp[i] || "");
+        otpArray[index - 1] = "";
+        updateOtpStateFromArray(otpArray);
+      }
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputsRef.current[index - 1]?.focus?.();
+    } else if (e.key === "ArrowRight" && index < length - 1) {
+      inputsRef.current[index + 1]?.focus?.();
     }
+  };
+
+  // Minimal paste handler: paste anywhere and distribute digits from that index
+  const handlePaste = (e, startIndex) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text") || "";
+    const digits = pasted.replace(/\D/g, "");
+    if (!digits) return;
+
+    const otpArray = Array.from({ length }, (_, i) => otp[i] || "");
+    for (let i = 0; i < digits.length && startIndex + i < length; i++) {
+      otpArray[startIndex + i] = digits[i];
+    }
+
+    updateOtpStateFromArray(otpArray);
+
+    // focus next empty or last filled
+    const firstEmpty = otpArray.findIndex((c) => c === "");
+    setTimeout(() => {
+      if (firstEmpty !== -1) {
+        inputsRef.current[firstEmpty]?.focus?.();
+        inputsRef.current[firstEmpty]?.select?.();
+      } else {
+        const focusIndex = Math.min(length - 1, startIndex + digits.length - 1);
+        inputsRef.current[focusIndex]?.focus?.();
+      }
+    }, 0);
   };
 
   const isOtpComplete = otp.every((digit) => digit !== "");
@@ -75,6 +128,7 @@ const OTPModal = ({
           <button
             onClick={onClose}
             className="text-white hover:text-gray-300 w-8 h-8 flex items-center justify-center rounded hover:bg-gray-700"
+            type="button"
           >
             <svg
               className="w-4 h-4"
@@ -97,20 +151,21 @@ const OTPModal = ({
           <p className="text-gray-500 text-sm mb-6">{instructions}</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-around gap-4">
               {otp?.map((digit, idx) => (
-               <input
-               key={idx}
-               id={`otp-${idx}`}
-               type="text"
-               inputMode="numeric"
-               maxLength={1}
-               value={digit}
-               onChange={(e) => handleChange(idx, e.target.value)}
-               onKeyDown={(e) => handleKeyDown(e, idx)}
-               className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
-             />
-             
+                <input
+                  key={idx}
+                  id={`otp-${idx}`}
+                  ref={(el) => (inputsRef.current[idx] = el)}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleChange(idx, e.target.value)} // kept parameter order matching handleChange
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
+                  onPaste={(e) => handlePaste(e, idx)}
+                  className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                />
               ))}
             </div>
 

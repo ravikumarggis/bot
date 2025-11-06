@@ -110,7 +110,7 @@ export default function TermsCondition() {
 
       <section>
         <h2 className="text-2xl font-semibold mb-2">19. Contact</h2>
-        <p className="opacity-90">If you have questions about these Terms or need support, contact us at: <a className="text-indigo-600 underline" href="mailto:support@qiebots.com">support@qiebots.com</a></p>
+        <p className="opacity-90">If you have questions about these Terms or need support, contact us at: <a className="text-indigo-600 underline" href="mailto:support@qbots.trade">support@qbots.trade</a></p>
       </section>
 
       <section>

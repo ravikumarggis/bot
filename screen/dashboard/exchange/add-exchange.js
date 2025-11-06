@@ -79,8 +79,8 @@ export default function AddExchange() {
       toast.error(
         err?.response?.data?.responseMessage || "Something went wrong"
       );
-      setIsOpen(false);
-      resetForm();
+      // setIsOpen(false);
+      // resetForm();
       exchangeKeyListRefetch();
     },
   });

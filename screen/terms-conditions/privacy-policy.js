@@ -174,7 +174,7 @@ export default function PrivacyPolicy() {
         <p className="opacity-90">
           For any questions, privacy requests, or complaints, please contact us:
         </p>
-        <p className="opacity-90 mt-2">📧 Email: <a className="text-indigo-600 underline" href="mailto:support@qiebots.com">support@qiebots.com</a></p>
+        <p className="opacity-90 mt-2">📧 Email: <a className="text-indigo-600 underline" href="mailto:support@qbots.trade">support@qbots.trade</a></p>
         <p className="opacity-90 mt-1">🌐 Website: <a className="text-indigo-600 underline" href="https://qbots.trade">https://qbots.trade</a></p>
         <p className="opacity-90 mt-1">🕒 Support Hours: Monday to Friday, 10 AM – 6 PM (UTC)</p>
       </section>
