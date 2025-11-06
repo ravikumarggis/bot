@@ -78,8 +78,9 @@ const AdminOtpScreenLogin = () => {
     },
   });
 
-
-// ✅ Start timer from 120 seconds on first load or resume if stored
+  const updateOtpStateFromArray = (arr) => {
+    setOtp(arr.slice(0, 4).join(""));
+  };
 useEffect(() => {
   const storedTime = sessionStorage.getItem("otpTimer");
   if (storedTime) {
@@ -90,13 +91,16 @@ useEffect(() => {
     }
   }
   startTimer(120);
+  setTimeout(() => inputsRef.current[0]?.focus(), 50);
 }, []);
 
 const startTimer = (seconds) => {
   setResendDisabled(true);
   setTimer(seconds);
   const endTime = Date.now() + seconds * 1000;
-  sessionStorage.setItem("otpTimer", endTime);
+  // sessionStorage.setItem("otpTimer", endTime);
+  sessionStorage.setItem("otpTimer", String(endTime));
+
 
   const interval = setInterval(() => {
     const remaining = Math.ceil((endTime - Date.now()) / 1000);
@@ -120,31 +124,66 @@ const formatTime = (secs) => {
     .padStart(2, "0")}`;
 };
 
-  const handleChange = (value, index) => {
-    if (/^[0-9]?$/.test(value)) {
-      const otpArray = otp.split("");
-      otpArray[index] = value;
-      const newOtp = otpArray.join("");
-      setOtp(newOtp);
+const handlePaste = (e, startIndex) => {
+  e.preventDefault();
+  const pasted = e.clipboardData.getData("text").trim();
+  const digits = pasted.replace(/\D/g, "");
+  if (!digits) return;
 
-      if (value && index < 5) {
-        inputsRef.current[index + 1]?.focus();
-      }
+  const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+  for (let i = 0; i < digits.length && startIndex + i < 4; i++) {
+    otpArray[startIndex + i] = digits[i];
+  }
+
+  // update state (controlled inputs will update)
+  updateOtpStateFromArray(otpArray);
+
+  // focus next empty or last filled
+  const firstEmpty = otpArray.findIndex((c) => c === "");
+  setTimeout(() => {
+    if (firstEmpty !== -1) {
+      inputsRef.current[firstEmpty]?.focus();
+      inputsRef.current[firstEmpty]?.select?.();
+    } else {
+      const focusIndex = Math.min(3, startIndex + digits.length - 1);
+      inputsRef.current[focusIndex]?.focus();
+    }
+  }, 0);
+};
+
+
+  const handleChange = (value, index) => {
+    if (!/^[0-9]?$/.test(value)) return;
+    const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+    otpArray[index] = value;
+    updateOtpStateFromArray(otpArray);
+  
+    if (value && index < 3) {
+      inputsRef.current[index + 1]?.focus();
+      inputsRef.current[index + 1]?.select?.();
     }
   };
+  
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (otp[index]) {
-        const otpArray = otp.split("");
+        const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
         otpArray[index] = "";
-        setOtp(otpArray.join(""));
+        updateOtpStateFromArray(otpArray);
       } else if (index > 0) {
         inputsRef.current[index - 1]?.focus();
+        const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+        otpArray[index - 1] = "";
+        updateOtpStateFromArray(otpArray);
       }
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 3) {
+      inputsRef.current[index + 1]?.focus();
     }
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (otp.length !== 4) {
@@ -204,21 +243,27 @@ const formatTime = (secs) => {
                   ref={(el) => (inputsRef.current[i] = el)}
                   type="text"
                   maxLength="1"
+                    inputMode="numeric"
                   value={otp[i] || ""}
                   onChange={(e) => handleChange(e.target.value, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
+                  onPaste={(e) => handlePaste(e, i)}
                   className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
                   />
               ))}
             </div>
 
             <button
-              type="submit"
-              className="w-full bg-primary font-semibold text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
-              disabled={VerifySignupOtpMutatePending}
-            >
-              {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
-            </button>
+  type="submit"
+  className={`w-full font-semibold text-white py-3 rounded-[10px] transition-opacity ${
+    otp.length === 4 && !VerifySignupOtpMutatePending
+      ? "bg-primary hover:opacity-90"
+      : "bg-primary opacity-50 cursor-not-allowed"
+  }`}
+  disabled={otp.length !== 4 || VerifySignupOtpMutatePending}
+>
+  {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
+</button>
 
             <div className="mt-6 flex flex-col items-center">
               <button

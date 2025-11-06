@@ -64,8 +64,6 @@ const OtpScreen = () => {
     },
   });
 
- 
-
   useEffect(() => {
     const storedTime = sessionStorage.getItem("otpTimer");
     if (storedTime) {
@@ -121,14 +119,13 @@ const OtpScreen = () => {
       .toString()
       .padStart(2, "0")}`;
   };
-  
 
   const startTimer = (seconds) => {
     setResendDisabled(true);
     setTimer(seconds);
     const endTime = Date.now() + seconds * 1000;
     sessionStorage.setItem("otpTimer", endTime);
-  
+
     const interval = setInterval(() => {
       const remaining = Math.ceil((endTime - Date.now()) / 1000);
       if (remaining <= 0) {
@@ -146,7 +143,6 @@ const OtpScreen = () => {
     startTimer(120);
     resendOTPSignupMutate();
   };
-
 
   return (
     <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#030b1f]">
@@ -193,14 +189,26 @@ const OtpScreen = () => {
                   onChange={(e) => handleChange(e.target.value, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
                   className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
+                />
               ))}
             </div>
 
-            <button
+            {/* <button
               type="submit"
               className="w-full bg-primary font-semibold text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
               disabled={VerifySignupOtpMutatePending}
+            >
+              {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
+            </button> */}
+
+            <button
+              type="submit"
+              className={`w-full font-semibold text-white py-3 rounded-[10px] transition-opacity ${
+                otp.length === 4 && !VerifySignupOtpMutatePending
+                  ? "bg-primary hover:opacity-90"
+                  : "bg-primary opacity-50 cursor-not-allowed"
+              }`}
+              disabled={otp.length !== 4 || VerifySignupOtpMutatePending}
             >
               {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
             </button>

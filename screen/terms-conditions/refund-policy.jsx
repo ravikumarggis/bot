@@ -98,7 +98,7 @@ export default function RefundPolicy() {
           For any questions or refund-related concerns, please reach out to our support team:
         </p>
         <p className="opacity-90 mt-2">
-          📧 Email: <a className="text-indigo-600 underline" href="mailto:support@qiebots.com">support@qiebots.com</a>
+          📧 Email: <a className="text-indigo-600 underline" href="mailto:support@qbots.trade">support@qbots.trade</a>
         </p>
         <p className="opacity-90 mt-1">
           🕒 Support Hours: Monday to Friday, 10:00 AM – 6:00 PM (UTC)

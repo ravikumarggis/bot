@@ -92,7 +92,7 @@ export default function RiskDisclosure() {
       <section>
         <h2 className="text-2xl font-semibold mb-2">12. Contact Information</h2>
         <p className="opacity-90">
-          For questions regarding this Risk Disclosure, please contact: <a className="text-indigo-600 underline" href="mailto:support@qiebots.com">support@qiebots.com</a>
+          For questions regarding this Risk Disclosure, please contact: <a className="text-indigo-600 underline" href="mailto:support@qbots.trade">support@qbots.trade</a>
         </p>
       </section>
 
