@@ -6,6 +6,7 @@ const OTPModal = ({
   isOpen,
   onClose,
   onSubmit,
+  
   title = "Verify Your Email",
   subtitle = "Enter the code below to continue.",
   instructions = "Check your email for the One-Time Password (OTP). Please also look in your spam folder if you don’t see it.",
@@ -170,9 +171,23 @@ const OTPModal = ({
             </div>
 
             {resendEnable && (
-              <div className="text-gray-400 text-sm">{formatTime(timer)}</div>
+              <div className="flex flex-col items-center gap-3 mt-4">
+                <button
+                  type="button"
+                  onClick={resendOtp}
+                  disabled={resendDisabled}
+                  className={`text-primary font-medium ${
+                    resendDisabled
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:underline"
+                  }`}
+                >
+                  {resendDisabled
+                    ? `Resend OTP in ${formatTime(timer)}`
+                    : "Resend OTP"}
+                </button>
+              </div>
             )}
-
             <button
               type="submit"
               disabled={!isOtpComplete || isLoading}

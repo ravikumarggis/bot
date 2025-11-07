@@ -18,7 +18,10 @@ const OtpScreenLogin = () => {
 
   const email = searchParams.get("email");
 
-  const { mutateAsync: VerifySignupOtpMutate, isPending: VerifySignupOtpMutatePending } = useMutation({
+  const {
+    mutateAsync: VerifySignupOtpMutate,
+    isPending: VerifySignupOtpMutatePending,
+  } = useMutation({
     mutationFn: async () => verifyLoginOtp({ email, otp }),
     onSuccess: (data) => {
       if (data?.data?.responseCode === 200) {
@@ -32,7 +35,10 @@ const OtpScreenLogin = () => {
     onError: (err) => console.log(err),
   });
 
-  const { mutateAsync: resendOTPSignupMutate, isPending: resendOTPSignupMutatePending } = useMutation({
+  const {
+    mutateAsync: resendOTPSignupMutate,
+    isPending: resendOTPSignupMutatePending,
+  } = useMutation({
     mutationFn: async () => resendOTPSignup({ email }),
     onSuccess: (data) => {
       if (data?.data?.responseCode === 200) {
@@ -80,7 +86,9 @@ const OtpScreenLogin = () => {
   const formatTime = (secs) => {
     const minutes = Math.floor(secs / 60);
     const seconds = secs % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const updateOtpStateFromArray = (arr) => {
@@ -173,7 +181,11 @@ const OtpScreenLogin = () => {
           </p>
 
           <div className="w-full h-120 bg-gradient-to-br from-gray-800 to-black rounded-lg flex justify-center items-center overflow-hidden">
-            <img src="/assets/auth/wallet.png" alt="Q Dashboard" className="w-full h-full object-cover rounded-lg" />
+            <img
+              src="/assets/auth/wallet.png"
+              alt="Q Dashboard"
+              className="w-full h-full object-cover rounded-lg"
+            />
           </div>
         </div>
       </div>
@@ -181,8 +193,13 @@ const OtpScreenLogin = () => {
       <div className="w-full md:w-1/2 flex justify-center items-center p-8">
         <div className="w-full max-w-md">
           <h2 className="text-4xl font-semibold mb-2">OTP Verification</h2>
-          <p className="text-sm text-gray-400 mb-3">Enter the 4-digit code to continue.</p>
-          <p className="text-sm mb-6">Check your email for the One-Time Password (OTP). Also look in your spam folder if you don’t see it.</p>
+          <p className="text-sm text-gray-400 mb-3">
+            Enter the 4-digit code to continue.
+          </p>
+          <p className="text-sm mb-6">
+            Check your email for the One-Time Password (OTP). Also look in your
+            spam folder if you don’t see it.
+          </p>
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="flex justify-between mb-6">
@@ -202,27 +219,33 @@ const OtpScreenLogin = () => {
                 />
               ))}
             </div>
+            
             <button
-  type="submit"
-  className={`w-full font-semibold text-white py-3 rounded-[10px] transition-opacity ${
-    otp.length === 4 && !VerifySignupOtpMutatePending
-      ? "bg-primary hover:opacity-90"
-      : "bg-primary opacity-50 cursor-not-allowed"
-  }`}
-  disabled={otp.length !== 4 || VerifySignupOtpMutatePending}
->
-  {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
-</button>
-
+              type="submit"
+              className={`w-full font-semibold text-white py-3 rounded-[10px] transition-opacity ${
+                otp.length === 4 && !VerifySignupOtpMutatePending
+                  ? "bg-primary hover:opacity-90"
+                  : "bg-primary opacity-50 cursor-not-allowed"
+              }`}
+              disabled={otp.length !== 4 || VerifySignupOtpMutatePending}
+            >
+              {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
+            </button>
 
             <div className="mt-6 flex flex-col items-center">
               <button
                 type="button"
                 onClick={resendOtp}
                 disabled={resendDisabled}
-                className={`text-primary font-medium ${resendDisabled ? "opacity-50 cursor-not-allowed" : "hover:underline"}`}
+                className={`text-primary font-medium ${
+                  resendDisabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:underline"
+                }`}
               >
-                {resendDisabled ? `Resend OTP in ${formatTime(timer)}` : "Resend OTP"}
+                {resendDisabled
+                  ? `Resend OTP in ${formatTime(timer)}`
+                  : "Resend OTP"}
               </button>
             </div>
 
@@ -232,7 +255,12 @@ const OtpScreenLogin = () => {
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
 
-            <Link href="/login" className="w-full flex items-center justify-center hover:text-primary transition-colors">Go Back to Login</Link>
+            <Link
+              href="/login"
+              className="w-full flex items-center justify-center hover:text-primary transition-colors"
+            >
+              Go Back to Login
+            </Link>
           </form>
         </div>
       </div>

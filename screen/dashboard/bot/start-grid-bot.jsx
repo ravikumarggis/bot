@@ -43,6 +43,7 @@ export default function StartGridBot() {
   const tabs = ["Orders", "Trades", "Logs", "Cancelled"];
   const searchParams = useSearchParams();
   const botId = searchParams.get("botId");
+  
   const [deleteModalState, setDeleteModalState] = useState(false);
   const [currentSelectedItem, setCurrentSelectedItem] = useState({});
   const {

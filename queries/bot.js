@@ -76,11 +76,11 @@ export const updateBotStatus = async ({ id, status }) => {
   }
 };
 
-export const useGetBotList = () => {
+export const useGetBotList = ({selectExchange}) => {
   return useQuery({
-    queryKey: ["getBotList"],
+    queryKey: ["getBotList",selectExchange],
     queryFn: () => {
-      return getBotList();
+      return getBotList(selectExchange);
     },
     select: (data) => {
       return data?.result || [];
@@ -88,11 +88,12 @@ export const useGetBotList = () => {
   });
 };
 
-export const getBotList = async () => {
+export const getBotList = async (selectExchange) => {
   try {
     const response = await api({
       method: "GET",
       url: `/bot/getBotList`,
+      params:{exchange:selectExchange}
     });
 
     return response?.data;

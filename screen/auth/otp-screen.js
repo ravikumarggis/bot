@@ -76,31 +76,69 @@ const OtpScreen = () => {
     startTimer(120);
   }, []);
 
-  const handleChange = (value, index) => {
-    if (/^[0-9]?$/.test(value)) {
-      const otpArray = otp.split("");
-      otpArray[index] = value;
-      const newOtp = otpArray.join("");
-      setOtp(newOtp);
+  const updateOtpStateFromArray = (arr) => {
+    setOtp(arr.slice(0, 4).join(""));
+  };
 
-      if (value && index < 5) {
-        inputsRef.current[index + 1]?.focus();
-      }
+
+  const handleChange = (value, index) => {
+    if (!/^[0-9]?$/.test(value)) return;
+    const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+    otpArray[index] = value;
+    updateOtpStateFromArray(otpArray);
+
+    if (value && index < 3) {
+      inputsRef.current[index + 1]?.focus();
+      inputsRef.current[index + 1]?.select?.();
     }
   };
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (otp[index]) {
-        const otpArray = otp.split("");
+        const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
         otpArray[index] = "";
-        setOtp(otpArray.join(""));
+        updateOtpStateFromArray(otpArray);
       } else if (index > 0) {
         inputsRef.current[index - 1]?.focus();
+        const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+        otpArray[index - 1] = "";
+        updateOtpStateFromArray(otpArray);
       }
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 3) {
+      inputsRef.current[index + 1]?.focus();
     }
   };
 
+  // handle paste into any input
+  const handlePaste = (e, startIndex) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").trim();
+    const digits = pasted.replace(/\D/g, "");
+    if (!digits) return;
+
+    const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+    for (let i = 0; i < digits.length && startIndex + i < 4; i++) {
+      otpArray[startIndex + i] = digits[i];
+    }
+
+    // update state (controlled inputs will update)
+    updateOtpStateFromArray(otpArray);
+
+    // focus next empty or last filled
+    const firstEmpty = otpArray.findIndex((c) => c === "");
+    setTimeout(() => {
+      if (firstEmpty !== -1) {
+        inputsRef.current[firstEmpty]?.focus();
+        inputsRef.current[firstEmpty]?.select?.();
+      } else {
+        const focusIndex = Math.min(3, startIndex + digits.length - 1);
+        inputsRef.current[focusIndex]?.focus();
+      }
+    }, 0);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (otp.length !== 4) {
@@ -188,6 +226,7 @@ const OtpScreen = () => {
                   value={otp[i] || ""}
                   onChange={(e) => handleChange(e.target.value, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
+                  onPaste={(e) => handlePaste(e, i)}
                   className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               ))}
