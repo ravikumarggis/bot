@@ -69,7 +69,8 @@ const OtpScreenForget = () => {
   });
 
  useEffect(() => {
-    const storedTime = sessionStorage.getItem("otpTimer");
+    // const storedTime = sessionStorage.getItem("otpTimer");
+    const storedTime =120;
     if (storedTime) {
       const remaining = parseInt(storedTime, 10) - Date.now();
       if (remaining > 0) {
