@@ -283,7 +283,7 @@ const OTPModal = ({
     setTimeout(() => inputsRef.current?.[0]?.focus?.(), 50);
 
     // If there's a stored end time, resume from it. Otherwise start a fresh countdown.
-    const storedTime = sessionStorage.getItem("otpTimer");
+    const storedTime = 120;
     if (storedTime) {
       const remainingMs = parseInt(storedTime, 10) - Date.now();
       if (remainingMs > 0) {

@@ -64,6 +64,9 @@ export default function ProfileSettings() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         updateProfileMutate(values);
+
+       
+        
       } catch (err) {
         console.error(err);
         alert("Failed to update profile. Please try again.");
@@ -103,7 +106,7 @@ export default function ProfileSettings() {
         name: getUserData.name ?? formik.values.name ?? "Ravi",
         email: getUserData.email ?? formik.values.email ?? "",
         phone: getUserData?.mobileNumber ?? formik.values.mobileNumber ?? "+91",
-        country: getUserData.countryCode ?? formik.values.countryCode ?? "IN",
+        country: getUserData.countryCode ?? formik.values.countryCode ?? "",
       });
       setInitialized(true);
     }
@@ -181,7 +184,7 @@ export default function ProfileSettings() {
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full bg-transparent py-2 text-white outline-none"
+              className="w-full bg-transparent py-3 text-white outline-none"
               placeholder="First Name"
             />
           </div>
@@ -198,7 +201,7 @@ export default function ProfileSettings() {
               type="text"
               value={formik.values.email}
               disabled
-              className="w-full bg-transparent py-2 text-gray-400 outline-none cursor-not-allowed"
+              className="w-full bg-transparent py-3 text-gray-400 outline-none cursor-not-allowed"
             />
           </div>
           {formik.touched.email && formik.errors.email && (
@@ -216,6 +219,7 @@ export default function ProfileSettings() {
             value={formik.values.country}
             onSelect={(val) => formik.setFieldValue("country", val)}
             className="w-full "
+            
           />
           {formik.touched.country && formik.errors.country && (
             <p className="text-red-500 text-sm mt-1">{formik.errors.country}</p>
@@ -227,11 +231,12 @@ export default function ProfileSettings() {
             <Phone className="text-gray-400 mr-2" size={18} />
             <input
               name="phone"
-              type="text"
+              type="number"
+              disabled={!formik.values.country}
               value={formik.values.phone}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full bg-transparent py-2 text-white outline-none"
+              className="w-full bg-transparent py-3 text-white outline-none"
               placeholder="Phone Number"
             />
           </div>
