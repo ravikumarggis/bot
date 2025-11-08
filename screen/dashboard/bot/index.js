@@ -26,9 +26,15 @@ const exchangeOptions = [
   { label: "New DCA Bot", value: "New DCA Bot" },
 ];
 
+const statusOptions = [
+  { label: "Binance", value: "binance" ,icon:"/assets/homepage/binance.png"},
+  { label: "Bybit", value: "bybit" ,icon:"/assets/homepage/bybit.webp" },
+];
+
 export default function Bot() {
   const [showSecret, setShowSecret] = useState(false);
   const [select, setSelect] = useState("");
+  const [selectExchange, setSelectExchange] = useState(null);
   const [errors, setErrors] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
@@ -36,7 +42,7 @@ export default function Bot() {
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
 
-  const { data: botList, isPending: botListPending } = useGetBotList();
+  const { data: botList, isPending: botListPending } = useGetBotList({selectExchange});
   console.log(botList, "botListbotList");
 
   const handleOTPSubmit = (code) => {
@@ -91,6 +97,15 @@ export default function Bot() {
           </div>
         ) : (
           <>
+          <div className="flex justify-end w-full">
+           <Dropdown
+                  label="Select Exchange"
+                  options={statusOptions}
+                  value={selectExchange}
+                  onSelect={(val) => setSelectExchange(val)}
+                  className="w-56"
+                />
+                </div>
             {botList?.length === 0 ? (
               <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
                 <p className="mt-3 text-xl text-gray-400">No Bot Found</p>

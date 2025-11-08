@@ -68,41 +68,80 @@ const OtpScreenForget = () => {
     },
   });
 
-  useEffect(() => {
+ useEffect(() => {
     const storedTime = sessionStorage.getItem("otpTimer");
     if (storedTime) {
       const remaining = parseInt(storedTime, 10) - Date.now();
       if (remaining > 0) {
         startTimer(Math.ceil(remaining / 1000));
+        return;
       }
     }
+    startTimer(120);
   }, []);
+  const updateOtpStateFromArray = (arr) => {
+    setOtp(arr.slice(0, 4).join(""));
+  };
+
 
   const handleChange = (value, index) => {
-    if (/^[0-9]?$/.test(value)) {
-      const otpArray = otp.split("");
-      otpArray[index] = value;
-      const newOtp = otpArray.join("");
-      setOtp(newOtp);
+    if (!/^[0-9]?$/.test(value)) return;
+    const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+    otpArray[index] = value;
+    updateOtpStateFromArray(otpArray);
 
-      if (value && index < 5) {
-        inputsRef.current[index + 1]?.focus();
-      }
+    if (value && index < 3) {
+      inputsRef.current[index + 1]?.focus();
+      inputsRef.current[index + 1]?.select?.();
     }
   };
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (otp[index]) {
-        const otpArray = otp.split("");
+        const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
         otpArray[index] = "";
-        setOtp(otpArray.join(""));
+        updateOtpStateFromArray(otpArray);
       } else if (index > 0) {
         inputsRef.current[index - 1]?.focus();
+        const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+        otpArray[index - 1] = "";
+        updateOtpStateFromArray(otpArray);
       }
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 3) {
+      inputsRef.current[index + 1]?.focus();
     }
   };
 
+  // handle paste into any input
+  const handlePaste = (e, startIndex) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").trim();
+    const digits = pasted.replace(/\D/g, "");
+    if (!digits) return;
+
+    const otpArray = Array.from({ length: 4 }, (_, i) => otp[i] || "");
+    for (let i = 0; i < digits.length && startIndex + i < 4; i++) {
+      otpArray[startIndex + i] = digits[i];
+    }
+
+    // update state (controlled inputs will update)
+    updateOtpStateFromArray(otpArray);
+
+    // focus next empty or last filled
+    const firstEmpty = otpArray.findIndex((c) => c === "");
+    setTimeout(() => {
+      if (firstEmpty !== -1) {
+        inputsRef.current[firstEmpty]?.focus();
+        inputsRef.current[firstEmpty]?.select?.();
+      } else {
+        const focusIndex = Math.min(3, startIndex + digits.length - 1);
+        inputsRef.current[focusIndex]?.focus();
+      }
+    }, 0);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (otp.length !== 4) {
@@ -113,11 +152,12 @@ const OtpScreenForget = () => {
     console.log("OTP Submitted (string):", otp);
     console.log("OTP Submitted (number):", Number(otp));
   };
-
-  const resendOtp = () => {
-    console.log("OTP resent!");
-    startTimer(30);
-    resendOTPSignupMutate();
+  const formatTime = (secs) => {
+    const minutes = Math.floor(secs / 60);
+    const seconds = secs % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const startTimer = (seconds) => {
@@ -137,6 +177,11 @@ const OtpScreenForget = () => {
         setTimer(remaining);
       }
     }, 1000);
+  };
+
+  const resendOtp = () => {
+    startTimer(120);
+    resendOTPSignupMutate();
   };
 
   return (
@@ -183,6 +228,7 @@ const OtpScreenForget = () => {
                   value={otp[i] || ""}
                   onChange={(e) => handleChange(e.target.value, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
+                  onPaste={(e) => handlePaste(e, i)}
                   className="w-14 h-14 text-center text-white text-xl bg-[#1A1A24] border-2 border-primary rounded focus:outline-none focus:ring-2 focus:ring-primary"
       />
               ))}
@@ -190,8 +236,12 @@ const OtpScreenForget = () => {
 
             <button
               type="submit"
-              className="w-full bg-primary font-semibold text-white py-3 rounded-[10px] hover:opacity-90 transition-opacity"
-              disabled={VerifySignupOtpMutatePending}
+              className={`w-full  font-semibold text-white py-3 rounded-[10px] ${
+                otp.length === 4 && !VerifySignupOtpMutatePending
+                  ? "bg-primary hover:opacity-90"
+                  : "bg-primary opacity-50 cursor-not-allowed"
+              }`}
+              disabled={VerifySignupOtpMutatePending || otp?.length != 4}
             >
               {VerifySignupOtpMutatePending ? `Verifying OTP` : `Verify OTP`}
             </button>
@@ -207,7 +257,9 @@ const OtpScreenForget = () => {
                     : "hover:underline"
                 }`}
               >
-                {resendDisabled ? `Resend OTP in ${timer}s` : "Resend OTP"}
+                {resendDisabled
+                  ? `Resend OTP in ${formatTime(timer)}`
+                  : "Resend OTP"}
               </button>
             </div>
 
