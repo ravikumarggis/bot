@@ -5,10 +5,10 @@ export default function RefundPolicy() {
   return (
     <div className="max-w-4xl mx-auto px-6 pt-20 sm:pt-30 pb-10 md:pb-20 space-y-10">
       <section>
-        <h1 className="text-4xl font-bold mb-4">💳 Refund &amp; Cancellation Policy — QIE Bots</h1>
+        <h1 className="text-4xl font-bold mb-4">💳 Refund &amp; Cancellation Policy — Qbots</h1>
         <p className="text-lg opacity-80">Last Updated: <strong>October 2025</strong></p>
         <p className="mt-4 opacity-90">
-          At QIE Bots, we are committed to providing a transparent, fair, and user-focused experience.
+          At Qbots, we are committed to providing a transparent, fair, and user-focused experience.
           Before subscribing or funding your account, please review this Refund and Cancellation Policy carefully.
         </p>
       </section>
@@ -25,7 +25,7 @@ export default function RefundPolicy() {
 
         <h3 className="font-medium mt-3">1.2 One-Week Free Trial</h3>
         <p className="opacity-90">
-          QIE Bots may offer a free trial period to allow users to explore features before committing to a paid plan.
+          Qbots may offer a free trial period to allow users to explore features before committing to a paid plan.
           Once the trial ends and a subscription is activated, the plan is considered confirmed and non-refundable.
         </p>
 
@@ -46,7 +46,7 @@ export default function RefundPolicy() {
 
         <h3 className="font-medium mt-3">2.1 Digital &amp; Automated Services</h3>
         <p className="opacity-90">
-          Due to the digital and algorithmic nature of QIE Bots’ services (e.g., automated trading bots, API integrations, or dashboard access), all sales are final.
+          Due to the digital and algorithmic nature of Qbots’ services (e.g., automated trading bots, API integrations, or dashboard access), all sales are final.
           Once a subscription or Fuel Wallet payment has been processed, no refunds will be provided for any reason, except as specified below.
         </p>
 
@@ -58,7 +58,7 @@ export default function RefundPolicy() {
 
         <h3 className="font-medium mt-3">2.3 Duplicate Payments</h3>
         <p className="opacity-90">
-          If you are charged more than once for the same transaction, QIE Bots will verify the issue and refund the duplicate charge to your original payment method within 5–10 business days.
+          If you are charged more than once for the same transaction, Qbots will verify the issue and refund the duplicate charge to your original payment method within 5–10 business days.
         </p>
       </section>
 
@@ -68,13 +68,13 @@ export default function RefundPolicy() {
           Refunds may be considered only under exceptional circumstances, such as:
         </p>
         <ul className="list-disc pl-6 opacity-90 space-y-2 mt-2">
-          <li>A technical error or platform malfunction caused by QIE Bots that prevented access to paid features.</li>
+          <li>A technical error or platform malfunction caused by Qbots that prevented access to paid features.</li>
           <li>Extended downtime exceeding 48 continuous hours that directly impacts trading operations (excluding exchange/API-related issues).</li>
           <li>Regulatory or legal restrictions that make the service unavailable in your region after purchase.</li>
         </ul>
         <p className="opacity-90 mt-3">
           To qualify for an exception, a written refund request must be submitted within 3 business days of the issue arising, with evidence such as transaction IDs or screenshots.
-          All refund requests will be reviewed by our billing team, and outcomes will be communicated via email. Approval is at the sole discretion of QIE Bots.
+          All refund requests will be reviewed by our billing team, and outcomes will be communicated via email. Approval is at the sole discretion of Qbots.
         </p>
       </section>
 
@@ -109,7 +109,7 @@ export default function RefundPolicy() {
       <section>
         <h2 className="text-2xl font-semibold mb-2">6. Policy Updates</h2>
         <p className="opacity-90">
-          QIE Bots reserves the right to update or modify this Refund &amp; Cancellation Policy at any time to reflect changes in business processes or regulatory requirements.
+          Qbots reserves the right to update or modify this Refund &amp; Cancellation Policy at any time to reflect changes in business processes or regulatory requirements.
           Updates will be published on this page with a revised “Last Updated” date. Continued use of the Platform after updates constitutes acceptance of the new terms.
         </p>
       </section>
