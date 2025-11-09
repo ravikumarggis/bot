@@ -26,6 +26,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { invoiceAtom } from "@/const/atoms";
 import { X } from "lucide-react";
+import ActivityIndicator from "@/components/activity-indicator";
 const ConfirmPayment = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -67,8 +68,14 @@ const ConfirmPayment = () => {
     });
 
   if (subscriptionDataPending) {
-    return <p>Loading</p>;
+    return (
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+        <ActivityIndicator isLoading className={"h-12 w-12"} />
+        <p className="text-2xl font-semibold">Getting Data...</p>
+      </div>
+    );
   }
+
 
   return (
     <div className="container mx-auto flex items-center justify-center mt-20">

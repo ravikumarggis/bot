@@ -171,9 +171,9 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <a className="hover:text-white" href="#">
+                    <Link className="hover:text-white" href="https://www.docs.qbots.trade/" target="_blank">
                       Tutorials
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a className="hover:text-white" href="#">
