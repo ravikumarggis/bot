@@ -104,6 +104,7 @@ export default function PlanManagement() {
     { key: "planName", label: "Plan Name" },
     { key: "planAmount", label: "Plan Amount" },
     { key: "paidAmount", label: "Paid Amount" },
+    { key: "botCount", label: "Max Bot Limit" },
     { key: "paymentOrderId", label: "Payment Order ID" },
     { key: "duration", label: "Duration" },
     { key: "planStatus", label: "Plan Status" },
@@ -117,10 +118,10 @@ export default function PlanManagement() {
 
     return subsData.map((item, index) => ({
       sr: index + 1,
-      planName: item?.subscriptionDetail?.name || "--",
+      planName: item?.planName || "--",
       planAmount:
         formatCurrency({
-          amount: item?.subscriptionDetail?.displayAmount,
+          amount: item?.amount,
           currency: "USD",
         }) || 0,
       paidAmount:
@@ -128,8 +129,9 @@ export default function PlanManagement() {
           amount: item?.amount,
           currency: "USD",
         }) || 0,
+        botCount : item?.botCount == null ? "Unlimited" : item?.botCount,
       paymentOrderId: item?.orderId || "--",
-      duration: `${item?.subscriptionDetail?.duration || 0} DAYS`,
+      duration: `${item?.duration || 0} DAYS`,
 
       planStatus: item?.planStatus || "--",
       startTime: item?.createdAt ? moment(item?.createdAt).format("lll") : "--",
@@ -176,9 +178,9 @@ export default function PlanManagement() {
     );
   }
 
-  if (!haveActiveSubs && !haveActiveSubsPending) {
-    return <NotActiveSubs />;
-  }
+  // if (!haveActiveSubs && !haveActiveSubsPending) {
+  //   return <NotActiveSubs />;
+  // }
 
   return (
     <div className="p-6 text-white min-h-screen">

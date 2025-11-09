@@ -8,6 +8,7 @@ import { useGetAllSubscription } from "@/queries/plan-management";
 import { useGetAlluserSubList, useGetUserSubscription } from "@/queries/admin";
 import { useSearchParams } from "next/navigation";
 import ActivityIndicator from "@/components/activity-indicator";
+import moment from "moment";
 
 export default function UsersListView() {
   const searchParams = useSearchParams();
@@ -45,9 +46,11 @@ export default function UsersListView() {
   const columns = useMemo(
     () => [
       { key: "sr", label: "Sr" },
-      { key: "name", label: "Plan Type" },
+      { key: "name", label: "Plan Name" },
       { key: "email", label: "Email" },
+      { key: "botCount", label: "Max Bot Limit" },
       { key: "amount", label: "Amount" },
+      { key: "endDate", label: "Plan End Date" },
       { key: "status", label: "Status" },
      
     ],
@@ -65,9 +68,11 @@ export default function UsersListView() {
 
     return items?.map((item, index) => ({
       sr: (page - 1) * limit + index + 1,
-      name: item?.subscriptionDetail?.name      ?? "--",
+      name: item?.planName      ?? "--",
       email: item?.payerEmail ?? "--",
-      amount: item?.amount ? `${item.amount} USD` : "--",
+      botCount: item?.botCount == null  ?  "Unlimited" : item?.botCount,
+      amount:`$${item.amount}` || "--",
+      endDate:moment(item.endDate).format("DD-MM-YYYY") || "--",
       status: item?.planStatus ?? "--",
     
     }));
