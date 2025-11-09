@@ -8,7 +8,7 @@ const Percentage = 100;
 
 export default function CurrentPlan({ activeSubs }) {
   const router = useRouter();
-  console.log(activeSubs, "activeSubs>>");
+  
 
   return (
     <div className="bg-[#12121a] border border-gray-800/50 rounded-2xl p-6">

@@ -21,6 +21,7 @@ import { useHaveActiveSubscriptions } from "@/queries/payment";
 import { useGetBotList } from "@/queries/bot";
 import NotActiveBots from "@/components/no-active-bot";
 import clsx from "clsx";
+import ActivityIndicator from "@/components/activity-indicator";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
   { label: "New DCA Bot", value: "New DCA Bot" },
@@ -75,6 +76,15 @@ export default function Bot() {
   //   return <NotActiveSubs />;
   // }
 
+  if (botListPending) {
+    return (
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+        <ActivityIndicator isLoading className={"h-12 w-12"} />
+        <p className="text-2xl font-semibold">Getting Data...</p>
+      </div>
+    );
+  }
+
    
 
   return (
@@ -108,7 +118,7 @@ export default function Bot() {
                 </div>
             {botList?.length === 0 ? (
               <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
-                <p className="mt-3 text-xl text-gray-400">No Bot Found</p>
+                <p className="mt-3 text-xl text-gray-400">No bots here yet! Let’s make your first one</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

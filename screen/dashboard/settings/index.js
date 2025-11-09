@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { forgotPassword } from "@/queries/auth";
+import ActivityIndicator from "@/components/activity-indicator";
+
 
 export default function ProfileSettings() {
   const router = useRouter();
@@ -141,9 +143,17 @@ export default function ProfileSettings() {
     },
   });
 
+
+
   if (getUserDataPending && !initialized && forgotPasswordMutatePending) {
-    return <p>Loading...</p>;
+    return (
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+        <ActivityIndicator isLoading className={"h-12 w-12"} />
+        <p className="text-2xl font-semibold">Getting Data...</p>
+      </div>
+    );
   }
+
 
   return (
     <form

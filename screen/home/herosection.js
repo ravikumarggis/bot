@@ -6,6 +6,7 @@ import { getCookie } from "cookies-next";
 import { useEffect, useMemo, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function HeroSection() {
   const [token, setToken] = useState();
@@ -61,9 +62,9 @@ export default function HeroSection() {
               <span>Make Money</span>
             </button>
 
-            <button className="px-6 py-3 rounded-lg font-medium border border-white/20 text-gray-200 hover:bg-white/10 transition">
+            <Link className="px-6 py-3 rounded-lg font-medium border border-white/20 text-gray-200 hover:bg-white/10 transition" href="Https://www.docs.qbots.trade" target="_blank">
               Learn
-            </button>
+            </Link>
           </div>
 
           {/* Feature List */}

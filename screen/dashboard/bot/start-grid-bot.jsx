@@ -345,7 +345,16 @@ export default function StartGridBot() {
                     </>
                   )}
                 </button>
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-between gap-4">
+
+                <p className="text-md text-gray-400">
+  Realized P&L:{' '}
+  <span className={botData?.realizedPnL < 0 ? 'text-red-500' : 'text-green-500'}>
+    {Number(botData?.realizedPnL).toFixed(2)}
+  </span>
+</p>
+
+                  <div className="flex flex-row gap-3">
                   <EditIcon
                     onClick={() => {
                       if (isBotRunning) {
@@ -378,6 +387,7 @@ export default function StartGridBot() {
                     color="red"
                     className="cursor-pointer"
                   />
+                  </div>
                 </div>
               </div>
             </aside>

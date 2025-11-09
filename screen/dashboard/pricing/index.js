@@ -7,6 +7,7 @@ import { useGetActiveSubscription } from "@/queries/pricing";
 import { formatCurrency, isMonthlyPlan } from "@/utils/index";
 import { useUserProfile } from "@/queries/profile";
 import clsx from "clsx";
+import ActivityIndicator from "@/components/activity-indicator";
 
 const Pricing = () => {
   const [plan, setPlan] = useState("monthly");
@@ -33,8 +34,15 @@ const Pricing = () => {
       });
   }, [activeSubs, getActiveSubs]);
 
+
+
   if (getActiveSubsPending || profilePending) {
-    return <p>Loading</p>;
+    return (
+      <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
+        <ActivityIndicator isLoading className={"h-12 w-12"} />
+        <p className="text-2xl font-semibold">Getting Data...</p>
+      </div>
+    );
   }
 
   return (
