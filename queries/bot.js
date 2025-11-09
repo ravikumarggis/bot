@@ -76,9 +76,10 @@ export const updateBotStatus = async ({ id, status }) => {
   }
 };
 
-export const useGetBotList = ({selectExchange}) => {
+export const useGetBotList = (params = {}) => {
+  const { selectExchange } = params;
   return useQuery({
-    queryKey: ["getBotList",selectExchange],
+    queryKey: ["getBotList", selectExchange],
     queryFn: () => {
       return getBotList(selectExchange);
     },
@@ -93,7 +94,7 @@ export const getBotList = async (selectExchange) => {
     const response = await api({
       method: "GET",
       url: `/bot/getBotList`,
-      params:{exchange:selectExchange}
+      params: { exchange: selectExchange },
     });
 
     return response?.data;
