@@ -8,10 +8,15 @@ export default function CommonTable({ columns, data }) {
   const router = useRouter();
 
   const getStatusColor = (value) => {
+
+    console.log(value,"valuevaluevalue");
+    
     if (!value) return "text-gray-400";
     const lower = value.toLowerCase();
     if (lower === "active") return "text-green-500 font-semibold";
     if (lower === "inactive") return "text-red-500 font-semibold";
+    if (lower === "expired") return "text-red-500 font-semibold";
+
     return "text-gray-300";
   };
 
@@ -42,7 +47,10 @@ export default function CommonTable({ columns, data }) {
                 key={idx}
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
-                {columns.map((col) => {
+                {columns?.map((col) => {
+
+                  console.log(col,"colcolcol");
+                  
                   if (col.key === "actions") {
                     return (
                       <td key={col.key} className="px-4 py-3">
@@ -62,7 +70,7 @@ export default function CommonTable({ columns, data }) {
 
                   const cellValue = row[col.key];
                   const cellClass =
-                    (col.key === "status" ||col.key ==="planStatus")
+                    (col.key === "status" || col.key ==="planStatus" || col?.key === "planStatus")
                       ? getStatusColor(cellValue)
                       : "text-gray-300";
 

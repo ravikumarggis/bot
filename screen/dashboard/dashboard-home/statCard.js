@@ -46,7 +46,7 @@ export default function StatCard({
           <span
             className={`text-4xl font-semibold ${
               title === "Total Profit & Loss"
-                ? value > 0
+                ? value >= 0
                   ? "text-green-500"
                   : "text-red-500"
                 : "text-white"

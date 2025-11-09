@@ -752,7 +752,7 @@ export default function AddExchange() {
               </li>
               <li>
                 <strong className="text-white">API secret key:</strong> Find
-                this in your exchange settings and paste it above.
+                this in your exchange settings and paste it.
               </li>
             </ul>
           </div>

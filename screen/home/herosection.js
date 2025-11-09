@@ -90,7 +90,7 @@ export default function HeroSection() {
           <div className="relative w-[100%] max-w-[750px] ">
             <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-200 rounded-3xl blur-3xl opacity-40 animate-pulse"></div>
             <Image
-              src="/assets/homepage/heroImage.png"
+              src="/assets/homepage/heroimageLaptop.png"
               alt="Dashboard preview"
               width={1000}
               height={1000}

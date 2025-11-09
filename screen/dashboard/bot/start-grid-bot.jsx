@@ -350,7 +350,7 @@ export default function StartGridBot() {
                 <p className="text-md text-gray-400">
   Realized P&L:{' '}
   <span className={botData?.realizedPnL < 0 ? 'text-red-500' : 'text-green-500'}>
-    {Number(botData?.realizedPnL).toFixed(2)}
+    ${Number(botData?.realizedPnL).toFixed(2)}
   </span>
 </p>
 

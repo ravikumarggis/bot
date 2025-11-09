@@ -116,7 +116,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-lg font-semibold mb-2">⚠️ Disclaimer</h4>
                 <p className="text-slate-300 text-sm">
-                  QIE Bots is a non-custodial crypto trading automation service
+                  Qbots is a non-custodial crypto trading automation service
                   and not a regulated financial entity. Trading digital assets
                   carries significant risk and may result in losses. Past
                   performance is not indicative of future results. Users are
@@ -171,9 +171,9 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <a className="hover:text-white" href="#">
+                    <Link className="hover:text-white" href="https://www.docs.qbots.trade/" target="_blank">
                       Tutorials
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a className="hover:text-white" href="#">
