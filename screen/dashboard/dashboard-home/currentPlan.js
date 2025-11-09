@@ -9,26 +9,31 @@ const Percentage = 100;
 
 export default function CurrentPlan({ activeSubs }) {
   const router = useRouter();
-  
 
   const profitCaptrimValue = useMemo(() => {
-    const result = activeSubs?.permission?.find((item) => 
+    const result = activeSubs?.permission?.find((item) =>
       item.includes("Profitcap:")
     );
     const value = result?.split(":")[1]?.trim();
-   
 
-    return value; 
+    return value;
   }, [activeSubs]);
 
   const exchangeType = useMemo(() => {
-    const result = activeSubs?.permission?.find((item) => 
+    const result = activeSubs?.permission?.find((item) =>
       item.includes("Exchange:")
     );
     const value = result?.split(":")[1]?.trim();
-   
 
-    return value; 
+    return value;
+  }, [activeSubs]);
+  const permissionAsses = useMemo(() => {
+    const result = activeSubs?.permission?.find((item) =>
+      item.includes("Access:")
+    );
+    const value = result?.split(":")[1]?.trim();
+
+    return value;
   }, [activeSubs]);
 
   return (
@@ -65,40 +70,47 @@ export default function CurrentPlan({ activeSubs }) {
             })}
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-3xl font-semibold text-white">{activeSubs?.duration == 7 ? "Unlimited" : profitCaptrimValue }</div>
+            <div className="text-3xl font-semibold text-white">
+              {/* {activeSubs?.duration == 7 ? "Unlimited" : profitCaptrimValue} */}
+              Unlimited
+            </div>
             <div className="text-sm text-gray-400 mt-1">Available Cap</div>
           </div>
         </div>
-        {activeSubs?.planName && (
-          <div className="flex gap-1 flex-col w-full">
-            <div className="w-full flex flex-row justify-between items-center">
-              <p>Paid Amount:</p>
-              <p>
-                {formatCurrency({
-                  amount: activeSubs?.amount,
-                  currency: "USD",
-                })}
-              </p>
+        {/* {activeSubs?.amount  && ( */}
+        {activeSubs && (
+          <>
+            <div className="flex gap-1 flex-col w-full">
+              <div className="w-full flex flex-row justify-between items-center">
+                <p>Paid Amount:</p>
+                <p>
+                  {formatCurrency({
+                    amount: activeSubs?.amount,
+                    currency: "USD",
+                  })}
+                </p>
+              </div>
+              <div className="w-full flex flex-row justify-between items-center">
+                <p>Expiry Date:</p>
+                <p>{moment(activeSubs?.endDate)?.format("ll")}</p>
+              </div>
             </div>
-            <div className="w-full flex flex-row justify-between items-center">
-              <p>Expiry Date:</p>
-              <p>{moment(activeSubs?.endDate)?.format("ll")}</p>
+            {/* )} */}
+            {/* {activeSubs?.botCount && ( */}
+            <div className="flex gap-1 flex-col w-full">
+              <div className="w-full flex flex-row justify-between items-center">
+                <p>Max Bot Limit:</p>
+                <p>
+                  {permissionAsses || ""}
+                </p>
+              </div>
+              <div className="w-full flex flex-row justify-between items-center">
+                <p>Exchange Support:</p>
+                <p>{exchangeType || ""}</p>
+              </div>
             </div>
-          </div>
-        )}
-        {activeSubs?.botCount && (
-          <div className="flex gap-1 flex-col w-full">
-            <div className="w-full flex flex-row justify-between items-center">
-              <p>Max Bot Limit:</p>
-              <p>
-                {activeSubs?.botCount == 0 ?"Unlimited"  :activeSubs?.botCount}
-              </p>
-            </div>
-            <div className="w-full flex flex-row justify-between items-center">
-              <p>Exchange Support:</p>
-              <p>{exchangeType || ""}</p>
-            </div>
-          </div>
+            {/* )} */}
+          </>
         )}
 
         {/* {!activeSubs?.planName && (
