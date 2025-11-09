@@ -69,7 +69,10 @@ export default function CreateGridBot() {
       }
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || "Failed to create bot!");
+
+      console.log(error,"errorerror");
+      
+      toast.error(error?.response?.data?.responseMessage || "Failed to create bot!");
       console.error("Error creating bot:", error);
     },
   });

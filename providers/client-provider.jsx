@@ -2,7 +2,7 @@
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React from "react";
-import { PAYPAL_CLIENT_ID } from "../config/index";
+import { PAYPAL_CLIENT_ID ,PAYPAL_ENV} from "../config/index";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { createConfig, WagmiProvider } from "wagmi";
@@ -39,7 +39,7 @@ const config = createConfig({
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
   intent: "capture",
-  environment: "sandbox",
+  environment: PAYPAL_ENV,
 };
 
 const ClientProvider = ({ children }) => {
