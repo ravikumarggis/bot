@@ -12,9 +12,9 @@ const Transaction = () => {
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
 
-  if (!haveActiveSubs) {
-    return <NotActiveSubs />;
-  }
+  // if (!haveActiveSubs) {
+  //   return <NotActiveSubs />;
+  // }
   return (
     <div>
       <div className="flex items-center justify-center">

@@ -39,7 +39,7 @@ export default function ProfitChart() {
         </select>
       </div>
 
-      <div className="w-full h-96">
+      <div className="w-full h-90 md:h-117 ">
         <ResponsiveContainer>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />

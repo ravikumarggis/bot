@@ -167,12 +167,12 @@ export default function ProfileSettings() {
               ? formik.values.name.charAt(0).toUpperCase()
               : "R"}
           </div>
-          <button
+          {/* <button
             type="button"
             className="absolute bottom-1 right-1 bg-[#1a1a25] border border-gray-600 p-2 rounded-full hover:bg-primary transition"
           >
             <Edit size={16} className="text-gray-300 hover:text-white" />
-          </button>
+          </button> */}
         </div>
 
         <div>

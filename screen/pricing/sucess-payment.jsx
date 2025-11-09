@@ -3,12 +3,38 @@ import { invoiceAtom } from "@/const/atoms";
 import { IconCircleDashedCheck } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { formatCurrency } from "@/utils";
 
 const SuccessPayment = () => {
   const router = useRouter();
   const [invoiceData, setInvoiceAtom] = useAtom(invoiceAtom);
+
+
+
+  
+  const profitCaptrimValue = useMemo(() => {
+    const result = invoiceData?.permission?.find((item) => 
+      item.includes("Profitcap:")
+    );
+    const value = result?.split(":")[1]?.trim();
+   
+
+    return value; 
+  }, [invoiceData]);
+  const exchangeType = useMemo(() => {
+    const result = invoiceData?.permission?.find((item) => 
+      item.includes("Exchange:")
+    );
+    const value = result?.split(":")[1]?.trim();
+   
+
+    return value; 
+  }, [invoiceData]);
+
+ 
+  
+ 
   console.log(invoiceData, "invoiceData>>");
   useEffect(() => {
     if (Object.keys(invoiceData)?.length < 1) {
@@ -43,15 +69,15 @@ const SuccessPayment = () => {
                   <div className="flex flex-row justify-between w-full">
                     <p>Profit Cap:</p>
                     <p>
-                      {formatCurrency({
-                        amount: invoiceData?.profitCap || 0,
-                        currency: invoiceData?.currency,
-                      })}
+                      {
+                    profitCaptrimValue || ""
+                       
+                    }
                     </p>
                   </div>
                   <div className="flex flex-row justify-between w-full">
                     <p>Exchange:</p>
-                    <p>{invoiceData?.exchange || ""}</p>
+                    <p>{exchangeType || ""}</p>
                   </div>
                   <div className="flex flex-row justify-between w-full">
                     <p>Payment Method:</p>

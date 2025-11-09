@@ -7,7 +7,7 @@ import ProfitChart from "./profitChart";
 import CurrentPlan from "./currentPlan";
 import { ArrowLeftRight, Receipt, TrendingUp, Wallet } from "lucide-react";
 import {
-  useGetSubscriptionDetail,
+  
   useHaveActiveSubscriptions,
 } from "@/queries/payment";
 import NotActiveSubs from "@/components/no-active-subs";
@@ -24,8 +24,7 @@ import { useUserProfile } from "@/queries/profile";
 
 export default function Dashboard() {
   const [selectedExchangeId, setselectedExchangeId] = useState("");
-  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
-    useHaveActiveSubscriptions();
+  
 
   const { data: exchangeCount, isPending: exchangeCountPending } =
     useExchangeCount();
@@ -68,9 +67,7 @@ export default function Dashboard() {
   //   );
   // }
 
-  if (!haveActiveSubs) {
-    return <NotActiveSubs />;
-  }
+
 
   return (
     <div className="min-h-screen  text-white ">
