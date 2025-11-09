@@ -94,5 +94,5 @@ export const QieCustomWallet = ({ projectId }) => ({
 
 export const config = {
   paymentAbi: PaymentAbi,
-  paymentContractAddress: "0x338b038Fa3385545E73fc332BC222816B7f16FEa",
+  paymentContractAddress: "0x86BA129106D98d581d44E5bBd3D215855d412C5f",
 };

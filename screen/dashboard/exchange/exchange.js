@@ -7,8 +7,10 @@ import { BarChart3, DollarSign } from "lucide-react";
 import ActivityIndicator from "@/components/activity-indicator";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
 import NotActiveSubs from "@/components/no-active-subs";
+import { useUserProfile } from "@/queries/profile";
 export default function Exchange() {
   const router = useRouter();
+  const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
   const {
     data: exchangeKeyList,
     isLoading: exchangeKeyListLoading,
@@ -18,7 +20,7 @@ export default function Exchange() {
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
 
-  if (!haveActiveSubs) {
+  if (!getUserData?.isPlanActive) {
     return <NotActiveSubs />;
   }
   return (

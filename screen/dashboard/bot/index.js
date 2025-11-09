@@ -22,6 +22,7 @@ import { useGetBotList } from "@/queries/bot";
 import NotActiveBots from "@/components/no-active-bot";
 import clsx from "clsx";
 import ActivityIndicator from "@/components/activity-indicator";
+import { useUserProfile } from "@/queries/profile";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
   { label: "New DCA Bot", value: "New DCA Bot" },
@@ -40,6 +41,10 @@ export default function Bot() {
   const [isOpen, setIsOpen] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const router = useRouter();
+  const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
+
+  console.log(getUserData,"getUserDatagetUserData");
+  
   const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
     useHaveActiveSubscriptions();
 
@@ -72,9 +77,11 @@ export default function Bot() {
     };
   };
 
-  // if (!haveActiveSubs) {
-  //   return <NotActiveSubs />;
-  // }
+  if (!getUserData?.isPlanActive) {
+    return <NotActiveSubs />;
+  }
+
+
 
   if (botListPending) {
     return (
@@ -84,6 +91,9 @@ export default function Bot() {
       </div>
     );
   }
+
+
+
 
    
 

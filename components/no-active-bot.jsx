@@ -3,7 +3,7 @@ import { IconCrown, IconExchange } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import ActivityIndicator from "@/components/activity-indicator";
-import { useHaveActiveSubscriptions } from "@/queries/payment";
+
 const NotActiveBots = () => {
   const router = useRouter();
 
