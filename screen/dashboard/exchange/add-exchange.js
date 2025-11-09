@@ -436,7 +436,7 @@ import ActivityIndicator from "@/components/activity-indicator";
 import clsx from "clsx";
 
 const exchangeOptions = [
-  { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
+  // { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
   { label: "Bybit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
 ];
 
@@ -643,7 +643,7 @@ export default function AddExchange() {
               <h3 className="text-lg font-semibold mb-3">
                 Whitelist These Server IPs
               </h3>
-              {["209.38.162.7", "209.38.162.148", "209.38.170.165"].map(
+              {["139.59.42.213", "157.245.99.231"]?.map(
                 (ip) => (
                   <div
                     key={ip}

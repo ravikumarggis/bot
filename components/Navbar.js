@@ -36,7 +36,7 @@ export default function Navbar() {
           <Link href="/pricing" className="hover:text-white transition">
             Pricing
           </Link>
-          <Link href="#" className="hover:text-white transition">
+          <Link href="https://www.docs.qbots.trade/" target="_blank" className="hover:text-white transition">
             Docs
           </Link>
         </div>
@@ -96,7 +96,8 @@ export default function Navbar() {
               Pricing
             </Link>
             <Link
-              href="#"
+              href="https://www.docs.qbots.trade/"
+              target="_blank" 
               onClick={() => setIsOpen(false)}
               className="hover:text-white transition"
             >

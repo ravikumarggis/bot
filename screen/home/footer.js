@@ -188,7 +188,7 @@ export default function Footer() {
                 <ul className="space-y-2 text-slate-300 text-sm">
                   <li>
                     <Link className="hover:text-white" href="/about-us">
-                      About
+                      About Us
                     </Link>
                   </li>
                   <li>
@@ -198,7 +198,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link className="hover:text-white" href="/contact-us">
-                      Contact Us
+                    Get in Touch
                     </Link>
                   </li>
                  

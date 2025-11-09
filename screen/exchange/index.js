@@ -123,6 +123,7 @@
 import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import { getCookie } from "cookies-next";
+import Link from "next/link";
 
 export default function Exchange() {
   const [token, setToken] = useState();
@@ -163,9 +164,9 @@ export default function Exchange() {
               Make Money
             </button>
 
-            <button className="px-5 py-3 rounded-lg border border-white/10 bg-white/3 text-gray-200 backdrop-blur-sm">
+            <Link className="px-5 py-3 rounded-lg border border-white/10 bg-white/3 text-gray-200 backdrop-blur-sm" href="Https://www.docs.qbots.trade" target="_blank">
               Learn More
-            </button>
+            </Link>
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-gray-300">

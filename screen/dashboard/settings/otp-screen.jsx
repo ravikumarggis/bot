@@ -19,7 +19,7 @@ import { setCookie } from "cookies-next";
 
 const OtpScreen = () => {
     const [otp, setOtp] = useState("");
-    const [timer, setTimer] = useState(0);
+    const [timer, setTimer] = useState(120);
     const [resendDisabled, setResendDisabled] = useState(false);
     const inputsRef = useRef([]);
     const router = useRouter();
@@ -70,12 +70,14 @@ const OtpScreen = () => {
   
     useEffect(() => {
       const storedTime = 120;
+   
       if (storedTime) {
         const remaining = parseInt(storedTime, 10) - Date.now();
         if (remaining > 0) {
           startTimer(Math.ceil(remaining / 1000));
         }
       }
+      startTimer(120);
     }, []);
     const formatTime = (secs) => {
       const minutes = Math.floor(secs / 60);
