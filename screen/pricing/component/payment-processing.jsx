@@ -31,14 +31,13 @@ const PaymentProcessing = ({
     },
     enabled: enableApiCalling,
     retry: true,
-    refetchInterval: (data) => {
-      const doneStatuses = ["paid", "COMPLETED"];
-      return doneStatuses.includes(data?.status) ? false : 10000;
+    refetchInterval: (data, query) => {
+      return data?.status === "COMPLETED" ? false : 10000;
     },
   });
 
   useEffect(() => {
-    if (statusData?.status === "paid" || statusData?.status === "COMPLETED") {
+    if (statusData?.status ==  "COMPLETED") {
       setInvoiceAtom({ ...subscriptionData, invoiceData: statusData });
       toast.success("Paid successfully");
       router.replace("/dashboard/pricing/success-payment");
