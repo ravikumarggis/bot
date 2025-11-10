@@ -3,7 +3,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const GoogleAuthProvider = ({ children }) => {
   return (
-    <GoogleOAuthProvider clientId="764424849033-i0p8p198gd45esi1fb16tnm255qekjma.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="384991310027-5ihhoi83phhq558rv3nojgeq4uv8f3hd.apps.googleusercontent.com">
       {children}
     </GoogleOAuthProvider>
   );
