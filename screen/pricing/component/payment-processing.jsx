@@ -53,7 +53,7 @@ const PaymentProcessing = ({
         <h1 className="font-semibold text-2xl">Processing Your Payment...</h1>
         <ActivityIndicator isLoading className={"h-12 w-12 mt-6"} />
         <div className="mt-6 text-center">
-          <p>Please wait while we confirm your payment with PayPal.</p>
+          <p>Please wait while we confirm your payment.</p>
           <p>This may take a few seconds.</p>
         </div>
       </DialogPanel>
