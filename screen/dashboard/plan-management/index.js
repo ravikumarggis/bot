@@ -106,12 +106,17 @@ export default function PlanManagement() {
     { key: "paidAmount", label: "Paid Amount" },
     { key: "botCount", label: "Max Bot Limit" },
     { key: "paymentOrderId", label: "Payment Order ID" },
+    { key: "txHash", label: "Tx Hash" },
     { key: "duration", label: "Duration" },
     { key: "planStatus", label: "Plan Status" },
     { key: "startTime", label: "Start Time" },
     { key: "endTime", label: "End Time" },
   ];
 
+  const trunkData = (text) => {
+    if (!text || text.length <= 6) return text;
+    return text.slice(0, 3) + '*****' + text.slice(-3);
+  };
   // 🧩 Format API data
   const formattedSubsData = useMemo(() => {
     if (!subsData) return [];
@@ -131,6 +136,10 @@ export default function PlanManagement() {
         }) || 0,
         botCount : item?.botCount == null ? "Unlimited" : item?.botCount,
       paymentOrderId: item?.orderId || "--",
+      txHash: item?.txHash ? trunkData(item?.txHash) : "--",
+      txUrl: item?.txHash
+        ? `https://mainnet.qie.digital/tx/${item.txHash}`
+        : null,
       duration: `${item?.duration || 0} DAYS`,
 
       planStatus: item?.planStatus || "--",

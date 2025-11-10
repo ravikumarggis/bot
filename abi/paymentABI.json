@@ -62,6 +62,12 @@
 				"internalType": "bytes32",
 				"name": "meta",
 				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "subId",
+				"type": "string"
 			}
 		],
 		"name": "PaymentReceived",
@@ -241,6 +247,11 @@
 				"internalType": "uint256",
 				"name": "invoiceId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "subId",
+				"type": "string"
 			}
 		],
 		"name": "payInvoice",

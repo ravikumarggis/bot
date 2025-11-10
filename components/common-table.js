@@ -2,15 +2,11 @@
 import { useRouter } from "next/navigation";
 
 export default function CommonTable({ columns, data }) {
-
-
-  
   const router = useRouter();
 
   const getStatusColor = (value) => {
+    console.log(value, "valuevaluevalue");
 
-    console.log(value,"valuevaluevalue");
-    
     if (!value) return "text-gray-400";
     const lower = value.toLowerCase();
     if (lower === "active") return "text-green-500 font-semibold";
@@ -26,11 +22,7 @@ export default function CommonTable({ columns, data }) {
         "overflow-x-auto bg-[#12121d] rounded-xl border border-gray-800"
       }
     >
-      <table
-        className={
-          "min-w-full text-left text-sm text-gray-300"
-        }
-      >
+      <table className={"min-w-full text-left text-sm text-gray-300"}>
         <thead className="bg-[#1a1a25] text-gray-400 uppercase text-xs">
           <tr>
             {columns.map((col) => (
@@ -48,9 +40,6 @@ export default function CommonTable({ columns, data }) {
                 className="border-t border-gray-800 hover:bg-[#1a1a2a] transition"
               >
                 {columns?.map((col) => {
-
-                  console.log(col,"colcolcol");
-                  
                   if (col.key === "actions") {
                     return (
                       <td key={col.key} className="px-4 py-3">
@@ -58,8 +47,12 @@ export default function CommonTable({ columns, data }) {
                           className="px-3 py-1 rounded-md bg-primary text-black font-medium"
                           onClick={() => {
                             const id = row?.id;
-                           
-                            router.push(`/admin/user-list/user-view?id=${encodeURIComponent(id)}`);
+
+                            router.push(
+                              `/admin/user-list/user-view?id=${encodeURIComponent(
+                                id
+                              )}`
+                            );
                           }}
                         >
                           View
@@ -70,13 +63,27 @@ export default function CommonTable({ columns, data }) {
 
                   const cellValue = row[col.key];
                   const cellClass =
-                    (col.key === "status" || col.key ==="planStatus" || col?.key === "planStatus")
+                    col.key === "status" ||
+                    col.key === "planStatus" ||
+                    col?.key === "planStatus"
                       ? getStatusColor(cellValue)
                       : "text-gray-300";
 
                   return (
                     <td key={col.key} className={`px-4 py-3 ${cellClass}`}>
-                      {cellValue}
+                      {/* {cellValue} */}
+                      {col?.key === "txHash" && row?.txUrl ? (
+                        <a
+                          href={row?.txUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary underline"
+                        >
+                          {row?.txHash}
+                        </a>
+                      ) : (
+                        row[col?.key] || "--"
+                      )}
                     </td>
                   );
                 })}

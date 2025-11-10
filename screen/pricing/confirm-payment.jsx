@@ -290,7 +290,7 @@ const InvoiceModal = ({
         abi: config.paymentAbi,
         address: config.paymentContractAddress,
         functionName: "payInvoice",
-        args: [invoiceData?.invoiceId],
+        args: [invoiceData?.invoiceId ,invoiceData?.subscriptionId],
         value: parsedValue,
       });
       setIsLoading(false);
