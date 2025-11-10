@@ -284,12 +284,13 @@ const InvoiceModal = ({
       // const parsedValue = parseEther(
       //   String(Math.ceil(Number(invoiceData?.qieAmount)))
       // );
+console.log(invoiceData?.invoiceId,"jhnjhh",encodeBytes32String(String(invoiceData?.invoiceId)));
 
       const hash = await writeContractAsync({
         abi: config.paymentAbi,
         address: config.paymentContractAddress,
         functionName: "payInvoice",
-        args: [encodeBytes32String(String(invoiceData?.id))],
+        args: [encodeBytes32String(String(invoiceData?.invoiceId))],
         value: parsedValue,
       });
       setIsLoading(false);
