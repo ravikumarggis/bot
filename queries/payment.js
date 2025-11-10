@@ -56,7 +56,7 @@ export const generateInvoice = async ({ amount, currency, subscriptionId }) => {
       data: {
         amount: amount,
         currency: currency,
-        subscriptionId: subscriptionId,
+        subscriptionId: String(subscriptionId),
       },
     });
 
@@ -77,8 +77,11 @@ export const getInvoiceStatus = async ({ invoiceId, walletAddress }) => {
         walletAddress,
       },
     });
-    if (response?.data?.status == "paid") {
-      return response?.data;
+
+  
+    
+    if (response?.data?.result?.status == "COMPLETED") {
+      return response?.data?.result;
     } else {
       throw new Error("Invoice not paid yet");
     }
