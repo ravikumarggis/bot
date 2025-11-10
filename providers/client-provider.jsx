@@ -23,16 +23,16 @@ const connectors = connectorsForWallets(
     },
   ],
   {
-    appName: "My RainbowKit App",
+    appName: "Qbots",
     projectId: "YOUR_PROJECT_ID",
   }
 );
 const config = createConfig({
   connectors,
-  appName: "My RainbowKit App",
+  appName: "Qbots",
 
   projectId: "YOUR_PROJECT_ID",
-  chains: [mainnet, polygon, optimism, arbitrum, base, qieChain],
+  chains: [qieChain],
   ssr: true,
 });
 

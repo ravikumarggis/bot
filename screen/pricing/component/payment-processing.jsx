@@ -32,11 +32,16 @@ const PaymentProcessing = ({
     enabled: enableApiCalling,
     retry: true,
     refetchInterval: (data, query) => {
+      console.log(data?.status,"loggggg");
+      
       return data?.status === "COMPLETED" ? false : 10000;
     },
   });
 
   useEffect(() => {
+
+    console.log(statusData,"statusDatastatusDatastatusData");
+    
     if (statusData?.status ==  "COMPLETED") {
       setInvoiceAtom({ ...subscriptionData, invoiceData: statusData });
       toast.success("Paid successfully");
