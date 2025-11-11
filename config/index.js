@@ -13,4 +13,4 @@ export const PAYPAL_CLIENT_ID =
   "AVl00OU0DNS7-8jpPLiNYUoK7Q9ROf5KrYNY-5umckcPa18meS1FzKoBTGIqyCxkIiUEuEeKWZgK51XH";
 export const PAYPAL_SECRET =
   "EApMgxreMf30rrs2gtFb5SM2V28CB9tk4qZbxXF_We18vV3i398VtEgJqvNRDzgD8RymwQxcywHl0d2W";
-export const PAYPAL_ENV = "live";
+export const PAYPAL_ENV = "production";
