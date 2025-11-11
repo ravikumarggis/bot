@@ -245,8 +245,8 @@ const InvoiceModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const { data: invoiceData, isPending: invoiceDataPending } =
     useGenerateInvoice({
-      // amount: subscriptionData?.amount,
-      amount: (subscriptionData?.amount * 0.5).toFixed(2),
+      amount: subscriptionData?.amount,
+      // amount: (subscriptionData?.amount * 0.5).toFixed(2),
       currency: subscriptionData?.currency,
       subscriptionId: subscriptionData?.id,
     });
