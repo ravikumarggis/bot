@@ -10,31 +10,28 @@ const SuccessPayment = () => {
   const router = useRouter();
   const [invoiceData, setInvoiceAtom] = useAtom(invoiceAtom);
 
-
-
-  
   const profitCaptrimValue = useMemo(() => {
-    const result = invoiceData?.permission?.find((item) => 
+    const result = invoiceData?.permission?.find((item) =>
       item.includes("Profitcap:")
     );
     const value = result?.split(":")[1]?.trim();
-   
 
-    return value; 
+    return value;
   }, [invoiceData]);
   const exchangeType = useMemo(() => {
-    const result = invoiceData?.permission?.find((item) => 
+    const result = invoiceData?.permission?.find((item) =>
       item.includes("Exchange:")
     );
     const value = result?.split(":")[1]?.trim();
-   
 
-    return value; 
+    return value;
   }, [invoiceData]);
 
- 
-  
- 
+  const trunkData = (text) => {
+    if (!text || text.length <= 6) return text;
+    return text.slice(0, 3) + "*****" + text.slice(-3);
+  };
+
   console.log(invoiceData, "invoiceData>>");
   useEffect(() => {
     if (Object.keys(invoiceData)?.length < 1) {
@@ -68,12 +65,7 @@ const SuccessPayment = () => {
                   </div>
                   <div className="flex flex-row justify-between w-full">
                     <p>Profit Cap:</p>
-                    <p>
-                      {
-                    profitCaptrimValue || ""
-                       
-                    }
-                    </p>
+                    <p>{profitCaptrimValue || ""}</p>
                   </div>
                   <div className="flex flex-row justify-between w-full">
                     <p>Exchange:</p>
@@ -82,15 +74,19 @@ const SuccessPayment = () => {
                   <div className="flex flex-row justify-between w-full">
                     <p>Payment Method:</p>
                     <p>
-                      {invoiceData?.invoiceData?.paid_amount_qie
+                      {invoiceData?.invoiceData?.txHash
                         ? "QIE Wallet"
                         : "PayPal"}
                     </p>
                   </div>
                   <div className="flex flex-row justify-between w-full">
-                    <p>Transaction ID:</p>
                     <p>
-                      {invoiceData?.invoiceData?.tx_hash ||
+                      {invoiceData?.invoiceData?.txHash
+                        ? "TX Hash:"
+                        : "Transaction ID:"}
+                    </p>
+                    <p>
+                      {trunkData(invoiceData?.invoiceData?.txHash) ||
                         invoiceData?.invoiceData?.id}
                     </p>
                   </div>

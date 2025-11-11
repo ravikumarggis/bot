@@ -283,7 +283,7 @@ const InvoiceModal = ({
       setIsLoading(true);
       // const parsedValue = parseEther(String(Math.ceil(Number(1))));
       const parsedValue = parseEther(
-        String(Math.ceil(Number(invoiceData?.qieAmount)))
+        String(Number(invoiceData?.qieAmount))
       );
 
 

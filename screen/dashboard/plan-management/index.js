@@ -16,6 +16,7 @@ const TableFilter = ({ filters, setFilters }) => {
   const statusOptions = [
     { label: "Active", value: "ACTIVE" },
     { label: "Expired", value: "EXPIRED" },
+    { label: "Deactive", value: "DEACTIVE" },
   ];
 
   const handleChange = (key, value) => {
@@ -99,6 +100,15 @@ export default function PlanManagement() {
   const { data: subsData, isPending: subsDataPending } =
     useGetSubscriptionDetail();
 
+    const filterData = useMemo(
+      () => subsData?.filter(item => item?.planStatus !== "PENDING"),
+      [subsData]
+    );
+    
+
+    console.log(filterData,"filterDatafilterData");
+    
+
   const columns = [
     { key: "sr", label: "Sr" },
     { key: "planName", label: "Plan Name" },
@@ -119,9 +129,9 @@ export default function PlanManagement() {
   };
   // 🧩 Format API data
   const formattedSubsData = useMemo(() => {
-    if (!subsData) return [];
+    if (!filterData) return [];
 
-    return subsData.map((item, index) => ({
+    return filterData?.map((item, index) => ({
       sr: index + 1,
       planName: item?.planName || "--",
       planAmount:
@@ -146,7 +156,7 @@ export default function PlanManagement() {
       startTime: item?.createdAt ? moment(item?.createdAt).format("lll") : "--",
       endTime: item?.endDate ? moment(item?.endDate).format("lll") : "--",
     }));
-  }, [subsData]);
+  }, [filterData]);
 
   const filteredData = useMemo(() => {
     if (!formattedSubsData) return [];

@@ -36,6 +36,7 @@ export default function PricingHero() {
       exchanges: ["BYBIT"],
       access: "Access to 1 bot",
       profitCap: "Unlimited",
+      support1: "Share server resources",
       badge: "Limited",
       ribbon: "Save 50%",
       popular: false,
