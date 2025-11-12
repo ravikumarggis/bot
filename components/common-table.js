@@ -12,6 +12,7 @@ export default function CommonTable({ columns, data }) {
     if (lower === "active") return "text-green-500 font-semibold";
     if (lower === "inactive") return "text-red-500 font-semibold";
     if (lower === "expired") return "text-red-500 font-semibold";
+    if (lower === "deactive") return "text-red-500 font-semibold";
 
     return "text-gray-300";
   };

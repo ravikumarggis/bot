@@ -246,6 +246,7 @@ const InvoiceModal = ({
   const { data: invoiceData, isPending: invoiceDataPending } =
     useGenerateInvoice({
       amount: subscriptionData?.amount,
+      // amount: (subscriptionData?.amount * 0.5).toFixed(2),
       currency: subscriptionData?.currency,
       subscriptionId: subscriptionData?.id,
     });
@@ -280,10 +281,10 @@ const InvoiceModal = ({
   const paymentHanlder = async () => {
     try {
       setIsLoading(true);
-      const parsedValue = parseEther(String(Math.ceil(Number(1))));
-      // const parsedValue = parseEther(
-      //   String(Math.ceil(Number(invoiceData?.qieAmount)))
-      // );
+      // const parsedValue = parseEther(String(Math.ceil(Number(1))));
+      const parsedValue = parseEther(
+        String(Number(invoiceData?.qieAmount))
+      );
 
 
       const hash = await writeContractAsync({

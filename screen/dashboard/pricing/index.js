@@ -23,6 +23,11 @@ const Pricing = () => {
     );
   }, [profile]);
 
+  console.log(getActiveSubs,"getActiveSubsgetActiveSubs");
+
+
+  
+
   const filterActivePlan = useMemo(() => {
     return getActiveSubs
       ?.filter((item) => item?.amount != 0)
@@ -33,6 +38,33 @@ const Pricing = () => {
         };
       });
   }, [activeSubs, getActiveSubs]);
+
+  // const filterActivePlan = useMemo(() => {
+  //   return getActiveSubs
+  //     ?.filter((item) => item?.amount !== 0)
+  //     ?.map((item) => ({
+  //       ...item,
+  //       isCurrentPlan: item?.id === activeSubs?.subscriptionId,
+  //     }))
+  //     ?.sort((a, b) => {
+  //       const nameA = a?.name?.toLowerCase?.() || "";
+  //       const nameB = b?.name?.toLowerCase?.() || "";
+  
+  //       // Starter first
+  //       if (nameA === "starter" && nameB !== "starter") return -1;
+  //       if (nameA !== "starter" && nameB === "starter") return 1;
+  
+  //       // Pro second
+  //       if (nameA === "pro" && nameB !== "pro") return -1;
+  //       if (nameA !== "pro" && nameB === "pro") return 1;
+  
+  //       return 0;
+  //     });
+  // }, [activeSubs, getActiveSubs]);
+
+  console.log(filterActivePlan,"filterActivePlanfilterActivePlan");
+  
+  
 
 
 
@@ -139,7 +171,7 @@ const Pricing = () => {
                   {item?.isCurrentPlan ? `Active Plan` : `Choose Plan`}
                 </button>
               </div>
-              <p className="mt-4 text-xl text-gray-600 font-semibold text-center">
+              <p className="mt-4 text-xl text-[#f116b7] font-semibold text-center">
       Pay with QIE: ${item?.amount/2}/month
       </p>
             </div>
