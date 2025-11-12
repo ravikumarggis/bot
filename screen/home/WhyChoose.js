@@ -56,7 +56,8 @@ export default function WhyChoose() {
 
         {/* Center Q */}
         <div className="relative z-10 flex items-center justify-center w-[14rem] h-[14rem] rounded-full bg-gradient-to-r from-blue-600/30 via-purple-600/30 to-pink-600/30 border border-white/20 shadow-[0_0_40px_rgba(99,102,241,0.3)]">
-          <span className="text-6xl font-bold text-primary">Q</span>
+          <img src="/assets/logo1.png" alt="Qbots Logo" className="w-14 md:w-30 h-14 md:h-30 "/>
+
         </div>
 
         {/* Feature Elements positioned absolutely around circle (desktop) */}
@@ -84,7 +85,7 @@ export default function WhyChoose() {
       <div className="md:hidden max-w-md mx-auto flex flex-col items-center gap-6">
         {/* Center Q smaller on mobile */}
         <div className="flex items-center justify-center w-36 h-36 rounded-full bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 border border-white/10 shadow-md">
-          <span className="text-4xl font-bold text-primary">Q</span>
+        <img src="/assets/logo1.png" alt="Qbots Logo" className="w-18 h-18 "/>
         </div>
 
         {/* Features stacked in a 2-column grid on small screens */}
