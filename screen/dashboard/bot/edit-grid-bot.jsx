@@ -27,7 +27,7 @@ const validationSchema = Yup.object({
   quantity: Yup.number()
     .typeError("Quantity must be a number")
     .positive("Must be positive")
-    // .min(5, "Minimum quantity is 5 USD")
+    .min(10, "Minimum must be 10 USD")
     .required("Quantity per grid is required"),
   gridLevels: Yup.number()
     .typeError("Grid levels must be a number")
@@ -248,7 +248,7 @@ export default function EditGridBot() {
                       label: "Investment per Grid",
                       tooltipInfo:
                         "The amount of USD the bot will use for each individual buy or sell order within the grid. This defines how much is invested per level.",
-                      placeholder: "0.0001",
+                      placeholder: "10",
                     },
                     {
                       name: "gridLevels",
