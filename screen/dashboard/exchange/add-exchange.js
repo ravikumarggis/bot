@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -73,8 +72,8 @@ export default function AddExchange() {
     onSuccess: (data) => {
       if (data?.responseCode == 200) {
         const msg = data?.responseMessage || "Exchange added successfully";
-    setSuccessMessage(msg);
-    setSuccessModalOpen(true);
+        setSuccessMessage(msg);
+        setSuccessModalOpen(true);
       } else {
         toast.error(data?.responseMessage);
       }
@@ -152,7 +151,7 @@ export default function AddExchange() {
     if (!val) return "*".repeat(6);
     return "*".repeat(val.length);
   };
-  
+
   const handleCopy = async (text) => {
     if (!text) return;
     try {
@@ -301,7 +300,9 @@ export default function AddExchange() {
             ) : exchangeKeyList?.length === 0 ? (
               <>
                 <IconExchange size={60} className="text-primary mb-4" />
-                <p className="text-gray-400">No exchanges have been added yet!</p>
+                <p className="text-gray-400">
+                  No exchanges have been added yet!
+                </p>
               </>
             ) : (
               <div className="overflow-x-auto rounded-xl border border-gray-700 w-full">
@@ -327,7 +328,10 @@ export default function AddExchange() {
                         >
                           <td className="px-6 py-3 capitalize text-left">
                             <div className="flex flex-row items-center gap-1">
-                              <img src={item?.icon} className="h-6 object-contain" />
+                              <img
+                                src={item?.icon}
+                                className="h-6 object-contain"
+                              />
                               {item?.exchange || "-"}
                             </div>
                           </td>
@@ -354,9 +358,15 @@ export default function AddExchange() {
                                 }
                               >
                                 {isVisible(rowKey, "apiKey") ? (
-                                  <EyeOff size={16} className="text-gray-400 hover:text-gray-200" />
+                                  <EyeOff
+                                    size={16}
+                                    className="text-gray-400 hover:text-gray-200"
+                                  />
                                 ) : (
-                                  <Eye size={16} className="text-gray-400 hover:text-gray-200" />
+                                  <Eye
+                                    size={16}
+                                    className="text-gray-400 hover:text-gray-200"
+                                  />
                                 )}
                               </button>
                               <button
@@ -368,7 +378,10 @@ export default function AddExchange() {
                                 className="p-1"
                                 aria-label="Copy API Key"
                               >
-                                <Copy size={16} className="text-gray-400 hover:text-gray-200" />
+                                <Copy
+                                  size={16}
+                                  className="text-gray-400 hover:text-gray-200"
+                                />
                               </button>
                             </div>
                           </td>
@@ -395,9 +408,15 @@ export default function AddExchange() {
                                 }
                               >
                                 {isVisible(rowKey, "apiSecret") ? (
-                                  <EyeOff size={16} className="text-gray-400 hover:text-gray-200" />
+                                  <EyeOff
+                                    size={16}
+                                    className="text-gray-400 hover:text-gray-200"
+                                  />
                                 ) : (
-                                  <Eye size={16} className="text-gray-400 hover:text-gray-200" />
+                                  <Eye
+                                    size={16}
+                                    className="text-gray-400 hover:text-gray-200"
+                                  />
                                 )}
                               </button>
                               <button
@@ -409,7 +428,10 @@ export default function AddExchange() {
                                 className="p-1"
                                 aria-label="Copy Secret Key"
                               >
-                                <Copy size={16} className="text-gray-400 hover:text-gray-200" />
+                                <Copy
+                                  size={16}
+                                  className="text-gray-400 hover:text-gray-200"
+                                />
                               </button>
                             </div>
                           </td>
@@ -470,18 +492,18 @@ export default function AddExchange() {
         resendEnable={true} // <-- allow resend button to show
       />
 
-<SuccessModal
-  open={successModalOpen}
-  setOpen={setSuccessModalOpen}
-  title="Exchange Added"
-  message={successMessage || "Exchange add complete"}
-  autoClose={true}
-  duration={5}
-  onOk={() => {
-    // optional: any post-success action (e.g., refresh, navigate)
-    exchangeKeyListRefetch();
-  }}
-/>
+      <SuccessModal
+        open={successModalOpen}
+        setOpen={setSuccessModalOpen}
+        title="Exchange Added"
+        message={"All set! Your API Key and Secret Key are now saved."}
+        autoClose={true}
+        duration={5}
+        onOk={() => {
+          // optional: any post-success action (e.g., refresh, navigate)
+          exchangeKeyListRefetch();
+        }}
+      />
 
       {deleteModalState && (
         <DeleteModal

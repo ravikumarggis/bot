@@ -17,15 +17,11 @@
 //   resendDisabled=true
 // }) => {
 
-
 //   console.log(timer,"durationdurationduration");
-  
+
 //   const [otp, setOtp] = useState(Array(length).fill(""));
 //   // const [timer, setTimer] = useState(timer);
 //   const inputsRef = useRef([]); // <--- added ref for inputs
-
- 
-  
 
 //   useEffect(() => {
 //     if (isOpen) {
@@ -35,14 +31,13 @@
 //       setTimeout(() => inputsRef.current?.[0]?.focus?.(), 50);
 //     }
 //   }, [isOpen, length]);
-  
+
 //   useEffect(() => {
 //     if (timer > 0 && isOpen) {
 //       const countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
 //       return () => clearInterval(countdown);
 //     }
 //   }, [timer, isOpen]);
-  
 
 //   // helper to update otp state from array of digits
 //   const updateOtpStateFromArray = (arr) => {
@@ -216,8 +211,6 @@
 
 // export default OTPModal;
 
-
-
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
@@ -269,7 +262,15 @@ const OTPModal = ({
       }
     }, 1000);
   };
+  useEffect(() => {
+    if (isOpen) {
+      console.log(isOpen, "hittted>>");
 
+      setTimeout(() => {
+        startTimer(timer);
+      }, 1000);
+    }
+  }, [isOpen]);
   // When modal opens: reset OTP, focus first input, and start/restore timer
   useEffect(() => {
     if (!isOpen) {

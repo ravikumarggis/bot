@@ -22,7 +22,6 @@ const TradingViewWidget = ({ symbol, exchange }) => {
     symbol,
     exchange: exchange ? exchangeName : undefined,
   });
-  // const tickerData = useWatchTicker({ symbol: symbol });
 
   const data = useMemo(() => {
     if (ohlcvData?.ohlcvData?.length < 1) {
