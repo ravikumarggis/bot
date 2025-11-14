@@ -345,16 +345,16 @@ export default function CreateGridBot() {
                       )}
                     </label>
                   ))}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:gap-32">
                     <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
-                      <div className="text-sm text-gray-400">Buy</div>
-                      <div className="font-medium mt-1">
+                      <div className="text-sm text-green-400">Buy Orders:</div>
+                      <div className="font-medium mt-1 text-green-400">
                         {buySellValue?.buy}
                       </div>
                     </div>
                     <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
-                      <div className="text-sm text-gray-400">Sell</div>
-                      <div className="font-medium mt-1">
+                      <div className="text-sm text-red-400">Sell Orders:</div>
+                      <div className="font-medium mt-1 text-red-400">
                         {buySellValue?.sell}
                       </div>
                     </div>
