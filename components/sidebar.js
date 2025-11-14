@@ -32,13 +32,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   const navItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    { label: "Bots", path: "/dashboard/bot", Icon: Bot, type: "link" },
     {
       label: "Exchange",
       path: "/dashboard/exchange",
       Icon: IconExchange,
       type: "link",
     },
+    { label: "Bots", path: "/dashboard/bot", Icon: Bot, type: "link" },
+   
     {
       label: "Pricing",
       path: "/dashboard/pricing",

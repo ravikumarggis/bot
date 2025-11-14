@@ -10,7 +10,7 @@ export const baseUrl = "https://productionb.qbots.trade/api/v1"; // live
 // socket
 // export const wssBaseUrl = "ws://139.59.42.213:8082";  //local
 // export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // UAT
-export const wssBaseUrl = "wss://socket-production.qbots.trade/"; // live 
+export const wssBaseUrl = "wss://socket-production.qbots.trade/"; // live
 
 export const api = axios.create({
   baseURL: baseUrl,
@@ -29,6 +29,3 @@ api.interceptors.request.use((config) => {
     },
   };
 });
-export const UserList = () => {
-  return <div>UserList</div>;
-};

@@ -29,16 +29,17 @@ export default function DashboardHeader() {
   const router = useRouter();
   const navItems = [
     { label: "Dashboard", path: "/dashboard/home", Icon: Home, type: "link" },
-    {
-      label: "Bots",
-      path: "/dashboard/bot",
-      Icon: Bot,
-      type: "link",
-    },
+   
     {
       label: "Exchange",
       path: "/dashboard/exchange",
       Icon: IconExchange,
+      type: "link",
+    },
+    {
+      label: "Bots",
+      path: "/dashboard/bot",
+      Icon: Bot,
       type: "link",
     },
     {

@@ -171,7 +171,7 @@ const Pricing = () => {
                   {item?.isCurrentPlan ? `Active Plan` : `Choose Plan`}
                 </button>
               </div>
-              <p className="mt-4 text-xl text-gray-600 font-semibold text-center">
+              <p className="mt-4 text-xl text-[#f116b7] font-semibold text-center">
       Pay with QIE: ${item?.amount/2}/month
       </p>
             </div>

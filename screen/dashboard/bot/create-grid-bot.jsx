@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import { useFormik } from "formik";
@@ -10,6 +10,7 @@ import { createBot, useGetSymbolList } from "@/queries/bot"; // <-- import your 
 import { toast } from "sonner";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { Info } from "lucide-react";
+import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
@@ -27,7 +28,7 @@ const validationSchema = Yup.object({
   quantity: Yup.number()
     .typeError("Quantity must be a number")
     .positive("Must be positive")
-    // .min(5, "Minimum quantity is 5 USD")
+    .min(10, "Minimum must be 10 USD")
     .required("Quantity per grid is required"),
   gridLevels: Yup.number()
     .typeError("Grid levels must be a number")
@@ -43,6 +44,9 @@ export default function CreateGridBot() {
   const [pair, setPair] = useState("");
   const { data: exchangeList, isPending: exchangeListPending } =
     useGetKeysExchange();
+
+  const [isUserEditingHigh, setIsUserEditingHigh] = useState(false);
+  const [isUserEditingLow, setIsUserEditingLow] = useState(false);
 
   const exchangeName = useMemo(() => {
     return exchangeList?.find((item) => item?.id == selectedExchange)?.exchange;
@@ -69,26 +73,56 @@ export default function CreateGridBot() {
       }
     },
     onError: (error) => {
+      console.log(error, "errorerror");
 
-      console.log(error,"errorerror");
-      
-      toast.error(error?.response?.data?.responseMessage || "Failed to create bot!");
+      toast.error(
+        error?.response?.data?.responseMessage || "Failed to create bot!"
+      );
       console.error("Error creating bot:", error);
     },
   });
+
+  const ohlcvData = useWatchOHLCV({
+    symbol: pair,
+    exchange: exchangeName,
+  });
+
+  useEffect(() => {
+    if (!pair || !ohlcvData?.ohlcvData?.length) return;
+
+    const updateAutoPrice = () => {
+      const candles = ohlcvData.ohlcvData;
+      const currentPrice = Number(candles[candles.length - 1]?.[4] || 0);
+      if (!currentPrice) return;
+
+      const pct = currentPrice * 0.3;
+
+      formik.setValues((prev) => ({
+        ...prev,
+        highPrice: isUserEditingHigh ? prev.highPrice : currentPrice + pct,
+        lowPrice: isUserEditingLow ? prev.lowPrice : currentPrice - pct,
+      }));
+    };
+
+    updateAutoPrice();
+  }, [pair, ohlcvData?.ohlcvData]);
+  useEffect(() => {
+    setIsUserEditingHigh(false);
+    setIsUserEditingLow(false);
+  }, [pair]);
 
   const formik = useFormik({
     initialValues: {
       highPrice: "",
       lowPrice: "",
-      quantity: "",
-      gridLevels: "",
-      tpPercent: "2",
-      // slPercent: "1",
+      quantity: 10,
+      gridLevels: 6,
+      tpPercent: 2,
       botName: "",
       adxLessThan20: true,
       rsiBetween40And60: false,
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (values) => {
       if (!selectedExchange || !pair) {
@@ -118,13 +152,42 @@ export default function CreateGridBot() {
     },
   });
 
-  const Toggle = ({ name, label }) => {
+  const buySellValue = useMemo(() => {
+    const level = Number(formik?.values?.gridLevels || 0);
+    if (level > 0) {
+      const equalDivide = level / 2;
+      const buy = Math.ceil(equalDivide);
+      const sell = Math.floor(equalDivide);
+      return {
+        buy,
+        sell,
+      };
+    }
+
+    return {
+      buy: 0,
+      sell: 0,
+    };
+  }, [formik?.values?.gridLevels]);
+
+  const Toggle = ({ name, label, tooltip }) => {
     const value = formik.values[name];
 
     return (
       <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
         <div>
-          <div className="text-xs text-gray-400">{label}</div>
+          <div className="flex flex-row gap-2">
+            <div className="text-xs text-gray-400">{label}</div>
+            <div className="relative group">
+              <Info
+                size={16}
+                className="text-gray-400 cursor-pointer hover:text-gray-200"
+              />
+              <div className="absolute left-1/2 -translate-x-1/2 top-6 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                {tooltip}
+              </div>
+            </div>
+          </div>
           <div className="font-medium mt-1">{value ? "Yes" : "No"}</div>
         </div>
 
@@ -184,7 +247,10 @@ export default function CreateGridBot() {
                       };
                     })}
                     value={pair || ""}
-                    onSelect={(val) => setPair(val)}
+                    disabled={!selectedExchange}
+                    onSelect={(val) => {
+                      setPair(val);
+                    }}
                     className="w-50"
                   />
                 </div>
@@ -230,7 +296,7 @@ export default function CreateGridBot() {
                       label: "Investment per Grid",
                       tooltipInfo:
                         "The amount of USD the bot will use for each individual buy or sell order within the grid. This defines how much is invested per level.",
-                      placeholder: "0.0001",
+                      placeholder: "10",
                     },
                     {
                       name: "gridLevels",
@@ -259,7 +325,15 @@ export default function CreateGridBot() {
                       <input
                         name={f.name}
                         value={formik.values[f.name]}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                          if (f.name == "highPrice") {
+                            setIsUserEditingHigh(true);
+                          }
+                          if (f.name == "lowPrice") {
+                            setIsUserEditingLow(true);
+                          }
+                          formik.handleChange(e);
+                        }}
                         onBlur={formik.handleBlur}
                         className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
                         placeholder={f.placeholder}
@@ -271,6 +345,20 @@ export default function CreateGridBot() {
                       )}
                     </label>
                   ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:gap-32">
+                    <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
+                      <div className="text-sm text-green-400">Buy Orders:</div>
+                      <div className="font-medium mt-1 text-green-400">
+                        {buySellValue?.buy}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
+                      <div className="text-sm text-red-400">Sell Orders:</div>
+                      <div className="font-medium mt-1 text-red-400">
+                        {buySellValue?.sell}
+                      </div>
+                    </div>
+                  </div>
 
                   <label className="block">
                     <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
@@ -314,8 +402,20 @@ export default function CreateGridBot() {
                   </label> */}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Toggle name="adxLessThan20" label="ADX < 20" />
-                    <Toggle name="rsiBetween40And60" label="RSI 40-60" />
+                    <Toggle
+                      name="adxLessThan20"
+                      label="ADX < 20"
+                      tooltip={
+                        "When enabled, the bot will only start or expand grid orders when ADX is below 20.If ADX rises above 20, the bot pauses new grid placements to avoid trending markets."
+                      }
+                    />
+                    <Toggle
+                      name="rsiBetween40And60"
+                      label="RSI 40-60"
+                      tooltip={
+                        "When enabled, the bot will only start or expand grids when RSI remains between 40 and 60.If RSI moves outside this range, the bot pauses new grid placements due to strong momentum."
+                      }
+                    />
                   </div>
 
                   <label className="block">
