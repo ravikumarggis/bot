@@ -281,7 +281,7 @@ function PlanCard({ plan, planType = "monthly" ,token}) {
           {token ? "Choose plan" : "Login To Buy"}
         </button>
       </div>
-      <div className="mt-4 text-xl text-gray-600 font-semibold text-center">
+      <div className="mt-4 text-xl text-[#f116b7] font-semibold text-center">
         {showBottom}
       </div>
 
