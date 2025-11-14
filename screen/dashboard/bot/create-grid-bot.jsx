@@ -170,13 +170,24 @@ export default function CreateGridBot() {
     };
   }, [formik?.values?.gridLevels]);
 
-  const Toggle = ({ name, label }) => {
+  const Toggle = ({ name, label, tooltip }) => {
     const value = formik.values[name];
 
     return (
       <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
         <div>
-          <div className="text-xs text-gray-400">{label}</div>
+          <div className="flex flex-row gap-2">
+            <div className="text-xs text-gray-400">{label}</div>
+            <div className="relative group">
+              <Info
+                size={16}
+                className="text-gray-400 cursor-pointer hover:text-gray-200"
+              />
+              <div className="absolute left-1/2 -translate-x-1/2 top-6 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                {tooltip}
+              </div>
+            </div>
+          </div>
           <div className="font-medium mt-1">{value ? "Yes" : "No"}</div>
         </div>
 
@@ -391,8 +402,20 @@ export default function CreateGridBot() {
                   </label> */}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Toggle name="adxLessThan20" label="ADX < 20" />
-                    <Toggle name="rsiBetween40And60" label="RSI 40-60" />
+                    <Toggle
+                      name="adxLessThan20"
+                      label="ADX < 20"
+                      tooltip={
+                        "When enabled, the bot will only start or expand grid orders when ADX is below 20.If ADX rises above 20, the bot pauses new grid placements to avoid trending markets."
+                      }
+                    />
+                    <Toggle
+                      name="rsiBetween40And60"
+                      label="RSI 40-60"
+                      tooltip={
+                        "When enabled, the bot will only start or expand grids when RSI remains between 40 and 60.If RSI moves outside this range, the bot pauses new grid placements due to strong momentum."
+                      }
+                    />
                   </div>
 
                   <label className="block">
