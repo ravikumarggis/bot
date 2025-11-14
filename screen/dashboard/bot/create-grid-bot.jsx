@@ -44,24 +44,14 @@ export default function CreateGridBot() {
   const [pair, setPair] = useState("");
   const { data: exchangeList, isPending: exchangeListPending } =
     useGetKeysExchange();
-  const [initialState, setInitialState] = useState({
-    highPrice: "",
-    lowPrice: "",
-    quantity: "",
-    gridLevels: "",
-    tpPercent: "2",
-    botName: "",
-    adxLessThan20: true,
-    rsiBetween40And60: false,
-  });
+
+  const [isUserEditingHigh, setIsUserEditingHigh] = useState(false);
+  const [isUserEditingLow, setIsUserEditingLow] = useState(false);
 
   const exchangeName = useMemo(() => {
     return exchangeList?.find((item) => item?.id == selectedExchange)?.exchange;
   }, [exchangeList, selectedExchange]);
-  const ohlcvData = useWatchOHLCV({
-    symbol: pair,
-    exchange: exchangeName,
-  });
+
   const { data: pairData, isPending: pairDataPending } = useGetSymbolList({
     exchange: exchangeName,
   });
@@ -92,21 +82,39 @@ export default function CreateGridBot() {
     },
   });
 
-  const updatePrice = () => {
-    let currentPrice = Number(
-      ohlcvData?.ohlcvData?.[ohlcvData?.ohlcvData?.length - 1]?.[4] || 0
-    );
-    let thirtyPercent = currentPrice * (30 / 100);
-    setInitialState({
-      highPrice: currentPrice + thirtyPercent,
-      lowPrice: currentPrice - thirtyPercent,
-    });
-  };
+  const ohlcvData = useWatchOHLCV({
+    symbol: pair,
+    exchange: exchangeName,
+  });
+
+  useEffect(() => {
+    if (!pair || !ohlcvData?.ohlcvData?.length) return;
+
+    const updateAutoPrice = () => {
+      const candles = ohlcvData.ohlcvData;
+      const currentPrice = Number(candles[candles.length - 1]?.[4] || 0);
+      if (!currentPrice) return;
+
+      const pct = currentPrice * 0.3;
+
+      formik.setValues((prev) => ({
+        ...prev,
+        highPrice: isUserEditingHigh ? prev.highPrice : currentPrice + pct,
+        lowPrice: isUserEditingLow ? prev.lowPrice : currentPrice - pct,
+      }));
+    };
+
+    updateAutoPrice();
+  }, [pair, ohlcvData?.ohlcvData]);
+  useEffect(() => {
+    setIsUserEditingHigh(false);
+    setIsUserEditingLow(false);
+  }, [pair]);
 
   const formik = useFormik({
     initialValues: {
-      highPrice: initialState.highPrice,
-      lowPrice: initialState.lowPrice,
+      highPrice: "",
+      lowPrice: "",
       quantity: 10,
       gridLevels: 6,
       tpPercent: 2,
@@ -143,6 +151,24 @@ export default function CreateGridBot() {
       await handleCreateBot(payload);
     },
   });
+
+  const buySellValue = useMemo(() => {
+    const level = Number(formik?.values?.gridLevels || 0);
+    if (level > 0) {
+      const equalDivide = level / 2;
+      const buy = Math.ceil(equalDivide);
+      const sell = Math.floor(equalDivide);
+      return {
+        buy,
+        sell,
+      };
+    }
+
+    return {
+      buy: 0,
+      sell: 0,
+    };
+  }, [formik?.values?.gridLevels]);
 
   const Toggle = ({ name, label }) => {
     const value = formik.values[name];
@@ -213,9 +239,6 @@ export default function CreateGridBot() {
                     disabled={!selectedExchange}
                     onSelect={(val) => {
                       setPair(val);
-                      setTimeout(() => {
-                        updatePrice();
-                      }, 1000);
                     }}
                     className="w-50"
                   />
@@ -291,7 +314,15 @@ export default function CreateGridBot() {
                       <input
                         name={f.name}
                         value={formik.values[f.name]}
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                          if (f.name == "highPrice") {
+                            setIsUserEditingHigh(true);
+                          }
+                          if (f.name == "lowPrice") {
+                            setIsUserEditingLow(true);
+                          }
+                          formik.handleChange(e);
+                        }}
                         onBlur={formik.handleBlur}
                         className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
                         placeholder={f.placeholder}
@@ -303,6 +334,20 @@ export default function CreateGridBot() {
                       )}
                     </label>
                   ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
+                      <div className="text-sm text-gray-400">Buy</div>
+                      <div className="font-medium mt-1">
+                        {buySellValue?.buy}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
+                      <div className="text-sm text-gray-400">Sell</div>
+                      <div className="font-medium mt-1">
+                        {buySellValue?.sell}
+                      </div>
+                    </div>
+                  </div>
 
                   <label className="block">
                     <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
