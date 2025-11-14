@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Dropdown from "@/components/dropdown";
 import { useFormik } from "formik";
@@ -10,6 +10,7 @@ import { createBot, useGetSymbolList } from "@/queries/bot"; // <-- import your 
 import { toast } from "sonner";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { Info } from "lucide-react";
+import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
 const TradingViewWidget = dynamic(
   () => import("@/components/trading-view-widget"),
   { ssr: false }
@@ -43,11 +44,24 @@ export default function CreateGridBot() {
   const [pair, setPair] = useState("");
   const { data: exchangeList, isPending: exchangeListPending } =
     useGetKeysExchange();
+  const [initialState, setInitialState] = useState({
+    highPrice: "",
+    lowPrice: "",
+    quantity: "",
+    gridLevels: "",
+    tpPercent: "2",
+    botName: "",
+    adxLessThan20: true,
+    rsiBetween40And60: false,
+  });
 
   const exchangeName = useMemo(() => {
     return exchangeList?.find((item) => item?.id == selectedExchange)?.exchange;
   }, [exchangeList, selectedExchange]);
-
+  const ohlcvData = useWatchOHLCV({
+    symbol: pair,
+    exchange: exchangeName,
+  });
   const { data: pairData, isPending: pairDataPending } = useGetSymbolList({
     exchange: exchangeName,
   });
@@ -69,26 +83,38 @@ export default function CreateGridBot() {
       }
     },
     onError: (error) => {
+      console.log(error, "errorerror");
 
-      console.log(error,"errorerror");
-      
-      toast.error(error?.response?.data?.responseMessage || "Failed to create bot!");
+      toast.error(
+        error?.response?.data?.responseMessage || "Failed to create bot!"
+      );
       console.error("Error creating bot:", error);
     },
   });
 
+  const updatePrice = () => {
+    let currentPrice = Number(
+      ohlcvData?.ohlcvData?.[ohlcvData?.ohlcvData?.length - 1]?.[4] || 0
+    );
+    let thirtyPercent = currentPrice * (30 / 100);
+    setInitialState({
+      highPrice: currentPrice + thirtyPercent,
+      lowPrice: currentPrice - thirtyPercent,
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
-      highPrice: "",
-      lowPrice: "",
-      quantity: "",
-      gridLevels: "",
-      tpPercent: "2",
-      // slPercent: "1",
+      highPrice: initialState.highPrice,
+      lowPrice: initialState.lowPrice,
+      quantity: 10,
+      gridLevels: 6,
+      tpPercent: 2,
       botName: "",
       adxLessThan20: true,
       rsiBetween40And60: false,
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (values) => {
       if (!selectedExchange || !pair) {
@@ -185,7 +211,12 @@ export default function CreateGridBot() {
                     })}
                     value={pair || ""}
                     disabled={!selectedExchange}
-                    onSelect={(val) => setPair(val)}
+                    onSelect={(val) => {
+                      setPair(val);
+                      setTimeout(() => {
+                        updatePrice();
+                      }, 1000);
+                    }}
                     className="w-50"
                   />
                 </div>
