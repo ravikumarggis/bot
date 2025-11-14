@@ -480,6 +480,13 @@ export default function AddExchange() {
               </li>
             </ul>
           </div>
+          <div className="bg-red-600 p-5 rounded-xl mt-6">
+            <p className="text-white">
+              <strong> Important:</strong> Leave withdrawal permissions turned
+              off when creating your API key. Our bot never needs withdrawal
+              access, and enabling it may put your funds at risk.
+            </p>
+          </div>
         </div>
       </div>
 
