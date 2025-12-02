@@ -25,7 +25,7 @@ import ActivityIndicator from "@/components/activity-indicator";
 import { useUserProfile } from "@/queries/profile";
 const exchangeOptions = [
   { label: "New Grid Bot", value: "/create-grid-bot" },
-  { label: "New DCA Bot", value: "New DCA Bot" },
+  { label: "New DCA Bot", value: "/create-dca-bot" },
 ];
 
 const statusOptions = [
@@ -59,8 +59,8 @@ export default function Bot() {
   const handleSelect = (val) => {
     setSelect(val);
     if (val === "New DCA Bot") {
-      setShowComingSoon(true);
-      return;
+      // setShowComingSoon(true);
+      // return;
     }
 
     router.push(`/dashboard/bot/${val}`);

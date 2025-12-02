@@ -1,4 +1,4 @@
-import { api } from "@/service/api-service";
+import { api, DCAbaseUrl } from "@/service/api-service";
 import { useQuery } from "@tanstack/react-query";
 
 export const createBot = async ({
@@ -249,6 +249,43 @@ export const cancelOrder = async ({ id }) => {
       method: "PATCH",
       url: `/order/cancelOrder/${id}`,
     });
+    return response?.data;
+  } catch (error) {
+    console.error("Error creating bot:", error);
+    throw error;
+  }
+};
+
+export const createDCABots = async ({
+  portfolioUsd,
+  perBuyPct,
+  maxEntries,
+  takeProfitPct,
+  stopLossPct,
+  minOrderUsd,
+  maxAllocPct,
+  enableIndicators,
+  pair,
+}) => {
+  try {
+    const response = await api({
+      method: "POST",
+      url: `${DCAbaseUrl}/bots`,
+      data: {
+        pair: pair,
+        config: {
+          portfolioUsd,
+          perBuyPct,
+          maxEntries,
+          takeProfitPct,
+          stopLossPct,
+          minOrderUsd,
+          maxAllocPct,
+          enableIndicators,
+        },
+      },
+    });
+
     return response?.data;
   } catch (error) {
     console.error("Error creating bot:", error);
