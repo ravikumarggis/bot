@@ -5,14 +5,17 @@ import Dropdown from "@/components/dropdown";
 import StylesTabs from "@/components/style-tab";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
+  deleteDCABot,
   updateBotStatus,
+  updateDCABotStatus,
   useGetBot,
   useGetBotList,
+  useGetDCABot,
   useGetLogList,
   useGetOrder,
 } from "@/queries/bot";
 import { useGetKeysExchange } from "@/queries/exchange";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { IconTrashXFilled } from "@tabler/icons-react";
 import {
@@ -48,25 +51,26 @@ export default function StartDCABot() {
     data: botData,
     isPending: botDataPending,
     refetch: botDataRefetch,
-  } = useGetBot({ id: botId });
-  const { refetch: filledRefetch, isLoading: filledRefetchloading } =
-    useGetOrder({
-      id: botId,
-      filter: "FILLED",
-    });
-  const { refetch: logRefetch, isLoading: logRefetchLoading } = useGetLogList({
-    id: botId,
-  });
-  const { refetch: cancelledRefetch, isLoading: cancelledRefetchLoading } =
-    useGetOrder({
-      id: botId,
-      filter: "CANCELED",
-    });
-  const { refetch: pendingRefetch, isLoading: pendingRefetchLoading } =
-    useGetOrder({
-      id: botId,
-      filter: "PENDING",
-    });
+  } = useGetDCABot({ id: botId });
+
+  // const { refetch: filledRefetch, isLoading: filledRefetchloading } =
+  //   useGetOrder({
+  //     id: botId,
+  //     filter: "FILLED",
+  //   });
+  // const { refetch: logRefetch, isLoading: logRefetchLoading } = useGetLogList({
+  //   id: botId,
+  // });
+  // const { refetch: cancelledRefetch, isLoading: cancelledRefetchLoading } =
+  //   useGetOrder({
+  //     id: botId,
+  //     filter: "CANCELED",
+  //   });
+  // const { refetch: pendingRefetch, isLoading: pendingRefetchLoading } =
+  //   useGetOrder({
+  //     id: botId,
+  //     filter: "PENDING",
+  //   });
 
   const { data: exchangeData, refetch: exchangeDataRefetch } =
     useGetKeysExchange();
@@ -76,37 +80,21 @@ export default function StartDCABot() {
     isPending: updatebotStatusPending,
   } = useMutation({
     mutationFn: () => {
-      return updateBotStatus({ id: botId, status: botData?.status });
+      return updateDCABotStatus({ id: botId, status: botData?.status });
     },
     onSuccess: (data) => {
       botDataRefetch();
       exchangeDataRefetch();
-      if (data?.responseCode == 200) {
-        toast.success(data?.responseMessage);
+      if (data?.message == 200) {
+        toast.success(data?.message);
       } else {
-        toast.error(data?.responseMessage);
+        toast.error(data?.message);
       }
     },
     onError: (data) => {
       console.log(data, "err>>");
     },
   });
-
-  const exchangeName = useMemo(() => {
-    return exchangeData?.find((item) => item?.id == botData?.exchangeKeyId)
-      ?.exchange;
-  }, [exchangeData, botData]);
-
-  const ohlcvData = useWatchOHLCV({
-    symbol: botData?.symbol,
-    exchange: exchangeName ? exchangeName : undefined,
-  });
-
-  const currentAmount = useMemo(() => {
-    const data =
-      botData?.params?.gridLevel * 2 * botData?.params?.quantityPerGridUSD;
-    return data;
-  }, [ohlcvData, botData]);
 
   const isBotRunning = useMemo(() => {
     return botData?.status == "running";
@@ -152,20 +140,20 @@ export default function StartDCABot() {
                           />
                           <div className="absolute top-4 right-8 z-50 hidden md:flex">
                             <RefreshCcw
-                              onClick={() => {
-                                filledRefetch();
-                                logRefetch();
-                                cancelledRefetch();
-                                pendingRefetch();
-                              }}
-                              className={clsx(
-                                "cursor-pointer",
-                                (filledRefetchloading ||
-                                  logRefetchLoading ||
-                                  cancelledRefetchLoading ||
-                                  pendingRefetchLoading) &&
-                                  "animate-spin"
-                              )}
+                            // onClick={() => {
+                            //   filledRefetch();
+                            //   logRefetch();
+                            //   cancelledRefetch();
+                            //   pendingRefetch();
+                            // }}
+                            // className={clsx(
+                            //   "cursor-pointer",
+                            //   (filledRefetchloading ||
+                            //     logRefetchLoading ||
+                            //     cancelledRefetchLoading ||
+                            //     pendingRefetchLoading) &&
+                            //     "animate-spin"
+                            // )}
                             />
                           </div>
                         </div>
@@ -197,147 +185,166 @@ export default function StartDCABot() {
             {/* Right: Form */}
             <aside className="bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e] ">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-lg font-semibold">
+                {/* <div className="text-lg font-semibold">
                   {botData?.botName || "--"}
-                </div>
+                </div> */}
                 <div className="text-sm text-gray-400">#{botData?.id}</div>
               </div>
 
               <div className="space-y-6">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Upper Price Limit
+                    Portfolio Usd
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        The highest price at which the bot will place sell
-                        orders. If the market rises above this level, the bot
-                        will sell all held assets and stop trading.
+                        Capital allocated to the bot. Used as the base for risk
+                        and position sizing calculations. (in USD).
                       </div>
                     </div>
                   </div>
                   <div className="text-base text-white">
-                    {botData?.params?.highPrice || 0}
+                    {botData?.config?.portfolioUsd || 0}
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Lower Price Limit
+                    Buy Percent
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        The lowest price at which the bot will place buy orders.
-                        If the market drops below this level, the bot will sell
-                        all held assets for stablecoins and stop trading.
+                        Percentage of portfolioUsd allocated to each buy order.
+                        Determines the per-entry order size.
                       </div>
                     </div>
                   </div>
                   <div className="text-base text-white">
-                    {botData?.params?.lowPrice || 0}
+                    {botData?.config?.perBuyPct || 0}
                   </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Investment per Grid
+                    Max Enteries
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        The amount (in USD) allocated to each grid order.
-                        Determines the trade size for each buy or sell level.
+                        Maximum allowed number of DCA/ladder entries. Limits how
+                        many times the bot can average into a position. ( 3
+                        only).
                       </div>
                     </div>
                   </div>
                   <div className="text-base text-white">
-                    {botData?.params?.quantityPerGridUSD || 0}
+                    {botData?.config?.maxEntries || 0}
                   </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Number of Grids
+                    Take Profit Percent
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        The number of intervals your price range will be divided
-                        into. More grids mean smaller profits per trade but more
-                        frequent trades.
+                        % Profit percentage at which the bot automatically
+                        closes all open positions.
                       </div>
                     </div>
                   </div>
 
                   <div className="text-base text-white">
-                    {botData?.params?.gridLevel || 0}
+                    {botData?.config?.takeProfitPct || 0}
                   </div>
                 </div>
-
-                {currentAmount > 0 && (
-                  <div className="flex justify-between">
-                    <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                      Investment Amount
-                      <div className="relative group">
-                        <Info
-                          size={14}
-                          className="text-gray-400 cursor-pointer hover:text-gray-200"
-                        />
-                        <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                          The amount of funds the bot will use to execute grid
-                          trades.
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-base text-white">
-                      {formatCurrency({
-                        amount: Number(currentAmount)?.toFixed(4),
-                        currency: "USD",
-                      })}
-                    </div>
-                  </div>
-                )}
 
                 <div className="flex justify-between">
-                  <div className="text-sm text-gray-400 mb-1">
-                    Exchange Name
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Stop Loss Percent
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        % Profit percentage at which the bot automatically
+                        closes all open positions.
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-base text-white capitalize">
-                    {exchangeName || "--"}
+
+                  <div className="text-base text-white">
+                    {botData?.config?.stopLossPct || 0}
                   </div>
                 </div>
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Min order (USD)
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        Minimum order value in USD allowed by the exchange.
+                        Orders smaller than this threshold are rejected or not
+                        placed.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-base text-white">
+                    {botData?.config?.minOrderUsd || 0}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
+                    Max Allocation Percent
+                    <div className="relative group">
+                      <Info
+                        size={14}
+                        className="text-gray-400 cursor-pointer hover:text-gray-200"
+                      />
+                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                        Hard cap on the total percentage of portfolioUsd the bot
+                        can allocate across filled entries. Ensures maximum
+                        exposure limit.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-base text-white">
+                    {botData?.config?.maxAllocPct || 0}
+                  </div>
+                </div>
+
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Pair</div>
                   <div className="text-base text-white capitalize">
-                    {botData?.symbol || "--"}
+                    {botData?.pair || "--"}
                   </div>
                 </div>
 
                 <button
-                  className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all"
+                  className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all capitalize"
                   onClick={updateBotStatusMutate}
                   disabled={updatebotStatusPending}
                 >
                   {updatebotStatusPending ? (
                     "Processing..."
                   ) : (
-                    <>
-                      {botData?.status == "pending" ||
-                      botData?.status == "paused" ||
-                      botData?.status == "stopped"
-                        ? "Start"
-                        : "Stop"}{" "}
-                      Bot
-                    </>
+                    <>{isBotRunning ? "Stop" : "Start"} Bot</>
                   )}
                 </button>
                 <div className="flex justify-between gap-4">
@@ -355,23 +362,6 @@ export default function StartDCABot() {
                   </p>
 
                   <div className="flex flex-row gap-3">
-                    <EditIcon
-                      onClick={() => {
-                        if (isBotRunning) {
-                          toast.success(
-                            "Please stop the bot before making changes."
-                          );
-                          return;
-                        }
-                        router.push(
-                          `/dashboard/bot/edit-grid-bot?botId=${encodeURIComponent(
-                            botId
-                          )}`
-                        );
-                      }}
-                      color="red"
-                      className="cursor-pointer"
-                    />
                     <IconTrashXFilled
                       onClick={() => {
                         if (isBotRunning) {
@@ -408,16 +398,18 @@ export default function StartDCABot() {
 const DeleteModal = ({ open, setOpen, botId }) => {
   const router = useRouter();
   const { refetch } = useGetBotList();
+  const queryclient = useQueryClient();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: () => {
-      return deleteBot({ id: botId });
+      return deleteDCABot({ id: botId });
     },
     onSuccess: (data) => {
-      if (data?.responseCode == 200) {
-        toast.success(data?.responseMessage);
+      if (data?.ok) {
+        toast.success(data?.message);
+        queryclient.invalidateQueries({ queryKey: ["getDCBotList"] });
         router.replace("/dashboard/bot");
       } else {
-        toast.error(data?.responseMessage);
+        toast.error(data?.message || "Something went wrong.");
       }
       setOpen(false);
       if (refetch) {

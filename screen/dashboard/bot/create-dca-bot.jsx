@@ -65,15 +65,13 @@ export default function CreateDCABot() {
   const { mutateAsync: handleCreateBot, isPending } = useMutation({
     mutationFn: createDCABots,
     onSuccess: (data) => {
-      if (data?.responseCode == 200) {
+      if (data?.id) {
         toast.success(data?.responseMessage || "DCA Bot Created Successfully!");
-        // router.push(
-        //   `/dashboard/bot/start-grid-bot/?botId= ${encodeURIComponent(
-        //     data.result?.id
-        //   )}`
-        // );
+        router.push(
+          `/dashboard/bot/start-dca-bot/?botId= ${encodeURIComponent(data?.id)}`
+        );
       } else {
-        toast.error(data?.responseMessage);
+        toast.error(data?.responseMessage || "Failed to create bot!");
       }
     },
     onError: (error) => {

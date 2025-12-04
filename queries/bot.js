@@ -292,3 +292,87 @@ export const createDCABots = async ({
     throw error;
   }
 };
+
+export const useGetDCABot = ({ id }) => {
+  return useQuery({
+    queryKey: ["getDCABot", id],
+    queryFn: () => {
+      return getDCABot({ id });
+    },
+    // select: (data) => {
+    //   return data?.result || {};
+    // },
+  });
+};
+
+export const getDCABot = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `${DCAbaseUrl}/bots/${id}`,
+    });
+    console.log(response, id, "response>>>>");
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useGetDCABotList = (params = {}) => {
+  const { selectExchange } = params;
+  return useQuery({
+    queryKey: ["getDCBotList", selectExchange],
+    queryFn: () => {
+      return getDCBotList(selectExchange);
+    },
+    select: (data) => {
+      return data?.data || [];
+    },
+  });
+};
+
+export const getDCBotList = async (selectExchange) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `${DCAbaseUrl}/bots`,
+      params: { exchange: selectExchange },
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteDCABot = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "DELETE",
+      url: `${DCAbaseUrl}/bots/${id}`,
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error creating bot:", error);
+    throw error;
+  }
+};
+
+export const updateDCABotStatus = async ({ id, status }) => {
+  try {
+    const urlToHit =
+      status == "running" ? `/bots/${id}/stop` : `/bots/${id}/start`;
+    const response = await api({
+      method: "POST",
+      url: `${DCAbaseUrl}${urlToHit}`,
+    });
+    console.log(response, "asdasdasd>>");
+
+    return response?.data;
+  } catch (error) {
+    console.error("Error creating bot:", error);
+    throw error;
+  }
+};

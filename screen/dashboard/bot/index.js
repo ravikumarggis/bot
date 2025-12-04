@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// const Bot = () => {
-//   return (
-//     <div>Bot</div>
-//   )
-// }
-
-// export default Bot
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -18,7 +8,7 @@ import { useRouter } from "next/navigation";
 import NotActiveSubs from "@/components/no-active-subs";
 import CommingSoon from "@/components/comming-soon";
 import { useHaveActiveSubscriptions } from "@/queries/payment";
-import { useGetBotList } from "@/queries/bot";
+import { useGetBotList, useGetDCABotList } from "@/queries/bot";
 import NotActiveBots from "@/components/no-active-bot";
 import clsx from "clsx";
 import ActivityIndicator from "@/components/activity-indicator";
@@ -29,27 +19,28 @@ const exchangeOptions = [
 ];
 
 const statusOptions = [
-  { label: "Binance", value: "binance" ,icon:"/assets/homepage/binance.png"},
-  { label: "Bybit", value: "bybit" ,icon:"/assets/homepage/bybit.webp" },
+  { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
+  { label: "Bybit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
+];
+const statusOptionsBOT = [
+  { label: "GRID BOT", value: "grid" },
+  { label: "DCA BOT", value: "dca" },
 ];
 
 export default function Bot() {
-  const [showSecret, setShowSecret] = useState(false);
   const [select, setSelect] = useState("");
   const [selectExchange, setSelectExchange] = useState(null);
-  const [errors, setErrors] = useState({});
+  const [selectedBotType, setselectedBotType] = useState("grid");
   const [isOpen, setIsOpen] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
+
   const router = useRouter();
   const { data: getUserData, isPending: getUserDataPending } = useUserProfile();
 
-  console.log(getUserData,"getUserDatagetUserData");
-  
-  const { data: haveActiveSubs, isPending: haveActiveSubsPending } =
-    useHaveActiveSubscriptions();
-
-  const { data: botList, isPending: botListPending } = useGetBotList({selectExchange});
-  console.log(botList, "botListbotList");
+  const { data: botList, isPending: botListPending } = useGetBotList({
+    selectExchange,
+  });
+  const { data: DCAbotList, isPending: DCAbotListPending } = useGetDCABotList();
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);
@@ -76,14 +67,17 @@ export default function Bot() {
           : `Active`,
     };
   };
+  const getDCAStatus = (item) => {
+    return {
+      status: item?.status == "running" ? "Active" : `InActive`,
+    };
+  };
 
   if (!getUserData?.isPlanActive) {
     return <NotActiveSubs />;
   }
 
-
-
-  if (botListPending) {
+  if (botListPending || DCAbotListPending) {
     return (
       <div className=" min-h-screen flex flex-col justify-center items-center gap-4">
         <ActivityIndicator isLoading className={"h-12 w-12"} />
@@ -91,11 +85,6 @@ export default function Bot() {
       </div>
     );
   }
-
-
-
-
-   
 
   return (
     <div className="  py-10 text-white">
@@ -117,82 +106,183 @@ export default function Bot() {
           </div>
         ) : (
           <>
-          <div className="flex justify-end w-full">
-           <Dropdown
+            <div className="flex flex-row gap-2 justify-end">
+              <div className="flex justify-end w-52">
+                <Dropdown
                   label="Select Exchange"
                   options={statusOptions}
                   value={selectExchange}
                   onSelect={(val) => setSelectExchange(val)}
                   className="w-56"
                 />
-                </div>
-            {botList?.length === 0 ? (
-              <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
-                <p className="mt-3 text-xl text-gray-400">No bots here yet! Let’s make your first one</p>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {botList?.map((item, i) => {
-                // Move computed value outside useMemo since it's not needed inside map
-                const currentAmount =
-                item?.params?.gridLevel * 2 * item?.params?.quantityPerGridUSD;
-            
-                return (
-                  <div
-                    key={i}
-                    className="rounded-2xl p-5 bg-[#0b1229] border-white/10 border shadow-md hover:shadow-blue-500/10 hover:bg-[#121a36] min-h-[120px] cursor-pointer"
-                    onClick={() => {
-                      router.push(
-                        `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
-                          item?.id
-                        )}`
-                      );
-                    }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="w-10 h-10 rounded-md bg-[#141420] flex items-center justify-center text-pink-400">
-                        <img
-                          src="/assets/logo1.png"
-                          alt="Qbots Logo"
-                          className="w-16 h-12"
-                        />
-                      </div>
-                      <div
-                        className={clsx(
-                          "text-xs text-white px-2 py-1 rounded",
-                          getStatus(item)?.status === "Active"
-                            ? "bg-emerald-700/70"
-                            : "bg-red-700/70"
-                        )}
-                      >
-                        {getStatus(item)?.status}
-                      </div>
-                    </div>
-            
-                    <h4 className="text-lg font-semibold mt-4">
-                      {item?.botName || "--"}
-                    </h4>
-            
-                    <div className="flex justify-between mt-4">
-                      <div>
-                        <h4 className="text-md font-semibold">Investment amount</h4>
-                        <p className="text-sm text-gray-300 mt-1">
-                          ${currentAmount?.toFixed(2) || "0.00"}
-                        </p>
-                      </div>
-                      <div >
-                        <h4 className="text-md font-semibold">Pair</h4>
-                        <p className="text-sm text-gray-300 mt-1">
-                          {item?.symbol}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="flex justify-end w-52">
+                <Dropdown
+                  label="Select BOT"
+                  options={statusOptionsBOT}
+                  value={selectedBotType}
+                  onSelect={(val) => setselectedBotType(val)}
+                  className="w-56"
+                />
+              </div>
             </div>
-            
-            )}
+            <>
+              {selectedBotType == "grid" && (
+                <>
+                  {botList?.length === 0 ? (
+                    <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
+                      <p className="mt-3 text-xl text-gray-400">
+                        No bots here yet! Let’s make your first one
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {botList?.map((item, i) => {
+                        // Move computed value outside useMemo since it's not needed inside map
+                        const currentAmount =
+                          item?.params?.gridLevel *
+                          2 *
+                          item?.params?.quantityPerGridUSD;
+
+                        return (
+                          <div
+                            key={i}
+                            className="rounded-2xl p-5 bg-[#0b1229] border-white/10 border shadow-md hover:shadow-blue-500/10 hover:bg-[#121a36] min-h-[120px] cursor-pointer"
+                            onClick={() => {
+                              router.push(
+                                `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
+                                  item?.id
+                                )}`
+                              );
+                            }}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="w-10 h-10 rounded-md bg-[#141420] flex items-center justify-center text-pink-400">
+                                <img
+                                  src="/assets/logo1.png"
+                                  alt="Qbots Logo"
+                                  className="w-16 h-12"
+                                />
+                              </div>
+                              <div
+                                className={clsx(
+                                  "text-xs text-white px-2 py-1 rounded",
+                                  getStatus(item)?.status === "Active"
+                                    ? "bg-emerald-700/70"
+                                    : "bg-red-700/70"
+                                )}
+                              >
+                                {getStatus(item)?.status}
+                              </div>
+                            </div>
+
+                            <h4 className="text-lg font-semibold mt-4">
+                              {item?.botName || "--"}
+                            </h4>
+
+                            <div className="flex justify-between mt-4">
+                              <div>
+                                <h4 className="text-md font-semibold">
+                                  Investment amount
+                                </h4>
+                                <p className="text-sm text-gray-300 mt-1">
+                                  ${currentAmount?.toFixed(2) || "0.00"}
+                                </p>
+                              </div>
+                              <div>
+                                <h4 className="text-md font-semibold">Pair</h4>
+                                <p className="text-sm text-gray-300 mt-1">
+                                  {item?.symbol}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+            <>
+              {selectedBotType == "dca" && (
+                <>
+                  {DCAbotList?.length === 0 ? (
+                    <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
+                      <p className="mt-3 text-xl text-gray-400">
+                        No bots here yet! Let’s make your first one
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {DCAbotList?.map((item, i) => {
+                        // Move computed value outside useMemo since it's not needed inside map
+                        // const currentAmount =
+                        //   item?.params?.gridLevel *
+                        //   2 *
+                        //   item?.params?.quantityPerGridUSD;
+                        console.log(item, "item>>");
+
+                        return (
+                          <div
+                            key={i}
+                            className="rounded-2xl p-5 bg-[#0b1229] border-white/10 border shadow-md hover:shadow-blue-500/10 hover:bg-[#121a36] min-h-[120px] cursor-pointer"
+                            onClick={() => {
+                              router.push(
+                                `/dashboard/bot/start-dca-bot/?botId=${encodeURIComponent(
+                                  item?.id
+                                )}`
+                              );
+                            }}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="w-10 h-10 rounded-md bg-[#141420] flex items-center justify-center text-pink-400">
+                                <img
+                                  src="/assets/logo1.png"
+                                  alt="Qbots Logo"
+                                  className="w-16 h-12"
+                                />
+                              </div>
+                              <div
+                                className={clsx(
+                                  "text-xs text-white px-2 py-1 rounded",
+                                  getDCAStatus(item)?.status === "Active"
+                                    ? "bg-emerald-700/70"
+                                    : "bg-red-700/70"
+                                )}
+                              >
+                                {getDCAStatus(item)?.status}
+                              </div>
+                            </div>
+
+                            <h4 className="text-lg font-semibold mt-4">
+                              {item?.botName || "--"}
+                            </h4>
+
+                            <div className="flex justify-between mt-4">
+                              <div>
+                                <h4 className="text-md font-semibold">
+                                  Investment amount
+                                </h4>
+                                <p className="text-sm text-gray-300 mt-1">
+                                  {/* ${currentAmount?.toFixed(2) || "0.00"} */}
+                                </p>
+                              </div>
+                              <div>
+                                <h4 className="text-md font-semibold">Pair</h4>
+                                <p className="text-sm text-gray-300 mt-1">
+                                  {item?.pair}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
+              )}
+            </>
           </>
         )}
       </div>
