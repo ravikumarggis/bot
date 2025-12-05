@@ -39,11 +39,11 @@ const validationSchema = Yup.object({
     .required("Max allocation is required"),
   stopLossPct: Yup.number()
     .typeError("Stop loss percent must be a number")
-    .integer("Must be an integer")
+    // .integer("Must be an integer")
     .required("Stop loss percent are required"),
   takeProfitPct: Yup.number()
     .typeError("Take profit percent must be a number")
-    .integer("Must be an integer")
+    // .integer("Must be an integer")
     .required("Take profit percent are required"),
 });
 
@@ -68,7 +68,7 @@ export default function CreateDCABot() {
       if (data?.id) {
         toast.success(data?.responseMessage || "DCA Bot Created Successfully!");
         router.push(
-          `/dashboard/bot/start-dca-bot/?botId= ${encodeURIComponent(data?.id)}`
+          `/dashboard/bot/start-dca-bot/?botId=${encodeURIComponent(data?.id)}`
         );
       } else {
         toast.error(data?.responseMessage || "Failed to create bot!");
@@ -77,9 +77,7 @@ export default function CreateDCABot() {
     onError: (error) => {
       console.log(error, "errorerror");
 
-      toast.error(
-        error?.response?.data?.responseMessage || "Failed to create bot!"
-      );
+      toast.error(error?.response?.data?.error || "Failed to create bot!");
       console.error("Error creating bot:", error);
     },
   });

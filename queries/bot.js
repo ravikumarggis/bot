@@ -376,3 +376,71 @@ export const updateDCABotStatus = async ({ id, status }) => {
     throw error;
   }
 };
+
+export const useGetDCABotPNL = ({ id }) => {
+  return useQuery({
+    queryKey: ["useGetDCABotPNL", id],
+    queryFn: () => {
+      return getDCABotPNL({ id });
+    },
+  });
+};
+
+export const getDCABotPNL = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `${DCAbaseUrl}/bots/${id}/pnl`,
+    });
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useDCAGetLogList = ({ id }) => {
+  return useQuery({
+    queryKey: ["getDCALogList", id],
+    queryFn: () => {
+      return getDCALogList({ id });
+    },
+  });
+};
+
+export const getDCALogList = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `${DCAbaseUrl}/bot-logs/${id}/logs`,
+    });
+
+    return response?.data || [];
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useGetDCAOrder = ({ id, filter }) => {
+  return useQuery({
+    queryKey: ["getDCAOrder", id, filter],
+    queryFn: () => {
+      return getDCAOrder({ id, filter });
+    },
+  });
+};
+
+export const getDCAOrder = async ({ id, filter }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `${DCAbaseUrl}/bots/${id}/orders?side=buy`,
+    });
+
+    console.log(response, "wdfadfsdfsf");
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};

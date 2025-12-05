@@ -8,9 +8,12 @@ import {
   deleteDCABot,
   updateBotStatus,
   updateDCABotStatus,
+  useDCAGetLogList,
   useGetBot,
   useGetBotList,
   useGetDCABot,
+  useGetDCABotPNL,
+  useGetDCAOrder,
   useGetLogList,
   useGetOrder,
 } from "@/queries/bot";
@@ -27,8 +30,8 @@ import {
 } from "lucide-react";
 import Modal from "@/components/ui/modal";
 import { useWatchOHLCV } from "@/hooks/useWatchOHLCV";
-import GridBotTrades from "./start-grid-bot-components/trades";
-import GridBotLogs from "./start-grid-bot-components/logs";
+import DCABotTrades from "./start-dca-bot-components/trades";
+import DCABotLogs from "./start-dca-bot-components/logs";
 
 import { deleteBot } from "@/queries/bot";
 import clsx from "clsx";
@@ -52,25 +55,18 @@ export default function StartDCABot() {
     isPending: botDataPending,
     refetch: botDataRefetch,
   } = useGetDCABot({ id: botId });
+  const { data: botPNL, isLoading: botPNLLoading } = useGetDCABotPNL({
+    id: botId,
+  });
 
-  // const { refetch: filledRefetch, isLoading: filledRefetchloading } =
-  //   useGetOrder({
-  //     id: botId,
-  //     filter: "FILLED",
-  //   });
-  // const { refetch: logRefetch, isLoading: logRefetchLoading } = useGetLogList({
-  //   id: botId,
-  // });
-  // const { refetch: cancelledRefetch, isLoading: cancelledRefetchLoading } =
-  //   useGetOrder({
-  //     id: botId,
-  //     filter: "CANCELED",
-  //   });
-  // const { refetch: pendingRefetch, isLoading: pendingRefetchLoading } =
-  //   useGetOrder({
-  //     id: botId,
-  //     filter: "PENDING",
-  //   });
+  const { refetch: filledRefetch, isLoading: filledRefetchloading } =
+    useGetDCAOrder({
+      id: botId,
+    });
+  const { refetch: logRefetch, isLoading: logRefetchLoading } =
+    useDCAGetLogList({
+      id: botId,
+    });
 
   const { data: exchangeData, refetch: exchangeDataRefetch } =
     useGetKeysExchange();
@@ -140,26 +136,21 @@ export default function StartDCABot() {
                           />
                           <div className="absolute top-4 right-8 z-50 hidden md:flex">
                             <RefreshCcw
-                            // onClick={() => {
-                            //   filledRefetch();
-                            //   logRefetch();
-                            //   cancelledRefetch();
-                            //   pendingRefetch();
-                            // }}
-                            // className={clsx(
-                            //   "cursor-pointer",
-                            //   (filledRefetchloading ||
-                            //     logRefetchLoading ||
-                            //     cancelledRefetchLoading ||
-                            //     pendingRefetchLoading) &&
-                            //     "animate-spin"
-                            // )}
+                              onClick={() => {
+                                filledRefetch();
+                                logRefetch();
+                              }}
+                              className={clsx(
+                                "cursor-pointer",
+                                (filledRefetchloading || logRefetchLoading) &&
+                                  "animate-spin"
+                              )}
                             />
                           </div>
                         </div>
                         {/* {active == "Orders" && <GridBotOrders botId={botId} />} */}
-                        {active == "Trades" && <GridBotTrades botId={botId} />}
-                        {active == "Logs" && <GridBotLogs botId={botId} />}
+                        {active == "Trades" && <DCABotTrades botId={botId} />}
+                        {active == "Logs" && <DCABotLogs botId={botId} />}
                         {/* {active == "Cancelled" && (
                           <GridBotCancelledOrder botId={botId} />
                         )} */}
@@ -352,27 +343,20 @@ export default function StartDCABot() {
                     Realized P&L:{" "}
                     <span
                       className={
-                        botData?.realizedPnL < 0
+                        botPNL?.realized?.realizedPnl < 0
                           ? "text-red-500"
                           : "text-green-500"
                       }
                     >
-                      ${Number(botData?.realizedPnL).toFixed(2)}
+                      $ {Number(botPNL?.realized?.realizedPnl || 0).toFixed(2)}
                     </span>
                   </p>
 
                   <div className="flex flex-row gap-3">
                     <IconTrashXFilled
                       onClick={() => {
-                        if (isBotRunning) {
-                          toast.success(
-                            "Please stop the bot before making changes."
-                          );
-                          return;
-                        } else {
-                          setCurrentSelectedItem(null);
-                          setDeleteModalState(true);
-                        }
+                        setCurrentSelectedItem(null);
+                        setDeleteModalState(true);
                       }}
                       color="red"
                       className="cursor-pointer"

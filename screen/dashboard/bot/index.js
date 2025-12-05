@@ -106,14 +106,14 @@ export default function Bot() {
           </div>
         ) : (
           <>
-            <div className="flex flex-row gap-2 justify-end">
+            <div className="flex flex-col md:flex-row gap-2 justify-end">
               <div className="flex justify-end w-52">
                 <Dropdown
                   label="Select Exchange"
                   options={statusOptions}
                   value={selectExchange}
                   onSelect={(val) => setSelectExchange(val)}
-                  className="w-56"
+                  className="w-full md:w-56"
                 />
               </div>
               <div className="flex justify-end w-52">
@@ -122,7 +122,7 @@ export default function Bot() {
                   options={statusOptionsBOT}
                   value={selectedBotType}
                   onSelect={(val) => setselectedBotType(val)}
-                  className="w-56"
+                  className="w-full md:w-56"
                 />
               </div>
             </div>
