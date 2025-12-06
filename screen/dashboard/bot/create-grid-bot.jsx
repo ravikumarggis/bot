@@ -64,7 +64,7 @@ export default function CreateGridBot() {
           data?.responseMessage || "Grid Bot Created Successfully!"
         );
         router.push(
-          `/dashboard/bot/start-grid-bot/?botId= ${encodeURIComponent(
+          `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
             data.result?.id
           )}`
         );
