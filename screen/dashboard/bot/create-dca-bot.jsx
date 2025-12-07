@@ -18,33 +18,75 @@ const TradingViewWidget = dynamic(
 
 const validationSchema = Yup.object({
   portfolioUsd: Yup.number()
-    .typeError("Portfolio USD must be a number")
-    .positive("Must be positive")
-    .required("Portfolio USD is required"),
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
+  .typeError("Portfolio USD must be a number")
+  .required("Portfolio USD is required")
+  .positive("Portfolio USD must be positive")
+  .min(100, "Portfolio USD must be at least 100 USD"),
+
   perBuyPct: Yup.number()
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
+  
     .typeError("Buy percent must be a number")
     .positive("Must be positive")
-    .required("Buy percent is required"),
+    .required("Buy percent is required")
+    .min(1,"Min 1%"),
   maxEntries: Yup.number()
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
     .typeError("Max Entries must be a number")
     .positive("Must be positive")
-    .required("Max Entries is required"),
+    .required("Max Entries is required")
+    .min(1,"Min 1 Entries required")
+    .max(3,"Max 3 Entries required"),
   minOrderUsd: Yup.number()
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
     .typeError("Min order must be a number")
     .positive("Must be positive")
-    .required("Min order is required"),
+    .required("Min order is required")
+    .min(10,"Min 10 order is required"),
   maxAllocPct: Yup.number()
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
     .typeError("Max allocation must be a number")
     .positive("Must be positive")
-    .required("Max allocation is required"),
+    .required("Max allocation is required")
+    .min(5,"Min 5% required"),
+    
   stopLossPct: Yup.number()
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
     .typeError("Stop loss percent must be a number")
     // .integer("Must be an integer")
-    .required("Stop loss percent are required"),
+    .required("Stop loss percent are required")
+    .min(0.1,"Min 0.1% required")
+    .max(3,"Max 3% required")
+    ,
   takeProfitPct: Yup.number()
+  .transform((value, originalValue) => {
+    if (originalValue === "" || originalValue === null) return undefined;
+    return Number(originalValue);
+  })
     .typeError("Take profit percent must be a number")
     // .integer("Must be an integer")
-    .required("Take profit percent are required"),
+    .required("Take profit percent are required")
+    .min(0.1,"Min 0.1% required")
+    .max(3,"Max 3% required"),
 });
 
 export default function CreateDCABot() {
@@ -84,13 +126,13 @@ export default function CreateDCABot() {
 
   const formik = useFormik({
     initialValues: {
-      portfolioUsd: "",
-      perBuyPct: "",
-      maxEntries: 10,
-      minOrderUsd: "",
-      maxAllocPct: "",
-      stopLossPct: "",
-      takeProfitPct: "",
+      portfolioUsd: "500",
+      perBuyPct: "5",
+      maxEntries: 3,
+      minOrderUsd: "10",
+      maxAllocPct: "20",
+      stopLossPct: "1",
+      takeProfitPct: "2",
       enableIndicators: false,
     },
     enableReinitialize: true,
@@ -171,7 +213,7 @@ export default function CreateDCABot() {
           <main className="w-full grid grid-cols-1 lg:grid-cols-3 gap-6">
             <section className="col-span-1 lg:col-span-2 bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e]">
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Create Grid Bot</h1>
+                <h1 className="text-3xl font-bold">Create DCA Bot</h1>
                 <div className="flex-col md:flex space-x-4 items-center gap-3">
                   <Dropdown
                     label="Exchange"
