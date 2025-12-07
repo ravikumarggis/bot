@@ -268,51 +268,51 @@ export default function CreateDCABot() {
                   {[
                     {
                       name: "portfolioUsd",
-                      label: "Portfolio USD",
+                      label: "Portfolio Size (USD)",
                       tooltipInfo:
-                        "Capital allocated to the bot. Used as the base for risk and position sizing calculations. (in USD).",
+                        "The amount of USDT you are allocating to this bot (the bot’s working balance).This is the base amount used to compute all percentage fields below — and the bot will treat it as the capital you give it to trade (a reference + cap for calculations).",
                       placeholder: "Enter the higher range",
                     },
                     {
                       name: "perBuyPct",
-                      label: "Buy %",
+                      label: "Buy Amount per Entry (%)",
                       tooltipInfo:
-                        "Percentage of portfolioUsd allocated to each buy order. Determines the per-entry order size.",
+                        "Percentage of the Portfolio Size the bot should attempt to spend on each DCA buy.Example: 5% means each planned buy equals 5% of the Portfolio Size.",
                       placeholder: "Enter the lower range",
                     },
                     {
                       name: "maxEntries",
-                      label: "Max Enteries",
+                      label: "Maximum DCA Entries",
                       tooltipInfo:
-                        "Maximum allowed number of DCA/ladder entries. Limits how many times the bot can average into a position. ( 3 only).",
+                        "The maximum number of DCA buy attempts the bot may make (the bot may stop earlier if the Maximum Total Allocation is exhausted).",
                       placeholder: "10",
                     },
                     {
                       name: "takeProfitPct",
-                      label: "Take Profit %",
+                      label: "Take Profit (%)",
                       tooltipInfo:
-                        "% Profit percentage at which the bot automatically closes all open positions.",
+                        "Percent profit at which the bot will close the position and take profit..",
                       placeholder: "10",
                     },
                     {
                       name: "stopLossPct",
-                      label: "Stop Loss %",
+                      label: "Stop Loss (%)",
                       tooltipInfo:
-                        "% Loss percentage at which the bot force-closes the position to prevent further drawdown.",
+                        "Percent loss at which the bot will close the position to limit losses.",
                       placeholder: "10",
                     },
                     {
                       name: "minOrderUsd",
-                      label: "Min order (USD)",
+                      label: "Minimum Order Size (USD)",
                       tooltipInfo:
-                        "Minimum order value in USD allowed by the exchange. Orders smaller than this threshold are rejected or not placed.",
+                        "The smallest valid order size (exchange rule or your choice). If a calculated buy amount is below this value, the bot will use the minimum order size logic described below.",
                       placeholder: "10",
                     },
                     {
                       name: "maxAllocPct",
-                      label: "Max Allocation %",
+                      label: "Maximum Total Allocation (%)",
                       tooltipInfo:
-                        "Hard cap on the total percentage of portfolioUsd the bot can allocate across filled entries. Ensures maximum exposure limit.",
+                        "The hard cap (percent of Portfolio Size) that the bot may spend across all DCA entries.Even if maxEntries is larger, the bot will never spend more than this total percent of the Portfolio Size.",
                       placeholder: "10",
                     },
                   ].map((f) => (
@@ -351,9 +351,9 @@ export default function CreateDCABot() {
                   <div>
                     <Toggle
                       name="enableIndicators"
-                      label="Indicator"
+                      label="Enable Smart Indicators"
                       tooltip={
-                        "Enables or disables technical indicator filters (e.g., RSI, EMA, MACD) 1 = enabled, 0 = disabled."
+                        "When enabled, the bot uses EMA-200 (4H), RSI (4H), and BTC (1H) trend checks before placing new entries only.This helps the bot avoid entering during downtrends, overbought zones, or weak BTC conditions.Indicators do not affect already-running positions."
                       }
                     />
                   </div>
