@@ -364,7 +364,7 @@ export default function StartDCABot() {
                       ) : (
                         <>
                           Achived PNL:{" "}
-                          {Number(botPNL?.realized?.realizedPnl)?.toFixed(2)}
+                          {Number(botPNL?.realized?.realizedPnl)?.toFixed(6)}
                         </>
                       )}
                     </>
