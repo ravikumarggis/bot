@@ -434,7 +434,7 @@ export const getDCAOrder = async ({ id, filter }) => {
   try {
     const response = await api({
       method: "GET",
-      url: `${DCAbaseUrl}/bots/${id}/orders?side=buy`,
+      url: `${DCAbaseUrl}/bots/${id}/orders`,
     });
 
     console.log(response, "wdfadfsdfsf");
