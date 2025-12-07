@@ -41,6 +41,8 @@ export default function Bot() {
     selectExchange,
   });
   const { data: DCAbotList, isPending: DCAbotListPending } = useGetDCABotList();
+  console.log(DCAbotList,"DCAbotListDCAbotList");
+  
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);
@@ -107,7 +109,7 @@ export default function Bot() {
         ) : (
           <>
             <div className="flex flex-col md:flex-row gap-2 justify-end">
-              <div className="flex justify-end w-52">
+              {/* <div className="flex justify-end w-52">
                 <Dropdown
                   label="Select Exchange"
                   options={statusOptions}
@@ -115,10 +117,11 @@ export default function Bot() {
                   onSelect={(val) => setSelectExchange(val)}
                   className="w-full md:w-56"
                 />
-              </div>
+              </div> */}
               <div className="flex justify-end w-52">
                 <Dropdown
                   label="Select BOT"
+                  bgColor="#EE3379"
                   options={statusOptionsBOT}
                   value={selectedBotType}
                   onSelect={(val) => setselectedBotType(val)}
@@ -214,7 +217,7 @@ export default function Bot() {
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                       {DCAbotList?.map((item, i) => {
                         // Move computed value outside useMemo since it's not needed inside map
                         // const currentAmount =
@@ -255,24 +258,22 @@ export default function Bot() {
                               </div>
                             </div>
 
-                            <h4 className="text-lg font-semibold mt-4">
+                            {/* <h4 className="text-lg font-semibold mt-4">
                               {item?.botName || "--"}
-                            </h4>
+                            </h4> */}
 
                             <div className="flex justify-between mt-4">
                               <div>
-                                <h4 className="text-md font-semibold">
-                                  Investment amount
-                                </h4>
+                              <p className="text-sm text-gray-300 mt-1">
+                                  {item?.pair}
+                                </p>
                                 <p className="text-sm text-gray-300 mt-1">
                                   {/* ${currentAmount?.toFixed(2) || "0.00"} */}
                                 </p>
                               </div>
                               <div>
                                 <h4 className="text-md font-semibold">Pair</h4>
-                                <p className="text-sm text-gray-300 mt-1">
-                                  {item?.pair}
-                                </p>
+                               
                               </div>
                             </div>
                           </div>

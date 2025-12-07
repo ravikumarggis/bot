@@ -161,7 +161,7 @@ export default function StartDCABot() {
 
                 <div className="hidden lg:block">
                   <div className="bg-[#0b0b0d] border border-[#151518] rounded-xl p-4 text-sm leading-6">
-                    <h3 className="font-semibold mb-2">About Grid Bot</h3>
+                    <h3 className="font-semibold mb-2">About DCA Bot</h3>
                     <p className="text-gray-400">
                       A fixed price range over which the trading bot will
                       execute buy and sell orders divided into equal grid
@@ -183,17 +183,21 @@ export default function StartDCABot() {
               </div>
 
               <div className="space-y-6">
+                {/* Portfolio Size (USD) */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Portfolio Usd
+                    Portfolio Size (USD)
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        Capital allocated to the bot. Used as the base for risk
-                        and position sizing calculations. (in USD).
+                        The amount of USDT you are allocating to this bot (the
+                        bot’s working balance). This is the base amount used to
+                        compute all percentage fields below — and the bot will
+                        treat it as the capital you give it to trade (a
+                        reference + cap for calculations).
                       </div>
                     </div>
                   </div>
@@ -201,17 +205,20 @@ export default function StartDCABot() {
                     {botData?.config?.portfolioUsd || 0}
                   </div>
                 </div>
+
+                {/* Buy Amount per Entry (%) */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Buy Percent
+                    Buy Amount per Entry (%)
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        Percentage of portfolioUsd allocated to each buy order.
-                        Determines the per-entry order size.
+                        Percentage of the Portfolio Size the bot should attempt
+                        to spend on each DCA buy. Example: 5% means each planned
+                        buy equals 5% of the Portfolio Size.
                       </div>
                     </div>
                   </div>
@@ -220,18 +227,19 @@ export default function StartDCABot() {
                   </div>
                 </div>
 
+                {/* Maximum DCA Entries */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Max Enteries
+                    Maximum DCA Entries
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        Maximum allowed number of DCA/ladder entries. Limits how
-                        many times the bot can average into a position. ( 3
-                        only).
+                        The maximum number of DCA buy attempts the bot may make
+                        (the bot may stop earlier if the Maximum Total
+                        Allocation is exhausted).
                       </div>
                     </div>
                   </div>
@@ -240,86 +248,91 @@ export default function StartDCABot() {
                   </div>
                 </div>
 
+                {/* Take Profit (%) */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Take Profit Percent
+                    Take Profit (%)
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        % Profit percentage at which the bot automatically
-                        closes all open positions.
+                        Percent profit at which the bot will close the position
+                        and take profit.
                       </div>
                     </div>
                   </div>
-
                   <div className="text-base text-white">
                     {botData?.config?.takeProfitPct || 0}
                   </div>
                 </div>
 
+                {/* Stop Loss (%) */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Stop Loss Percent
+                    Stop Loss (%)
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        % Profit percentage at which the bot automatically
-                        closes all open positions.
+                        Percent loss at which the bot will close the position to
+                        limit losses.
                       </div>
                     </div>
                   </div>
-
                   <div className="text-base text-white">
                     {botData?.config?.stopLossPct || 0}
                   </div>
                 </div>
+
+                {/* Minimum Order Size (USD) */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Min order (USD)
+                    Minimum Order Size (USD)
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        Minimum order value in USD allowed by the exchange.
-                        Orders smaller than this threshold are rejected or not
-                        placed.
+                        The smallest valid order size (exchange rule or your
+                        choice). If a calculated buy amount is below this value,
+                        the bot will use the minimum order size logic described
+                        below.
                       </div>
                     </div>
                   </div>
-
                   <div className="text-base text-white">
                     {botData?.config?.minOrderUsd || 0}
                   </div>
                 </div>
+
+                {/* Maximum Total Allocation (%) */}
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Max Allocation Percent
+                    Maximum Total Allocation (%)
                     <div className="relative group">
                       <Info
                         size={14}
                         className="text-gray-400 cursor-pointer hover:text-gray-200"
                       />
                       <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                        Hard cap on the total percentage of portfolioUsd the bot
-                        can allocate across filled entries. Ensures maximum
-                        exposure limit.
+                        The hard cap (percent of Portfolio Size) that the bot
+                        may spend across all DCA entries. Even if maxEntries is
+                        larger, the bot will never spend more than this total
+                        percent of the Portfolio Size.
                       </div>
                     </div>
                   </div>
-
                   <div className="text-base text-white">
                     {botData?.config?.maxAllocPct || 0}
                   </div>
                 </div>
 
+                {/* Pair */}
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Pair</div>
                   <div className="text-base text-white capitalize">
@@ -327,6 +340,7 @@ export default function StartDCABot() {
                   </div>
                 </div>
 
+                {/* Buttons + PnL unchanged */}
                 <button
                   className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all capitalize"
                   onClick={updateBotStatusMutate}
@@ -338,6 +352,7 @@ export default function StartDCABot() {
                     <>{isBotRunning ? "Stop" : "Start"} Bot</>
                   )}
                 </button>
+
                 <div className="flex justify-between gap-4">
                   <p className="text-md text-gray-400">
                     Realized P&L:{" "}
