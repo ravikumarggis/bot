@@ -342,14 +342,32 @@ export default function StartDCABot() {
 
                 {/* Buttons + PnL unchanged */}
                 <button
-                  className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all capitalize"
-                  onClick={updateBotStatusMutate}
+                  className={clsx(
+                    "w-full mt-2 py-3 rounded-xl text-white font-semibold  transition-all capitalize",
+                    Number(botPNL?.realized?.realizedPnl || 0) == 0
+                      ? "bg-pink-600 hover:bg-pink-700"
+                      : "bg-pink-600/50 hover:bg-pink-600/50"
+                  )}
+                  onClick={() => {
+                    if (Number(botPNL?.realized?.realizedPnl || 0) == 0) {
+                      updateBotStatusMutate();
+                    }
+                  }}
                   disabled={updatebotStatusPending}
                 >
                   {updatebotStatusPending ? (
                     "Processing..."
                   ) : (
-                    <>{isBotRunning ? "Stop" : "Start"} Bot</>
+                    <>
+                      {Number(botPNL?.realized?.realizedPnl || 0) == 0 ? (
+                        <>{isBotRunning ? "Stop" : "Start"} Bot</>
+                      ) : (
+                        <>
+                          Achived PNL:{" "}
+                          {Number(botPNL?.realized?.realizedPnl)?.toFixed(6)}
+                        </>
+                      )}
+                    </>
                   )}
                 </button>
 

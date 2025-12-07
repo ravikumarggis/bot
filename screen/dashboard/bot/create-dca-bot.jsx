@@ -36,7 +36,8 @@ const validationSchema = Yup.object({
     .typeError("Buy percent must be a number")
     .positive("Must be positive")
     .required("Buy percent is required")
-    .min(1,"Min 1%"),
+    .min(1,"Min 1%")
+    .max(100,"Max 100%"),
   maxEntries: Yup.number()
   .transform((value, originalValue) => {
     if (originalValue === "" || originalValue === null) return undefined;
@@ -52,10 +53,10 @@ const validationSchema = Yup.object({
     if (originalValue === "" || originalValue === null) return undefined;
     return Number(originalValue);
   })
-    .typeError("Min order must be a number")
+    .typeError("Min order size must be a number")
     .positive("Must be positive")
-    .required("Min order is required")
-    .min(10,"Min 10 order is required"),
+    .required("Min order size is required")
+    .min(10,"Min 10 USD order size is required"),
   maxAllocPct: Yup.number()
   .transform((value, originalValue) => {
     if (originalValue === "" || originalValue === null) return undefined;
@@ -63,8 +64,9 @@ const validationSchema = Yup.object({
   })
     .typeError("Max allocation must be a number")
     .positive("Must be positive")
-    .required("Max allocation is required")
-    .min(5,"Min 5% required"),
+    .required("Max allocation in % is required")
+    .min(5,"Min 5% required")
+    .max(100,"Max 100% required"),
     
   stopLossPct: Yup.number()
   .transform((value, originalValue) => {
@@ -75,7 +77,7 @@ const validationSchema = Yup.object({
     // .integer("Must be an integer")
     .required("Stop loss percent are required")
     .min(0.1,"Min 0.1% required")
-    .max(3,"Max 3% required")
+    .max(50,"Max 50% required")
     ,
   takeProfitPct: Yup.number()
   .transform((value, originalValue) => {
@@ -86,7 +88,7 @@ const validationSchema = Yup.object({
     // .integer("Must be an integer")
     .required("Take profit percent are required")
     .min(0.1,"Min 0.1% required")
-    .max(3,"Max 3% required"),
+    .max(100,"Max 100% required"),
 });
 
 export default function CreateDCABot() {
@@ -271,49 +273,49 @@ export default function CreateDCABot() {
                       label: "Portfolio Size (USD)",
                       tooltipInfo:
                         "The amount of USDT you are allocating to this bot (the bot’s working balance).This is the base amount used to compute all percentage fields below — and the bot will treat it as the capital you give it to trade (a reference + cap for calculations).",
-                      placeholder: "Enter the higher range",
+                      placeholder: "e.g. 500",
                     },
                     {
                       name: "perBuyPct",
                       label: "Buy Amount per Entry (%)",
                       tooltipInfo:
                         "Percentage of the Portfolio Size the bot should attempt to spend on each DCA buy.Example: 5% means each planned buy equals 5% of the Portfolio Size.",
-                      placeholder: "Enter the lower range",
+                      placeholder: "e.g. 5",
                     },
                     {
                       name: "maxEntries",
                       label: "Maximum DCA Entries",
                       tooltipInfo:
                         "The maximum number of DCA buy attempts the bot may make (the bot may stop earlier if the Maximum Total Allocation is exhausted).",
-                      placeholder: "10",
+                      placeholder: "e.g. 3",
                     },
                     {
                       name: "takeProfitPct",
                       label: "Take Profit (%)",
                       tooltipInfo:
                         "Percent profit at which the bot will close the position and take profit..",
-                      placeholder: "10",
+                      placeholder: "e.g. 2",
                     },
                     {
                       name: "stopLossPct",
                       label: "Stop Loss (%)",
                       tooltipInfo:
                         "Percent loss at which the bot will close the position to limit losses.",
-                      placeholder: "10",
+                      placeholder: "e.g. 1",
                     },
                     {
                       name: "minOrderUsd",
                       label: "Minimum Order Size (USD)",
                       tooltipInfo:
                         "The smallest valid order size (exchange rule or your choice). If a calculated buy amount is below this value, the bot will use the minimum order size logic described below.",
-                      placeholder: "10",
+                      placeholder: "e.g. 10",
                     },
                     {
                       name: "maxAllocPct",
                       label: "Maximum Total Allocation (%)",
                       tooltipInfo:
                         "The hard cap (percent of Portfolio Size) that the bot may spend across all DCA entries.Even if maxEntries is larger, the bot will never spend more than this total percent of the Portfolio Size.",
-                      placeholder: "10",
+                      placeholder: "e.g. 50",
                     },
                   ].map((f) => (
                     <label key={f.name} className="block">
