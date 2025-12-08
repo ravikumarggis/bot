@@ -7,6 +7,8 @@ import React from "react";
 // export const baseUrl = "https://backend.qbots.trade/api/v1"; // UAT
 export const baseUrl = "https://productionb.qbots.trade/api/v1"; // live
 
+export const DCAbaseUrl = "https://dca.qbots.trade/api"; // UAT
+
 // socket
 // export const wssBaseUrl = "ws://139.59.42.213:8082";  //local
 // export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // UAT
@@ -26,6 +28,7 @@ api.interceptors.request.use((config) => {
     headers: {
       ...config.headers,
       token: token,
+      Authorization: `Bearer ${token}`,
     },
   };
 });

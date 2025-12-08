@@ -20,7 +20,7 @@ import clsx from "clsx";
 import SuccessModal from "../../../components/success-modal";
 
 const exchangeOptions = [
-  // { label: "Binance", value: "binance", icon: "/assets/homepage/binance.png" },
+  { label: "Mexc", value: "mexc", icon: "/assets/homepage/mexc.png" },
   { label: "Bybit", value: "bybit", icon: "/assets/homepage/bybit.webp" },
 ];
 
