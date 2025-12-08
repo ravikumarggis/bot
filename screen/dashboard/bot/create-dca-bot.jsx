@@ -285,7 +285,7 @@ export default function CreateDCABot() {
                       name: "maxEntries",
                       label: "Maximum DCA Entries",
                       tooltipInfo:
-                        "The maximum number of DCA buy attempts the bot may make (the bot may stop earlier if the Maximum Total Allocation is exhausted).",
+                        "The *Maximum Number of DCA Buy Attempts* defines how many additional buys the bot can make after the first entry, stopping earlier if the Maximum total allocation is used up. The *1st entry* happens when the bot starts (if Smart Indicator is off) or when the Smart Indicator condition becomes true (if it’s on). The *2nd entry* occurs when the price drops *10% or more* from the last entry price. The *3rd entry* occurs when the price drops *15% or more* from the last entry price. These DCA entries help lower the overall average buy price.",
                       placeholder: "e.g. 3",
                     },
                     {

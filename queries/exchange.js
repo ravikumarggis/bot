@@ -45,8 +45,8 @@ export const useGetKeysExchange = () => {
       return (
         data?.result?.map((item) => {
           const icon =
-            String(item?.exchange)?.toLowerCase() == "binance"
-              ? "/assets/homepage/binance.png"
+            String(item?.exchange)?.toLowerCase() == "mexc"
+              ? "/assets/homepage/mexc.png"
               : "/assets/homepage/bybit.webp";
 
           return { ...item, icon: icon };
