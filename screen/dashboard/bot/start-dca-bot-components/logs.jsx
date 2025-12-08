@@ -1,3 +1,4 @@
+"use client";
 import { useDCAGetLogList, useGetLogList, useGetOrder } from "@/queries/bot";
 import React, { useMemo } from "react";
 import { formatCurrency } from "@/utils/index";
