@@ -18,77 +18,76 @@ const TradingViewWidget = dynamic(
 
 const validationSchema = Yup.object({
   portfolioUsd: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
-  .typeError("Portfolio USD must be a number")
-  .required("Portfolio USD is required")
-  .positive("Portfolio USD must be positive")
-  .min(100, "Portfolio USD must be at least 100 USD"),
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
+    .typeError("Portfolio USD must be a number")
+    .required("Portfolio USD is required")
+    .positive("Portfolio USD must be positive")
+    .min(100, "Portfolio USD must be at least 100 USD"),
 
   perBuyPct: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
-  
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
+
     .typeError("Buy percent must be a number")
     .positive("Must be positive")
     .required("Buy percent is required")
-    .min(1,"Min 1%")
-    .max(100,"Max 100%"),
+    .min(1, "Min 1%")
+    .max(100, "Max 100%"),
   maxEntries: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
     .typeError("Max Entries must be a number")
     .positive("Must be positive")
     .required("Max Entries is required")
-    .min(1,"Min 1 Entries required")
-    .max(3,"Max 3 Entries required"),
+    .min(1, "Min 1 Entries required")
+    .max(3, "Max 3 Entries required"),
   minOrderUsd: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
     .typeError("Min order size must be a number")
     .positive("Must be positive")
     .required("Min order size is required")
-    .min(10,"Min 10 USD order size is required"),
+    .min(10, "Min 10 USD order size is required"),
   maxAllocPct: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
     .typeError("Max allocation must be a number")
     .positive("Must be positive")
     .required("Max allocation in % is required")
-    .min(5,"Min 5% required")
-    .max(100,"Max 100% required"),
-    
+    .min(5, "Min 5% required")
+    .max(100, "Max 100% required"),
+
   stopLossPct: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
     .typeError("Stop loss percent must be a number")
     // .integer("Must be an integer")
     .required("Stop loss percent are required")
-    .min(0.1,"Min 0.1% required")
-    .max(50,"Max 50% required")
-    ,
+    .min(0.1, "Min 0.1% required")
+    .max(50, "Max 50% required"),
   takeProfitPct: Yup.number()
-  .transform((value, originalValue) => {
-    if (originalValue === "" || originalValue === null) return undefined;
-    return Number(originalValue);
-  })
+    .transform((value, originalValue) => {
+      if (originalValue === "" || originalValue === null) return undefined;
+      return Number(originalValue);
+    })
     .typeError("Take profit percent must be a number")
     // .integer("Must be an integer")
     .required("Take profit percent are required")
-    .min(0.1,"Min 0.1% required")
-    .max(100,"Max 100% required"),
+    .min(0.1, "Min 0.1% required")
+    .max(100, "Max 100% required"),
 });
 
 export default function CreateDCABot() {
@@ -133,8 +132,8 @@ export default function CreateDCABot() {
       maxEntries: 3,
       minOrderUsd: "10",
       maxAllocPct: "20",
-      stopLossPct: "1",
-      takeProfitPct: "2",
+      stopLossPct: "25",
+      takeProfitPct: "30",
       enableIndicators: false,
     },
     enableReinitialize: true,

@@ -44,11 +44,11 @@ export const useWatchOHLCV = ({
 
         setOhlcvData(data?.data);
       } catch (err) {
-        console.error("Error parsing OHLCV data:", err);
+        console.log("Error parsing OHLCV data:", err);
       }
     };
 
-    ws.onerror = (err) => console.error("WebSocket error (OHLCV):", err);
+    ws.onerror = (err) => console.log("WebSocket error (OHLCV):", err);
 
     ws.onclose = () => {
       setIsConnected(false);
