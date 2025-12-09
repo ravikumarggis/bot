@@ -33,14 +33,14 @@ const GridBotLogs = ({ botId }) => {
           </div>
         )}
         {!orderListPending && orderList?.data?.length > 0 && (
-          <table className="table w-full text-sm text-gray-400">
+          <table className="table w-full text-sm ">
             <thead>
               <tr className="text-left">
-                <th className="px-2 py-2">Level</th>
-                <th className="px-2 py-2">Source</th>
-                <th className="px-2 py-2">Message</th>
-                <th className="px-2 py-2">Time</th>
-                <th className="px-2 py-2">BotInstanceId</th>
+                <th className="px-2 py-2 text-white">Level</th>
+                <th className="px-2 py-2 text-white">Source</th>
+                <th className="px-2 py-2 text-white">Message</th>
+                <th className="px-2 py-2 text-white">Time</th>
+                <th className="px-2 py-2 text-white">BotInstanceId</th>
               </tr>
             </thead>
             <tbody>
@@ -53,7 +53,10 @@ const GridBotLogs = ({ botId }) => {
                     <td className="px-2 py-2">{item?.level || "--"}</td>
                     <td className="px-2 py-2">{item?.source || "--"}</td>
                     <td className="px-2 py-2">{item?.message || "--"}</td>
-                    <td className="px-2 py-2">{moment(item?.updatedAt).format("YYYY.MM.DD HH:mm:ss") || "--"}</td>
+                    <td className="px-2 py-2">
+                      {moment(item?.updatedAt).format("YYYY.MM.DD HH:mm:ss") ||
+                        "--"}
+                    </td>
                     <td className="px-2 py-2">{item?.botInstanceId || "--"}</td>
                   </tr>
                 );

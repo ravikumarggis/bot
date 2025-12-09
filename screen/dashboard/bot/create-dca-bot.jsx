@@ -155,6 +155,7 @@ export default function CreateDCABot() {
         minOrderUsd: Number(values.minOrderUsd),
         maxAllocPct: Number(values.maxAllocPct),
         enableIndicators: values.enableIndicators ? 1 : 0,
+        exchangeName: exchangeName,
       };
 
       await handleCreateBot(payload);

@@ -35,14 +35,14 @@ const DCABotTrades = ({ botId }) => {
           </div>
         )}
         {!orderListPending && orderList?.length > 0 && (
-          <table className="table w-full text-sm text-gray-400">
+          <table className="table w-full text-sm">
             <thead>
               <tr className="text-left">
-                <th className="px-2 py-2">Side</th>
-                <th className="px-2 py-2">Type</th>
-                <th className="px-2 py-2">Price</th>
-                <th className="px-2 py-2">Amount</th>
-                <th className="px-2 py-2">Date/Time</th>
+                <th className="px-2 py-2 text-white">Side</th>
+                <th className="px-2 py-2 text-white">Type</th>
+                <th className="px-2 py-2 text-white">Price</th>
+                <th className="px-2 py-2 text-white">Amount</th>
+                <th className="px-2 py-2 text-white">Date/Time</th>
               </tr>
             </thead>
             <tbody>
