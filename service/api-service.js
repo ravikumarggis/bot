@@ -5,15 +5,15 @@ import React from "react";
 import { toast } from "sonner";
 
 // export const baseUrl = "http://139.59.42.213:8080/api/v1"; // local
-export const baseUrl = "https://backend.qbots.trade/api/v1"; // UAT
-// export const baseUrl = "https://productionb.qbots.trade/api/v1"; // live
+// export const baseUrl = "https://backend.qbots.trade/api/v1"; // UAT
+export const baseUrl = "https://productionb.qbots.trade/api/v1"; // live
 
 export const DCAbaseUrl = "https://dca.qbots.trade/api"; // UAT
 
 // socket
 // export const wssBaseUrl = "ws://139.59.42.213:8082";  //local
-export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // UAT
-// export const wssBaseUrl = "wss://socket-production.qbots.trade/"; // live
+// export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // UAT/
+export const wssBaseUrl = "wss://socket-production.qbots.trade/"; // live
 
 export const api = axios.create({
   baseURL: baseUrl,
