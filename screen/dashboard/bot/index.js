@@ -41,8 +41,7 @@ export default function Bot() {
     selectExchange,
   });
   const { data: DCAbotList, isPending: DCAbotListPending } = useGetDCABotList();
-  console.log(DCAbotList,"DCAbotListDCAbotList");
-  
+  console.log(DCAbotList, "DCAbotListDCAbotList");
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);
@@ -210,7 +209,7 @@ export default function Bot() {
             <>
               {selectedBotType == "dca" && (
                 <>
-                  {DCAbotList?.length === 0 ? (
+                  {!DCAbotList || DCAbotList?.length === 0 ? (
                     <div className="mt-20 sm:mt-30 w-full py-12 flex flex-col items-center justify-center ">
                       <p className="mt-3 text-xl text-gray-400">
                         No bots here yet! Let’s make your first one
@@ -219,13 +218,6 @@ export default function Bot() {
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                       {DCAbotList?.map((item, i) => {
-                        // Move computed value outside useMemo since it's not needed inside map
-                        // const currentAmount =
-                        //   item?.params?.gridLevel *
-                        //   2 *
-                        //   item?.params?.quantityPerGridUSD;
-                        console.log(item, "item>>");
-
                         return (
                           <div
                             key={i}
@@ -264,7 +256,7 @@ export default function Bot() {
 
                             <div className="flex justify-between mt-4">
                               <div>
-                              <p className="text-sm text-gray-300 mt-1">
+                                <p className="text-sm text-gray-300 mt-1">
                                   {item?.pair}
                                 </p>
                                 <p className="text-sm text-gray-300 mt-1">
@@ -273,7 +265,6 @@ export default function Bot() {
                               </div>
                               <div>
                                 <h4 className="text-md font-semibold">Pair</h4>
-                               
                               </div>
                             </div>
                           </div>

@@ -34,13 +34,13 @@ const DCABotLogs = ({ botId }) => {
           </div>
         )}
         {!orderListPending && orderList?.length > 0 && (
-          <table className="table w-full text-sm text-gray-400">
+          <table className="table w-full text-sm ">
             <thead>
               <tr className="text-left">
-                <th className="px-2 py-2">Level</th>
-                <th className="px-2 py-2">Event</th>
-                <th className="px-2 py-2">Time</th>
-                <th className="px-2 py-2">Message</th>
+                <th className="px-2 py-2 text-white">Level</th>
+                <th className="px-2 py-2 text-white">Event</th>
+                <th className="px-2 py-2 text-white">Time</th>
+                <th className="px-2 py-2 text-white">Message</th>
               </tr>
             </thead>
             <tbody>
@@ -57,7 +57,10 @@ const DCABotLogs = ({ botId }) => {
                         "--"}
                     </td>
                     <td className="px-2 py-2">
-                      {item?.meta?.error || item?.meta?.reason || "--"}
+                      {item?.meta?.error ||
+                        item?.meta?.reason ||
+                        item?.meta?.message ||
+                        "--"}
                     </td>
                   </tr>
                 );

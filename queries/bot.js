@@ -266,6 +266,7 @@ export const createDCABots = async ({
   maxAllocPct,
   enableIndicators,
   pair,
+  exchangeName,
 }) => {
   try {
     const response = await api({
@@ -282,6 +283,7 @@ export const createDCABots = async ({
           minOrderUsd,
           maxAllocPct,
           enableIndicators,
+          exchangeName,
         },
       },
     });
