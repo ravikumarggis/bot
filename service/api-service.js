@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import React from "react";
+import { toast } from "sonner";
 
 // export const baseUrl = "http://139.59.42.213:8080/api/v1"; // local
 // export const baseUrl = "https://backend.qbots.trade/api/v1"; // UAT
@@ -11,7 +12,7 @@ export const DCAbaseUrl = "https://dca.qbots.trade/api"; // UAT
 
 // socket
 // export const wssBaseUrl = "ws://139.59.42.213:8082";  //local
-// export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // UAT
+// export const wssBaseUrl = "wss://wsocket.qbots.trade/"; // UAT/
 export const wssBaseUrl = "wss://socket-production.qbots.trade/"; // live
 
 export const api = axios.create({
@@ -32,3 +33,18 @@ api.interceptors.request.use((config) => {
     },
   };
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.log(error, "error>>>");
+
+    if (error?.response?.data?.responseCode == 440) {
+      toast.error(error?.response?.data?.responseMessage || "Session Expired");
+      deleteCookie("token");
+      redirect("/");
+    }
+
+    return Promise.reject(error);
+  }
+);
