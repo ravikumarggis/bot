@@ -351,7 +351,7 @@ export default function StartDCABot() {
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">Exchange Name</div>
                   <div className="text-base text-white capitalize">
-                    {botData?.exchangeName || "--"}
+                    {botData?.config?.exchangeName || "--"}
                   </div>
                 </div>
                 {/* Buttons + PnL unchanged */}
