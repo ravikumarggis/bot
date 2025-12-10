@@ -143,7 +143,7 @@ export default function StartDCABot() {
                               className={clsx(
                                 "cursor-pointer",
                                 (filledRefetchloading || logRefetchLoading) &&
-                                  "animate-spin"
+                                "animate-spin"
                               )}
                             />
                           </div>
@@ -163,10 +163,10 @@ export default function StartDCABot() {
                   <div className="bg-[#0b0b0d] border border-[#151518] rounded-xl p-4 text-sm leading-6">
                     <h3 className="font-semibold mb-2">About DCA Bot</h3>
                     <p className="text-gray-400">
-                      A fixed price range over which the trading bot will
-                      execute buy and sell orders divided into equal grid
-                      levels. Choose your price range and grid settings on the
-                      right.
+                      This DCA bot automatically buys in multiple small entries
+                      instead of one large order. It helps reduce the average
+                      entry price during market dips and controls risk using your
+                      defined buy size, max allocation, and safety settings.
                     </p>
                   </div>
                 </div>
@@ -347,6 +347,13 @@ export default function StartDCABot() {
                   </div>
                 </div>
 
+                {/* Exchange Name */}
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">Exchange Name</div>
+                  <div className="text-base text-white capitalize">
+                    {botData?.exchangeName || "--"}
+                  </div>
+                </div>
                 {/* Buttons + PnL unchanged */}
                 <button
                   className={clsx(
