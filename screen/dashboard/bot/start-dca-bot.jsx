@@ -385,21 +385,59 @@ export default function StartDCABot() {
                   )}
                 </button>
 
-                <div className="flex justify-between gap-4">
-                  <p className="text-md text-gray-400">
-                    Realized P&L:{" "}
+                <div className="space-y-3 text-sm">
+
+                  {/* Avg Entry Price */}
+                  <div className="flex justify-between text-gray-400">
+                    <span>Avg Entry Price</span>
+                    <span className="text-white">
+                      $ {Number(botPNL?.unrealized?.avgEntryPrice || 0).toFixed(4)}
+                    </span>
+                  </div>
+
+                  {/* Current Price */}
+                  <div className="flex justify-between text-gray-400">
+                    <span>Current Price</span>
+                    <span className="text-white">
+                      $ {Number(botPNL?.unrealized?.currentPrice || 0).toFixed(4)}
+                    </span>
+                  </div>
+
+                  {/* Unrealized PnL */}
+                  <div className="flex justify-between text-gray-400">
+                    <span>Unrealized P&amp;L</span>
                     <span
                       className={
-                        botPNL?.realized?.realizedPnl < 0
+                        botPNL?.unrealized?.unrealizedPnl < 0
                           ? "text-red-500"
                           : "text-green-500"
                       }
                     >
-                      $ {Number(botPNL?.realized?.realizedPnl || 0).toFixed(2)}
+                      $ {Number(botPNL?.unrealized?.unrealizedPnl || 0).toFixed(4)}
+                      <span className="ml-1 text-xs text-gray-400">
+                        ({Number(botPNL?.unrealized?.unrealizedPnlPct || 0).toFixed(2)}%)
+                      </span>
                     </span>
-                  </p>
+                  </div>
 
-                  <div className="flex flex-row gap-3">
+                  {/* Divider */}
+                  <div className="border-t border-white/10 my-2" />
+
+                  {/* Realized PnL + Delete */}
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-400">
+                      Realized P&amp;L:{" "}
+                      <span
+                        className={
+                          botPNL?.realized?.realizedPnl < 0
+                            ? "text-red-500"
+                            : "text-green-500"
+                        }
+                      >
+                        $ {Number(botPNL?.realized?.realizedPnl || 0).toFixed(2)}
+                      </span>
+                    </p>
+
                     <IconTrashXFilled
                       onClick={() => {
                         setCurrentSelectedItem(null);
@@ -410,6 +448,7 @@ export default function StartDCABot() {
                     />
                   </div>
                 </div>
+
               </div>
             </aside>
           </main>

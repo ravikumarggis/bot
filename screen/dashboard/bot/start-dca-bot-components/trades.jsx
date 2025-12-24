@@ -42,6 +42,7 @@ const DCABotTrades = ({ botId }) => {
                 <th className="px-2 py-2 text-white">Type</th>
                 <th className="px-2 py-2 text-white">Price</th>
                 <th className="px-2 py-2 text-white">Amount</th>
+                <th className="px-2 py-2 text-white">Notional (USD)</th>
                 <th className="px-2 py-2 text-white">Date/Time</th>
               </tr>
             </thead>
@@ -72,6 +73,13 @@ const DCABotTrades = ({ botId }) => {
                     <td className="px-2 py-2">
                       {item?.amount}{" "}
                       {/* {String(item?.symbol)?.split("/")?.[0] || "--"} */}
+                    </td>
+                    {/* Notional (USD) */}
+                    <td className="px-2 py-2">
+                      {formatCurrency({
+                        amount: Number(item?.price || 0) * Number(item?.amount || 0),
+                        currency: "USD",
+                      })}
                     </td>
                     <td className="px-2 py-2">
                       {moment(item?.updatedAt)?.format("YYYY.MM.DD HH:mm:ss") ||
