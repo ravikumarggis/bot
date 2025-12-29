@@ -143,7 +143,7 @@ export default function StartDCABot() {
                               className={clsx(
                                 "cursor-pointer",
                                 (filledRefetchloading || logRefetchLoading) &&
-                                  "animate-spin"
+                                "animate-spin"
                               )}
                             />
                           </div>
@@ -163,10 +163,10 @@ export default function StartDCABot() {
                   <div className="bg-[#0b0b0d] border border-[#151518] rounded-xl p-4 text-sm leading-6">
                     <h3 className="font-semibold mb-2">About DCA Bot</h3>
                     <p className="text-gray-400">
-                      A fixed price range over which the trading bot will
-                      execute buy and sell orders divided into equal grid
-                      levels. Choose your price range and grid settings on the
-                      right.
+                      This DCA bot automatically buys in multiple small entries
+                      instead of one large order. It helps reduce the average
+                      entry price during market dips and controls risk using your
+                      defined buy size, max allocation, and safety settings.
                     </p>
                   </div>
                 </div>
@@ -347,6 +347,13 @@ export default function StartDCABot() {
                   </div>
                 </div>
 
+                {/* Exchange Name */}
+                <div className="flex justify-between">
+                  <div className="text-sm text-gray-400 mb-1">Exchange Name</div>
+                  <div className="text-base text-white capitalize">
+                    {botData?.config?.exchangeName || "--"}
+                  </div>
+                </div>
                 {/* Buttons + PnL unchanged */}
                 <button
                   className={clsx(
@@ -378,21 +385,59 @@ export default function StartDCABot() {
                   )}
                 </button>
 
-                <div className="flex justify-between gap-4">
-                  <p className="text-md text-gray-400">
-                    Realized P&L:{" "}
+                <div className="space-y-3 text-sm">
+
+                  {/* Avg Entry Price */}
+                  <div className="flex justify-between text-gray-400">
+                    <span>Avg Entry Price</span>
+                    <span className="text-white">
+                      $ {Number(botPNL?.unrealized?.avgEntryPrice || 0).toFixed(4)}
+                    </span>
+                  </div>
+
+                  {/* Current Price */}
+                  <div className="flex justify-between text-gray-400">
+                    <span>Current Price</span>
+                    <span className="text-white">
+                      $ {Number(botPNL?.unrealized?.currentPrice || 0).toFixed(4)}
+                    </span>
+                  </div>
+
+                  {/* Unrealized PnL */}
+                  <div className="flex justify-between text-gray-400">
+                    <span>Unrealized P&amp;L</span>
                     <span
                       className={
-                        botPNL?.realized?.realizedPnl < 0
+                        botPNL?.unrealized?.unrealizedPnl < 0
                           ? "text-red-500"
                           : "text-green-500"
                       }
                     >
-                      $ {Number(botPNL?.realized?.realizedPnl || 0).toFixed(2)}
+                      $ {Number(botPNL?.unrealized?.unrealizedPnl || 0).toFixed(4)}
+                      <span className="ml-1 text-xs text-gray-400">
+                        ({Number(botPNL?.unrealized?.unrealizedPnlPct || 0).toFixed(2)}%)
+                      </span>
                     </span>
-                  </p>
+                  </div>
 
-                  <div className="flex flex-row gap-3">
+                  {/* Divider */}
+                  <div className="border-t border-white/10 my-2" />
+
+                  {/* Realized PnL + Delete */}
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-400">
+                      Realized P&amp;L:{" "}
+                      <span
+                        className={
+                          botPNL?.realized?.realizedPnl < 0
+                            ? "text-red-500"
+                            : "text-green-500"
+                        }
+                      >
+                        $ {Number(botPNL?.realized?.realizedPnl || 0).toFixed(2)}
+                      </span>
+                    </p>
+
                     <IconTrashXFilled
                       onClick={() => {
                         setCurrentSelectedItem(null);
@@ -403,6 +448,7 @@ export default function StartDCABot() {
                     />
                   </div>
                 </div>
+
               </div>
             </aside>
           </main>
