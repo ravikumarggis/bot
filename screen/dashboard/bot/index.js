@@ -41,7 +41,6 @@ export default function Bot() {
     selectExchange,
   });
   const { data: DCAbotList, isPending: DCAbotListPending } = useGetDCABotList();
-  console.log(DCAbotList, "DCAbotListDCAbotList");
 
   const handleOTPSubmit = (code) => {
     console.log("OTP submitted:", code);

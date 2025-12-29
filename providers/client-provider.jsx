@@ -2,7 +2,7 @@
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React from "react";
-import { PAYPAL_CLIENT_ID ,PAYPAL_ENV} from "../config/index";
+import { PAYPAL_CLIENT_ID, PAYPAL_ENV } from "../config/index";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { createConfig, WagmiProvider } from "wagmi";
@@ -30,10 +30,9 @@ const connectors = connectorsForWallets(
 const config = createConfig({
   connectors,
   appName: "Qbots",
-
   projectId: "YOUR_PROJECT_ID",
   chains: [qieChain],
-  ssr: true,
+  ssr: false,
 });
 
 const initialOptions = {

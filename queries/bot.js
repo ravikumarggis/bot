@@ -1,25 +1,32 @@
-import { api, DCAbaseUrl } from "@/service/api-service";
+import { api, DCAbaseUrl, gridBotBaseUrl } from "@/service/api-service";
 import { useQuery } from "@tanstack/react-query";
 
 export const createBot = async ({
-  botName,
-  exchangeKeyId,
+  exchange,
   symbol,
-  status,
-  params,
-  pausedUntil,
+
+  gridLower,
+  gridUpper,
+  gridCount,
+  investment,
+  orderSize,
+  stopLossPrice,
+  enableIndicators,
 }) => {
   try {
     const response = await api({
       method: "POST",
-      url: "/bot/createBot",
+      url: `${gridBotBaseUrl}/bots`,
       data: {
-        botName: botName || undefined,
-        exchangeKeyId: exchangeKeyId || undefined,
-        symbol: symbol || undefined,
-        status: status || undefined,
-        params,
-        pausedUntil: pausedUntil || undefined,
+        exchange,
+        symbol,
+        gridLower,
+        gridUpper,
+        gridCount,
+        investment,
+        orderSize,
+        stopLossPrice,
+        enableIndicators,
       },
     });
 
@@ -338,7 +345,7 @@ export const getDCBotList = async (selectExchange) => {
   try {
     const response = await api({
       method: "GET",
-      url: `${DCAbaseUrl}/bots`,
+      url: `${gridBotBaseUrl}/bots`,
       params: { exchange: selectExchange },
     });
 

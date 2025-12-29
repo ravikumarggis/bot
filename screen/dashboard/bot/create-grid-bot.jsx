@@ -17,25 +17,39 @@ const TradingViewWidget = dynamic(
 );
 
 const validationSchema = Yup.object({
-  highPrice: Yup.number()
+  gridLower: Yup.number()
     .typeError("High price must be a number")
     .positive("Must be positive")
     .required("High price is required"),
-  lowPrice: Yup.number()
+  gridLower: Yup.number()
+    .typeError("High price must be a number")
+    .positive("Must be positive")
+    .required("High price is required"),
+  gridUpper: Yup.number()
     .typeError("Low price must be a number")
     .positive("Must be positive")
     .required("Low price is required"),
-  quantity: Yup.number()
+  investment: Yup.number()
     .typeError("Quantity must be a number")
     .positive("Must be positive")
     .min(10, "Minimum must be 10 USD")
     .required("Quantity per grid is required"),
-  gridLevels: Yup.number()
+  gridCount: Yup.number()
     .typeError("Grid levels must be a number")
     .integer("Must be an integer")
-    // .min(3, "At least 3 USD grid level")
     .required("Grid levels are required"),
-  botName: Yup.string().required("Bot name is required"),
+  investment: Yup.number()
+    .typeError("Investment must be a number")
+    .integer("Must be an integer")
+    .required("Investment are required"),
+  orderSize: Yup.number()
+    .typeError("orderSize must be a number")
+    .integer("Must be an integer")
+    .required("orderSize are required"),
+  stopLossPrice: Yup.number()
+    .typeError("stopLossPrice must be a number")
+    .integer("Must be an integer")
+    .required("stopLossPrice are required"),
 });
 
 export default function CreateGridBot() {
@@ -44,16 +58,8 @@ export default function CreateGridBot() {
   const [pair, setPair] = useState("");
   const { data: exchangeList, isPending: exchangeListPending } =
     useGetKeysExchange();
-
-  const [isUserEditingHigh, setIsUserEditingHigh] = useState(false);
-  const [isUserEditingLow, setIsUserEditingLow] = useState(false);
-
-  const exchangeName = useMemo(() => {
-    return exchangeList?.find((item) => item?.id == selectedExchange)?.exchange;
-  }, [exchangeList, selectedExchange]);
-
   const { data: pairData, isPending: pairDataPending } = useGetSymbolList({
-    exchange: exchangeName,
+    exchange: selectedExchange,
   });
 
   const { mutateAsync: handleCreateBot, isPending } = useMutation({
@@ -82,45 +88,15 @@ export default function CreateGridBot() {
     },
   });
 
-  const ohlcvData = useWatchOHLCV({
-    symbol: pair,
-    exchange: exchangeName,
-  });
-
-  useEffect(() => {
-    if (!pair || !ohlcvData?.ohlcvData?.length) return;
-
-    const updateAutoPrice = () => {
-      const candles = ohlcvData.ohlcvData;
-      const currentPrice = Number(candles[candles.length - 1]?.[4] || 0);
-      if (!currentPrice) return;
-
-      const pct = currentPrice * 0.3;
-
-      formik.setValues((prev) => ({
-        ...prev,
-        highPrice: isUserEditingHigh ? prev.highPrice : currentPrice + pct,
-        lowPrice: isUserEditingLow ? prev.lowPrice : currentPrice - pct,
-      }));
-    };
-
-    updateAutoPrice();
-  }, [pair, ohlcvData?.ohlcvData]);
-  useEffect(() => {
-    setIsUserEditingHigh(false);
-    setIsUserEditingLow(false);
-  }, [pair]);
-
   const formik = useFormik({
     initialValues: {
-      highPrice: "",
-      lowPrice: "",
-      quantity: 10,
-      gridLevels: 6,
-      tpPercent: 2,
-      botName: "",
-      adxLessThan20: true,
-      rsiBetween40And60: false,
+      gridLower: "",
+      gridUpper: "",
+      investment: 10,
+      gridCount: 6,
+      orderSize: 2,
+      enableIndicators: false,
+      stopLossPrice: "",
     },
     enableReinitialize: true,
     validationSchema,
@@ -131,21 +107,15 @@ export default function CreateGridBot() {
       }
 
       const payload = {
-        botName: values.botName,
-        exchangeKeyId: selectedExchange,
+        exchange: selectedExchange,
         symbol: pair,
-        // status: "running",
-        params: {
-          highPrice: Number(values.highPrice),
-          lowPrice: Number(values.lowPrice),
-          gridLevel: Number(values.gridLevels),
-          quantityPerGridUSD: Number(values.quantity),
-          tpPercent: Number(values.tpPercent),
-          // slPercent: Number(values.slPercent),
-          adxLessThan20: values.adxLessThan20,
-          rsiBetween40And60: values.rsiBetween40And60,
-        },
-        // pausedUntil: "2025-10-10T12:00:00Z",
+        gridLower: Number(values.gridLower),
+        gridUpper: Number(values.gridUpper),
+        gridCount: Number(values.gridCount),
+        investment: Number(values.investment),
+        orderSize: Number(values.orderSize),
+        enableIndicators: values.enableIndicators,
+        stopLossPrice: values.stopLossPrice,
       };
 
       await handleCreateBot(payload);
@@ -153,7 +123,7 @@ export default function CreateGridBot() {
   });
 
   const buySellValue = useMemo(() => {
-    const level = Number(formik?.values?.gridLevels || 0);
+    const level = Number(formik?.values?.gridCount || 0);
     if (level > 0) {
       const equalDivide = level / 2;
       const buy = Math.ceil(equalDivide);
@@ -168,7 +138,7 @@ export default function CreateGridBot() {
       buy: 0,
       sell: 0,
     };
-  }, [formik?.values?.gridLevels]);
+  }, [formik?.values?.gridCount]);
 
   const Toggle = ({ name, label, tooltip }) => {
     const value = formik.values[name];
@@ -230,7 +200,7 @@ export default function CreateGridBot() {
                     options={exchangeList?.map((item) => {
                       return {
                         label: item?.exchange,
-                        value: item?.id,
+                        value: item?.exchange,
                         icon: item?.icon,
                       };
                     })}
@@ -278,29 +248,41 @@ export default function CreateGridBot() {
                 <div className="space-y-4">
                   {[
                     {
-                      name: "highPrice",
-                      label: "Upper Price Limit",
+                      name: "gridLower",
+                      label: "Grid Lower",
                       tooltipInfo:
                         "The highest price at which the bot will place sell orders. If the market rises above this level, the bot will sell all held assets for stablecoins and stop trading.",
                       placeholder: "Enter the higher range",
                     },
                     {
-                      name: "lowPrice",
-                      label: "Lower Price Limit",
+                      name: "gridUpper",
+                      label: "Grid Upper",
                       tooltipInfo:
                         "The lowest price at which the bot will place buy orders. If the market drops below this level, the bot will sell all held assets for stablecoins and stop trading.",
                       placeholder: "Enter the lower range",
                     },
                     {
-                      name: "quantity",
-                      label: "Investment per Grid",
+                      name: "investment",
+                      label: "Investment",
                       tooltipInfo:
                         "The amount of USD the bot will use for each individual buy or sell order within the grid. This defines how much is invested per level.",
                       placeholder: "10",
                     },
                     {
-                      name: "gridLevels",
-                      label: "Number of Grids",
+                      name: "stopLossPrice",
+                      label: "Stop Loss Price",
+                      tooltipInfo: "stopLossPrice",
+                      placeholder: "10",
+                    },
+                    {
+                      name: "orderSize",
+                      label: "Order Size",
+                      tooltipInfo: "orderSize",
+                      placeholder: "10",
+                    },
+                    {
+                      name: "gridCount",
+                      label: "Grids Count",
                       tooltipInfo:
                         "The number of intervals (price levels) your range will be divided into for placing buy and sell orders. More grids = smaller profit per trade but more frequent trades.",
                       placeholder: "10",
@@ -325,15 +307,7 @@ export default function CreateGridBot() {
                       <input
                         name={f.name}
                         value={formik.values[f.name]}
-                        onChange={(e) => {
-                          if (f.name == "highPrice") {
-                            setIsUserEditingHigh(true);
-                          }
-                          if (f.name == "lowPrice") {
-                            setIsUserEditingLow(true);
-                          }
-                          formik.handleChange(e);
-                        }}
+                        onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
                         placeholder={f.placeholder}
@@ -360,95 +334,15 @@ export default function CreateGridBot() {
                     </div>
                   </div>
 
-                  <label className="block">
-                    <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
-                      <span>
-                        Profit per Grid in %{" "}
-                        <span className="text-sm text-gray-500">
-                          (Optional)
-                        </span>
-                      </span>
-
-                      <div className="relative group">
-                        <Info
-                          size={16}
-                          className="text-gray-400 cursor-pointer hover:text-gray-200"
-                        />
-                        <div className="absolute left-1/2 -translate-x-1/2 top-6 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                          Estimated profit for each completed buy–sell pair
-                          based on your grid spacing.
-                        </div>
-                      </div>
-                    </div>
-
-                    <input
-                      name="tpPercent"
-                      value={formik.values.tpPercent}
-                      onChange={formik.handleChange}
-                      className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
-                    />
-                  </label>
-
-                  {/* <label className="block">
-                    <div className="text-md text-gray-400 mb-1">
-                      SL Percent <span className="text-sm">(Optional)</span>
-                    </div>
-                    <input
-                      name="slPercent"
-                      value={formik.values.slPercent}
-                      onChange={formik.handleChange}
-                      className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
-                    />
-                  </label> */}
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Toggle
-                      name="adxLessThan20"
-                      label="ADX < 20"
-                      tooltip={
-                        "When enabled, the bot will only start or expand grid orders when ADX is below 20.If ADX rises above 20, the bot pauses new grid placements to avoid trending markets."
-                      }
-                    />
-                    <Toggle
-                      name="rsiBetween40And60"
-                      label="RSI 40-60"
+                      name="enableIndicators"
+                      label="Indicator"
                       tooltip={
                         "When enabled, the bot will only start or expand grids when RSI remains between 40 and 60.If RSI moves outside this range, the bot pauses new grid placements due to strong momentum."
                       }
                     />
                   </div>
-
-                  <label className="block">
-                    <div className="flex items-center gap-2 text-md text-gray-400 mb-1">
-                      <span>Name your bot</span>
-
-                      <div className="relative group">
-                        <Info
-                          size={16}
-                          className="text-gray-400 cursor-pointer hover:text-gray-200"
-                        />
-                        <div className="absolute left-1/2 -translate-x-1/2 top-6 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                          A custom name to identify this bot. Use something
-                          descriptive (e.g., “BTC_grid_1h” or
-                          “mean_reversion_USD”) so you can quickly find and
-                          manage it later.
-                        </div>
-                      </div>
-                    </div>
-                    <input
-                      name="botName"
-                      value={formik.values.botName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="w-full p-3 bg-[#1A1A24] rounded focus:outline-none"
-                      placeholder="GridBot-1"
-                    />
-                    {formik.touched.botName && formik.errors.botName && (
-                      <div className="text-red-500 text-xs mt-1">
-                        {formik.errors.botName}
-                      </div>
-                    )}
-                  </label>
 
                   <button
                     type="submit"
