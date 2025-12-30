@@ -16,6 +16,7 @@ export const DCAbaseUrl = "https://dca.qbots.trade/api"; // UAT
 export const wssBaseUrl = "wss://socket-production.qbots.trade/"; // live
 
 export const gridBotBaseUrl = "https://spot-grid.qbots.trade/api";
+// export const gridBotBaseUrl = "http://64.227.185.157:3000/api";
 
 export const api = axios.create({
   baseURL: baseUrl,

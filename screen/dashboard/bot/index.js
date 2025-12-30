@@ -40,6 +40,7 @@ export default function Bot() {
   const { data: botList, isPending: botListPending } = useGetBotList({
     selectExchange,
   });
+
   const { data: DCAbotList, isPending: DCAbotListPending } = useGetDCABotList();
 
   const handleOTPSubmit = (code) => {
@@ -177,9 +178,9 @@ export default function Bot() {
                               </div>
                             </div>
 
-                            <h4 className="text-lg font-semibold mt-4">
+                            {/* <h4 className="text-lg font-semibold mt-4">
                               {item?.botName || "--"}
-                            </h4>
+                            </h4> */}
 
                             <div className="flex justify-between mt-4">
                               <div>
@@ -187,7 +188,8 @@ export default function Bot() {
                                   Investment amount
                                 </h4>
                                 <p className="text-sm text-gray-300 mt-1">
-                                  ${currentAmount?.toFixed(2) || "0.00"}
+                                  {/* ${currentAmount?.toFixed(2) || "0.00"} */}
+                                  ${Number(item?.investment || 0) || "0.00"}
                                 </p>
                               </div>
                               <div>

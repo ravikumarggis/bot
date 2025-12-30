@@ -91,7 +91,7 @@ export const useGetBotList = (params = {}) => {
       return getBotList(selectExchange);
     },
     select: (data) => {
-      return data?.result || [];
+      return data || [];
     },
   });
 };
@@ -100,7 +100,7 @@ export const getBotList = async (selectExchange) => {
   try {
     const response = await api({
       method: "GET",
-      url: `/bot/getBotList`,
+      url: `${gridBotBaseUrl}/bots`,
       params: { exchange: selectExchange },
     });
 
@@ -345,7 +345,7 @@ export const getDCBotList = async (selectExchange) => {
   try {
     const response = await api({
       method: "GET",
-      url: `${gridBotBaseUrl}/bots`,
+      url: `${DCAbaseUrl}/bots`,
       params: { exchange: selectExchange },
     });
 
