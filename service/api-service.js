@@ -40,9 +40,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log(error, "error>>>");
-
-    if (error?.response?.data?.responseCode == 440) {
+    if (
+      error?.response?.data?.responseCode == 440 ||
+      error?.response?.status == 401
+    ) {
       toast.error(error?.response?.data?.responseMessage || "Session Expired");
       deleteCookie("token");
       redirect("/");

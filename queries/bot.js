@@ -44,7 +44,7 @@ export const useGetBot = ({ id }) => {
       return getBot({ id });
     },
     select: (data) => {
-      return data?.result || {};
+      return data || {};
     },
   });
 };
@@ -53,7 +53,7 @@ export const getBot = async ({ id }) => {
   try {
     const response = await api({
       method: "GET",
-      url: `/bot/getBot/${id}`,
+      url: `${gridBotBaseUrl}/bots/${id}`,
     });
 
     return response?.data;
@@ -65,15 +65,13 @@ export const getBot = async ({ id }) => {
 export const updateBotStatus = async ({ id, status }) => {
   try {
     const urlToHit =
-      status == "pending" || status == "paused" || status == "stopped"
-        ? `/bot/${id}/start`
-        : `/bot/${id}/stop`;
+      status == "RUNNING" ? `/bots/${id}/stop` : `/bots/${id}/start`;
     const response = await api({
-      method: "GET",
-      url: urlToHit,
-      params: {
-        id,
-      },
+      method: "POST",
+      url: `${gridBotBaseUrl}${urlToHit}`,
+      // params: {
+      //   id,
+      // },
     });
 
     return response?.data;
@@ -117,7 +115,7 @@ export const useGetOrder = ({ id, filter }) => {
       return getOrder({ id, filter });
     },
     select: (data) => {
-      return data?.result || {};
+      return data || [];
     },
   });
 };
@@ -126,11 +124,7 @@ export const getOrder = async ({ id, filter }) => {
   try {
     const response = await api({
       method: "GET",
-      url: `/order/getOrder`,
-      params: {
-        botId: id,
-        status: filter,
-      },
+      url: `${gridBotBaseUrl}/bots/${id}/orders/${filter}`,
     });
 
     return response?.data;
@@ -178,16 +172,12 @@ export const updateBot = async ({
 
 export const deleteBot = async ({ id }) => {
   try {
-    const stopResponse = await updateBotStatus({ id: id, status: "running" });
-    if (stopResponse?.responseCode == 200) {
-      const response = await api({
-        method: "DELETE",
-        url: `/bot/deleteBot/${id}`,
-      });
-      return response?.data;
-    }
+    const response = await api({
+      method: "POSt",
+      url: `${gridBotBaseUrl}/bots/${id}/delete-liquidate`,
+    });
 
-    return stopResponse?.data;
+    return response?.data;
   } catch (error) {
     console.error("Error creating bot:", error);
     throw error;
@@ -447,6 +437,28 @@ export const getDCAOrder = async ({ id, filter }) => {
     });
 
     console.log(response, "wdfadfsdfsf");
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useGridPNL = ({ id }) => {
+  return useQuery({
+    queryKey: ["getGridPNL", id],
+    queryFn: () => {
+      return getGridPNL({ id });
+    },
+  });
+};
+
+const getGridPNL = async ({ id }) => {
+  try {
+    const response = await api({
+      method: "GET",
+      url: `${gridBotBaseUrl}/bots/${id}/pnl`,
+    });
 
     return response?.data;
   } catch (error) {

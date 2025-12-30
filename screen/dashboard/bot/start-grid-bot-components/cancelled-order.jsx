@@ -12,13 +12,14 @@ const GridBotCancelledOrder = ({ botId }) => {
     refetch,
   } = useGetOrder({
     id: botId,
-    filter: "CANCELED",
+    filter: "canceled",
   });
+  console.log(orderList, "orderList>>");
 
   return (
     <div>
       <div className="px-6 py-4 h-96 overflow-auto">
-        {!orderListPending && orderList?.data?.length == 0 && (
+        {!orderListPending && orderList?.orders?.length == 0 && (
           <div className="mt-8 py-12 flex flex-col items-center justify-center border-t border-white/5">
             <p className="mt-3 text-sm text-gray-400">
               No cancelled orders to display right now.
@@ -31,40 +32,54 @@ const GridBotCancelledOrder = ({ botId }) => {
             </button>
           </div>
         )}
-        {!orderListPending && orderList?.data?.length > 0 && (
-          <table className="table w-full text-sm text-gray-400">
+        {!orderListPending && orderList?.orders?.length > 0 && (
+          <table className="table w-full text-sm ">
             <thead>
               <tr className="text-left">
-                <th className="px-2 py-2">Side</th>
-                <th className="px-2 py-2">Type</th>
-                <th className="px-2 py-2">Price</th>
-                <th className="px-2 py-2">Amount</th>
-                <th className="px-2 py-2">Date/Time</th>
+                <th className="px-2 py-2 text-white">Side</th>
+                <th className="px-2 py-2 text-white">Price</th>
+                <th className="px-2 py-2 text-white">Amount</th>
+                <th className="px-2 py-2 text-white">Notional (USD)</th>
+
+                <th className="px-2 py-2 text-white">Date/Time</th>
 
                 <th className="px-2 py-2">Status</th>
               </tr>
             </thead>
-            <tbody className="">
-              {orderList?.data?.map((item, idx) => {
+            <tbody>
+              {orderList?.orders?.map((item, idx) => {
                 return (
                   <tr
                     className="text-gray-300 border-t border-gray-700"
                     key={idx}
                   >
-                    <td className="px-2 py-2">{item?.side || "--"}</td>
-                    <td className="px-2 py-2">{item?.type || "--"}</td>
-                    <td className="px-2 py-2">
-                      {formatCurrency({ amount: item?.price, currency: "USD" })}
+                    <td
+                      className={clsx(
+                        "px-2 py-2",
+                        item?.side == "SELL" ? "text-red-500" : "text-green-500"
+                      )}
+                    >
+                      {item?.side || "--"}
                     </td>
                     <td className="px-2 py-2">
-                      {item?.quantity}{" "}
-                      {String(item?.symbol)?.split("/")?.[0] || "--"}
+                      {formatCurrency({
+                        amount: item?.price,
+                        currency: "USD",
+                      })}
+                    </td>
+                    <td className="px-2 py-2">{item?.amount} </td>
+                    <td className="px-2 py-2">
+                      {formatCurrency({
+                        amount:
+                          Number(item?.price || 0) * Number(item?.amount || 0),
+                        currency: "USD",
+                      })}
                     </td>
                     <td className="px-2 py-2">
                       {moment(item?.updatedAt)?.format("YYYY.MM.DD HH:mm:ss") ||
                         "--"}
                     </td>
-                    <td className="px-2 py-2 text-red-600">
+                    <td className="px-2 py-2 text-red-500">
                       {item?.status || "--"}
                     </td>
                   </tr>

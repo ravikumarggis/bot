@@ -1,11 +1,11 @@
 import { cancelOrder, useGetOrder } from "@/queries/bot";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { formatCurrency } from "@/utils/index";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { RefreshCcw } from "lucide-react";
-import clsx from "clsx";
+
 import moment from "moment";
+import clsx from "clsx";
 const GridBotOrders = ({ botId }) => {
   const [currentDeletingItem, setCurrentDeletingItem] = useState("");
   const queryclient = useQueryClient();
@@ -15,27 +15,7 @@ const GridBotOrders = ({ botId }) => {
     refetch,
   } = useGetOrder({
     id: botId,
-    filter: "PENDING",
-  });
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: ({ orderID }) => {
-      return cancelOrder({ id: orderID });
-    },
-    onSuccess: (data) => {
-      if (data?.responseCode == 200) {
-        toast.success(data?.responseMessage);
-      } else {
-        toast.error(data?.responseMessage);
-      }
-      refetch();
-      queryclient.invalidateQueries({ queryKey: ["getOrder"] });
-    },
-    onError: (err) => {
-      toast.error(err?.response?.data?.responseMessage);
-      refetch();
-      queryclient.invalidateQueries({ queryKey: ["getOrder"] });
-    },
+    filter: "open",
   });
 
   return (
@@ -58,54 +38,52 @@ const GridBotOrders = ({ botId }) => {
             </button>
           </div>
         )}
-        {!orderListPending && orderList?.data?.length > 0 && (
+        {!orderListPending && orderList?.orders?.length > 0 && (
           <table className="table w-full text-sm ">
             <thead>
               <tr className="text-left">
                 <th className="px-2 py-2 text-white">Side</th>
-                <th className="px-2 py-2 text-white">Type</th>
+                <th className="px-2 py-2 text-white">Status</th>
                 <th className="px-2 py-2 text-white">Price</th>
                 <th className="px-2 py-2 text-white">Amount</th>
+                <th className="px-2 py-2 text-white">Notional (USD)</th>
+
                 <th className="px-2 py-2 text-white">Date/Time</th>
                 <th className="px-2 py-2 text-white">Status</th>
-                <th className="px-2 py-2 text-white">Action</th>
               </tr>
             </thead>
             <tbody>
-              {orderList?.data?.map((item, idx) => {
+              {orderList?.orders?.map((item, idx) => {
                 return (
                   <tr
                     className="text-gray-300 border-t border-gray-700"
                     key={idx}
                   >
-                    <td className="px-2 py-2">{item?.side || "--"}</td>
-                    <td className="px-2 py-2">{item?.type || "--"}</td>
+                    <td
+                      className={clsx(
+                        "px-2 py-2",
+                        item?.side == "SELL" ? "text-red-500" : "text-green-500"
+                      )}
+                    >
+                      {item?.side || "--"}
+                    </td>
+                    <td className="px-2 py-2">{item?.status || "--"}</td>
                     <td className="px-2 py-2">
                       {formatCurrency({ amount: item?.price, currency: "USD" })}
                     </td>
+                    <td className="px-2 py-2">{item?.amount} </td>
                     <td className="px-2 py-2">
-                      {item?.quantity}{" "}
-                      {String(item?.symbol)?.split("/")?.[0] || "--"}
+                      {formatCurrency({
+                        amount:
+                          Number(item?.price || 0) * Number(item?.amount || 0),
+                        currency: "USD",
+                      })}
                     </td>
                     <td className="px-2 py-2">
                       {moment(item?.updatedAt)?.format("YYYY.MM.DD HH:mm:ss") ||
                         "--"}
                     </td>
                     <td className="px-2 py-2">{item?.status || "--"}</td>
-                    <td
-                      className="px-2 py-2 text-red-500 cursor-pointer"
-                      onClick={() => {
-                        if (isPending) {
-                          return;
-                        }
-                        setCurrentDeletingItem(item?.id);
-                        mutateAsync({ orderID: item?.id });
-                      }}
-                    >
-                      {isPending && currentDeletingItem == item?.id
-                        ? `Cancelling`
-                        : `Cancel`}
-                    </td>
                   </tr>
                 );
               })}

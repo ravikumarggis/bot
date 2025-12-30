@@ -10,6 +10,7 @@ import {
   useGetBotList,
   useGetLogList,
   useGetOrder,
+  useGridPNL,
 } from "@/queries/bot";
 import { useGetKeysExchange } from "@/queries/exchange";
 import { useMutation } from "@tanstack/react-query";
@@ -43,7 +44,7 @@ export default function StartGridBot() {
   const tabs = ["Orders", "Trades", "Logs", "Cancelled"];
   const searchParams = useSearchParams();
   const botId = searchParams.get("botId");
-  
+
   const [deleteModalState, setDeleteModalState] = useState(false);
   const [currentSelectedItem, setCurrentSelectedItem] = useState({});
   const {
@@ -51,10 +52,14 @@ export default function StartGridBot() {
     isPending: botDataPending,
     refetch: botDataRefetch,
   } = useGetBot({ id: botId });
+  const { data: PNLData } = useGridPNL({
+    id: botId,
+  });
+
   const { refetch: filledRefetch, isLoading: filledRefetchloading } =
     useGetOrder({
       id: botId,
-      filter: "FILLED",
+      filter: "filled",
     });
   const { refetch: logRefetch, isLoading: logRefetchLoading } = useGetLogList({
     id: botId,
@@ -67,13 +72,11 @@ export default function StartGridBot() {
   const { refetch: pendingRefetch, isLoading: pendingRefetchLoading } =
     useGetOrder({
       id: botId,
-      filter: "PENDING",
+      filter: "open",
     });
 
   const { data: exchangeData, refetch: exchangeDataRefetch } =
     useGetKeysExchange();
-
-  console.log(botData, "exchangeDataexchangeDataexchangeData");
 
   const {
     mutateAsync: updateBotStatusMutate,
@@ -86,13 +89,14 @@ export default function StartGridBot() {
       botDataRefetch();
       exchangeDataRefetch();
       if (data?.responseCode == 200) {
-        toast.success(data?.responseMessage);
+        toast.success(data?.responseMessage || "Bot started sucessfully.");
       } else {
-        toast.error(data?.responseMessage);
+        toast.error(data?.responseMessage || "Bot started sucessfully.");
       }
     },
     onError: (data) => {
       console.log(data, "err>>");
+      toast.error("Unable to delete bot");
     },
   });
 
@@ -113,7 +117,7 @@ export default function StartGridBot() {
   }, [ohlcvData, botData]);
 
   const isBotRunning = useMemo(() => {
-    return botData?.status == "running";
+    return botData?.status == "RUNNING";
   }, [botData]);
 
   return (
@@ -141,7 +145,7 @@ export default function StartGridBot() {
                   <div className=" h-[500px]">
                     <TradingViewWidget
                       symbol={botData?.symbol}
-                      exchange={botData?.exchangeKeyId}
+                      exchange={botData?.exchange}
                     />
                   </div>
 
@@ -201,16 +205,13 @@ export default function StartGridBot() {
             {/* Right: Form */}
             <aside className="bg-[#0f0f11] rounded-2xl p-6 shadow-lg border border-[#1b1b1e] ">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-lg font-semibold">
-                  {botData?.botName || "--"}
-                </div>
                 <div className="text-sm text-gray-400">#{botData?.id}</div>
               </div>
 
               <div className="space-y-6">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Upper Price Limit
+                    Grid Count
                     <div className="relative group">
                       <Info
                         size={14}
@@ -224,12 +225,12 @@ export default function StartGridBot() {
                     </div>
                   </div>
                   <div className="text-base text-white">
-                    {botData?.params?.highPrice || 0}
+                    {botData?.gridCount || 0}
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Lower Price Limit
+                    Grid Lower
                     <div className="relative group">
                       <Info
                         size={14}
@@ -243,13 +244,13 @@ export default function StartGridBot() {
                     </div>
                   </div>
                   <div className="text-base text-white">
-                    {botData?.params?.lowPrice || 0}
+                    {botData?.gridLower || 0}
                   </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Investment per Grid
+                    Grid Upper
                     <div className="relative group">
                       <Info
                         size={14}
@@ -262,13 +263,13 @@ export default function StartGridBot() {
                     </div>
                   </div>
                   <div className="text-base text-white">
-                    {botData?.params?.quantityPerGridUSD || 0}
+                    {botData?.gridUpper || 0}
                   </div>
                 </div>
 
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Number of Grids
+                    Investment
                     <div className="relative group">
                       <Info
                         size={14}
@@ -281,28 +282,27 @@ export default function StartGridBot() {
                       </div>
                     </div>
                   </div>
-                
+
                   <div className="text-base text-white">
-                    {botData?.params?.gridLevel || 0}
+                    {botData?.investment || 0}
                   </div>
                 </div>
 
-                {currentAmount > 0 && (
+                {/* {currentAmount > 0 && (
                   <div className="flex justify-between">
-                  
                     <div className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-                    Investment Amount
-                    <div className="relative group">
-                      <Info
-                        size={14}
-                        className="text-gray-400 cursor-pointer hover:text-gray-200"
-                      />
-                      <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
-                      The amount of funds the bot will use to execute grid trades.
-
+                      Investment Amount
+                      <div className="relative group">
+                        <Info
+                          size={14}
+                          className="text-gray-400 cursor-pointer hover:text-gray-200"
+                        />
+                        <div className="absolute left-1/2 -translate-x-1/2 top-5 hidden group-hover:block bg-gray-800 text-gray-200 text-xs p-2 rounded-md shadow-lg w-64 z-10">
+                          The amount of funds the bot will use to execute grid
+                          trades.
+                        </div>
                       </div>
                     </div>
-                  </div>
                     <div className="text-base text-white">
                       {formatCurrency({
                         amount: Number(currentAmount)?.toFixed(4),
@@ -310,14 +310,14 @@ export default function StartGridBot() {
                       })}
                     </div>
                   </div>
-                )}
+                )} */}
 
                 <div className="flex justify-between">
                   <div className="text-sm text-gray-400 mb-1">
                     Exchange Name
                   </div>
                   <div className="text-base text-white capitalize">
-                    {exchangeName || "--"}
+                    {botData?.exchange || "--"}
                   </div>
                 </div>
                 <div className="flex justify-between">
@@ -329,65 +329,50 @@ export default function StartGridBot() {
 
                 <button
                   className="w-full mt-2 py-3 rounded-xl text-white font-semibold bg-pink-600 hover:bg-pink-700 transition-all"
-                  onClick={updateBotStatusMutate}
+                  onClick={() => {
+                    if (botData?.status == "RUNNING") {
+                      setCurrentSelectedItem(null);
+                      setDeleteModalState(true);
+                    } else {
+                      updateBotStatusMutate();
+                    }
+                  }}
                   disabled={updatebotStatusPending}
                 >
                   {updatebotStatusPending ? (
                     "Processing..."
                   ) : (
                     <>
-                      {botData?.status == "pending" ||
-                      botData?.status == "paused" ||
-                      botData?.status == "stopped"
-                        ? "Start"
-                        : "Stop"}{" "}
+                      {botData?.status == "RUNNING"
+                        ? "Liquidate/Delete bot"
+                        : "Start"}{" "}
                       Bot
                     </>
                   )}
                 </button>
-                <div className="flex justify-between gap-4">
-
-                <p className="text-md text-gray-400">
-  Realized P&L:{' '}
-  <span className={botData?.realizedPnL < 0 ? 'text-red-500' : 'text-green-500'}>
-    ${Number(botData?.realizedPnL).toFixed(2)}
-  </span>
-</p>
-
-                  <div className="flex flex-row gap-3">
-                  <EditIcon
-                    onClick={() => {
-                      if (isBotRunning) {
-                        toast.success(
-                          "Please stop the bot before making changes."
-                        );
-                        return;
+                <div className="flex flex-col md:flex-row  justify-between gap-4">
+                  <p className="text-md text-gray-400">
+                    Realized P&L:{" "}
+                    <span
+                      className={
+                        PNLData?.realizedPnL < 0
+                          ? "text-red-500"
+                          : "text-green-500"
                       }
-                      router.push(
-                        `/dashboard/bot/edit-grid-bot?botId=${encodeURIComponent(
-                          botId
-                        )}`
-                      );
-                    }}
-                    color="red"
-                    className="cursor-pointer"
-                  />
-                  <IconTrashXFilled
-                    onClick={() => {
-                      if (isBotRunning) {
-                        toast.success(
-                          "Please stop the bot before making changes."
-                        );
-                        return;
-                      } else {
-                        setCurrentSelectedItem(null);
-                        setDeleteModalState(true);
+                    >
+                      ${Number(PNLData?.realizedPnL || 0).toFixed(2)}
+                    </span>
+                  </p>
+                  <p className="text-md text-gray-400">
+                    Grid Cycle Completed:{" "}
+                    <span
+                      className={
+                        PNLData?.trades < 0 ? "text-red-500" : "text-green-500"
                       }
-                    }}
-                    color="red"
-                    className="cursor-pointer"
-                  />
-                  </div>
+                    >
+                      {Number(PNLData?.trades || 0).toFixed(2)}
+                    </span>
+                  </p>
                 </div>
               </div>
             </aside>
@@ -413,19 +398,16 @@ const DeleteModal = ({ open, setOpen, botId }) => {
       return deleteBot({ id: botId });
     },
     onSuccess: (data) => {
-      if (data?.responseCode == 200) {
-        toast.success(data?.responseMessage);
-        router.replace("/dashboard/bot");
-      } else {
-        toast.error(data?.responseMessage);
-      }
+      console.log(data, "data>>>");
+      toast.success(data?.message);
+      router.replace("/dashboard/bot");
       setOpen(false);
       if (refetch) {
         refetch();
       }
     },
     onError: (err) => {
-      toast.error(err?.response?.data?.responseMessage);
+      toast.error(err?.response?.data?.message);
       setOpen(false);
       if (refetch) {
         refetch();

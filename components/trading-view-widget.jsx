@@ -20,7 +20,7 @@ const TradingViewWidget = ({ symbol, exchange }) => {
 
   const ohlcvData = useWatchOHLCV({
     symbol,
-    exchange: exchange ? exchangeName : undefined,
+    exchange: exchangeName || exchange || undefined,
   });
 
   const data = useMemo(() => {

@@ -48,7 +48,7 @@ const validationSchema = Yup.object({
     .required("orderSize are required"),
   stopLossPrice: Yup.number()
     .typeError("stopLossPrice must be a number")
-    .integer("Must be an integer")
+    // .integer("Must be an integer")
     .required("stopLossPrice are required"),
 });
 
@@ -65,18 +65,10 @@ export default function CreateGridBot() {
   const { mutateAsync: handleCreateBot, isPending } = useMutation({
     mutationFn: createBot,
     onSuccess: (data) => {
-      if (data?.responseCode == 200) {
-        toast.success(
-          data?.responseMessage || "Grid Bot Created Successfully!"
-        );
-        router.push(
-          `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(
-            data.result?.id
-          )}`
-        );
-      } else {
-        toast.error(data?.responseMessage);
-      }
+      router.push(
+        `/dashboard/bot/start-grid-bot/?botId=${encodeURIComponent(data?.id)}`
+      );
+      toast.success("Bot created successfully.");
     },
     onError: (error) => {
       console.log(error, "errorerror");
@@ -319,7 +311,7 @@ export default function CreateGridBot() {
                       )}
                     </label>
                   ))}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:gap-32">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:gap-32">
                     <div className="flex items-center justify-between bg-[#191921] border border-[#17171a] rounded-xl p-3">
                       <div className="text-sm text-green-400">Buy Orders:</div>
                       <div className="font-medium mt-1 text-green-400">
@@ -332,7 +324,7 @@ export default function CreateGridBot() {
                         {buySellValue?.sell}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Toggle
