@@ -219,7 +219,7 @@ export const useGetLogList = ({ id }) => {
       return getLogList({ id });
     },
     select: (data) => {
-      return data?.result || {};
+      return data || [];
     },
   });
 };
@@ -228,7 +228,7 @@ export const getLogList = async ({ id }) => {
   try {
     const response = await api({
       method: "GET",
-      url: `/logs/getLogList`,
+      url: `${gridBotBaseUrl}/bots/${id}/logs`,
       params: {
         botId: id,
       },

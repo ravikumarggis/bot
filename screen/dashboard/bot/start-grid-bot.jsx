@@ -67,7 +67,7 @@ export default function StartGridBot() {
   const { refetch: cancelledRefetch, isLoading: cancelledRefetchLoading } =
     useGetOrder({
       id: botId,
-      filter: "CANCELED",
+      filter: "canceled",
     });
   const { refetch: pendingRefetch, isLoading: pendingRefetchLoading } =
     useGetOrder({

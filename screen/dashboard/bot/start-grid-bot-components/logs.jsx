@@ -16,7 +16,7 @@ const GridBotLogs = ({ botId }) => {
   return (
     <div>
       <div className="px-6 py-4 h-96 overflow-auto">
-        {!orderListPending && orderList?.data?.length == 0 && (
+        {!orderListPending && orderList?.length == 0 && (
           <div className="mt-8 py-12 flex flex-col items-center justify-center border-t border-white/5">
             <h3 className="text-gray-200 text-xl md:text-2xl font-medium">
               Logs
@@ -32,32 +32,32 @@ const GridBotLogs = ({ botId }) => {
             </button>
           </div>
         )}
-        {!orderListPending && orderList?.data?.length > 0 && (
+        {!orderListPending && orderList?.length > 0 && (
           <table className="table w-full text-sm ">
             <thead>
               <tr className="text-left">
                 <th className="px-2 py-2 text-white">Level</th>
-                <th className="px-2 py-2 text-white">Source</th>
+                {/* <th className="px-2 py-2 text-white">Source</th> */}
                 <th className="px-2 py-2 text-white">Message</th>
                 <th className="px-2 py-2 text-white">Time</th>
                 <th className="px-2 py-2 text-white">BotInstanceId</th>
               </tr>
             </thead>
             <tbody>
-              {orderList?.data?.map((item, idx) => {
+              {orderList?.map((item, idx) => {
                 return (
                   <tr
                     className="text-gray-300 border-t border-gray-700"
                     key={idx}
                   >
                     <td className="px-2 py-2">{item?.level || "--"}</td>
-                    <td className="px-2 py-2">{item?.source || "--"}</td>
+                    {/* <td className="px-2 py-2">{item?.source || "--"}</td> */}
                     <td className="px-2 py-2">{item?.message || "--"}</td>
                     <td className="px-2 py-2">
                       {moment(item?.updatedAt).format("YYYY.MM.DD HH:mm:ss") ||
                         "--"}
                     </td>
-                    <td className="px-2 py-2">{item?.botInstanceId || "--"}</td>
+                    <td className="px-2 py-2">{item?.botId || "--"}</td>
                   </tr>
                 );
               })}
